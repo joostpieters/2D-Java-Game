@@ -85,18 +85,26 @@ public class Mazub {
 	}
 	
 	/**
-	 * @pre	direction == 'r' || direction == 'l'
+	 * @pre	direction == 'r' || direction == 'l' || direction =='u'
 	 * @param direction
 	 */
 	public void startMove(char direction) {
-		assert(direction == 'r' || direction == 'l');
+		assert(direction == 'r' || direction == 'l' || direction =='u');
 		if (direction == 'r') {
 			setVelocityX(1);
 			setAccelerationX(0.9);
-		} else {
+		} else if (direction == 'l'){
 			setVelocityX(-1);
 			setAccelerationX(-0.9);
+		} else if (direction == 'u'){
+			setVelocityY(8);
+			setAccelerationY(-10);
 		}
+	}
+	
+	public void stopMoveX(){
+		setVelocityX(0);
+		setAccelerationX(0);
 	}
 	
 	public static double getMaximumHorizontalVelocity() {

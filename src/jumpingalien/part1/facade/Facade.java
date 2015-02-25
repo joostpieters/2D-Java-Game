@@ -63,7 +63,6 @@ public class Facade implements IFacade {
 	
 	@Override
 	public void startJump(Mazub alien) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -80,8 +79,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void endMoveLeft(Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		alien.stopMoveX();
 	}
 
 	@Override
@@ -91,7 +89,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void endMoveRight(Mazub alien) {
-		// TODO Auto-generated method stub
+		alien.stopMoveX();
 		
 	}
 
