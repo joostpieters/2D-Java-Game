@@ -30,9 +30,17 @@ public class Mazub {
 		return this.locationX;
 	}
 	
+	public void setLocationX(double locationX) {
+		this.locationX = locationX;
+	}
+	
 	@Basic
 	public double getLocationY() {
 		return this.locationY;
+	}
+	
+	public void setLocationY(double locationY) {
+		this.locationY = locationY;
 	}
 	
 	@Basic
@@ -76,6 +84,36 @@ public class Mazub {
 		return this.currentSprite;
 	}
 	
+	/**
+	 * @pre	direction == 'r' || direction == 'l'
+	 * @param direction
+	 */
+	public void startMove(char direction) {
+		assert(direction == 'r' || direction == 'l');
+		if (direction == 'r') {
+			
+		}
+	}
+	
+	public static double getMaximumHorizontalVelocity() {
+		return 3;
+	}
+	
+	public static double getMaximumHorizontalAcceleration() {
+		return 0.9;
+	}
+	
+	public void advanceTime(double seconds) {
+		double locationX = getLocationX() + getVelocityX()*seconds + getAccelerationX()*seconds*seconds/2;
+		double locationY = getLocationY() + getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2;
+		setLocationX(locationX);
+		setLocationY(locationY);
+		
+		double velocityX = getVelocityX() + getAccelerationX()*seconds;
+		double velocityY = getVelocityY() + getAccelerationY()*seconds;
+		setVelocityX(velocityX);
+		setVelocityY(velocityY);
+	}
 
 	private double locationX;
 	private double locationY;
