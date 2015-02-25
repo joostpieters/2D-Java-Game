@@ -48,7 +48,7 @@ public class Facade implements IFacade {
 	@Override
 	public Sprite getCurrentSprite(Mazub alien) {
 		// TODO Auto-generated method stub
-		return null;
+		return alien.getCurrentSprite();
 	}
 
 	@Override
