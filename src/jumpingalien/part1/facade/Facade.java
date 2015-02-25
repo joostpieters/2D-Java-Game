@@ -30,14 +30,19 @@ public class Facade implements IFacade {
 
 	@Override
 	public double[] getAcceleration(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		double[] acceleration = new double[2];
+		acceleration[0] = alien.getAccelerationX();
+		acceleration[1] = alien.getAccelerationY();
+		return acceleration;
 	}
 
 	@Override
 	public int[] getSize(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		int[] size = new int[2];
+		Sprite sprite = alien.getCurrentSprite();
+		size[0] = sprite.getHeight();
+		size[1] = sprite.getWidth();
+		return size;
 	}
 
 	@Override
