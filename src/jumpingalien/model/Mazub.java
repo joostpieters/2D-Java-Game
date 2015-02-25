@@ -53,9 +53,37 @@ public class Mazub {
 		this.velocityY = velocityY;
 	}
 
+	@Basic
+	public double getAccelerationX() {
+		return accelerationX;
+	}
+
+	public void setAccelerationX(double accelerationX) {
+		this.accelerationX = accelerationX;
+	}
+
+	@Basic
+	public double getAccelerationY() {
+		return accelerationY;
+	}
+
+	public void setAccelerationY(double accelerationY) {
+		this.accelerationY = accelerationY;
+	}
+	
+	@Basic
+	public Sprite getCurrentSprite() {
+		return this.currentSprite;
+	}
+	
+
 	private double locationX;
 	private double locationY;
 	private Sprite[] sprites;
 	private double velocityX;
 	private double velocityY;
+	private double accelerationX;
+	private double accelerationY;
+	
+	private Sprite currentSprite;
 }
