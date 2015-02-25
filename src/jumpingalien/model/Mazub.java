@@ -91,7 +91,11 @@ public class Mazub {
 	public void startMove(char direction) {
 		assert(direction == 'r' || direction == 'l');
 		if (direction == 'r') {
-			
+			setVelocityX(1);
+			setAccelerationX(0.9);
+		} else {
+			setVelocityX(-1);
+			setAccelerationX(-0.9);
 		}
 	}
 	
