@@ -7,13 +7,16 @@ public class Facade implements IFacade {
 
 	@Override
 	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		Mazub alien = new Mazub(pixelLeftX, pixelBottomY, Sprite[], sprites);
+		Mazub alien = new Mazub(pixelLeftX, pixelBottomY, sprites);
 		return alien;
 	}
 
 	@Override
 	public int[] getLocation(Mazub alien) {
-		return alien.getLocation();
+		int location[];
+		location [0] = alien.getLocationX();
+		location[1] = alien.getLocationY();
+		return location;
 	}
 
 	@Override
