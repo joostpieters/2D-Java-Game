@@ -1,32 +1,40 @@
 package jumpingalien.model;
 
+import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.Sprite;
 
 public class Mazub {
 
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites){
-		this.location[0] = pixelLeftX;
-		this.location[1] = pixelBottomY;
+		this.setLocation(pixelLeftX, pixelBottomY);
 		this.setSprites(sprites);	
 	}
 	
+	@Basic
 	public Sprite[] getSprites() {
 		return sprites;
 	}
+	
 	public void setSprites(Sprite[] sprites) {
 		this.sprites = sprites;
 	}
 	
 	public void setLocation(int pixelLeftX, int pixelBottomY) {
-		this.location[0] = pixelLeftX;
-		this.location[1] = pixelBottomY;
+		this.locationX = pixelLeftX;
+		this.locationY = pixelBottomY;
 	}
 	
-	public int[] getLocation() {
-		return this.location;
+	@Basic
+	public double getLocationX() {
+		return this.locationX;
+	}
+	
+	@Basic
+	public double getLocationY() {
+		return this.locationY;
 	}
 
-	// location[0] is x location, location[1] is y location
-	private int[] location = new int[2];
+	private double locationX;
+	private double locationY;
 	private Sprite[] sprites;
 }

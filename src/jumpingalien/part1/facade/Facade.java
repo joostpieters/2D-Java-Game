@@ -7,7 +7,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		Mazub alien = new Mazub(pixelLeftX, pixelBottomY, Sprite[], sprites);
+		Mazub alien = new Mazub(pixelLeftX, pixelBottomY, sprites);
 		return alien;
 	}
 
