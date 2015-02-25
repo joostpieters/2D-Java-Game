@@ -143,9 +143,11 @@ public class Mazub {
 		else{
 			setVelocityX(getMaximumHorizontalVelocity());
 		}
-		if (getLocationY() == 0)
+		if (getLocationY() == 0) {
 			setVelocityY(0);
-		setVelocityY(velocityY);
+		} else {
+			setVelocityY(velocityY);
+		}
 	}
 
 	private double locationX;
