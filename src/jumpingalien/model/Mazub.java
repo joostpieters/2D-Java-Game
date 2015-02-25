@@ -24,6 +24,7 @@ public class Mazub {
 		this.locationY = pixelBottomY;
 	}
 	
+	
 	@Basic
 	public double getLocationX() {
 		return this.locationX;
@@ -33,8 +34,28 @@ public class Mazub {
 	public double getLocationY() {
 		return this.locationY;
 	}
+	
+	@Basic
+	public double getVelocityX() {
+		return this.velocityX;
+	}
+	
+	public void setVelocityX(double velocityX) {
+		this.velocityX = velocityX;
+	}
+	
+	@Basic
+	public double getVelocityY() {
+		return this.velocityY;
+	}
+
+	public void setVelocityY(double velocityY) {
+		this.velocityY = velocityY;
+	}
 
 	private double locationX;
 	private double locationY;
 	private Sprite[] sprites;
+	private double velocityX;
+	private double velocityY;
 }
