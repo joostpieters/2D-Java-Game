@@ -52,6 +52,16 @@ public class Facade implements IFacade {
 	}
 */
 	@Override
+	public int[] getSize(Mazub alien) {
+		return null;
+	}
+	
+	@Override
+	public Sprite getCurrentSprite(Mazub alien) {
+		return null;
+	}
+	
+	@Override
 	public void startJump(Mazub alien) {
 		// TODO Auto-generated method stub
 		
