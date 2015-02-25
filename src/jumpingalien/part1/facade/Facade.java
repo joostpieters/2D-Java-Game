@@ -7,14 +7,13 @@ public class Facade implements IFacade {
 
 	@Override
 	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		// TODO Auto-generated method stub
-		return null;
+		Mazub alien = new Mazub(pixelLeftX, pixelBottomY, Sprite[], sprites);
+		return alien;
 	}
 
 	@Override
 	public int[] getLocation(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		return alien.getLocation();
 	}
 
 	@Override
