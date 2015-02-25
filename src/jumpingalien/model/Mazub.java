@@ -103,9 +103,6 @@ public class Mazub {
 		return 3;
 	}
 	
-	public static double getMaximumHorizontalAcceleration() {
-		return 0.9;
-	}
 	
 	public void advanceTime(double seconds) {
 		double locationX = getLocationX() + getVelocityX()*seconds + getAccelerationX()*seconds*seconds/2;
@@ -115,7 +112,13 @@ public class Mazub {
 		
 		double velocityX = getVelocityX() + getAccelerationX()*seconds;
 		double velocityY = getVelocityY() + getAccelerationY()*seconds;
-		setVelocityX(velocityX);
+		
+		if (velocityX < getMaximumHorizontalVelocity()){
+			setVelocityX(velocityX);
+		}
+		else{
+			setVelocityX(getMaximumHorizontalVelocity())
+		}
 		setVelocityY(velocityY);
 	}
 
