@@ -21,8 +21,11 @@ public class Facade implements IFacade {
 
 	@Override
 	public double[] getVelocity(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		double[] velocity = new double[2];
+		velocity[0] = alien.getVelocityX();
+		velocity[1] = alien.getVelocityY();
+		return velocity;
+		
 	}
 
 	@Override
