@@ -35,7 +35,7 @@ public class Facade implements IFacade {
 		acceleration[1] = alien.getAccelerationY();
 		return acceleration;
 	}
-/*
+	
 	@Override
 	public int[] getSize(Mazub alien) {
 		int[] size = new int[2];
@@ -50,16 +50,8 @@ public class Facade implements IFacade {
 		// TODO Auto-generated method stub
 		return alien.getCurrentSprite();
 	}
-*/
-	@Override
-	public int[] getSize(Mazub alien) {
-		return null;
-	}
+
 	
-	@Override
-	public Sprite getCurrentSprite(Mazub alien) {
-		return null;
-	}
 	
 	@Override
 	public void startJump(Mazub alien) {

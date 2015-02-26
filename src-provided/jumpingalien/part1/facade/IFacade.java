@@ -215,5 +215,4 @@ public interface IFacade {
 	 *            alien's time.
 	 */
 	void advanceTime(Mazub alien, double dt);
-	
 }

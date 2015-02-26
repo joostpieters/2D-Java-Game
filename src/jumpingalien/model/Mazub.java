@@ -7,7 +7,10 @@ public class Mazub {
 
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites){
 		this.setLocation(pixelLeftX, pixelBottomY);
-		this.setSprites(sprites);	
+		this.setSprites(sprites);
+		this.setDefaultCurrentSprite();
+		this.spriteindex = 0;
+		this.time1 = System.nanoTime();
 	}
 	
 	@Basic
@@ -81,8 +84,28 @@ public class Mazub {
 	
 	@Basic
 	public Sprite getCurrentSprite() {
-		return this.currentSprite;
+		if (System.nanoTime() - 75000000 >= this.time1) {
+			// update sprite
+			if (this.spriteindex == 18)
+				this.spriteindex = 8;
+			else
+				this.spriteindex += 1;
+			this.time1 = System.nanoTime();
+		} else {
+			// return old sprite
+		}
+		
+		return sprites[spriteindex];
 	}
+	
+	public void setCurrentSprite(Sprite sprite){
+		this.currentSprite = sprite;
+	}
+	
+	public void setDefaultCurrentSprite(){
+		this.currentSprite = getSprites()[0];
+	}
+	
 	
 	/**
 	 * @pre	direction == 'r' || direction == 'l' || direction =='u'
@@ -93,6 +116,7 @@ public class Mazub {
 		if (direction == 'r') {
 			setVelocityX(1);
 			setAccelerationX(0.9);
+			setCurrentSprite(getSprites()[2]);
 		} else if (direction == 'l'){
 			setVelocityX(-1);
 			setAccelerationX(-0.9);
@@ -113,8 +137,8 @@ public class Mazub {
 	
 	
 	public void advanceTime(double seconds) {
-		double locationX = getLocationX() + getVelocityX()*seconds + getAccelerationX()*seconds*seconds/2;
-		double locationY = getLocationY() + getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2;
+		double locationX = getLocationX() + (getVelocityX()*seconds + getAccelerationX()*seconds*seconds/2)*100;
+		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
 		if (locationX > 1023){
 			locationX = 1023;
 		}
@@ -145,6 +169,7 @@ public class Mazub {
 		}
 		if (getLocationY() == 0) {
 			setVelocityY(0);
+			setAccelerationY(0);
 		} else {
 			setVelocityY(velocityY);
 		}
@@ -152,11 +177,15 @@ public class Mazub {
 
 	private double locationX;
 	private double locationY;
-	private Sprite[] sprites;
+	
 	private double velocityX;
 	private double velocityY;
 	private double accelerationX;
 	private double accelerationY;
 	
+	private Sprite[] sprites;
 	private Sprite currentSprite;
+	private int spriteindex;
+	
+	private long time1;
 }
