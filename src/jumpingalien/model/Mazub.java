@@ -106,8 +106,17 @@ public class Mazub {
 		}else if (this.isMovingLeft()){
 				spritesMovingLeftNormal();
 		} else{
-			setSpriteIndex(0);
+			if (this.timer < 1) {
+				if (this.wasMovingRight()) {
+					setSpriteIndex(2);
+				} else if (this.wasMovingLeft()) {
+					setSpriteIndex(3);
+				}
+			} else {
+				setSpriteIndex(0);
+			}
 		}
+		
 		
 		// otherwise keep old sprite
 		
@@ -132,6 +141,18 @@ public class Mazub {
 				this.setSpriteIndex(this.getSpriteIndex() + 1);
 			this.timer = 0;
 		}
+	}
+	
+	private boolean wasMovingRight() {
+		if ((this.getSpriteIndex() >= 8 && this.getSpriteIndex() <= 8 + this.spritesForMovement))
+			return true;
+		return false;
+	}
+	
+	private boolean wasMovingLeft() {
+		if ((this.getSpriteIndex() >= 9 && this.getSpriteIndex() <= 9 + this.spritesForMovement*2))
+			return true;
+		return false;
 	}
 	
 	
