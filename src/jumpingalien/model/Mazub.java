@@ -9,8 +9,9 @@ public class Mazub {
 		this.setLocation(pixelLeftX, pixelBottomY);
 		this.setSprites(sprites);
 		this.setDefaultCurrentSprite();
-		this.spriteindex = 0;
-		this.time1 = System.nanoTime();
+		this.setSpriteIndex(0);
+		this.timer = 0;
+		this.spritesForMovement = (sprites.length - 8) / 2;
 	}
 	
 	@Basic
@@ -84,18 +85,38 @@ public class Mazub {
 	
 	@Basic
 	public Sprite getCurrentSprite() {
-		if (System.nanoTime() - 75000000 >= this.time1) {
+		if (this.timer >= 0.075) {
 			// update sprite
-			if (this.spriteindex == 18)
-				this.spriteindex = 8;
-			else
-				this.spriteindex += 1;
-			this.time1 = System.nanoTime();
-		} else {
-			// return old sprite
+			if (this.isJumping()) {
+				
+			} else if (this.isDucking()) {
+				
+			} else {
+				if (this.isMovingRight())
+					spritesMovingRightNormal();
+				else if (this.isMovingLeft())
+					spritesMovingLeftNormal();
+			}
+			
+			this.timer = 0;
 		}
+		// otherwise keep old sprite
 		
-		return sprites[spriteindex];
+		return sprites[this.getSpriteIndex()];
+	}
+	
+	private void spritesMovingRightNormal() {
+		if ((this.getSpriteIndex() >= 8 + this.spritesForMovement) || this.getSpriteIndex() < 8)
+			this.setSpriteIndex(8);
+		else
+			this.setSpriteIndex(this.getSpriteIndex() + 1);
+	}
+	
+	private void spritesMovingLeftNormal() {
+		if ((this.getSpriteIndex() >= 9 + this.spritesForMovement * 2) || this.getSpriteIndex() < 9 + this.getSpriteIndex())
+			this.setSpriteIndex(9 + this.spritesForMovement);
+		else
+			this.setSpriteIndex(this.getSpriteIndex() + 1);
 	}
 	
 	public void setCurrentSprite(Sprite sprite){
@@ -116,7 +137,6 @@ public class Mazub {
 		if (direction == 'r') {
 			setVelocityX(1);
 			setAccelerationX(0.9);
-			setCurrentSprite(getSprites()[2]);
 		} else if (direction == 'l'){
 			setVelocityX(-1);
 			setAccelerationX(-0.9);
@@ -137,6 +157,7 @@ public class Mazub {
 	
 	
 	public void advanceTime(double seconds) {
+		this.timer += seconds;
 		double locationX = getLocationX() + (getVelocityX()*seconds + getAccelerationX()*seconds*seconds/2)*100;
 		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
 		if (locationX > 1023){
@@ -174,6 +195,42 @@ public class Mazub {
 			setVelocityY(velocityY);
 		}
 	}
+	
+	public boolean isMovingRight() {
+		if (this.getVelocityX() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isMovingLeft() {
+		if (this.getVelocityX() < 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isJumping() {
+		if (this.getAccelerationY() != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isDucking() {
+		return false;
+	}
+	
+	public void setSpriteIndex(int spriteIndex) {
+		this.spriteIndex = spriteIndex;
+	}
+	
+	public int getSpriteIndex() {
+		return this.spriteIndex;
+	}
 
 	private double locationX;
 	private double locationY;
@@ -185,7 +242,11 @@ public class Mazub {
 	
 	private Sprite[] sprites;
 	private Sprite currentSprite;
-	private int spriteindex;
+	private int spriteIndex;
 	
 	private long time1;
+	
+	private double timer;
+	
+	private int spritesForMovement;
 }
