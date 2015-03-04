@@ -99,13 +99,21 @@ public class Mazub {
 			} else if (this.isMovingLeft()){
 				setSpriteIndex(7);
 			} else{
-				setSpriteIndex(1);
-			}			
+				if (this.timer < 1) {
+					if (this.wasMovingRight()) {
+						setSpriteIndex(2);
+					} else if (this.wasMovingLeft()) {
+						setSpriteIndex(3);
+					}
+				} else {
+					setSpriteIndex(1);
+				}
+			}		
 		} else if (this.isMovingRight()){
 				spritesMovingRightNormal();
 		}else if (this.isMovingLeft()){
 				spritesMovingLeftNormal();
-		} else{
+		}else{
 			if (this.timer < 1) {
 				if (this.wasMovingRight()) {
 					setSpriteIndex(2);
