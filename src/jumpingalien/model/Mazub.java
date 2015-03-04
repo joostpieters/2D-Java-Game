@@ -266,6 +266,8 @@ public class Mazub {
 	
 	public void setDucking(boolean ducking){
 		this.ducking = ducking;
+		if (ducking == true)
+			this.timer=2;				
 	}
 	
 	public boolean isDucking() {
