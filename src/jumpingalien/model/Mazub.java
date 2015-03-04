@@ -96,15 +96,18 @@ public class Mazub {
 		} else if (this.isDucking()) {
 			if (this.isMovingRight()){
 				setSpriteIndex(6);
+				this.timer = 0;
 			} else if (this.isMovingLeft()){
 				setSpriteIndex(7);
+				this.timer = 0;
 			} else{
 				if (this.timer < 1) {
-					if (this.wasMovingRight()) {
-						setSpriteIndex(2);
-					} else if (this.wasMovingLeft()) {
-						setSpriteIndex(3);
+					if (getSpriteIndex() == 6) {
+						setSpriteIndex(6);
+					} else if (getSpriteIndex() == 7) {
+						setSpriteIndex(7);
 					}
+					System.out.println(1);
 				} else {
 					setSpriteIndex(1);
 				}
@@ -266,8 +269,7 @@ public class Mazub {
 	
 	public void setDucking(boolean ducking){
 		this.ducking = ducking;
-		if (ducking == true)
-			this.timer=2;				
+		this.timer=1;				
 	}
 	
 	public boolean isDucking() {
