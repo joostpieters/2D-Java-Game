@@ -84,34 +84,37 @@ public class Mazub {
 	
 	@Basic
 	public Sprite getCurrentSprite() {
-		if (this.timer >= 0.075) {
-			// update sprite
-			if (this.isJumping()) {
-				if (this.isMovingRight()){
-					setSpriteIndex(4);
-				} else if (this.isMovingLeft()){
-					setSpriteIndex(5);
-				} else{
-					setSpriteIndex(0);
-				}
-			} else if (this.isDucking()) {
-				if (this.isMovingRight()){
-					setSpriteIndex(6);
-				} else if (this.isMovingLeft()){
-					setSpriteIndex(7);
-				} else{
-					setSpriteIndex(1);
-				}			
-			} else if (this.isMovingRight()){
-					spritesMovingRightNormal();
-			}else if (this.isMovingLeft()){
-					spritesMovingLeftNormal();
+					// update sprite
+		if (this.isJumping()) {
+			if (this.isMovingRight()){
+				setSpriteIndex(4);
+			} else if (this.isMovingLeft()){
+				setSpriteIndex(5);
 			} else{
 				setSpriteIndex(0);
 			}
-			
-			this.timer = 0;
+		} else if (this.isDucking()) {
+			if (this.isMovingRight()){
+				setSpriteIndex(6);
+			} else if (this.isMovingLeft()){
+				setSpriteIndex(7);
+			} else{
+				setSpriteIndex(1);
+			}			
+		} else if (this.isMovingRight()){
+				spritesMovingRightNormal();
+		}else if (this.isMovingLeft()){
+				spritesMovingLeftNormal();
+		} else{
+			if (getSpriteIndex() > 8 && getSpriteIndex() < 8 + spritesForMovement)
+			{
+				setSpriteIndex(4);
+				this.idleTimer = this.timer;
+			} else if (this.idleTimer >= 1) {
+				setSpriteIndex(0);
+			}
 		}
+		
 		// otherwise keep old sprite
 		
 		System.out.println(this.getSpriteIndex());
@@ -119,17 +122,23 @@ public class Mazub {
 	}
 	
 	private void spritesMovingRightNormal() {
-		if ((this.getSpriteIndex() >= 8 + this.spritesForMovement) || this.getSpriteIndex() < 8)
-			this.setSpriteIndex(8);
-		else
-			this.setSpriteIndex(this.getSpriteIndex() + 1);
+		if (this.timer >= 0.075){
+			if ((this.getSpriteIndex() >= 8 + this.spritesForMovement) || (this.getSpriteIndex() < 8))
+				this.setSpriteIndex(8);
+			else
+				this.setSpriteIndex(this.getSpriteIndex() + 1);
+			this.timer = 0;
+		}
 	}
 	
 	private void spritesMovingLeftNormal() {
-		if ((this.getSpriteIndex() >= 9 + this.spritesForMovement * 2) || this.getSpriteIndex() < 9 + this.spritesForMovement)
-			this.setSpriteIndex(9 + this.spritesForMovement);
-		else
-			this.setSpriteIndex(this.getSpriteIndex() + 1);
+		if (this.timer >= 0.075){
+			if ((this.getSpriteIndex() >= 9 + this.spritesForMovement * 2) || this.getSpriteIndex() < 9 + this.spritesForMovement)
+				this.setSpriteIndex(9 + this.spritesForMovement);
+			else
+				this.setSpriteIndex(this.getSpriteIndex() + 1);
+			this.timer = 0;
+		}
 	}
 	
 	
@@ -254,6 +263,7 @@ public class Mazub {
 	private int spriteIndex;
 	
 	private double timer;
+	private double idleTimer;
 		
 	private int spritesForMovement;
 	
