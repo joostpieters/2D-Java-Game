@@ -107,7 +107,6 @@ public class Mazub {
 					} else if (getSpriteIndex() == 7) {
 						setSpriteIndex(7);
 					}
-					System.out.println(1);
 				} else {
 					setSpriteIndex(1);
 				}
