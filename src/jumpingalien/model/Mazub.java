@@ -250,6 +250,14 @@ public class Mazub {
 		}
 	}
 	
+	/**
+	 * Returns whether Mazub is jumping.
+	 * @return	true when the vertical acceleration is not zero, false otherwise.
+	 * 			| if getAccelerationY() != 0 then 
+	 * 			|	return true
+	 * 			| else then 
+	 * 			|	return false
+	 */
 	public boolean isJumping() {
 		if (this.getAccelerationY() != 0) {
 			return true;
@@ -262,18 +270,29 @@ public class Mazub {
 		this.spriteIndex = spriteIndex;
 	}
 	
+	/**
+	 * Returns the current sprite index.
+	 */
+	@Basic
 	public int getSpriteIndex() {
 		return this.spriteIndex;
 	}
 	
+	
 	public void setDucking(boolean ducking){
 		this.ducking = ducking;
-		this.timer=1;				
+		setTimer(1);;				
 	}
 	
+	/**
+	 * Returns whether Mazub is ducking.
+	 */
+	@Basic
 	public boolean isDucking() {
 		return this.ducking;
 	}
+	
+	
 
 	private double locationX;
 	private double locationY;
@@ -287,6 +306,18 @@ public class Mazub {
 	
 	private int spriteIndex;
 	
+	/**
+	 * Returns the current value of the timer.
+	 */
+	@Basic
+	public double getTimer() {
+		return timer;
+	}
+
+	public void setTimer(double time) {
+		this.timer = time;
+	}
+
 	private double timer;
 		
 	private int spritesForMovement;
