@@ -8,10 +8,9 @@ public class Mazub {
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites){
 		this.setLocation(pixelLeftX, pixelBottomY);
 		this.setSprites(sprites);
-		this.setDefaultCurrentSprite();
 		this.setSpriteIndex(0);
 		this.timer = 0;
-		this.spritesForMovement = (sprites.length - 8) / 2;
+		this.spritesForMovement = (sprites.length - 8) / 2 - 1;
 	}
 	
 	@Basic
@@ -102,6 +101,7 @@ public class Mazub {
 		}
 		// otherwise keep old sprite
 		
+		System.out.println(this.getSpriteIndex());
 		return sprites[this.getSpriteIndex()];
 	}
 	
@@ -113,18 +113,10 @@ public class Mazub {
 	}
 	
 	private void spritesMovingLeftNormal() {
-		if ((this.getSpriteIndex() >= 9 + this.spritesForMovement * 2) || this.getSpriteIndex() < 9 + this.getSpriteIndex())
+		if ((this.getSpriteIndex() >= 9 + this.spritesForMovement * 2) || this.getSpriteIndex() < 9 + this.spritesForMovement)
 			this.setSpriteIndex(9 + this.spritesForMovement);
 		else
 			this.setSpriteIndex(this.getSpriteIndex() + 1);
-	}
-	
-	public void setCurrentSprite(Sprite sprite){
-		this.currentSprite = sprite;
-	}
-	
-	public void setDefaultCurrentSprite(){
-		this.currentSprite = getSprites()[0];
 	}
 	
 	
@@ -241,10 +233,8 @@ public class Mazub {
 	private double accelerationY;
 	
 	private Sprite[] sprites;
-	private Sprite currentSprite;
-	private int spriteIndex;
 	
-	private long time1;
+	private int spriteIndex;
 	
 	private double timer;
 	
