@@ -106,18 +106,11 @@ public class Mazub {
 		}else if (this.isMovingLeft()){
 				spritesMovingLeftNormal();
 		} else{
-			if (getSpriteIndex() > 8 && getSpriteIndex() < 8 + spritesForMovement)
-			{
-				setSpriteIndex(4);
-				this.idleTimer = this.timer;
-			} else if (this.idleTimer >= 1) {
-				setSpriteIndex(0);
-			}
+			setSpriteIndex(0);
 		}
 		
 		// otherwise keep old sprite
 		
-		System.out.println(this.getSpriteIndex());
 		return sprites[this.getSpriteIndex()];
 	}
 	
@@ -263,7 +256,6 @@ public class Mazub {
 	private int spriteIndex;
 	
 	private double timer;
-	private double idleTimer;
 		
 	private int spritesForMovement;
 	
