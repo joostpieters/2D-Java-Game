@@ -87,14 +87,27 @@ public class Mazub {
 		if (this.timer >= 0.075) {
 			// update sprite
 			if (this.isJumping()) {
-				
+				if (this.isMovingRight()){
+					setSpriteIndex(4);
+				} else if (this.isMovingLeft()){
+					setSpriteIndex(5);
+				} else{
+					setSpriteIndex(0);
+				}
 			} else if (this.isDucking()) {
-				
-			} else {
-				if (this.isMovingRight())
+				if (this.isMovingRight()){
+					setSpriteIndex(6);
+				} else if (this.isMovingLeft()){
+					setSpriteIndex(7);
+				} else{
+					setSpriteIndex(1);
+				}			
+			} else if (this.isMovingRight()){
 					spritesMovingRightNormal();
-				else if (this.isMovingLeft())
+			}else if (this.isMovingLeft()){
 					spritesMovingLeftNormal();
+			} else{
+				setSpriteIndex(0);
 			}
 			
 			this.timer = 0;
@@ -212,16 +225,20 @@ public class Mazub {
 		}
 	}
 	
-	public boolean isDucking() {
-		return false;
-	}
-	
 	public void setSpriteIndex(int spriteIndex) {
 		this.spriteIndex = spriteIndex;
 	}
 	
 	public int getSpriteIndex() {
 		return this.spriteIndex;
+	}
+	
+	public void setDucking(boolean ducking){
+		this.ducking = ducking;
+	}
+	
+	public boolean isDucking() {
+		return this.ducking;
 	}
 
 	private double locationX;
@@ -237,6 +254,8 @@ public class Mazub {
 	private int spriteIndex;
 	
 	private double timer;
-	
+		
 	private int spritesForMovement;
+	
+	private boolean ducking;
 }
