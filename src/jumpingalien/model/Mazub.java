@@ -13,28 +13,42 @@ public class Mazub {
 		this.spritesForMovement = (sprites.length - 8) / 2 - 1;
 	}
 	
-	@Basic
-	public Sprite[] getSprites() {
-		return sprites;
-	}
-	
-	public void setSprites(Sprite[] sprites) {
-		this.sprites = sprites;
-	}
-	
-	public void setLocation(int pixelLeftX, int pixelBottomY) {
-		this.locationX = pixelLeftX;
-		this.locationY = pixelBottomY;
-	}
-	
-	
+	/**
+	 * Return the locationX of this character
+	 */
 	@Basic
 	public double getLocationX() {
 		return this.locationX;
 	}
+
 	
-	public void setLocationX(double locationX) {
+	/**
+	 * Set the current X coordinate of Mazub
+	 * 
+	 * @param 	locationX
+	 * 			The new X coordinate for the character
+	 * @pre		The given LocationX needs to be bigger or equal to 0
+	 * 			| locationX >= 0
+	 * @pre		The given LocationX needs to smaller or equal to the game widow width
+	 * 			| locationX <= getMaxWindowWidth
+	 * @post 	The LocationX of this character is equal to the given LocationX
+	 * 			| new.getLocationX() == locationX  
+	 */
+	private void setLocationX(double locationX) {
+		assert ((locationX < 0) || (locationX > getMaxWindowWidth()));
 		this.locationX = locationX;
+	}
+	
+	/**
+	 * This variable contains the current X coordinate of the character
+	 */	
+	private double locationX;
+	
+	/**
+	 * Return the maximum width of the game window 	
+	 */
+	public int getMaxWindowWidth() {
+		return 1024;
 	}
 	
 	@Basic
@@ -46,6 +60,13 @@ public class Mazub {
 		this.locationY = locationY;
 	}
 	
+	private double locationY;
+	
+	public void setLocation(int pixelLeftX, int pixelBottomY) {
+		setLocationX(pixelLeftX);
+		setLocationY(pixelBottomY);
+	}
+	
 	@Basic
 	public double getVelocityX() {
 		return this.velocityX;
@@ -55,6 +76,8 @@ public class Mazub {
 		this.velocityX = velocityX;
 	}
 	
+	private double velocityX;
+	
 	@Basic
 	public double getVelocityY() {
 		return this.velocityY;
@@ -63,6 +86,8 @@ public class Mazub {
 	public void setVelocityY(double velocityY) {
 		this.velocityY = velocityY;
 	}
+	
+	private double velocityY;
 
 	@Basic
 	public double getAccelerationX() {
@@ -72,6 +97,8 @@ public class Mazub {
 	public void setAccelerationX(double accelerationX) {
 		this.accelerationX = accelerationX;
 	}
+	
+	private double accelerationX;
 
 	@Basic
 	public double getAccelerationY() {
@@ -80,6 +107,17 @@ public class Mazub {
 
 	public void setAccelerationY(double accelerationY) {
 		this.accelerationY = accelerationY;
+	}
+	
+	private double accelerationY;
+	
+	@Basic
+	public Sprite[] getSprites() {
+		return sprites;
+	}
+	
+	public void setSprites(Sprite[] sprites) {
+		this.sprites = sprites;
 	}
 	
 	@Basic
@@ -293,14 +331,6 @@ public class Mazub {
 	}
 	
 	
-
-	private double locationX;
-	private double locationY;
-	
-	private double velocityX;
-	private double velocityY;
-	private double accelerationX;
-	private double accelerationY;
 	
 	private Sprite[] sprites;
 	
