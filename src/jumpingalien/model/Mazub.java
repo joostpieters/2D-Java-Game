@@ -13,6 +13,9 @@ public class Mazub {
 		this.spritesForMovement = (sprites.length - 8) / 2 - 1;
 	}
 	
+	/**
+	 * Returns the sprites.
+	 */
 	@Basic
 	public Sprite[] getSprites() {
 		return sprites;
@@ -28,6 +31,9 @@ public class Mazub {
 	}
 	
 	
+	/**
+	 * Returns the horizontal position.
+	 */
 	@Basic
 	public double getLocationX() {
 		return this.locationX;
@@ -37,6 +43,9 @@ public class Mazub {
 		this.locationX = locationX;
 	}
 	
+	/**
+	 * Returns the vertical position.
+	 */
 	@Basic
 	public double getLocationY() {
 		return this.locationY;
@@ -46,6 +55,9 @@ public class Mazub {
 		this.locationY = locationY;
 	}
 	
+	/**
+	 * Returns the horizontal velocity.
+	 */
 	@Basic
 	public double getVelocityX() {
 		return this.velocityX;
@@ -55,6 +67,9 @@ public class Mazub {
 		this.velocityX = velocityX;
 	}
 	
+	/**
+	 * Returns the vertical velocity.
+	 */
 	@Basic
 	public double getVelocityY() {
 		return this.velocityY;
@@ -64,6 +79,9 @@ public class Mazub {
 		this.velocityY = velocityY;
 	}
 
+	/**
+	 * Returns the horizontal acceleration.
+	 */
 	@Basic
 	public double getAccelerationX() {
 		return accelerationX;
@@ -73,6 +91,9 @@ public class Mazub {
 		this.accelerationX = accelerationX;
 	}
 
+	/**
+	 * Returns the vertical acceleration.
+	 */
 	@Basic
 	public double getAccelerationY() {
 		return accelerationY;
@@ -234,6 +255,10 @@ public class Mazub {
 		}
 	}
 	
+	/**
+	 * Returns whether Mazub is moving right.
+	 * @return	true when the horizontal velocity is greater than zero, false otherwise.
+	 */
 	public boolean isMovingRight() {
 		if (this.getVelocityX() > 0) {
 			return true;
@@ -242,6 +267,14 @@ public class Mazub {
 		}
 	}
 	
+	/**
+	 * Returns whether Mazub is moving left.
+	 * @return	true when the horizontal velocity is smaller than zero, false otherwise.
+	 * 			| if getVelocityX() < 0 then
+	 * 			|	return true
+	 * 			| else then
+	 * 			| 	return false
+	 */
 	public boolean isMovingLeft() {
 		if (this.getVelocityX() < 0) {
 			return true;
