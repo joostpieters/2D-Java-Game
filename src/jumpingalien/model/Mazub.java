@@ -38,7 +38,7 @@ public class Mazub {
 	 */
 	public void setLocationX(double locationX) throws ModelException {
 		if ((locationX < 0) || (locationX > getWindowWidth())){
-			//throw new ModelException();
+			throw new ModelException("X coordinate is out of window range");
 		}
 		this.locationX = locationX;
 	}
@@ -76,8 +76,10 @@ public class Mazub {
 	 * @post 	The LocationY of this Mazub is equal to the given LocationY
 	 * 			| new.getLocationY() == locationY  
 	 */
-	public void setLocationY(double locationY) {
-		assert((locationY < 0)||(locationY > getWindowHeight()));
+	public void setLocationY(double locationY) throws ModelException {
+		if((locationY < 0)||(locationY > getWindowHeight())){
+			throw new ModelException("Y coordinate is out of window range");
+		};
 		this.locationY = locationY;
 	}
 	
