@@ -1,6 +1,7 @@
 package jumpingalien.model;
 
 import be.kuleuven.cs.som.annotate.Basic;
+import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 
 public class Mazub {
@@ -13,48 +14,163 @@ public class Mazub {
 		this.spritesForMovement = (sprites.length - 8) / 2 - 1;
 	}
 	
-	@Basic
-	public Sprite[] getSprites() {
-		return sprites;
-	}
-	
-	public void setSprites(Sprite[] sprites) {
-		this.sprites = sprites;
-	}
-	
-	public void setLocation(int pixelLeftX, int pixelBottomY) {
-		this.locationX = pixelLeftX;
-		this.locationY = pixelBottomY;
-	}
-	
-	
+	/**
+	 * Return locationX of this Mazub
+	 * 	locationX expresses the current X coordinate of this Mazub
+	 */
 	@Basic
 	public double getLocationX() {
 		return this.locationX;
 	}
+
 	
-	public void setLocationX(double locationX) {
+	/**
+	 * Set locationX of this Mazub to a given value
+	 * 
+	 * @param 	locationX
+	 * 			The new locationY coordinate for this Mazub
+	 * @pre		The given LocationX needs to be bigger or equal to 0
+	 * 			| locationX >= 0
+	 * @pre		The given LocationX needs to smaller or equal to the current game window width
+	 * 			| locationX <= getWindowWidth()
+	 * @post 	The LocationX of this Mazub is equal to the given LocationX
+	 * 			| new.getLocationX() == locationX  
+	 */
+	public void setLocationX(double locationX) throws ModelException {
+		if ((locationX < 0) || (locationX > getWindowWidth())){
+			//throw new ModelException();
+		}
 		this.locationX = locationX;
 	}
 	
+	/**
+	 * This variable contains the current X coordinate of this Mazub
+	 */	
+	private double locationX;
+	
+	/**
+	 * Return the width of the game window 	
+	 */
+	public int getWindowWidth() {
+		return 1024;
+	}
+	
+	/**
+	 * Return locationY of this Mazub
+	 * 	locationY expresses the current Y coordinate of this Mazub
+	 */
 	@Basic
 	public double getLocationY() {
 		return this.locationY;
 	}
 	
+	/**
+	 * Set locationY of this Mazub to a given value
+	 * 
+	 * @param 	locationY
+	 * 			The new locationY for this Mazub
+	 * @pre		The given LocationY needs to be bigger or equal to 0
+	 * 			| locationY >= 0
+	 * @pre		The given LocationY needs to smaller or equal to the current game widow height
+	 * 			| locationY <= getWindowHeight()
+	 * @post 	The LocationY of this Mazub is equal to the given LocationY
+	 * 			| new.getLocationY() == locationY  
+	 */
 	public void setLocationY(double locationY) {
+		assert((locationY < 0)||(locationY > getWindowHeight()));
 		this.locationY = locationY;
 	}
 	
+	/**
+	 * This variable contains the current Y coordinate of this Mazub
+	 */
+	private double locationY;
+	
+	/**
+	 * Return the height of the game window 	
+	 */
+	public int getWindowHeight() {
+		return 768;
+	}
+	
+	/**
+	 * Set locationX and locationY of this Mazub to a given value
+	 * 
+	 * @param 	pixelLeftX
+	 * 			The new locationX for this Mazub
+	 * @param 	pixelBottomY
+	 * 			The new locationY for this Mazub
+	 * @pre		The given pixelLeftX needs to be bigger or equal to 0
+	 * 			| pixelLeftX >= 0
+	 * @pre		The given pixelLeftX needs to smaller or equal to the current game window width
+	 * 			| pixelLeftX <= getWindowWidth()
+	 * @pre		The given pixelBottomY needs to be bigger or equal to 0
+	 * 			| pixelBottomY >= 0
+	 * @pre		The given pixelBottomY needs to smaller or equal to the current game widow height
+	 * 			| pixelBottomY <= getWindowHeight()
+	 * @post 	The LocationX of this Mazub is equal to the given pixelLeftX
+	 * 			| new.getLocationX() == pixelLeftX
+	 * @post 	The LocationY of this Mazub is equal to the given pixelBottomY
+	 * 			| new.getLocationY() == pixelBottomY  
+	 */
+	public void setLocation(int pixelLeftX, int pixelBottomY) {
+		setLocationX(pixelLeftX);
+		setLocationY(pixelBottomY);
+	}
+	
+	/**
+	 * Return velocityX of this Mazub
+	 * 	velocityX expresses the current horizontal velocity of this Mazub
+	 */
 	@Basic
 	public double getVelocityX() {
 		return this.velocityX;
 	}
 	
+	/**
+	 * Set velocityX of this Mazub to a given value
+	 * 
+	 * @param 	velocityX
+	 * 			The new velocityX for this Mazub
+	 * @pre		The given velocityX needs to be bigger or equal to the initial horizontal velocity of this Mazub
+	 * 			| velocityX >= getInitialHorizontalVelocity()
+	 * @pre		The given velocityX needs to smaller or equal to the maximum horizontal velocity of this Mazub
+	 * 			| velocityX <= getMaximumHorizontalVelocity()
+	 * @post 	The velocityX of this Mazub is equal to the given velocityX
+	 * 			| new.velocityX() == velocityX
+	 */
 	public void setVelocityX(double velocityX) {
+		assert((velocityX > getMaximumHorizontalVelocity()) || (velocityX < getInitialHorizontalVelocity()));
 		this.velocityX = velocityX;
 	}
 	
+	/**
+	 * This variable contains the current horizontal velocity of this Mazub
+	 */
+	private double velocityX;
+	
+	/**
+	 * Return the maximum Horizontal Velocity of this Mazub
+	 */
+	public static double getMaximumHorizontalVelocity() {
+		return 3;
+	}
+	
+	/**
+	 * Return the initial Horizontal Velocity of this Mazub
+	 * 
+	 * @note 	the inital velocity is always bigger or equal to one
+	 * 			| getInitialHorizontalVelocity() >= 1
+	 */
+	public static double getInitialHorizontalVelocity() {
+		return 1;
+	}
+	
+	
+	/**
+	 * Return velocityY of this Mazub
+	 * 	velocityY expresses the current vertical velocity of this Mazub
+	 */
 	@Basic
 	public double getVelocityY() {
 		return this.velocityY;
@@ -63,6 +179,8 @@ public class Mazub {
 	public void setVelocityY(double velocityY) {
 		this.velocityY = velocityY;
 	}
+	
+	private double velocityY;
 
 	@Basic
 	public double getAccelerationX() {
@@ -72,6 +190,8 @@ public class Mazub {
 	public void setAccelerationX(double accelerationX) {
 		this.accelerationX = accelerationX;
 	}
+	
+	private double accelerationX;
 
 	@Basic
 	public double getAccelerationY() {
@@ -80,6 +200,17 @@ public class Mazub {
 
 	public void setAccelerationY(double accelerationY) {
 		this.accelerationY = accelerationY;
+	}
+	
+	private double accelerationY;
+	
+	@Basic
+	public Sprite[] getSprites() {
+		return sprites;
+	}
+	
+	public void setSprites(Sprite[] sprites) {
+		this.sprites = sprites;
 	}
 	
 	@Basic
@@ -189,10 +320,6 @@ public class Mazub {
 		setAccelerationX(0);
 	}
 	
-	public static double getMaximumHorizontalVelocity() {
-		return 3;
-	}
-	
 	
 	public void advanceTime(double seconds) {
 		this.timer += seconds;
@@ -293,14 +420,6 @@ public class Mazub {
 	}
 	
 	
-
-	private double locationX;
-	private double locationY;
-	
-	private double velocityX;
-	private double velocityY;
-	private double accelerationX;
-	private double accelerationY;
 	
 	private Sprite[] sprites;
 	
