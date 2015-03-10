@@ -139,7 +139,7 @@ public class Mazub {
 	 * @pre		The given velocityX needs to smaller or equal to the maximum horizontal velocity of this Mazub
 	 * 			| velocityX <= getMaximumHorizontalVelocity()
 	 * @post 	The velocityX of this Mazub is equal to the given velocityX
-	 * 			| new.velocityX() == velocityX
+	 * 			| new.getvelocityX() == velocityX
 	 */
 	public void setVelocityX(double velocityX) {
 		assert((velocityX <= getMaximumHorizontalVelocity()) || (velocityX >= getInitialHorizontalVelocity()));
@@ -154,19 +154,52 @@ public class Mazub {
 	/**
 	 * Return the maximum Horizontal Velocity of this Mazub
 	 */
-	public static double getMaximumHorizontalVelocity() {
+	public double getMaximumHorizontalVelocity() {
 		return 3;
 	}
 	
 	/**
 	 * Return the initial Horizontal Velocity of this Mazub
 	 * 
-	 * @note 	the inital velocity is always bigger or equal to one
+	 * @note 	the initial velocity is always bigger or equal to one
 	 * 			| getInitialHorizontalVelocity() >= 1
 	 */
-	public static double getInitialHorizontalVelocity() {
+	public double getInitialHorizontalVelocity() {
 		return 1;
 	}
+	
+	/**
+	 * Return accelerationX of this Mazub
+	 * 	accelerationX expresses the current horizontal acceleration of this Mazub
+	 */
+	@Basic
+	public double getAccelerationX() {
+		return accelerationX;
+	}
+
+	/**
+	 * 
+	 * @param 	accelerationX
+	 * 			the new accelerationX for this Mazub
+	 * @post 	if the given accelerationX is bigger or equal to zero, 
+	 * 			the accelerationX of this Mazub is equal to the given accelerationX
+	 * 			|if (accelerationX >= 0)
+	 * 			|	new.getAcceleration() == accelerationX
+	 * @post 	if the given accelerationX is lower than zero, 
+	 * 			the accelerationX of this Mazub is equal to zero
+	 * 			|if (accelerationX < 0)
+	 * 			|	new.getAcceleration() == 0
+	 */
+	public void setAccelerationX(double accelerationX) {
+		if (accelerationX < 0)
+				accelerationX = 0;
+		this.accelerationX = accelerationX;
+	}
+	
+	/**
+	 * this variable contains the current horizontal acceleration for this Mazub
+	 */	
+	private double accelerationX;
 	
 	
 	/**
@@ -178,40 +211,69 @@ public class Mazub {
 		return this.velocityY;
 	}
 
+	/**
+	 * 
+	 * @param 	velocityY
+	 * 			the new velocityY for this Mazub
+	 * @post 	The velocityY of this Mazub is equal to the given velocityY
+	 * 			| new.getvelocityY() == velocityY
+	 * 
+	 * ??? hoe uitwerken ???
+	 */
 	public void setVelocityY(double velocityY) {
 		this.velocityY = velocityY;
 	}
 	
+	/**
+	 * This variable contains the current vertical velocity of this Mazub
+	 */
 	private double velocityY;
-
-	@Basic
-	public double getAccelerationX() {
-		return accelerationX;
-	}
-
-	public void setAccelerationX(double accelerationX) {
-		this.accelerationX = accelerationX;
-	}
 	
-	private double accelerationX;
-
+	/**
+	 * Return accelerationY of this Mazub
+	 * 	accelerationY expresses the current vertical acceleration of this Mazub
+	 */
 	@Basic
 	public double getAccelerationY() {
 		return accelerationY;
 	}
 
+	/**
+	 * 
+	 * @param 	accelerationY
+	 * 			the new accelerationY for this Mazub
+	 * @post 	The accelerationY of this Mazub is equal to the given accelerationY
+	 * 			| new.getAccelerationY() == accelerationY
+	 */
 	public void setAccelerationY(double accelerationY) {
 		this.accelerationY = accelerationY;
 	}
 	
+	/**
+	 * this variable contains the current vertical acceleration for this Mazub
+	 */
 	private double accelerationY;
 	
+	/**
+	 * Return sprites of this Mazub
+	 * 	sprites is an array of all possible sprites for movements of this Mazub
+	 */	
 	@Basic
 	public Sprite[] getSprites() {
 		return sprites;
 	}
-	
-	public void setSprites(Sprite[] sprites) {
+	/**
+	 * 
+	 * @param 	sprites
+	 * 			the new sprites for this Mazub
+	 * @pre		sprites needs to contain at least 10 possible sprites
+	 * 			| sprites.length >= 10
+	 * @post 	The sprites of this Mazub is equal to the given sprites
+	 * 			| new.getSprites() == sprites  	
+	 */
+	public void setSprites(Sprite[] sprites) throws ModelException {
+		if (sprites.length < 10)
+			throw new ModelException("Sprites needs to contain at least ten sprites");
 		this.sprites = sprites;
 	}
 	
@@ -310,7 +372,7 @@ public class Mazub {
 			setAccelerationX(0.9);
 		} else if (direction == 'l'){
 			setVelocityX(-1);
-			setAccelerationX(-0.9);
+			setAccelerationX(0.9);
 		} else if (direction == 'u'){
 			setVelocityY(8);
 			setAccelerationY(-10);
@@ -325,7 +387,11 @@ public class Mazub {
 	
 	public void advanceTime(double seconds) {
 		this.timer += seconds;
-		double locationX = getLocationX() + (getVelocityX()*seconds + getAccelerationX()*seconds*seconds/2)*100;
+		double accelerationX = getAccelerationX(); 
+		if (this.isMovingLeft())
+			accelerationX *= -1;
+		
+		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
 		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
 		if (locationX > 1023){
 			locationX = 1023;
@@ -342,7 +408,7 @@ public class Mazub {
 		setLocationX(locationX);
 		setLocationY(locationY);
 		
-		double velocityX = getVelocityX() + getAccelerationX()*seconds;
+		double velocityX = getVelocityX() + accelerationX*seconds;
 		double velocityY = getVelocityY() + getAccelerationY()*seconds;
 		
 		if (velocityX < getMaximumHorizontalVelocity()){
