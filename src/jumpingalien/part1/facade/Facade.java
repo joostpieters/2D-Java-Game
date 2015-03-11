@@ -1,5 +1,6 @@
 package jumpingalien.part1.facade;
 
+import jumpingalien.model.Direction;
 import jumpingalien.model.Mazub;
 import jumpingalien.util.Sprite;
 
@@ -55,7 +56,7 @@ public class Facade implements IFacade {
 	
 	@Override
 	public void startJump(Mazub alien) {
-		alien.startMove('u');
+		alien.startMove(Direction.UP);
 		
 	}
 
@@ -67,7 +68,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void startMoveLeft(Mazub alien) {
-		alien.startMove('l');
+		alien.startMove(Direction.LEFT);
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void startMoveRight(Mazub alien) {
-		alien.startMove('r');
+		alien.startMove(Direction.RIGHT);
 	}
 
 	@Override

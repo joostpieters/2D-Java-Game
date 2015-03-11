@@ -286,7 +286,10 @@ public class Mazub {
 		this.sprites = sprites;
 	}
 	
-	@Basic
+	
+	/**
+	 * Returns the right sprite for the current movements
+	 */
 	public Sprite getCurrentSprite() {
 		
 		// for all moves to the right
@@ -335,6 +338,11 @@ public class Mazub {
 		return sprites[this.getSpriteIndex()];
 	}
 	
+	/**
+	 * Return the number of the sprite for the right moving animation
+	 * 		when this Mazub is moving to the right, the function will return every 75 ms an other sprite index
+	 * 		so that it will look like this Mazub walks to the right 
+	 */
 	private int spritesMovingRightNormal() {
 		if ((this.getSpriteIndex() > 8 + this.spritesForMovement) || (this.getSpriteIndex() < 8))
 			return 8;
@@ -348,6 +356,11 @@ public class Mazub {
 		return this.getSpriteIndex();
 	}
 	
+	/**
+	 * Return the number of the sprite for the left moving animation
+	 * 		when this Mazub is moving to the left, the function will return every 75 ms an other sprite index
+	 * 		so that it will look like this Mazub walks to the left 
+	 */
 	private int spritesMovingLeftNormal() {
 		if (this.timer >= 0.075){
 			this.resetTimer();
@@ -360,41 +373,120 @@ public class Mazub {
 	}	
 	
 	/**
-	 * @pre	direction == 'r' || direction == 'l' || direction =='u'
-	 * @param direction
+	 * 
+	 * @param 	direction
+	 * 			the direction in which this Mazub needs to start moving
+	 * @pre		The given direction needs to be, RIGHT, LEFT or UP
+	 * 			|direction == Direction.RIGHT || direction == Direction.LEFT || direction == Direction.UP
+	 * @effect 	if the given direction is RIGHT, the horizontal velocity will be set to the 
+	 * 				initial horizontalvelocity
+	 * 				and the acceleration will be equal to the initial horizontal acceleration
+	 * 			|if (direction == Direction.RIGHT) then
+	 * 			|	setVelocityX(getInitialHorizontalVelocity())
+				|	setAccelerationX(getInitialHorizontalAcceleration())
+	 * @effect 	if the given direction is LEFT, the horizontal velocity will be set to 
+	 * 				the negative of the initial horizontal velocity
+	 * 				and the acceleration will be set to the initial horizontal acceleration
+	 * 			|if (direction == Direction.LEFT) then
+	 * 			|	setVelocityX(getInitialHorizontalVelocity()*-1)
+	 * 			|	setAccelerationX(getInitialHorizontalAcceleration())
+	 * @effect	if the given direction is UP, the vertical velocity will be set to 8 and the
+	 * 				vertical acceleration will be set to minus ten
+	 * 			|if (direction == Direction.UP) then
+	 * 			|	setVelocityY(8)
+	 * 			| 	setAccelerationY(-10) 				
 	 */
-	public void startMove(char direction) {
-		assert(direction == 'r' || direction == 'l' || direction =='u');
-		if (direction == 'r') {
-			setVelocityX(1);
-			setAccelerationX(0.9);
-		} else if (direction == 'l'){
-			setVelocityX(-1);
-			setAccelerationX(0.9);
-		} else if (direction == 'u'){
+	public void startMove(Direction direction) {
+		assert(direction == Direction.RIGHT || direction == Direction.LEFT || direction == Direction.UP);
+		if (direction == Direction.RIGHT) {
+			setVelocityX(getInitialHorizontalVelocity());
+			setAccelerationX(getInitialHorizontalAcceleration());
+		} else if (direction == Direction.LEFT){
+			setVelocityX(getInitialHorizontalVelocity()*-1);
+			setAccelerationX(getInitialHorizontalAcceleration());
+		} else if (direction == Direction.UP){
 			setVelocityY(8);
 			setAccelerationY(-10);
 		}
 	}
 	
+	/**
+	 * Return the initial Horizontal acceleration of this Mazub
+	 */
+	public double getInitialHorizontalAcceleration() {
+		return 0.9;
+	}
+	
+	/**
+	 * @POST 
+	 */
 	public void stopMoveX(){
 		if (getVelocityX() > 0 ){
 			if (isDucking())
-				this.lastMoveDirection = "dr";
+				this.lastMoveDirection = Direction.RIGHT_AND_DUCKING;
 			else
-				this.lastMoveDirection = "r";	
+				this.lastMoveDirection = Direction.RIGHT;	
 		}
 		else if (getVelocityX() < 0){
 			if (isDucking())
-				this.lastMoveDirection = "dl";
+				this.lastMoveDirection = Direction.LEFT_AND_DUCKING;
 			else
-				this.lastMoveDirection = "l";
+				this.lastMoveDirection = Direction.LEFT;
 		}
 		this.lastMoveTimer = getTimer();
 		setVelocityX(0);
 		setAccelerationX(0);		
 	}
 	
+	/**
+	 * Return lastMoveDirection of this Mazub
+	 * 		lastMoveDirection indicates the direction of the last move of this Mazub
+	 */
+	public Direction getLastMoveDirection() {
+		return lastMoveDirection;
+	}
+
+	/**
+	 * 
+	 * @param 	lastMoveDirection
+	 * 			the new direction in which this Mazub has last moved
+	 * @post 	the new lastMoveDirection of this Mazub will equal to lastMoveDirection
+	 * 			|new.getLastMoveDirection() = lastMoveDirection
+	 */
+	public void setLastMoveDirection(Direction lastMoveDirection) {
+		this.lastMoveDirection = lastMoveDirection;
+	}
+	
+	/**
+	 * This variable contains the last direction in which this Mazub has moved
+	 */
+	private Direction lastMoveDirection;
+
+	/**
+	 * Return the value of timer
+	 */
+	@Basic
+	public double getLastMoveTimer() {
+		return lastMoveTimer;
+	}
+
+	/**
+	 * 
+	 * @param 	time
+	 * 			the new time for this Mazub's lastMoveTimer
+	 * @post	lastMoveTimer of this Mazub will be equal to the given time
+	 * 			| new.getLastMoveTimer() = time
+	 * 			
+	 */
+	public void setLastMoveTimer(double time) {
+		this.lastMoveTimer = time;
+	}
+	
+	/**
+	 * This variable contains the time since when this Mazub did his last move
+	 */
+	private double lastMoveTimer;
+
 	public void endJump() {
 		if (this.getVelocityY() > 0) {
 			this.setVelocityY(0);
@@ -650,9 +742,4 @@ public class Mazub {
 		
 	
 	private int spritesForMovement;
-	
-	
-	private String lastMoveDirection;
-	
-	private double lastMoveTimer;
 }
