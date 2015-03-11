@@ -346,20 +346,7 @@ public class Mazub {
 				return this.getSpriteIndex() + 1;
 		}
 		return getSpriteIndex();
-	}
-	
-	private boolean wasMovingRight() {
-		if ((this.getSpriteIndex() >= 8 && this.getSpriteIndex() <= 8 + this.spritesForMovement))
-			return true;
-		return false;
-	}
-	
-	private boolean wasMovingLeft() {
-		if ((this.getSpriteIndex() >= 9 && this.getSpriteIndex() <= 9 + this.spritesForMovement*2))
-			return true;
-		return false;
-	}
-	
+	}	
 	
 	/**
 	 * @pre	direction == 'r' || direction == 'l' || direction =='u'
@@ -530,9 +517,4 @@ public class Mazub {
 	private String lastMoveDirection;
 	
 	private double lastMoveTimer;
-	
-	private double lastMoveToRight;
-	private double lastMoveToLeft;
-	private double lastMoveDuckingToLeft;
-	private double lastMoveDuckingToRight;
 }
