@@ -300,18 +300,13 @@ public class Mazub {
 				setSpriteIndex(spritesMovingLeftNormal());
 		}
 		
-		// if the character is Jumping
-		else if(this.isJumping()){
-			setSpriteIndex(0);
-		}
-		
 		// if the character is Ducking
 		else if(this.isDucking()){
-			if (this.timer < 1){
-				if (getSpriteIndex() == 6)
+			if ((this.lastMoveDirection == "dr") &&(getTimer() - this.lastMoveTimer < 1)){
 					setSpriteIndex(6);
-				else if (getSpriteIndex() == 7)
-					setSpriteIndex(7);
+			}
+			else if ((this.lastMoveDirection == "dl") &&(getTimer() - this.lastMoveTimer < 1)){
+				setSpriteIndex(7);
 			}
 			else{
 				setSpriteIndex(1);
@@ -320,9 +315,9 @@ public class Mazub {
 				
 		// if the character is not moving
 		else{
-			if ((getTimer() - this.lastMoveToRight) < 1)
+			if (((this.lastMoveDirection == "r")|| (this.lastMoveDirection == "dr")) &&(getTimer() - this.lastMoveTimer < 1))
 				setSpriteIndex(2);
-			else if ((getTimer() - this.lastMoveToLeft) < 1)
+			else if (((this.lastMoveDirection == "l")|| (this.lastMoveDirection == "dl")) && (getTimer() - this.lastMoveTimer < 1))
 				setSpriteIndex(3);
 			else
 				setSpriteIndex(0);
@@ -385,14 +380,19 @@ public class Mazub {
 	}
 	
 	public void stopMoveX(){
-		if (getVelocityX() > 0){
-			this.lastMoveToRight = getTimer();
-			this.lastMoveToLeft = getTimer() - 1;
+		if (getVelocityX() > 0 ){
+			if (isDucking())
+				this.lastMoveDirection = "dr";
+			else
+				this.lastMoveDirection = "r";	
 		}
 		else if (getVelocityX() < 0){
-			this.lastMoveToLeft = getTimer();
-			this.lastMoveToRight = getTimer() - 1;
+			if (isDucking())
+				this.lastMoveDirection = "dl";
+			else
+				this.lastMoveDirection = "l";
 		}
+		this.lastMoveTimer = getTimer();
 		setVelocityX(0);
 		setAccelerationX(0);		
 	}
@@ -527,6 +527,12 @@ public class Mazub {
 	
 	private boolean ducking;
 	
+	private String lastMoveDirection;
+	
+	private double lastMoveTimer;
+	
 	private double lastMoveToRight;
 	private double lastMoveToLeft;
+	private double lastMoveDuckingToLeft;
+	private double lastMoveDuckingToRight;
 }
