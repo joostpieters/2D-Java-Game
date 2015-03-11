@@ -279,73 +279,78 @@ public class Mazub {
 	
 	@Basic
 	public Sprite getCurrentSprite() {
-					// update sprite
-		if (this.isJumping()) {
-			if (this.isMovingRight()){
+		
+		// for all moves to the right
+		if (this.isMovingRight()){
+			if (this.isJumping())
 				setSpriteIndex(4);
-			} else if (this.isMovingLeft()){
-				setSpriteIndex(5);
-			} else{
-				setSpriteIndex(0);
-			}
-		} else if (this.isDucking()) {
-			if (this.isMovingRight()){
+			else if (this.isDucking())
 				setSpriteIndex(6);
-				this.timer = 0;
-			} else if (this.isMovingLeft()){
-				setSpriteIndex(7);
-				this.timer = 0;
-			} else{
-				if (this.timer < 1) {
-					if (getSpriteIndex() == 6) {
-						setSpriteIndex(6);
-					} else if (getSpriteIndex() == 7) {
-						setSpriteIndex(7);
-					}
-				} else {
-					setSpriteIndex(1);
-				}
-			}		
-		} else if (this.isMovingRight()){
-				spritesMovingRightNormal();
-		}else if (this.isMovingLeft()){
-				spritesMovingLeftNormal();
-		}else{
-			if (this.timer < 1) {
-				if (this.wasMovingRight()) {
-					setSpriteIndex(2);
-				} else if (this.wasMovingLeft()) {
-					setSpriteIndex(3);
-				}
-			} else {
-				setSpriteIndex(0);
-			}
+			else
+				setSpriteIndex(spritesMovingRightNormal());
 		}
 		
+		// for all moves to the left
+		else if (this.isMovingLeft()){
+			if (this.isJumping())
+				setSpriteIndex(5);
+			else if (this.isDucking())
+				setSpriteIndex(7);
+			else
+				setSpriteIndex(spritesMovingLeftNormal());
+		}
 		
-		// otherwise keep old sprite
+		// if the character is Jumping
+		else if(this.isJumping()){
+			setSpriteIndex(0);
+		}
+		
+		// if the character is Ducking
+		else if(this.isDucking()){
+			if (this.timer < 1){
+				if (getSpriteIndex() == 6)
+					setSpriteIndex(6);
+				else if (getSpriteIndex() == 7)
+					setSpriteIndex(7);
+			}
+			else{
+				setSpriteIndex(1);
+			}
+		}
+				
+		// if the character is not moving
+		else{
+			if ((getTimer() - this.lastMoveToRight) < 1)
+				setSpriteIndex(2);
+			else if ((getTimer() - this.lastMoveToLeft) < 1)
+				setSpriteIndex(3);
+			else
+				setSpriteIndex(0);
+		}
 		
 		return sprites[this.getSpriteIndex()];
 	}
 	
-	private void spritesMovingRightNormal() {
+	private int spritesMovingRightNormal() {
 		if (this.timer >= 0.075){
+			this.resetTimer();
 			if ((this.getSpriteIndex() >= 8 + this.spritesForMovement) || (this.getSpriteIndex() < 8))
-				this.setSpriteIndex(8);
+				return 8;
 			else
-				this.setSpriteIndex(this.getSpriteIndex() + 1);
-			this.timer = 0;
+				return this.getSpriteIndex() + 1;
 		}
+		return this.getSpriteIndex();
 	}
 	
-	private void spritesMovingLeftNormal() {
+	private int spritesMovingLeftNormal() {
 		if (this.timer >= 0.075){
+			this.resetTimer();
 			if ((this.getSpriteIndex() >= 9 + this.spritesForMovement * 2) || this.getSpriteIndex() < 9 + this.spritesForMovement)
-				this.setSpriteIndex(9 + this.spritesForMovement);
+				return 9 + this.spritesForMovement;
 			else
-				this.setSpriteIndex(this.getSpriteIndex() + 1);
-			this.timer = 0;
+				return this.getSpriteIndex() + 1;
 		}
+		return getSpriteIndex();
 	}
 	
 	private boolean wasMovingRight() {
@@ -380,8 +385,16 @@ public class Mazub {
 	}
 	
 	public void stopMoveX(){
+		if (getVelocityX() > 0){
+			this.lastMoveToRight = getTimer();
+			this.lastMoveToLeft = getTimer() - 1;
+		}
+		else if (getVelocityX() < 0){
+			this.lastMoveToLeft = getTimer();
+			this.lastMoveToRight = getTimer() - 1;
+		}
 		setVelocityX(0);
-		setAccelerationX(0);
+		setAccelerationX(0);		
 	}
 	
 	
@@ -475,8 +488,7 @@ public class Mazub {
 	
 	
 	public void setDucking(boolean ducking){
-		this.ducking = ducking;
-		setTimer(1);;				
+		this.ducking = ducking;				
 	}
 	
 	/**
@@ -504,10 +516,17 @@ public class Mazub {
 	public void setTimer(double time) {
 		this.timer = time;
 	}
+	
+	public void resetTimer() {
+		this.setTimer(0);
+	}
 
 	private double timer;
 		
 	private int spritesForMovement;
 	
 	private boolean ducking;
+	
+	private double lastMoveToRight;
+	private double lastMoveToLeft;
 }
