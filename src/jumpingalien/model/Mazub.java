@@ -36,9 +36,9 @@ public class Mazub {
 	 * @post 	The LocationX of this Mazub is equal to the given LocationX
 	 * 			| new.getLocationX() == locationX  
 	 */
-	public void setLocationX(double locationX) throws ModelException {
-		if ((locationX < 0) || (locationX > getWindowWidth())){
-			throw new ModelException("X coordinate is out of window range");
+	public void setLocationX(double locationX) throws IllegalArgumentException {
+		if ((locationX < 0) || (locationX > getWindowWidth()-1)){
+			throw new IllegalArgumentException("X coordinate is out of window range");
 		}
 		this.locationX = locationX;
 	}
@@ -76,9 +76,9 @@ public class Mazub {
 	 * @post 	The LocationY of this Mazub is equal to the given LocationY
 	 * 			| new.getLocationY() == locationY  
 	 */
-	public void setLocationY(double locationY) throws ModelException {
-		if((locationY < 0)||(locationY > getWindowHeight())){
-			throw new ModelException("Y coordinate is out of window range");
+	public void setLocationY(double locationY) throws IllegalArgumentException {
+		if((locationY < 0)||(locationY > getWindowHeight()-1)){
+			throw new IllegalArgumentException("Y coordinate is out of window range");
 		};
 		this.locationY = locationY;
 	}
@@ -402,42 +402,23 @@ public class Mazub {
 	}
 	
 	
-	public void advanceTime(double seconds) {
+	public void advanceTime(double seconds) throws IllegalArgumentException {
+		if (seconds < 0) throw new IllegalArgumentException();
 		this.timer += seconds;
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
 			accelerationX *= -1;
 		
-		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
-		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
-		if (locationX > 1023){
-			locationX = 1023;
-		}
-		if (locationX < 0){
-			locationX = 0;
-		}
-		if (locationY > 767){
-			locationY = 767;
-		}
-		if (locationY < 0){
-			locationY = 0;
-		}
-		setLocationX(locationX);
-		setLocationY(locationY);
+		updateLocation(seconds, accelerationX);
+				
+		updateVelocityX(seconds, accelerationX);
 		
-		double velocityX = getVelocityX() + accelerationX*seconds;
+		updateVelocityAccelerationY(seconds);
+	}
+
+	
+	private void updateVelocityAccelerationY(double seconds) {
 		double velocityY = getVelocityY() + getAccelerationY()*seconds;
-		
-		if (velocityX < getMaximumHorizontalVelocity()){
-			if (velocityX < -getMaximumHorizontalVelocity()){
-				setVelocityX(-getMaximumHorizontalVelocity());
-			} else {
-			setVelocityX(velocityX);
-			}
-		}
-		else{
-			setVelocityX(getMaximumHorizontalVelocity());
-		}
 		if (getLocationY() == 0) {
 			setVelocityY(0);
 			setAccelerationY(0);
@@ -445,7 +426,103 @@ public class Mazub {
 			setVelocityY(velocityY);
 		}
 	}
+
+	/**
+	 * 
+	 * @param 	seconds
+	 * 			The seconds to compute the new velocity.
+	 * @param 	accelerationX
+	 * 			The horizontal acceleration.
+	 * @pre		seconds needs to be positive
+	 * 			| seconds >= 0
+	 * @effect	If the calculated velocity is smaller than the maximum horizontal velocity,
+	 * 				and not smaller than minus the maximum horizontal velocity, set the new velocity to the calculated velocity.
+	 *				If the calculated velocity is smaller than minus the maximum horizontal velocity, set the new velocity to minus the maximum horizontal velocity.
+	 *				If the calculated velocity is greater than the maximum horizontal velocity, set the new velocity to the maximum horizontal velocity.
+	 * 			| if ((getVelocityX() + accelerationX*seconds) < getMaximumHorizontalVelocity()) then
+	 * 			|	if ((getVelocityX() + accelerationX*seconds) < -getMaximumHorizontalVelocity()) then
+	 * 			|		setVelocityX(-getMaximumHorizontalVelocity)
+	 * 			|	else then
+	 * 			|		setVelocityX(getVelocityX() + accelerationX*seconds)
+	 * 			| else then
+	 * 			|	setVelocityX(getMaximumHorizontalVelocity())
+	 */
+	private void updateVelocityX(double seconds, double accelerationX) {
+		assert(seconds >= 0);
+		double velocityX = getVelocityX() + accelerationX*seconds;
+		if (velocityX < getMaximumHorizontalVelocity()){
+			if (velocityX < -getMaximumHorizontalVelocity()){
+				setVelocityX(-getMaximumHorizontalVelocity());
+			} else {
+				setVelocityX(velocityX);
+			}
+		} else{
+			setVelocityX(getMaximumHorizontalVelocity());
+		}
+	}
+
+	/**
+	 * Updates the location of this Mazub given a certain amount of seconds and the horizontal acceleration.
+	 * @param 	seconds
+	 * 			The seconds to compute the new position.
+	 * @param 	accelerationX
+	 * 			The horizontal acceleration.
+	 * @pre		seconds needs to be positive.
+	 * 			| seconds >= 0
+	 * @effect 	Calculates the new horizontal position, using the given seconds and acceleration.
+	 * 			If the calculated position isn't valid, the position will be adjusted.
+	 * 			new.getLocationX() ==  calculateValidLocationX(getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100);
+	 * @effect 	Calculates the new vertical position, using the given seconds and acceleration.
+	 * 			If the calculated position isn't valid, the position will be adjusted.
+	 * 			new.getLocationY() ==  calculateValidLocationY(getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100);
+	 * 
+	 */
+	private void updateLocation(double seconds, double accelerationX) {
+		assert (seconds >= 0);
+		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
+		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
+		
+		try {
+			setLocationX(locationX);
+		} catch (IllegalArgumentException e1){
+			locationX = calculateValidLocationX(locationX);
+			setLocationX(locationX);
+		}
+		
+		try {
+			setLocationY(locationY);
+		} catch (IllegalArgumentException e2){
+			locationY = calculateValidLocationX(locationY);
+			setLocationY(locationY);
+		}
+	}
 	
+	public double calculateValidLocationX(double locationX) {
+		if (locationX > getWindowWidth() - 1){
+			locationX = getWindowWidth() - 1;
+		} else if (locationX < 0){
+			locationX = 0;
+		}
+		return locationX;
+	}
+	
+	public double calculateValidLocationY(double locationY) {
+		if (locationY > getWindowHeight()-1){
+			locationY = getWindowHeight()-1;
+		} else if (locationY < 0){
+			locationY = 0;
+		}
+		return locationY;
+	}
+	
+	/**
+	 * Returns whether Mazub is moving right or not.
+	 * @return 	true when the horizontal velocity is greater than zero, false otherwise.
+	 * 			| if getVelocityX() > 0 then
+	 * 			|	return true
+	 * 			| else then
+	 * 			| 	return false
+	 */
 	public boolean isMovingRight() {
 		if (this.getVelocityX() > 0) {
 			return true;
@@ -454,6 +531,14 @@ public class Mazub {
 		}
 	}
 	
+	/**
+	 * Returns whether Mazub is moving left or not.
+	 * @return 	true when the horizontal velocity is less than zero, false otherwise.
+	 * 			| if getVelocityX() < 0 then
+	 * 			|	return true
+	 * 			| else then
+	 * 			| 	return false
+	 */
 	public boolean isMovingLeft() {
 		if (this.getVelocityX() < 0) {
 			return true;
@@ -478,19 +563,38 @@ public class Mazub {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param 	spriteIndex
+	 * 			The new spriteIndex for this Mazub
+	 * @post	The new spriteIndex for this Mazub is equal to the given spriteIndex.
+	 * 			| new.getSpriteIndex() == spriteIndex
+	 */
 	public void setSpriteIndex(int spriteIndex) {
 		this.spriteIndex = spriteIndex;
 	}
 	
 	/**
-	 * Returns the current sprite index.
+	 * Returns the current spriteIndex for this Mazub.
 	 */
 	@Basic
 	public int getSpriteIndex() {
 		return this.spriteIndex;
 	}
 	
+	/**
+	 * This variable contains the number of the current sprite for this Mazub.
+	 */
+	private int spriteIndex;
 	
+	
+	/**
+	 * 
+	 * @param 	ducking
+	 * 			The new ducking state for this Mazub.
+	 * @post	The new ducking state of this Mazub is equal to ducking.
+	 * 			| new.isDucking() == ducking
+	 */
 	public void setDucking(boolean ducking){
 		this.ducking = ducking;				
 	}
@@ -503,11 +607,14 @@ public class Mazub {
 		return this.ducking;
 	}
 	
+	/**
+	 * This boolean indicates whether Mazub is ducking or not.
+	 */
+	private boolean ducking;
 	
 	
 	private Sprite[] sprites;
 	
-	private int spriteIndex;
 	
 	/**
 	 * Returns the current value of the timer.
@@ -517,19 +624,33 @@ public class Mazub {
 		return timer;
 	}
 
+	/**
+	 * Sets the timer at the given value.
+	 * @param 	time
+	 * 		  	The new time for this timer.
+	 * @post	The timer of this Mazub is equal to the given time.
+	 * 			| new.getTimer() == time
+	 */
 	public void setTimer(double time) {
 		this.timer = time;
 	}
 	
+	/**
+	 * @post	Sets the timer to zero
+	 * 			| new.getTimer() == 0
+	 */
 	public void resetTimer() {
 		this.setTimer(0);
 	}
 
+	/**
+	 * This variable contains the current time for this Mazub.
+	 */
 	private double timer;
 		
+	
 	private int spritesForMovement;
 	
-	private boolean ducking;
 	
 	private String lastMoveDirection;
 	
