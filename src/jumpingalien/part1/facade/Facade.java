@@ -61,7 +61,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void endJump(Mazub alien) {
-		// TODO Auto-generated method stub
+		alien.endJump();
 		
 	}
 

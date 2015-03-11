@@ -153,9 +153,18 @@ public class Mazub {
 	
 	/**
 	 * Return the maximum Horizontal Velocity of this Mazub
+	 * @return	returns 1 if Mazub is ducking, otherwise 3.
+	 * 			| if this.isDucking() then
+	 * 			|	return 1
+	 * 			| else then
+	 * 			|	return 3
 	 */
 	public double getMaximumHorizontalVelocity() {
-		return 3;
+		if (this.isDucking()) {
+			return 1;
+		} else {
+			return 3;
+		}
 	}
 	
 	/**
@@ -327,6 +336,8 @@ public class Mazub {
 	}
 	
 	private int spritesMovingRightNormal() {
+		if ((this.getSpriteIndex() > 8 + this.spritesForMovement) || (this.getSpriteIndex() < 8))
+			return 8;
 		if (this.timer >= 0.075){
 			this.resetTimer();
 			if ((this.getSpriteIndex() >= 8 + this.spritesForMovement) || (this.getSpriteIndex() < 8))
@@ -382,6 +393,12 @@ public class Mazub {
 		this.lastMoveTimer = getTimer();
 		setVelocityX(0);
 		setAccelerationX(0);		
+	}
+	
+	public void endJump() {
+		if (this.getVelocityY() > 0) {
+			this.setVelocityY(0);
+		}
 	}
 	
 	
