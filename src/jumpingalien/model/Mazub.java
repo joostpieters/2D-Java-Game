@@ -165,15 +165,28 @@ public class Mazub {
 	 * 
 	 * @param 	velocityX
 	 * 			The new velocityX for this Mazub
-	 * @pre		The given velocityX needs to be bigger or equal to the initial horizontal velocity of this Mazub
-	 * 			| velocityX >= getInitialHorizontalVelocity()
-	 * @pre		The given velocityX needs to smaller or equal to the maximum horizontal velocity of this Mazub
-	 * 			| velocityX <= getMaximumHorizontalVelocity()
+	 * @pre		 if velocity X is greater than zero, the given velocityX needs to be bigger or equal to 
+	 * 				the initial horizontal velocity and smaller or equal to 
+	 * 				the maximum horizontal velocity of this Mazub
+	 * 			| if velocityX > 0 then
+	 * 			| velocityX >= getInitialHorizontalVelocity() 
+	 * 					&& velocityX <= getMaximumHorizontalVelocity()
+	 * @pre		 if velocity X is less than zero, the given velocityX needs to be smaller or equal to 
+	 * 				the negative of the initial horizontal velocity and bigger or equal to 
+	 * 				the negative of the maximum horizontal velocity of this Mazub
+	 * 			| if velocityX < 0 then
+	 * 				velocityX <= -getInitialHorizontalVelocity() 
+	 * 					&& velocityX >= -getMaximumHorizontalVelocity()
+	 * @pre		if velocityX equals zero, there are no further restrictions
+	 * 			|if velocityX == 0 then
+	 * 			| velocityX == 0
 	 * @post 	The velocityX of this Mazub is equal to the given velocityX
 	 * 			| new.getvelocityX() == velocityX
 	 */
 	private void setVelocityX(double velocityX) {
-		assert(((velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) || (velocityX != 0) || ((velocityX >= -getMaximumHorizontalVelocity()) && (velocityX <= -getInitialHorizontalVelocity())));
+		assert(((velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) 
+				|| (velocityX == 0) || ((velocityX >= -getMaximumHorizontalVelocity()) 
+						&& (velocityX <= -getInitialHorizontalVelocity())));
 		this.velocityX = velocityX;
 	}
 	
@@ -185,7 +198,7 @@ public class Mazub {
 	/**
 	 * Return the maximum Horizontal Velocity of this Mazub
 	 * @return	returns 1 if Mazub is ducking, otherwise 3.
-	 * 			| if this.isDucking() then
+	 * 			| if isDucking() then
 	 * 			|	return 1
 	 * 			| else then
 	 * 			|	return 3
@@ -222,11 +235,11 @@ public class Mazub {
 	 * @param 	accelerationX
 	 * 			the new accelerationX for this Mazub
 	 * @post 	if the given accelerationX is bigger or equal to zero, 
-	 * 			the accelerationX of this Mazub is equal to the given accelerationX
+	 * 				the accelerationX of this Mazub is equal to the given accelerationX
 	 * 			|if (accelerationX >= 0)
 	 * 			|	new.getAcceleration() == accelerationX
 	 * @post 	if the given accelerationX is lower than zero, 
-	 * 			the accelerationX of this Mazub is equal to zero
+	 * 				the accelerationX of this Mazub is equal to zero
 	 * 			|if (accelerationX < 0)
 	 * 			|	new.getAcceleration() == 0
 	 */
@@ -293,7 +306,7 @@ public class Mazub {
 	private double accelerationY;
 	
 	/**
-	 * Return sprites of this Mazub
+	 * Return the sprites of this Mazub
 	 * 	sprites is an array of all possible sprites for movements of this Mazub
 	 */	
 	@Basic
@@ -302,6 +315,7 @@ public class Mazub {
 	}
 	
 	/**
+	 * Sets the sprites that could be used by this Mazub for movements
 	 * 
 	 * @param 	sprites
 	 * 			the new sprites for this Mazub
@@ -333,6 +347,7 @@ public class Mazub {
 			else if (this.isDucking())
 				setSpriteIndex(6);
 			else
+				setSpriteIndex(spritesMovingRightNormal());
 				while (getTimer() >= 0.075)
 				{
 					setSpriteIndex(spritesMovingRightNormal());
@@ -346,6 +361,7 @@ public class Mazub {
 			else if (this.isDucking())
 				setSpriteIndex(7);
 			else
+				setSpriteIndex(spritesMovingLeftNormal());
 				while (getTimer() >= 0.075)
 				{
 					setSpriteIndex(spritesMovingLeftNormal());
@@ -354,10 +370,12 @@ public class Mazub {
 		
 		// if the character is Ducking
 		else if(this.isDucking()){
-			if ((this.lastMoveDirection == Direction.RIGHT_AND_DUCKING) &&(getTimer() - this.lastMoveTimer < 1)){
+			if ((this.lastMoveDirection == Direction.RIGHT_AND_DUCKING) 
+					&&(getTimer() - this.lastMoveTimer < 1)){
 					setSpriteIndex(6);
 			}
-			else if ((this.lastMoveDirection == Direction.LEFT_AND_DUCKING) &&(getTimer() - this.lastMoveTimer < 1)){
+			else if ((this.lastMoveDirection == Direction.LEFT_AND_DUCKING) 
+					&&(getTimer() - this.lastMoveTimer < 1)){
 				setSpriteIndex(7);
 			}
 			else{
@@ -367,9 +385,13 @@ public class Mazub {
 				
 		// if the character is not moving
 		else{
-			if (((this.lastMoveDirection == Direction.RIGHT)|| (this.lastMoveDirection == Direction.RIGHT_AND_DUCKING)) &&(getTimer() - this.lastMoveTimer < 1))
+			if (((this.lastMoveDirection == Direction.RIGHT) || 
+					(this.lastMoveDirection == Direction.RIGHT_AND_DUCKING)) 
+					&&(getTimer() - this.lastMoveTimer < 1))
 				setSpriteIndex(2);
-			else if (((this.lastMoveDirection == Direction.LEFT)|| (this.lastMoveDirection == Direction.LEFT_AND_DUCKING)) && (getTimer() - this.lastMoveTimer < 1))
+			else if (((this.lastMoveDirection == Direction.LEFT)|| 
+					(this.lastMoveDirection == Direction.LEFT_AND_DUCKING)) 
+					&& (getTimer() - this.lastMoveTimer < 1))
 				setSpriteIndex(3);
 			else
 				setSpriteIndex(0);
