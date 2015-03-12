@@ -10,8 +10,8 @@ public class Mazub {
 		this.setLocation(pixelLeftX, pixelBottomY);
 		this.setSprites(sprites);
 		this.setSpriteIndex(0);
-		this.timer = 0;
-		this.spritesForMovement = (sprites.length - 8) / 2 - 1;
+		setTimer(0);
+		setAmountSpritesForMovement( (sprites.length - 8) / 2 - 1);
 	}
 	
 	/**
@@ -226,8 +226,6 @@ public class Mazub {
 	 * 			the new velocityY for this Mazub
 	 * @post 	The velocityY of this Mazub is equal to the given velocityY
 	 * 			| new.getvelocityY() == velocityY
-	 * 
-	 * ??? hoe uitwerken ???
 	 */
 	public void setVelocityY(double velocityY) {
 		this.velocityY = velocityY;
@@ -344,11 +342,11 @@ public class Mazub {
 	 * 		so that it will look like this Mazub walks to the right 
 	 */
 	private int spritesMovingRightNormal() {
-		if ((this.getSpriteIndex() > 8 + this.spritesForMovement) || (this.getSpriteIndex() < 8))
+		if ((this.getSpriteIndex() > 8 + this.getAmountSpritesForMovement()) || (this.getSpriteIndex() < 8))
 			return 8;
 		if (this.timer >= 0.075){
 			this.resetTimer();
-			if ((this.getSpriteIndex() >= 8 + this.spritesForMovement) || (this.getSpriteIndex() < 8))
+			if ((this.getSpriteIndex() >= 8 + this.getAmountSpritesForMovement()) || (this.getSpriteIndex() < 8))
 				return 8;
 			else
 				return this.getSpriteIndex() + 1;
@@ -364,8 +362,8 @@ public class Mazub {
 	private int spritesMovingLeftNormal() {
 		if (this.timer >= 0.075){
 			this.resetTimer();
-			if ((this.getSpriteIndex() >= 9 + this.spritesForMovement * 2) || this.getSpriteIndex() < 9 + this.spritesForMovement)
-				return 9 + this.spritesForMovement;
+			if ((this.getSpriteIndex() >= 9 + getAmountSpritesForMovement() * 2) || this.getSpriteIndex() < 9 + this.getAmountSpritesForMovement())
+				return 9 + getAmountSpritesForMovement();
 			else
 				return this.getSpriteIndex() + 1;
 		}
@@ -529,16 +527,28 @@ public class Mazub {
 	 * @pre 	seconds is a positive number
 	 * 			| seconds >= 0
 	 * @throws 	IllegalArgumentException
-	 * @effect	
+	 * @effect	Timer will be set to his current value plus the given seconds
 	 * 			| setTimer(getTimer() + seconds)
-	 * @effect	
+	 * @effect	If this Mazub is Moving to the left, updateLocation() will be used
+	 * 				to update the location, with the given seconds as parameter
+	 * 				and the negative of the value of getAcceleration() as second parameter
+	 * 				also the velocityX will be updated using the function getAcceleration()
+	 * 				with the given seconds as parameter	and the negative of the
+	 * 				value of getAcceleration() as second parameter
 	 * 			| if isMovingLeft() then
 	 * 			|	updateLocation(seconds, (-1)*getAccelerationX())
 	 * 			|	updateVelocityX(seconds, (-1)*getAccelerationX())
-	 * 			| else then
+	 * @effect	If this Mazub is Moving to the right, updateLocation() will be used
+	 * 				to update the location, with the given seconds as parameter
+	 * 				and the value of getAcceleration() as second parameter
+	 * 				also the velocityX will be updated using the function getAcceleration()
+	 * 				with the given seconds as parameter	and the value of getAcceleration() 
+	 * 				as second parameter
+	 * 			| if !isMovingLeft() then
 	 * 			|	updateLocation(seconds, getAccelerationX())
 	 * 			|	updateVelocityX(seconds, getAccelerationX())
-	 * @effect	
+	 * @effect	Also the vertical velocity and acceleration will be updated using
+	 * 				updateVelocityAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityAcceleration(seconds)
 	 */
 	public void advanceTime(double seconds) throws IllegalArgumentException {
@@ -556,12 +566,30 @@ public class Mazub {
 	}
 
 	
+	/**
+	 * 
+	 * this methode update's the vertical velocity and checks the accelereation
+	 *		given a time in seconds
+	 * @param 	seconds
+	 * 			the seconds to compute the new velocity
+	 * @effect 	if the Y coordinate of this Mazub is greater than zero
+	 * 				the velocityY will be set to the new vertical velocity calculated with
+	 * 				the given seconds and acceleration
+	 * 			| if getLocationY > 0 then
+	 * 			|	setVelocityY(getVelocityY() + getAccelerationY()*seconds)
+	 * @effect 	if the Y coordinate of this Mazub is equal or lower than zero
+	 * 				the velocityY will be set to zero 
+	 * 				and the accelerationY will be set to zero
+	 * 			| if getLocationY <= 0 then
+	 * 			|	setVelocityY(0)
+	 * 			|	setAccelerationY(0)
+	 */
 	private void updateVelocityAccelerationY(double seconds) {
-		double velocityY = getVelocityY() + getAccelerationY()*seconds;
-		if (getLocationY() == 0) {
+		if (getLocationY() <= 0) {
 			setVelocityY(0);
 			setAccelerationY(0);
 		} else {
+			double velocityY = getVelocityY() + getAccelerationY()*seconds;
 			setVelocityY(velocityY);
 		}
 	}
@@ -636,6 +664,24 @@ public class Mazub {
 		}
 	}
 	
+	/**
+	 * @param 	locationX
+	 * 			the X coordinate wich needs to be corrected
+	 * 
+	 * Return locationX if the given locationX is valid, 
+	 * 		returns the corrected locationX is if is unvalid
+	 * @return	if locationX is lower than the window width and greater or equal than zero
+	 * 				locationX will be returned
+	 * 			| if ((locationX < getWindowWidth()) && (locationX >= 0)) then
+	 * 			| 	return locationX
+	 * @return 	if locationX is greater than the window width minus one,
+	 * 				the window width minus one will be returned
+	 * 			| if (locationX > getWindowWidth()-1) then
+	 * 			| 	return getWindowWidth()-1
+	 * @return 	if locationX is less than zero, zero will be returned
+	 * 			| if (locationX < 0) then
+	 * 			| 	return 0
+	 */
 	public double calculateValidLocationX(double locationX) {
 		if (locationX > getWindowWidth() - 1){
 			locationX = getWindowWidth() - 1;
@@ -645,6 +691,24 @@ public class Mazub {
 		return locationX;
 	}
 	
+	/**
+	 * @param 	locationY
+	 * 			the Y coordinate wich needs to be corrected
+	 * 
+	 * Return locationY if the given locationY is valid, 
+	 * 		returns the corrected locationY if it is unvalid
+	 * @return	if locationY is lower than the window height and greater or equal than zero
+	 * 				locationY will be returned
+	 * 			| if ((locationY < getWindowHeight()) && (locationY >= 0)) then
+	 * 			| 	return locationY
+	 * @return 	if locationY is greater than the window height minus one,
+	 * 				the window height minus one will be returned
+	 * 			| if (locationY > getWindowHeight()-1) then
+	 * 			| 	return getWindowHeight()-1
+	 * @return 	if locationY is less than zero, zero will be returned
+	 * 			| if (locationY < 0) then
+	 * 			| 	return 0
+	 */
 	public double calculateValidLocationY(double locationY) {
 		if (locationY > getWindowHeight()-1){
 			locationY = getWindowHeight()-1;
@@ -787,6 +851,27 @@ public class Mazub {
 	 */
 	private double timer;
 		
-	
-	private int spritesForMovement;
+	/**
+	 * This variable contains the amout of sprites available 
+	 * 		for a movement to the left or right
+	 */
+	private int amountSpritesForMovement;
+
+	/**
+	 * Return the amount of sprites available for a movement to the left or right
+	 */
+	private int getAmountSpritesForMovement() {
+		return amountSpritesForMovement;
+	}
+
+	/**
+	 * 
+	 * @param 	amountSpritesForMovement
+	 * 			the new value for amountSpritesForMovement
+	 * @post	amountSpritesForMovement will be set to the given amountSpritesForMovement
+	 * 			| new.getAmountSpritesForMovement() = amountSpritesForMovement
+	 */
+	private void setAmountSpritesForMovement(int amountSpritesForMovement) {
+		this.amountSpritesForMovement = amountSpritesForMovement;
+	}
 }
