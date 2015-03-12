@@ -3,8 +3,36 @@ package jumpingalien.model;
 import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.Sprite;
 
+/**
+ * 
+ * @author Pieter-Jan en Stijn
+ *
+ * @invar	the Mazub's location is always in the game window
+ * 			|  ((0 <= getLocationX()) && (getLocationX() < getWindowWidth()) && (0 <= getLocationY()) && (getLocationY < getWindowHeight())
+ */
 public class Mazub {
 
+	/**
+	 * 
+	 * @param 	pixelLeftX
+	 * 			The horizontal pixel from the bottom left corner where Mazub will spawn.
+	 * @param 	pixelBottomY
+	 * 			The vertical pixel from the bottom left corner where Mazub will spawn.
+	 * @param 	sprites
+	 * 			The sprites for this Mazub.
+	 * @pre		the array of sprites must contain at least 10 sprites.
+	 * 			| sprites.length >= 10
+	 * @effect	sets the location to pixelLeftX, pixelBottomY
+	 * 			| setLocation(pixelLeftX, pixelBottomY)
+	 * @effect	sets the sprites to the given array of sprites
+	 * 			| setSprites(sprites)
+	 * @effect	sets the initial spriteIndex to 0
+	 * 			| setSpriteIndex(0)
+	 * @effect 	set the timer to zero
+	 * 			| setTimer(0)
+	 * @post	calculate the number of sprites used to alternate when moving
+	 * 			| new.getAmountSpritesForMovement() = (sprites.length - 8) / 2 - 1
+	 */
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites){
 		this.setLocation(pixelLeftX, pixelBottomY);
 		try{
