@@ -9,7 +9,9 @@ import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static jumpingalien.tests.util.TestUtils.*;
 
@@ -69,13 +71,30 @@ public class PartialFacadeTest {
 		assertEquals(sprites[8+m], facade.getCurrentSprite(alien));
 	}
 	
-	@Test(expected = ModelException)
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
+	
+	@Test
 	public void testNegativeTimeAmount() {
 		IFacade facade = new Facade();
 
 		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
 		
-		facade.advanceTime(alien, -0.1);
+		exception.expect(ModelException.class);
+		
+		facade.advanceTime(alien, -0.1);			
+		
+	}
+	
+	@Test
+	public void testToBigTimeAmount() {
+		IFacade facade = new Facade();
+
+		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
+		
+		exception.expect(ModelException.class);
+		
+		facade.advanceTime(alien, 0.3);			
 		
 	}
 
