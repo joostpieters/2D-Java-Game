@@ -62,12 +62,12 @@ public class Mazub {
 	 * 			The new locationY coordinate for this Mazub
 	 * @pre		The given LocationX needs to be bigger or equal to 0
 	 * 			| locationX >= 0
-	 * @pre		The given LocationX needs to smaller or equal to the current game window width
-	 * 			| locationX <= getWindowWidth()
+	 * @pre		The given LocationX needs to smaller than the current game window width
+	 * 			| locationX < getWindowWidth()
 	 * @post 	The LocationX of this Mazub is equal to the given LocationX
 	 * 			| new.getLocationX() == locationX  
 	 */
-	public void setLocationX(double locationX) throws IllegalArgumentException {
+	private void setLocationX(double locationX) throws IllegalArgumentException {
 		if ((locationX < 0) || (locationX > getWindowWidth()-1)){
 			throw new IllegalArgumentException("X coordinate is out of window range");
 		}
@@ -102,12 +102,12 @@ public class Mazub {
 	 * 			The new locationY for this Mazub
 	 * @pre		The given LocationY needs to be bigger or equal to 0
 	 * 			| locationY >= 0
-	 * @pre		The given LocationY needs to smaller or equal to the current game widow height
-	 * 			| locationY <= getWindowHeight()
+	 * @pre		The given LocationY needs to smaller than the current game widow height
+	 * 			| locationY < getWindowHeight()
 	 * @post 	The LocationY of this Mazub is equal to the given LocationY
 	 * 			| new.getLocationY() == locationY  
 	 */
-	public void setLocationY(double locationY) throws IllegalArgumentException {
+	private void setLocationY(double locationY) throws IllegalArgumentException {
 		if((locationY < 0)||(locationY > getWindowHeight()-1)){
 			throw new IllegalArgumentException("Y coordinate is out of window range");
 		};
@@ -135,18 +135,18 @@ public class Mazub {
 	 * 			The new locationY for this Mazub
 	 * @pre		The given pixelLeftX needs to be bigger or equal to 0
 	 * 			| pixelLeftX >= 0
-	 * @pre		The given pixelLeftX needs to smaller or equal to the current game window width
-	 * 			| pixelLeftX <= getWindowWidth()
+	 * @pre		The given pixelLeftX needs to smaller than current game window width
+	 * 			| pixelLeftX < getWindowWidth()
 	 * @pre		The given pixelBottomY needs to be bigger or equal to 0
 	 * 			| pixelBottomY >= 0
-	 * @pre		The given pixelBottomY needs to smaller or equal to the current game widow height
-	 * 			| pixelBottomY <= getWindowHeight()
+	 * @pre		The given pixelBottomY needs to smaller than game widow height
+	 * 			| pixelBottomY < getWindowHeight()
 	 * @post 	The LocationX of this Mazub is equal to the given pixelLeftX
 	 * 			| new.getLocationX() == pixelLeftX
 	 * @post 	The LocationY of this Mazub is equal to the given pixelBottomY
 	 * 			| new.getLocationY() == pixelBottomY  
 	 */
-	public void setLocation(int pixelLeftX, int pixelBottomY) {
+	private void setLocation(int pixelLeftX, int pixelBottomY) {
 		setLocationX(pixelLeftX);
 		setLocationY(pixelBottomY);
 	}
@@ -172,7 +172,7 @@ public class Mazub {
 	 * @post 	The velocityX of this Mazub is equal to the given velocityX
 	 * 			| new.getvelocityX() == velocityX
 	 */
-	public void setVelocityX(double velocityX) {
+	private void setVelocityX(double velocityX) {
 		assert((velocityX <= getMaximumHorizontalVelocity()) || (velocityX >= getInitialHorizontalVelocity()));
 		this.velocityX = velocityX;
 	}
@@ -190,7 +190,7 @@ public class Mazub {
 	 * 			| else then
 	 * 			|	return 3
 	 */
-	public double getMaximumHorizontalVelocity() {
+	private double getMaximumHorizontalVelocity() {
 		if (this.isDucking()) {
 			return 1;
 		} else {
@@ -204,7 +204,7 @@ public class Mazub {
 	 * @note 	the initial velocity is always bigger or equal to one
 	 * 			| getInitialHorizontalVelocity() >= 1
 	 */
-	public final double getInitialHorizontalVelocity() {
+	private final double getInitialHorizontalVelocity() {
 		return 1;
 	}
 	
@@ -230,7 +230,7 @@ public class Mazub {
 	 * 			|if (accelerationX < 0)
 	 * 			|	new.getAcceleration() == 0
 	 */
-	public void setAccelerationX(double accelerationX) {
+	private void setAccelerationX(double accelerationX) {
 		if (accelerationX < 0)
 				accelerationX = 0;
 		this.accelerationX = accelerationX;
@@ -258,7 +258,7 @@ public class Mazub {
 	 * @post 	The velocityY of this Mazub is equal to the given velocityY
 	 * 			| new.getvelocityY() == velocityY
 	 */
-	public void setVelocityY(double velocityY) {
+	private void setVelocityY(double velocityY) {
 		this.velocityY = velocityY;
 	}
 	
@@ -283,7 +283,7 @@ public class Mazub {
 	 * @post 	The accelerationY of this Mazub is equal to the given accelerationY
 	 * 			| new.getAccelerationY() == accelerationY
 	 */
-	public void setAccelerationY(double accelerationY) {
+	private void setAccelerationY(double accelerationY) {
 		this.accelerationY = accelerationY;
 	}
 	
@@ -297,9 +297,10 @@ public class Mazub {
 	 * 	sprites is an array of all possible sprites for movements of this Mazub
 	 */	
 	@Basic
-	public final Sprite[] getSprites() {
+	private final Sprite[] getSprites() {
 		return sprites;
 	}
+	
 	/**
 	 * 
 	 * @param 	sprites
@@ -309,12 +310,16 @@ public class Mazub {
 	 * @post 	The sprites of this Mazub is equal to the given sprites
 	 * 			| new.getSprites() == sprites  	
 	 */
-	public void setSprites(Sprite[] sprites) throws IllegalArgumentException {
+	private void setSprites(Sprite[] sprites) throws IllegalArgumentException {
 		if (sprites.length < 10)
 			throw new IllegalArgumentException();
 		this.sprites = sprites;
 	}
 	
+	/**
+	 * The array of sprites.
+	 */
+	private Sprite[] sprites;
 	
 	/**
 	 * Returns the right sprite for the current movements
@@ -452,7 +457,7 @@ public class Mazub {
 	/**
 	 * Return the initial Horizontal acceleration of this Mazub
 	 */
-	public final double getInitialHorizontalAcceleration() {
+	private final double getInitialHorizontalAcceleration() {
 		return 0.9;
 	}
 	
@@ -504,7 +509,7 @@ public class Mazub {
 	 * 		lastMoveDirection indicates the direction of the last move of this Mazub
 	 */
 	@Basic
-	public Direction getLastMoveDirection() {
+	private Direction getLastMoveDirection() {
 		return lastMoveDirection;
 	}
 
@@ -515,7 +520,7 @@ public class Mazub {
 	 * @post 	the new lastMoveDirection of this Mazub will equal to lastMoveDirection
 	 * 			|new.getLastMoveDirection() = lastMoveDirection
 	 */
-	public void setLastMoveDirection(Direction lastMoveDirection) {
+	private void setLastMoveDirection(Direction lastMoveDirection) {
 		this.lastMoveDirection = lastMoveDirection;
 	}
 	
@@ -528,7 +533,7 @@ public class Mazub {
 	 * Return the value of timer
 	 */
 	@Basic
-	public double getLastMoveTimer() {
+	private double getLastMoveTimer() {
 		return lastMoveTimer;
 	}
 
@@ -540,7 +545,7 @@ public class Mazub {
 	 * 			| new.getLastMoveTimer() = time
 	 * 			
 	 */
-	public void setLastMoveTimer(double time) {
+	private void setLastMoveTimer(double time) {
 		this.lastMoveTimer = time;
 	}
 	
@@ -723,7 +728,7 @@ public class Mazub {
 	 * 			| if (locationX < 0) then
 	 * 			| 	return 0
 	 */
-	public double calculateValidLocationX(double locationX) {
+	private double calculateValidLocationX(double locationX) {
 		if (locationX > getWindowWidth() - 1){
 			locationX = getWindowWidth() - 1;
 		} else if (locationX < 0){
@@ -750,7 +755,7 @@ public class Mazub {
 	 * 			| if (locationY < 0) then
 	 * 			| 	return 0
 	 */
-	public double calculateValidLocationY(double locationY) {
+	private double calculateValidLocationY(double locationY) {
 		if (locationY > getWindowHeight()-1){
 			locationY = getWindowHeight()-1;
 		} else if (locationY < 0){
@@ -767,7 +772,7 @@ public class Mazub {
 	 * 			| else then
 	 * 			| 	return false
 	 */
-	public boolean isMovingRight() {
+	private boolean isMovingRight() {
 		if (this.getVelocityX() > 0) {
 			return true;
 		} else {
@@ -783,7 +788,7 @@ public class Mazub {
 	 * 			| else then
 	 * 			| 	return false
 	 */
-	public boolean isMovingLeft() {
+	private boolean isMovingLeft() {
 		if (this.getVelocityX() < 0) {
 			return true;
 		} else {
@@ -799,7 +804,7 @@ public class Mazub {
 	 * 			| else then 
 	 * 			|	return false
 	 */
-	public boolean isJumping() {
+	private boolean isJumping() {
 		if (this.getAccelerationY() != 0) {
 			return true;
 		} else {
@@ -814,7 +819,7 @@ public class Mazub {
 	 * @post	The new spriteIndex for this Mazub is equal to the given spriteIndex.
 	 * 			| new.getSpriteIndex() == spriteIndex
 	 */
-	public void setSpriteIndex(int spriteIndex) {
+	private void setSpriteIndex(int spriteIndex) {
 		this.spriteIndex = spriteIndex;
 	}
 	
@@ -822,7 +827,7 @@ public class Mazub {
 	 * Returns the current spriteIndex for this Mazub.
 	 */
 	@Basic
-	public int getSpriteIndex() {
+	private int getSpriteIndex() {
 		return this.spriteIndex;
 	}
 	
@@ -854,17 +859,13 @@ public class Mazub {
 	/**
 	 * This boolean indicates whether Mazub is ducking or not.
 	 */
-	private boolean ducking;
-	
-	
-	private Sprite[] sprites;
-	
+	private boolean ducking;	
 	
 	/**
 	 * Returns the current value of the timer.
 	 */
 	@Basic
-	public double getTimer() {
+	private double getTimer() {
 		return timer;
 	}
 
@@ -875,16 +876,8 @@ public class Mazub {
 	 * @post	The timer of this Mazub is equal to the given time.
 	 * 			| new.getTimer() == time
 	 */
-	public void setTimer(double time) {
+	private void setTimer(double time) {
 		this.timer = time;
-	}
-	
-	/**
-	 * @post	Sets the timer to zero
-	 * 			| new.getTimer() == 0
-	 */
-	public void resetTimer() {
-		this.setTimer(0);
 	}
 
 	/**
@@ -893,16 +886,16 @@ public class Mazub {
 	private double timer;
 		
 	/**
-	 * This variable contains the amout of sprites available 
-	 * 		for a movement to the left or right
-	 */
-	private final int amountSpritesForMovement;
-
-	/**
 	 * Return the amount of sprites available for a movement to the left or right
 	 */
 	private final int getAmountSpritesForMovement() {
 		return amountSpritesForMovement;
 	}
+	
+	/**
+	 * This variable contains the amout of sprites available 
+	 * 		for a movement to the left or right
+	 */
+	private final int amountSpritesForMovement;
 
 }
