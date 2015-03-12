@@ -8,7 +8,8 @@ import jumpingalien.util.Sprite;
  * @author Pieter-Jan en Stijn
  *
  * @invar	the Mazub's location is always in the game window
- * 			|  ((0 <= getLocationX()) && (getLocationX() < getWindowWidth()) && (0 <= getLocationY()) && (getLocationY < getWindowHeight())
+ * 			|  ((0 <= getLocationX()) && (getLocationX() < getWindowWidth()) 
+ * 				&& (0 <= getLocationY()) && (getLocationY < getWindowHeight())
  */
 public class Mazub {
 
@@ -554,7 +555,8 @@ public class Mazub {
 	 */
 	private void setLastMoveDirection(Direction lastMoveDirection) {
 		assert((lastMoveDirection == Direction.RIGHT) || (lastMoveDirection == Direction.LEFT) 
-				|| (lastMoveDirection == Direction.RIGHT_AND_DUCKING) || (lastMoveDirection == Direction.LEFT_AND_DUCKING) );
+				|| (lastMoveDirection == Direction.RIGHT_AND_DUCKING) 
+				|| (lastMoveDirection == Direction.LEFT_AND_DUCKING) );
 		this.lastMoveDirection = lastMoveDirection;
 	}
 	
@@ -601,13 +603,16 @@ public class Mazub {
 	}
 	
 	/**
-	 * 
+	 * Given a time this methode will update the location, velocity and acceleration of this Mazub	 * 
 	 * @param 	seconds
 	 * 			the elapsed seconds
-	 * @pre 	seconds is a positive number
+	 * @pre 	seconds is greater or equal to zero
 	 * 			| seconds >= 0
 	 * @throws 	IllegalArgumentException
-	 * @effect	Timer will be set to his current value plus the given seconds
+	 * 			if the seconds is less than zero
+	 * 			| seconds < 0
+	 * @effect	the timer will be added with the given seconds using setTimer() 
+	 * 				and the given seconds as parameter
 	 * 			| setTimer(getTimer() + seconds)
 	 * @effect	If this Mazub is Moving to the left, updateLocation() will be used
 	 * 				to update the location, with the given seconds as parameter
@@ -632,8 +637,8 @@ public class Mazub {
 	 * 			| updateVelocityAcceleration(seconds)
 	 */
 	public void advanceTime(double seconds) throws IllegalArgumentException {
-		if (seconds < 0) throw new IllegalArgumentException();
-		this.setTimer(this.getTimer() + seconds);
+		if (seconds < 0 || seconds > 0.2) throw new IllegalArgumentException();
+		this.addToTimer(this.getTimer() + seconds);
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
 			accelerationX *= -1;
@@ -652,6 +657,8 @@ public class Mazub {
 	 *		given a time in seconds
 	 * @param 	seconds
 	 * 			the seconds to compute the new velocity
+	 * @post	seconds needs to be bigger or equal to zero
+	 * 			| seconds >= 0
 	 * @effect 	if the Y coordinate of this Mazub is greater than zero
 	 * 				the velocityY will be set to the new vertical velocity calculated with
 	 * 				the given seconds and acceleration
@@ -665,6 +672,7 @@ public class Mazub {
 	 * 			|	setAccelerationY(0)
 	 */
 	private void updateVelocityAccelerationY(double seconds) {
+		assert(seconds >= 0);
 		if (getLocationY() <= 0) {
 			setVelocityY(0);
 			setAccelerationY(0);
@@ -680,12 +688,15 @@ public class Mazub {
 	 * 			The seconds to compute the new velocity.
 	 * @param 	accelerationX
 	 * 			The horizontal acceleration.
-	 * @pre		seconds needs to be positive
+	 * @pre		seconds needs to be bigger or equal to zero
 	 * 			| seconds >= 0
 	 * @effect	If the calculated velocity is smaller than the maximum horizontal velocity,
-	 * 				and not smaller than minus the maximum horizontal velocity, set the new velocity to the calculated velocity.
-	 *				If the calculated velocity is smaller than minus the maximum horizontal velocity, set the new velocity to minus the maximum horizontal velocity.
-	 *				If the calculated velocity is greater than the maximum horizontal velocity, set the new velocity to the maximum horizontal velocity.
+	 * 				and not smaller than minus the maximum horizontal velocity, 
+	 * 				set the new velocity to the calculated velocity.
+	 *				If the calculated velocity is smaller than minus the maximum horizontal velocity, 
+	 *				set the new velocity to minus the maximum horizontal velocity.
+	 *				If the calculated velocity is greater than the maximum horizontal velocity, 
+	 *				set the new velocity to the maximum horizontal velocity.
 	 * 			| if ((getVelocityX() + accelerationX*seconds) < getMaximumHorizontalVelocity()) then
 	 * 			|	if ((getVelocityX() + accelerationX*seconds) < -getMaximumHorizontalVelocity()) then
 	 * 			|		setVelocityX(-getMaximumHorizontalVelocity)
@@ -709,7 +720,7 @@ public class Mazub {
 	}
 
 	/**
-	 * Updates the location of this Mazub given a certain amount of seconds and the horizontal acceleration.
+	 * Updates the location of this Mazub given a certain amount of seconds and a horizontal acceleration.
 	 * @param 	seconds
 	 * 			The seconds to compute the new position.
 	 * @param 	accelerationX
@@ -718,10 +729,12 @@ public class Mazub {
 	 * 			| seconds >= 0
 	 * @effect 	Calculates the new horizontal position, using the given seconds and acceleration.
 	 * 			If the calculated position isn't valid, the position will be adjusted.
-	 * 			new.getLocationX() ==  calculateValidLocationX(getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100);
+	 * 			|new.getLocationX() ==  calculateValidLocationX(getLocationX() + 
+	 * 				(getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100);
 	 * @effect 	Calculates the new vertical position, using the given seconds and acceleration.
 	 * 			If the calculated position isn't valid, the position will be adjusted.
-	 * 			new.getLocationY() ==  calculateValidLocationY(getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100);
+	 * 			|new.getLocationY() ==  calculateValidLocationY(getLocationY() + 
+	 * 				(getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100);
 	 * 
 	 */
 	private void updateLocation(double seconds, double accelerationX) {
@@ -750,7 +763,7 @@ public class Mazub {
 	 * 
 	 * Return locationX if the given locationX is valid, 
 	 * 		returns the corrected locationX is if is unvalid
-	 * @return	if locationX is lower than the window width and greater or equal than zero
+	 * @return	if locationX is lower than the window width and greater or equal to zero
 	 * 				locationX will be returned
 	 * 			| if ((locationX < getWindowWidth()) && (locationX >= 0)) then
 	 * 			| 	return locationX
@@ -913,6 +926,26 @@ public class Mazub {
 	private void setTimer(double time) {
 		this.timer = time;
 	}
+	
+	/**
+	 * Adds the timer with a given value.
+	 * @param 	time
+	 * 		  	the time that needs to be added to the timer
+	 * @post	if the current value of the timer plus time is less or equal to Double.MAX_VALUE
+	 * 				the new timer will equal the current timer plus the given time
+	 * 			| new.getTimer() == this.getTimer() + time
+	 * @post	if the current value of the timer plus time is greater than Double.MAX_VALUE
+	 * 				the new timer will equal zero
+	 * 			| new.getTimer() == 0
+	 */
+	private void addToTimer(double time) {
+		if ((time != 0) && (this.getTimer() + time < this.getTimer()))
+		{
+			this.setTimer(0);
+		}
+		else
+			this.timer = time;
+	}
 
 	/**
 	 * This variable contains the current time for this Mazub.
@@ -922,6 +955,7 @@ public class Mazub {
 	/**
 	 * Return the amount of sprites available for a movement to the left or right
 	 */
+	@Basic
 	private final int getAmountSpritesForMovement() {
 		return amountSpritesForMovement;
 	}
