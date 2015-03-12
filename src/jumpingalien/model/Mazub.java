@@ -346,12 +346,13 @@ public class Mazub {
 				setSpriteIndex(4);
 			else if (this.isDucking())
 				setSpriteIndex(6);
-			else
+			else{
 				setSpriteIndex(spritesMovingRightNormal());
 				while (getTimer() >= 0.075)
 				{
 					setSpriteIndex(spritesMovingRightNormal());
 				}
+			}
 		}
 		
 		// for all moves to the left
@@ -360,12 +361,13 @@ public class Mazub {
 				setSpriteIndex(5);
 			else if (this.isDucking())
 				setSpriteIndex(7);
-			else
+			else{
 				setSpriteIndex(spritesMovingLeftNormal());
 				while (getTimer() >= 0.075)
 				{
 					setSpriteIndex(spritesMovingLeftNormal());
 				}
+			}
 		}
 		
 		// if the character is Ducking
@@ -412,7 +414,7 @@ public class Mazub {
 			return 8;
 		if (this.getTimer() >= 0.075){
 			this.setTimer(getTimer() - 0.075);
-			if ((this.getSpriteIndex() >= 8 + this.getAmountSpritesForMovement()) || (this.getSpriteIndex() < 8))
+			if ((this.getSpriteIndex() == 8 + this.getAmountSpritesForMovement()))
 				return 8;
 			else
 				return this.getSpriteIndex() + 1;
@@ -428,9 +430,11 @@ public class Mazub {
 	 * 			|setTimer(getTimer() - 0.075); 
 	 */
 	private int spritesMovingLeftNormal() {
+		if ((this.getSpriteIndex() > 9 + getAmountSpritesForMovement() * 2) || this.getSpriteIndex() < 9 + this.getAmountSpritesForMovement())
+			return 9 + getAmountSpritesForMovement();
 		if (this.getTimer() >= 0.075){
 			this.setTimer(this.getTimer() - 0.075);
-			if ((this.getSpriteIndex() >= 9 + getAmountSpritesForMovement() * 2) || this.getSpriteIndex() < 9 + this.getAmountSpritesForMovement())
+			if ((this.getSpriteIndex() == 9 + getAmountSpritesForMovement() * 2))
 				return 9 + getAmountSpritesForMovement();
 			else
 				return this.getSpriteIndex() + 1;
@@ -454,7 +458,7 @@ public class Mazub {
 	 * 				the negative of the initial horizontal velocity
 	 * 				and the acceleration will be set to the initial horizontal acceleration
 	 * 			|if (direction == Direction.LEFT) then
-	 * 			|	setVelocityX(getInitialHorizontalVelocity()*-1)
+	 * 			|	setVelocityX(getInitialHorizontalVelocity()*(-1))
 	 * 			|	setAccelerationX(getInitialHorizontalAcceleration())
 	 * @effect	if the given direction is UP, the vertical velocity will be set to 8 and the
 	 * 				vertical acceleration will be set to minus ten
@@ -485,25 +489,29 @@ public class Mazub {
 	
 	/**
 	 * Stops Mazub's horizontal movement and stores the direction of its last movement
-	 * @POST 	the lastMoveTimer equals to the current value of timer
+	 * @post 	the lastMoveTimer equals to the current value of timer
 	 * 			| new.getLastMoveTimer() == getTimer()
-	 * @POST	velocityX (horizontal velocity) equals to zero
+	 * @post	velocityX (horizontal velocity) equals to zero
 	 * 			| new.getVelocityX() == 0
-	 * @POST	accelerationX equals to zero
+	 * @post	accelerationX equals to zero
 	 * 			| new.getAccelerationX() == 0
-	 * @POST	if the last movement was to the right, and this Mazub is not ducking, then the lastMoveDirection equals Direction.RIGHT
+	 * @post	if the last movement was to the right, and this Mazub is not ducking, 
+	 * 				then the lastMoveDirection equals Direction.RIGHT
 	 * 			| if isMovingRight() then
 	 * 			|	if not isDucking() then
 	 * 			|		new.getLastMoveDirection(Direction.RIGHT)
-	 * @POST	if the last movement was to the right, and this Mazub is ducking, then the lastMoveDirection equals Direction.RIGHT_AND_DUCKING
+	 * @post	if the last movement was to the right, and this Mazub is ducking, 
+	 * 				then the lastMoveDirection equals Direction.RIGHT_AND_DUCKING
 	 * 			| if isMovingRight() then
 	 * 			|	if isDucking() then
 	 * 			|		new.getLastMoveDirection(Direction.RIGHT_AND_DUCKING)
-	 * @POST	if the last movement was to the left, and this Mazub is not ducking, then the lastMoveDirection equals Direction.LEFT
+	 * @post	if the last movement was to the left, and this Mazub is not ducking, 
+	 * 				then the lastMoveDirection equals Direction.LEFT
 	 * 			| if isMovingLeft() then
 	 * 			|	if not isDucking() then
 	 * 			|		new.getLastMoveDirection(Direction.LEFT)
-	 * @POST	if the last movement was to the left, and this Mazub is ducking, then the lastMoveDirection equals Direction.LEFT_AND_DUCKING
+	 * @post	if the last movement was to the left, and this Mazub is ducking, 
+	 * 				then the lastMoveDirection equals Direction.LEFT_AND_DUCKING
 	 * 			| if isMovingLeft() then
 	 * 			|	if isDucking() then
 	 * 			|		new.getLastMoveDirection(Direction.LEFT_AND_DUCKING)
@@ -536,7 +544,6 @@ public class Mazub {
 	}
 
 	/**
-	 * 
 	 * @param 	lastMoveDirection
 	 * 			the new direction in which this Mazub has last moved
 	 * @post 	the new lastMoveDirection of this Mazub will equal to lastMoveDirection
@@ -578,7 +585,7 @@ public class Mazub {
 
 	/**
 	 * End this Mazub's jump
-	 * @POST	if velocityY is greater than 0, velocityY will be zero
+	 * @post	if velocityY is greater than 0, velocityY will be zero
 	 * 			| if getVelocityY() > 0 then
 	 * 			|	new.getVelocityY == 0
 	 */
