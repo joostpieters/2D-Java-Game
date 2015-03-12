@@ -449,7 +449,7 @@ public class Mazub {
 	 * @pre		The given direction needs to be, RIGHT, LEFT or UP
 	 * 			|direction == Direction.RIGHT || direction == Direction.LEFT || direction == Direction.UP
 	 * @effect 	if the given direction is RIGHT, the horizontal velocity will be set to the 
-	 * 				initial horizontalvelocity
+	 * 				initial horizontal velocity
 	 * 				and the acceleration will be equal to the initial horizontal acceleration
 	 * 			|if (direction == Direction.RIGHT) then
 	 * 			|	setVelocityX(getInitialHorizontalVelocity())
@@ -491,11 +491,11 @@ public class Mazub {
 	 * Stops Mazub's horizontal movement and stores the direction of its last movement
 	 * @post 	the lastMoveTimer equals to the current value of timer
 	 * 			| new.getLastMoveTimer() == getTimer()
-	 * @post	velocityX (horizontal velocity) equals to zero
+	 * @post	velocityX equals zero
 	 * 			| new.getVelocityX() == 0
-	 * @post	accelerationX equals to zero
+	 * @post	accelerationX equals zero
 	 * 			| new.getAccelerationX() == 0
-	 * @post	if the last movement was to the right, and this Mazub is not ducking, 
+	 * @post	if the last movement was to the right and this Mazub is not ducking, 
 	 * 				then the lastMoveDirection equals Direction.RIGHT
 	 * 			| if isMovingRight() then
 	 * 			|	if not isDucking() then
@@ -546,10 +546,15 @@ public class Mazub {
 	/**
 	 * @param 	lastMoveDirection
 	 * 			the new direction in which this Mazub has last moved
+	 * @pre		lastMoveDirection equals Direction.RIGHT or Direction.LEFT or
+	 * 				Direction.RIGHT_AND_DUCKING or Direction.LEFT_AND_DUCKING
+	 * 			|
 	 * @post 	the new lastMoveDirection of this Mazub will equal to lastMoveDirection
 	 * 			|new.getLastMoveDirection() = lastMoveDirection
 	 */
 	private void setLastMoveDirection(Direction lastMoveDirection) {
+		assert((lastMoveDirection == Direction.RIGHT) || (lastMoveDirection == Direction.LEFT) 
+				|| (lastMoveDirection == Direction.RIGHT_AND_DUCKING) || (lastMoveDirection == Direction.LEFT_AND_DUCKING) );
 		this.lastMoveDirection = lastMoveDirection;
 	}
 	
