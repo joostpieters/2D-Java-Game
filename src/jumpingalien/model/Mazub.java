@@ -173,7 +173,7 @@ public class Mazub {
 	 * 			| new.getvelocityX() == velocityX
 	 */
 	private void setVelocityX(double velocityX) {
-		assert((velocityX <= getMaximumHorizontalVelocity()) || (velocityX >= getInitialHorizontalVelocity()));
+		assert(((velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) || (velocityX == 0) || ((velocityX >= -getMaximumHorizontalVelocity()) && (velocityX <= getInitialHorizontalVelocity())));
 		this.velocityX = velocityX;
 	}
 	
