@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import jumpingalien.part1.facade.Facade;
 import jumpingalien.part1.facade.IFacade;
 import jumpingalien.model.Mazub;
+import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 
@@ -68,6 +69,14 @@ public class PartialFacadeTest {
 		assertEquals(sprites[8+m], facade.getCurrentSprite(alien));
 	}
 	
-	
+	@Test(expected = ModelException)
+	public void testNegativeTimeAmount() {
+		IFacade facade = new Facade();
+
+		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
+		
+		facade.advanceTime(alien, -0.1);
+		
+	}
 
 }
