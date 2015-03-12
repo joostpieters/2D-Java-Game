@@ -328,7 +328,10 @@ public class Mazub {
 			else if (this.isDucking())
 				setSpriteIndex(6);
 			else
-				setSpriteIndex(spritesMovingRightNormal());
+				while (getTimer() >= 0.075)
+				{
+					setSpriteIndex(spritesMovingRightNormal());
+				}
 		}
 		
 		// for all moves to the left
@@ -338,7 +341,10 @@ public class Mazub {
 			else if (this.isDucking())
 				setSpriteIndex(7);
 			else
-				setSpriteIndex(spritesMovingLeftNormal());
+				while (getTimer() >= 0.075)
+				{
+					setSpriteIndex(spritesMovingLeftNormal());
+				}
 		}
 		
 		// if the character is Ducking
@@ -371,12 +377,14 @@ public class Mazub {
 	 * Return the number of the sprite for the right moving animation
 	 * 		when this Mazub is moving to the right, the function will return every 75 ms an other sprite index
 	 * 		so that it will look like this Mazub walks to the right 
+	 * @effect 	the value of the timer will set to the value of the timer minus 75 ms
+	 * 			|setTimer(getTimer() - 0.075);
 	 */
 	private int spritesMovingRightNormal() {
 		if ((this.getSpriteIndex() > 8 + this.getAmountSpritesForMovement()) || (this.getSpriteIndex() < 8))
 			return 8;
-		if (this.timer >= 0.075){
-			this.resetTimer();
+		if (this.getTimer() >= 0.075){
+			this.setTimer(getTimer() - 0.075);
 			if ((this.getSpriteIndex() >= 8 + this.getAmountSpritesForMovement()) || (this.getSpriteIndex() < 8))
 				return 8;
 			else
@@ -388,11 +396,13 @@ public class Mazub {
 	/**
 	 * Return the number of the sprite for the left moving animation
 	 * 		when this Mazub is moving to the left, the function will return every 75 ms an other sprite index
-	 * 		so that it will look like this Mazub walks to the left 
+	 * 		so that it will look like this Mazub walks to the left
+	 * @effect 	the value of the timer will set to the value of the timer minus 75 ms
+	 * 			|setTimer(getTimer() - 0.075); 
 	 */
 	private int spritesMovingLeftNormal() {
-		if (this.timer >= 0.075){
-			this.resetTimer();
+		if (this.getTimer() >= 0.075){
+			this.setTimer(this.getTimer() - 0.075);
 			if ((this.getSpriteIndex() >= 9 + getAmountSpritesForMovement() * 2) || this.getSpriteIndex() < 9 + this.getAmountSpritesForMovement())
 				return 9 + getAmountSpritesForMovement();
 			else

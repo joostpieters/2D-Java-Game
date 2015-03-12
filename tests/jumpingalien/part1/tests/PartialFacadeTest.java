@@ -61,12 +61,10 @@ public class PartialFacadeTest {
 		Mazub alien = facade.createMazub(0, 0, sprites);
 
 		facade.startMoveRight(alien);
-
 		facade.advanceTime(alien, 0.005);
 		for (int i = 0; i < m; i++) {
 			facade.advanceTime(alien, 0.075);
 		}
-
 		assertEquals(sprites[8+m], facade.getCurrentSprite(alien));
 	}
 
