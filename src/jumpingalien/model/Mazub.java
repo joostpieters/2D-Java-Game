@@ -1,17 +1,20 @@
 package jumpingalien.model;
 
 import be.kuleuven.cs.som.annotate.Basic;
-import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 
 public class Mazub {
 
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites){
 		this.setLocation(pixelLeftX, pixelBottomY);
-		this.setSprites(sprites);
+		try{
+			this.setSprites(sprites);		
+		} catch(IllegalArgumentException e){
+			assert false;
+		}
 		this.setSpriteIndex(0);
-		setTimer(0);
-		setAmountSpritesForMovement( (sprites.length - 8) / 2 - 1);
+		this.setTimer(0);
+		this.amountSpritesForMovement = (sprites.length - 8) / 2 - 1;
 	}
 	
 	/**
@@ -51,7 +54,7 @@ public class Mazub {
 	/**
 	 * Return the width of the game window 	
 	 */
-	public int getWindowWidth() {
+	public final static int getWindowWidth() {
 		return 1024;
 	}
 	
@@ -91,7 +94,7 @@ public class Mazub {
 	/**
 	 * Return the height of the game window 	
 	 */
-	public int getWindowHeight() {
+	public final static int getWindowHeight() {
 		return 768;
 	}
 	
@@ -173,7 +176,7 @@ public class Mazub {
 	 * @note 	the initial velocity is always bigger or equal to one
 	 * 			| getInitialHorizontalVelocity() >= 1
 	 */
-	public double getInitialHorizontalVelocity() {
+	public final double getInitialHorizontalVelocity() {
 		return 1;
 	}
 	
@@ -266,7 +269,7 @@ public class Mazub {
 	 * 	sprites is an array of all possible sprites for movements of this Mazub
 	 */	
 	@Basic
-	public Sprite[] getSprites() {
+	public final Sprite[] getSprites() {
 		return sprites;
 	}
 	/**
@@ -278,9 +281,9 @@ public class Mazub {
 	 * @post 	The sprites of this Mazub is equal to the given sprites
 	 * 			| new.getSprites() == sprites  	
 	 */
-	public void setSprites(Sprite[] sprites) throws ModelException {
+	public void setSprites(Sprite[] sprites) throws IllegalArgumentException {
 		if (sprites.length < 10)
-			throw new ModelException("Sprites needs to contain at least ten sprites");
+			throw new IllegalArgumentException();
 		this.sprites = sprites;
 	}
 	
@@ -411,7 +414,7 @@ public class Mazub {
 	/**
 	 * Return the initial Horizontal acceleration of this Mazub
 	 */
-	public double getInitialHorizontalAcceleration() {
+	public final double getInitialHorizontalAcceleration() {
 		return 0.9;
 	}
 	
@@ -855,23 +858,13 @@ public class Mazub {
 	 * This variable contains the amout of sprites available 
 	 * 		for a movement to the left or right
 	 */
-	private int amountSpritesForMovement;
+	private final int amountSpritesForMovement;
 
 	/**
 	 * Return the amount of sprites available for a movement to the left or right
 	 */
-	private int getAmountSpritesForMovement() {
+	private final int getAmountSpritesForMovement() {
 		return amountSpritesForMovement;
 	}
 
-	/**
-	 * 
-	 * @param 	amountSpritesForMovement
-	 * 			the new value for amountSpritesForMovement
-	 * @post	amountSpritesForMovement will be set to the given amountSpritesForMovement
-	 * 			| new.getAmountSpritesForMovement() = amountSpritesForMovement
-	 */
-	private void setAmountSpritesForMovement(int amountSpritesForMovement) {
-		this.amountSpritesForMovement = amountSpritesForMovement;
-	}
 }
