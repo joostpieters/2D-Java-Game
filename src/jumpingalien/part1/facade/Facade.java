@@ -2,6 +2,7 @@ package jumpingalien.part1.facade;
 
 import jumpingalien.model.Direction;
 import jumpingalien.model.Mazub;
+import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 
 public class Facade implements IFacade {
@@ -98,7 +99,11 @@ public class Facade implements IFacade {
 
 	@Override
 	public void advanceTime(Mazub alien, double dt) {
-		alien.advanceTime(dt);
+		try {
+			alien.advanceTime(dt);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("The elapsed time van never be negative.");
+		}
 		
 	}
 
