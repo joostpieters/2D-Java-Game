@@ -148,8 +148,20 @@ public class Mazub {
 	 * 			| new.getLocationY() == pixelBottomY  
 	 */
 	private void setLocation(int pixelLeftX, int pixelBottomY) {
-		setLocationX(pixelLeftX);
-		setLocationY(pixelBottomY);
+		try {
+			setLocationX(pixelLeftX);
+		} catch (IllegalArgumentException e1) {
+			locationX = calculateValidLocationX(pixelLeftX);
+			setLocationX(locationX);
+		}
+		
+		try {
+			setLocationY(pixelBottomY);
+		} catch (IllegalArgumentException e2) {
+			locationY = calculateValidLocationY(pixelBottomY);
+			setLocationY(locationY);
+		}
+		
 	}
 	
 	/**
