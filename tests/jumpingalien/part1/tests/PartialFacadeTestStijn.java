@@ -94,7 +94,31 @@ public class PartialFacadeTestStijn {
 	@Test 
 	public void testIllegalPosition() {
 		IFacade facade = new Facade();
-		Mazub alien = facade.createMazub(1920, 1080, spriteArrayForSize(2,2));
+		Mazub alien1 = facade.createMazub(1920, 1080, spriteArrayForSize(2,2));
+		
+		assertEquals(alien1.getLocationX(), Mazub.getWindowWidth()-1, Util.DEFAULT_EPSILON);
+		assertEquals(alien1.getLocationY(), Mazub.getWindowHeight()-1, Util.DEFAULT_EPSILON);
+		
+		Mazub alien2 = facade.createMazub(-51, -212, spriteArrayForSize(2,2));
+		
+		assertEquals(alien2.getLocationX(), 0, Util.DEFAULT_EPSILON);
+		assertEquals(alien2.getLocationY(), 0, Util.DEFAULT_EPSILON);
 	}
 
+	
+	@Test
+	public void testDuckingSpeed() {
+		IFacade facade = new Facade();
+		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2,2));
+		
+		facade.startMoveRight(alien);
+		for (int i = 0; i < 100; i++) {
+			facade.advanceTime(alien, 0.2 / 9);
+		}
+		
+		facade.startDuck(alien);
+		facade.advanceTime(alien, 0.005);
+		
+		assertEquals(1, alien.getVelocityX(), Util.DEFAULT_EPSILON);
+	}
 }
