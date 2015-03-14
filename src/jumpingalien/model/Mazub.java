@@ -61,6 +61,9 @@ public class Mazub {
 	 * 
 	 * @param 	locationX
 	 * 			The new locationY coordinate for this Mazub
+	 * @throws 	IllegalArgumentException
+	 * 			if locationX is less than zero or if locationX is bigger than getWindowWidth() minus one
+	 * 			|(locationX < 0) || (locationX > getWindowWidth()-1)
 	 * @pre		The given LocationX needs to be bigger or equal to 0
 	 * 			| locationX >= 0
 	 * @pre		The given LocationX needs to smaller than the current game window width
@@ -101,6 +104,9 @@ public class Mazub {
 	 * 
 	 * @param 	locationY
 	 * 			The new locationY for this Mazub
+	 * @throws 	IllegalArgumentException
+	 * 			if locationY is less than zero or if locationX is bigger than getWindowHeight() minus one
+	 * 			|(locationY < 0)||(locationY > getWindowHeight()-1)
 	 * @pre		The given LocationY needs to be bigger or equal to 0
 	 * 			| locationY >= 0
 	 * @pre		The given LocationY needs to smaller than the current game widow height
@@ -332,6 +338,9 @@ public class Mazub {
 	 * 
 	 * @param 	sprites
 	 * 			the new sprites for this Mazub
+	 * @throws 	IllegalArgumentException
+	 * 			if the length of sprites is less than ten
+	 * 			|sprites.length < 10
 	 * @pre		sprites needs to contain at least 10 possible sprites
 	 * 			| sprites.length >= 10
 	 * @post 	The sprites of this Mazub is equal to the given sprites
