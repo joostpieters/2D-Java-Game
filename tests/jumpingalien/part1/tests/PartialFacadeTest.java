@@ -150,6 +150,27 @@ public class PartialFacadeTest {
 		facade.advanceTime(alien, 0.1);
 		assertEquals(sprites[2], facade.getCurrentSprite(alien));
 	}
+	
+	@Test
+	public void testLookRight2() {
+		IFacade facade = new Facade();
+
+		int m = 10;
+		Sprite[] sprites = spriteArrayForSize(2, 2, 10 + 2 * m);
+		Mazub alien = facade.createMazub(0, 0, sprites);
+
+		facade.startMoveRight(alien);
+		facade.advanceTime(alien, 0.1);
+		facade.endMoveLeft(alien);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.04);
+		assertEquals(sprites[2], facade.getCurrentSprite(alien));
+	}
+	
 	@Test
 	public void testStopLookRight() {
 		IFacade facade = new Facade();
@@ -161,12 +182,12 @@ public class PartialFacadeTest {
 		facade.startMoveRight(alien);
 		facade.advanceTime(alien, 0.1);
 		facade.endMoveLeft(alien);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.001);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.05);
 		assertEquals(sprites[0], facade.getCurrentSprite(alien));
 	}
 	
@@ -184,6 +205,26 @@ public class PartialFacadeTest {
 		facade.advanceTime(alien, 0.1);
 		assertEquals(sprites[3], facade.getCurrentSprite(alien));
 	}
+	
+	@Test
+	public void testLookLeft2() {
+		IFacade facade = new Facade();
+
+		int m = 10;
+		Sprite[] sprites = spriteArrayForSize(2, 2, 10 + 2 * m);
+		Mazub alien = facade.createMazub(0, 0, sprites);
+
+		facade.startMoveLeft(alien);
+		facade.advanceTime(alien, 0.1);
+		facade.endMoveLeft(alien);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.04);
+		assertEquals(sprites[3], facade.getCurrentSprite(alien));
+	}
 	@Test
 	public void testStopLookLeft() {
 		IFacade facade = new Facade();
@@ -195,12 +236,12 @@ public class PartialFacadeTest {
 		facade.startMoveLeft(alien);
 		facade.advanceTime(alien, 0.1);
 		facade.endMoveLeft(alien);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.2);
-		facade.advanceTime(alien, 0.001);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.19);
+		facade.advanceTime(alien, 0.05);
 		assertEquals(sprites[0], facade.getCurrentSprite(alien));
 	}
 	
