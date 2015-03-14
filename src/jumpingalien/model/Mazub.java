@@ -65,15 +65,15 @@ public class Mazub {
 	 * Set locationX of this Mazub to a given value
 	 * 
 	 * @param 	locationX
-	 * 			The new locationY coordinate for this Mazub
+	 * 			The new locationX coordinate for this Mazub
 	 * @throws 	IllegalArgumentException
 	 * 			if locationX is less than zero or if locationX is bigger than getWindowWidth() minus one
 	 * 			|(locationX < 0) || (locationX > getWindowWidth()-1)
-	 * @pre		The given LocationX needs to be bigger or equal to 0
+	 * @pre		The given locationX needs to be bigger or equal to 0
 	 * 			| locationX >= 0
-	 * @pre		The given LocationX needs to smaller than the current game window width
+	 * @pre		The given LocationX needs to be smaller than the current game window width
 	 * 			| locationX < getWindowWidth()
-	 * @post 	The LocationX of this Mazub is equal to the given LocationX
+	 * @post 	The locationX of this Mazub is equal to the given locationX
 	 * 			| new.getLocationX() == locationX  
 	 */
 	private void setLocationX(double locationX) throws IllegalArgumentException {
@@ -110,13 +110,13 @@ public class Mazub {
 	 * @param 	locationY
 	 * 			The new locationY for this Mazub
 	 * @throws 	IllegalArgumentException
-	 * 			if locationY is less than zero or if locationX is bigger than getWindowHeight() minus one
+	 * 			if locationY is less than zero or if locationY is bigger than getWindowHeight() minus one
 	 * 			|(locationY < 0)||(locationY > getWindowHeight()-1)
-	 * @pre		The given LocationY needs to be bigger or equal to 0
+	 * @pre		The given locationY needs to be bigger or equal to 0
 	 * 			| locationY >= 0
-	 * @pre		The given LocationY needs to smaller than the current game widow height
+	 * @pre		The given locationY needs to smaller than the current game widow height
 	 * 			| locationY < getWindowHeight()
-	 * @post 	The LocationY of this Mazub is equal to the given LocationY
+	 * @post 	The locationY of this Mazub is equal to the given LocationY
 	 * 			| new.getLocationY() == locationY  
 	 */
 	private void setLocationY(double locationY) throws IllegalArgumentException {
@@ -363,25 +363,25 @@ public class Mazub {
 	private Sprite[] sprites;
 	
 	/**
-	 * Return if the fiven sprites array is valid or not
+	 * Return if the given sprites array is valid or not
 	 * @param 	sprites
 	 * 			the array of sprites that needs to be checked
-	 * @return	false if the length of the sprite array is less than zero
+	 * @return	false if the length of the sprite array is less than 10
 	 * 			|if (sprites.length < 10)
 	 * 			|	return false;
 	 * @return	false if one of the elements of the array is a null pointer
 	 * 			|for (i = 0; i < sprites.length; i++)
-	 * 			|	if sprites[0] == null than
+	 * 			|	if sprites[0] == null then
 	 * 			|		return false
 	 * @return	true if the array contains at least 10 elements and none of them is a null pointer
-	 * 			|if sprites[0....n] != null && n >= 10 than
+	 * 			|if sprites[0....n] != null && n >= 10 then
 	 * 			|		return true
 	 */
 	public boolean isValidSpriteArray(Sprite[] sprites){
 		if (sprites.length < 10)
 			return false;
 		for (int i = 0; i < sprites.length; i++){
-			if (sprites[0] == null)
+			if (sprites[i] == null)
 				return false;			
 		}
 		return true;
@@ -393,7 +393,7 @@ public class Mazub {
 	public Sprite getCurrentSprite() {
 		
 		// for all moves to the right
-		if (this.isMovingRight()){
+		if (this.isMovingRight()) {
 			if (this.isJumping())
 				setSpriteIndex(4);
 			else if (this.isDucking())
@@ -407,7 +407,7 @@ public class Mazub {
 		}
 		
 		// for all moves to the left
-		else if (this.isMovingLeft()){
+		else if (this.isMovingLeft()) {
 			if (this.isJumping())
 				setSpriteIndex(5);
 			else if (this.isDucking())
@@ -423,11 +423,11 @@ public class Mazub {
 		// if the character is Ducking
 		else if(this.isDucking()){
 			if ((this.lastMoveDirection == Direction.RIGHT_AND_DUCKING) 
-					&&(getTimer() - this.lastMoveTimer < 1)){
-					setSpriteIndex(6);
+					&&(getTimer() - this.lastMoveTimer < 1)) {
+				setSpriteIndex(6);
 			}
 			else if ((this.lastMoveDirection == Direction.LEFT_AND_DUCKING) 
-					&&(getTimer() - this.lastMoveTimer < 1)){
+					&&(getTimer() - this.lastMoveTimer < 1)) {
 				setSpriteIndex(7);
 			}
 			else {
@@ -483,7 +483,7 @@ public class Mazub {
 		if ((this.getSpriteIndex() > 9 + getAmountSpritesForMovement() * 2) 
 				|| this.getSpriteIndex() < 9 + this.getAmountSpritesForMovement())
 			return 9 + getAmountSpritesForMovement();
-		if (this.getTimer() >= 0.075){
+		if (this.getTimer() >= 0.075) {
 			this.setTimer(this.getTimer() - 0.075);
 			if ((this.getSpriteIndex() == 9 + getAmountSpritesForMovement() * 2))
 				return 9 + getAmountSpritesForMovement();
@@ -497,7 +497,7 @@ public class Mazub {
 	 * 
 	 * @param 	direction
 	 * 			the direction in which this Mazub needs to start moving
-	 * @pre		The given direction needs to be, RIGHT, LEFT
+	 * @pre		The given direction needs to be RIGHT or LEFT
 	 * 			|direction == Direction.RIGHT || direction == Direction.LEFT
 	 * @effect 	if the given direction is RIGHT, the horizontal velocity will be set to the 
 	 * 				initial horizontal velocity
@@ -525,7 +525,7 @@ public class Mazub {
 
 
 	/**
-	 * Let this Mazub jumping
+	 * Let this Mazub jump
 	 *  @effect	the vertical velocity will be set to 8 
 	 *  			and the vertical acceleration will be set to minus ten
 	 * 			|	setVelocityY(8)
@@ -549,32 +549,32 @@ public class Mazub {
 	 * 			the direction in which mazub needs to be stop moving
 	 * @pre		if the given direction is needs to be Direction.LEFT or Direction.RIGHT
 	 * 			|((direction == Direction.RIGHT) || (direction == Direction.LEFT))
-	 * @post	if the last movement was to the right and this Mazub is not ducking, 
-	 * 				then the lastMoveDirection equals Direction.RIGHT
+	 * @effect	if the last movement was to the right and this Mazub is not ducking, 
+	 * 				then the lastMoveDirection is set to Direction.RIGHT
 	 * 			| if isMovingRight() then
 	 * 			|	if not isDucking() then
-	 * 			|		new.getLastMoveDirection(Direction.RIGHT)
-	 * @post	if the last movement was to the right, and this Mazub is ducking, 
-	 * 				then the lastMoveDirection equals Direction.RIGHT_AND_DUCKING
+	 * 			|		setLastMoveDirection(Direction.RIGHT)
+	 * @effect	if the last movement was to the right, and this Mazub is ducking, 
+	 * 				then the lastMoveDirection is set to Direction.RIGHT_AND_DUCKING
 	 * 			| if isMovingRight() then
 	 * 			|	if isDucking() then
-	 * 			|		new.getLastMoveDirection(Direction.RIGHT_AND_DUCKING)
-	 * @post	if the last movement was to the left, and this Mazub is not ducking, 
+	 * 			|		setLastMoveDirection(Direction.RIGHT_AND_DUCKING)
+	 * @effect	if the last movement was to the left, and this Mazub is not ducking, 
 	 * 				then the lastMoveDirection equals Direction.LEFT
 	 * 			| if isMovingLeft() then
 	 * 			|	if not isDucking() then
-	 * 			|		new.getLastMoveDirection(Direction.LEFT)
-	 * @post	if the last movement was to the left, and this Mazub is ducking, 
-	 * 				then the lastMoveDirection equals Direction.LEFT_AND_DUCKING
+	 * 			|		setLastMoveDirection(Direction.LEFT)
+	 * @effect	if the last movement was to the left, and this Mazub is ducking, 
+	 * 				then the lastMoveDirection is set to Direction.LEFT_AND_DUCKING
 	 * 			| if isMovingLeft() then
 	 * 			|	if isDucking() then
-	 * 			|		new.getLastMoveDirection(Direction.LEFT_AND_DUCKING)
-	 * @post 	if Mazub stops moving left en is moving to the left at this moment, 
+	 * 			|		setLastMoveDirection(Direction.LEFT_AND_DUCKING)
+	 * @post 	if Mazub stops moving left and is moving to the left at this moment, 
 	 * 				the velocityX equals zero, accelerationX equals zero 
 	 * 				and the lastMoveTimer equals to the current value of timer
 	 * 			| new.getLastMoveTimer() == getTimer() && new.getVelocityX() == 0 &&
 	 * 			| 	new.getAccelerationX() == 0
-	 * @post 	if Mazub stops moving right en is moving to the right at this moment, 
+	 * @post 	if Mazub stops moving right and is moving to the right at this moment, 
 	 * 				the velocityX equals zero, accelerationX equals zero 
 	 * 				and the lastMoveTimer equals to the current value of timer
 	 * 			| new.getLastMoveTimer() == getTimer() && new.getVelocityX() == 0 &&
@@ -620,9 +620,10 @@ public class Mazub {
 	 * 			the new direction in which this Mazub has last moved
 	 * @pre		lastMoveDirection equals Direction.RIGHT or Direction.LEFT or
 	 * 				Direction.RIGHT_AND_DUCKING or Direction.LEFT_AND_DUCKING
-	 * 			|
+	 * 			| lastMoveDirection == Direction.RIGHT || lastMoveDirection == Direction.LEFT ||
+	 * 			| 	lastMoveDirection == Direction.RIGHT_AND_DUCKING || lastMoveDirection == Direction.LEFT_AND_DUCKING
 	 * @post 	the new lastMoveDirection of this Mazub will equal to lastMoveDirection
-	 * 			|new.getLastMoveDirection() = lastMoveDirection
+	 * 			| new.getLastMoveDirection() = lastMoveDirection
 	 */
 	private void setLastMoveDirection(Direction lastMoveDirection) {
 		assert((lastMoveDirection == Direction.RIGHT) || (lastMoveDirection == Direction.LEFT) 
@@ -648,11 +649,13 @@ public class Mazub {
 	 * 
 	 * @param 	time
 	 * 			the new time for this Mazub's lastMoveTimer
+	 * @pre		time is greater or equal to zero
 	 * @post	lastMoveTimer of this Mazub will be equal to the given time
 	 * 			| new.getLastMoveTimer() = time
 	 * 			
 	 */
 	private void setLastMoveTimer(double time) {
+		assert(time >= 0);
 		this.lastMoveTimer = time;
 	}
 	
