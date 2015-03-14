@@ -39,12 +39,12 @@ public class Facade implements IFacade {
 	}
 	
 	@Override
-	public int[] getSize(Mazub alien) {
-		int[] size = new int[2];
-		Sprite sprite = alien.getCurrentSprite();
-		size[0] = sprite.getHeight();
-		size[1] = sprite.getWidth();
-		return size;
+	public int[] getSize(Mazub alien) throws ModelException {
+		try{
+			return alien.getSize();
+		} catch (ModelException e){
+			throw new ModelException("Unvalid current sprite");
+		}
 	}
 
 	@Override

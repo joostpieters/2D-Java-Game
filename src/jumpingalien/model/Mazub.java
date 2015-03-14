@@ -1,6 +1,7 @@
 package jumpingalien.model;
 
 import be.kuleuven.cs.som.annotate.Basic;
+import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 
 /**
@@ -830,6 +831,24 @@ public class Mazub {
 			locationY = 0;
 		}
 		return locationY;
+	}
+	
+	/**
+	 * Return the size of the current sprite
+	 * @return	the width and height of the current sprite
+	 * 			| return size[this.getCurrentSprite().getHeight(), this.getCurrentSprite().getWidth()]
+	 * @throws 	ModelException
+	 * 			if the current sprite is a null pointer
+	 * 			| this.getCurrentSprite() == null
+	 */
+	public int[] getSize() throws ModelException {
+		int[] size = new int[2];
+		Sprite sprite = this.getCurrentSprite();
+		if (sprite == null)
+			throw new ModelException("No valid Sprite given");
+		size[0] = sprite.getHeight();
+		size[1] = sprite.getWidth();
+		return size;
 	}
 	
 	/**
