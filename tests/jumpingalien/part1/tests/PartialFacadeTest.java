@@ -9,9 +9,7 @@ import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import static jumpingalien.tests.util.TestUtils.*;
 

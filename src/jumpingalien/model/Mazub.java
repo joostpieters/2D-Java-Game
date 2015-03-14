@@ -122,7 +122,7 @@ public class Mazub {
 	private void setLocationY(double locationY) throws IllegalArgumentException {
 		if((locationY < 0)||(locationY > getWindowHeight()-1)){
 			throw new IllegalArgumentException("Y coordinate is out of window range");
-		};
+		}
 		this.locationY = locationY;
 	}
 	
@@ -398,10 +398,9 @@ public class Mazub {
 				setSpriteIndex(4);
 			else if (this.isDucking())
 				setSpriteIndex(6);
-			else{
+			else {
 				setSpriteIndex(spritesMovingRightNormal());
-				while (getTimer() >= 0.075)
-				{
+				while (getTimer() >= 0.075) {
 					setSpriteIndex(spritesMovingRightNormal());
 				}
 			}
@@ -413,10 +412,9 @@ public class Mazub {
 				setSpriteIndex(5);
 			else if (this.isDucking())
 				setSpriteIndex(7);
-			else{
+			else {
 				setSpriteIndex(spritesMovingLeftNormal());
-				while (getTimer() >= 0.075)
-				{
+				while (getTimer() >= 0.075) {
 					setSpriteIndex(spritesMovingLeftNormal());
 				}
 			}
@@ -432,13 +430,13 @@ public class Mazub {
 					&&(getTimer() - this.lastMoveTimer < 1)){
 				setSpriteIndex(7);
 			}
-			else{
+			else {
 				setSpriteIndex(1);
 			}
 		}
 				
 		// if the character is not moving
-		else{
+		else {
 			if (((this.lastMoveDirection == Direction.RIGHT) || 
 					(this.lastMoveDirection == Direction.RIGHT_AND_DUCKING)) 
 					&&(getTimer() - this.lastMoveTimer < 1))
