@@ -380,7 +380,7 @@ public class PartialFacadeTest {
 	}
 	
 	@Test
-	public void testStartJump() {
+	public void testStartJump2() {
 		IFacade facade = new Facade();
 
 		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
