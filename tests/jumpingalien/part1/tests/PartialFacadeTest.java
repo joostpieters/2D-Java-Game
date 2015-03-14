@@ -335,4 +335,11 @@ public class PartialFacadeTest {
 		Sprite[] sprites = new Sprite[0];
 		facade.createMazub(0, 0, sprites);
 	}
+	
+	@Test (expected = ModelException.class)
+	public void testNullPointerSpriteArray() {
+		IFacade facade = new Facade();
+		Sprite[] sprites = new Sprite[10];
+		facade.createMazub(0, 0, sprites);
+	}
 }
