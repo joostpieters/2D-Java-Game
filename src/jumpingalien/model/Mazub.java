@@ -658,9 +658,11 @@ public class Mazub {
 	 * 			the elapsed seconds
 	 * @pre 	seconds is greater or equal to zero
 	 * 			| seconds >= 0
+	 * @pre 	seconds is smaller than 0.2
+	 * 			| seconds < 0.2
 	 * @throws 	IllegalArgumentException
-	 * 			if the seconds is less than zero
-	 * 			| seconds < 0
+	 * 			if seconds is less than zero or if seconds is equal or bigger than 0.2
+	 * 			| (seconds < 0 || seconds >= 0.2)
 	 * @effect	the timer will be added with the given seconds using setTimer() 
 	 * 				and the given seconds as parameter
 	 * 			| setTimer(getTimer() + seconds)
@@ -687,7 +689,8 @@ public class Mazub {
 	 * 			| updateVelocityAcceleration(seconds)
 	 */
 	public void advanceTime(double seconds) throws IllegalArgumentException {
-		if (seconds < 0 || seconds > 0.2) throw new IllegalArgumentException();
+		if (seconds < 0 || seconds >= 0.2) 
+			throw new IllegalArgumentException();
 		this.addToTimer(this.getTimer() + seconds);
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
