@@ -545,13 +545,6 @@ public class Mazub {
 	
 	/**
 	 * Stops Mazub's horizontal movement and stores the direction of its last movement
-	 * 			|isMovingRight() || isMovingLeft()
-	 * @post 	the lastMoveTimer equals to the current value of timer
-	 * 			| new.getLastMoveTimer() == getTimer()
-	 * @post	velocityX equals zero
-	 * 			| new.getVelocityX() == 0
-	 * @post	accelerationX equals zero
-	 * 			| new.getAccelerationX() == 0
 	 * @post	if the last movement was to the right and this Mazub is not ducking, 
 	 * 				then the lastMoveDirection equals Direction.RIGHT
 	 * 			| if isMovingRight() then
@@ -572,6 +565,16 @@ public class Mazub {
 	 * 			| if isMovingLeft() then
 	 * 			|	if isDucking() then
 	 * 			|		new.getLastMoveDirection(Direction.LEFT_AND_DUCKING)
+	 * @post 	if Mazub stops moving left en is moving to the left at this moment, 
+	 * 				the velocityX equals zero, accelerationX equals zero 
+	 * 				and the lastMoveTimer equals to the current value of timer
+	 * 			| new.getLastMoveTimer() == getTimer() && new.getVelocityX() == 0 &&
+	 * 			| 	new.getAccelerationX() == 0
+	 * @post 	if Mazub stops moving right en is moving to the right at this moment, 
+	 * 				the velocityX equals zero, accelerationX equals zero 
+	 * 				and the lastMoveTimer equals to the current value of timer
+	 * 			| new.getLastMoveTimer() == getTimer() && new.getVelocityX() == 0 &&
+	 * 			| 	new.getAccelerationX() == 0
 	 */
 	public void endMove(Direction direction){
 		if ( direction == Direction.RIGHT ){

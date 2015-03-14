@@ -156,7 +156,7 @@ public class PartialFacadeTest {
 
 		facade.startMoveRight(alien);
 		facade.advanceTime(alien, 0.1);
-		facade.endMoveLeft(alien);
+		facade.endMoveRight(alien);
 		facade.advanceTime(alien, 0.1);
 		assertEquals(sprites[2], facade.getCurrentSprite(alien));
 	}
@@ -171,7 +171,7 @@ public class PartialFacadeTest {
 
 		facade.startMoveRight(alien);
 		facade.advanceTime(alien, 0.1);
-		facade.endMoveLeft(alien);
+		facade.endMoveRight(alien);
 		facade.advanceTime(alien, 0.19);
 		facade.advanceTime(alien, 0.19);
 		facade.advanceTime(alien, 0.19);
@@ -191,7 +191,7 @@ public class PartialFacadeTest {
 
 		facade.startMoveRight(alien);
 		facade.advanceTime(alien, 0.1);
-		facade.endMoveLeft(alien);
+		facade.endMoveRight(alien);
 		facade.advanceTime(alien, 0.19);
 		facade.advanceTime(alien, 0.19);
 		facade.advanceTime(alien, 0.19);

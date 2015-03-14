@@ -114,7 +114,7 @@ public class Facade implements IFacade {
 		try {
 			alien.advanceTime(dt);
 		} catch (IllegalArgumentException e) {
-			throw new ModelException("The elapsed time van never be negative.");
+			throw new ModelException("The elapsed time can never be negative.");
 		}
 		
 	}
