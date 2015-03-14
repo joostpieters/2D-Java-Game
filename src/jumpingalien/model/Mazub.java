@@ -47,7 +47,7 @@ public class Mazub {
 		}
 		this.setSpriteIndex(0);
 		this.setTimer(0);
-		this.amountSpritesForMovement = (sprites.length - 8) / 2 - 1;
+		this.amountSpritesForMovement = (sprites.length - 10) / 2;
 	}
 	
 	
