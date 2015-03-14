@@ -539,6 +539,9 @@ public class Mazub {
 	
 	/**
 	 * Stops Mazub's horizontal movement and stores the direction of its last movement
+	 * @pre		this methode assumes that this Mazub is moving left or right 
+	 * 				at the moment of running the methode
+	 * 			|isMovingRight() || isMovingLeft()
 	 * @post 	the lastMoveTimer equals to the current value of timer
 	 * 			| new.getLastMoveTimer() == getTimer()
 	 * @post	velocityX equals zero
@@ -567,6 +570,7 @@ public class Mazub {
 	 * 			|		new.getLastMoveDirection(Direction.LEFT_AND_DUCKING)
 	 */
 	public void stopMoveX(){
+		assert(isMovingRight() || isMovingLeft());
 		if (isMovingRight()){
 			if (isDucking())
 				this.setLastMoveDirection(Direction.RIGHT_AND_DUCKING);
