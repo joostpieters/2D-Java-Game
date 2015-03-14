@@ -25,8 +25,8 @@ public class Mazub {
 	 * @throws	IllegalArgumentException
 	 * 			if sprites is not a valid sprite array
 	 * 			| !isValidSpriteArray(Sprites)
-	 * @pre		the array of sprites must contain at least 10 sprites.
-	 * 			| sprites.length >= 10
+	 * @pre		the array of sprites must contain at least 10 sprites and cannot contain null pointers
+	 * 			| sprites.length >= 10 && sprites[0...n] != null
 	 * @effect	sets the location to pixelLeftX, pixelBottomY
 	 * 			| setLocation(pixelLeftX, pixelBottomY)
 	 * @effect	sets the sprites to the given array of sprites
