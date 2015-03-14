@@ -414,5 +414,24 @@ public class PartialFacadeTest {
 		facade.createMazub(0, 0, sprites);
 	}
 	
+	@Test (expected = ModelException.class)
+	public void testEndDuckingWhileNotDucking() {
+		IFacade facade = new Facade();
+
+		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
+		
+		facade.endDuck(alien);
+	}
+	
+	@Test (expected = ModelException.class)
+	public void testStartDuckingWhileAlreadyDucking() {
+		IFacade facade = new Facade();
+
+		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
+		
+		facade.startDuck(alien);
+		facade.startDuck(alien);
+	}
+	
 }
 

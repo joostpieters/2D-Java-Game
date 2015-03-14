@@ -961,7 +961,7 @@ public class Mazub {
 	 */
 	private int spriteIndex;
 	
-	
+		
 	/**
 	 * 
 	 * @param 	ducking
@@ -969,7 +969,7 @@ public class Mazub {
 	 * @post	The new ducking state of this Mazub is equal to ducking.
 	 * 			| new.isDucking() == ducking
 	 */
-	public void setDucking(boolean ducking){
+	private void setDucking(boolean ducking){
 		this.ducking = ducking;				
 	}
 	
@@ -985,6 +985,34 @@ public class Mazub {
 	 * This boolean indicates whether Mazub is ducking or not.
 	 */
 	private boolean ducking;	
+	
+	/**
+	 * this methode will start this Mazub with ducking
+	 * @throws	IllegalStateException
+	 * 			if the this Mazub is already ducking while startDucking is involved
+	 * 			| isDucking()
+	 * @effect 	the ducking state of this Mazub will be set to true
+	 * 			|setDucking(true);
+	 */
+	public void startDucking() throws IllegalStateException {
+		if (isDucking())
+			throw new IllegalStateException();
+		setDucking(true);
+	}
+
+	/**
+	 * this methode will stop this Mazub with ducking
+	 * @throws	IllegalStateException
+	 * 			if the this Mazub is not ducking while stopDucking is involved
+	 * 			| !isDucking()
+	 * @effect 	the ducking state of this Mazub will be set to false
+	 * 			|setDucking(false);
+	 */
+	public void endDucking() throws IllegalStateException{
+		if (!isDucking())
+			throw new IllegalStateException();
+		setDucking(false);
+	}
 	
 	/**
 	 * Returns the current value of the timer.

@@ -93,12 +93,20 @@ public class Facade implements IFacade {
 
 	@Override
 	public void startDuck(Mazub alien) {
-		alien.setDucking(true);
+		try{
+			alien.startDucking();
+		} catch (IllegalStateException e){
+			throw new ModelException("Mazub is already ducking");
+		}
 	}
 
 	@Override
 	public void endDuck(Mazub alien) {
-		alien.setDucking(false);		
+		try{
+			alien.endDucking();
+		} catch (IllegalStateException e){
+			throw new ModelException("Mazub is not ducking");
+		}		
 	}
 
 	@Override
