@@ -8,9 +8,13 @@ import jumpingalien.util.Sprite;
 public class Facade implements IFacade {
 
 	@Override
-	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		Mazub alien = new Mazub(pixelLeftX, pixelBottomY, sprites);
-		return alien;
+	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws ModelException {
+		try{
+			Mazub alien = new Mazub(pixelLeftX, pixelBottomY, sprites);
+			return alien;
+		} catch (IllegalArgumentException e){
+			throw new ModelException("Illegal Sprite argment");
+		}
 	}
 
 	@Override

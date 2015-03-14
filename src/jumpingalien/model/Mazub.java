@@ -22,6 +22,9 @@ public class Mazub {
 	 * 			The vertical pixel from the bottom left corner where Mazub will spawn.
 	 * @param 	sprites
 	 * 			The sprites for this Mazub.
+	 * @throws	IllegalArgumentException
+	 * 			if sprites is not a valid sprite array
+	 * 			| !isValidSpriteArray(Sprites)
 	 * @pre		the array of sprites must contain at least 10 sprites.
 	 * 			| sprites.length >= 10
 	 * @effect	sets the location to pixelLeftX, pixelBottomY
@@ -35,17 +38,18 @@ public class Mazub {
 	 * @post	calculate the number of sprites used to alternate when moving
 	 * 			| new.getAmountSpritesForMovement() = (sprites.length - 8) / 2 - 1
 	 */
-	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites){
+	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws IllegalArgumentException{
 		this.setLocation(pixelLeftX, pixelBottomY);
 		try{
 			this.setSprites(sprites);		
 		} catch(IllegalArgumentException e){
-			assert false;
+			throw new IllegalArgumentException();
 		}
 		this.setSpriteIndex(0);
 		this.setTimer(0);
 		this.amountSpritesForMovement = (sprites.length - 8) / 2 - 1;
 	}
+	
 	
 	/**
 	 * Return locationX of this Mazub
@@ -340,15 +344,15 @@ public class Mazub {
 	 * @param 	sprites
 	 * 			the new sprites for this Mazub
 	 * @throws 	IllegalArgumentException
-	 * 			if the length of sprites is less than ten
-	 * 			|sprites.length < 10
-	 * @pre		sprites needs to contain at least 10 possible sprites
-	 * 			| sprites.length >= 10
+	 * 			if sprites is not a valid sprite array
+	 * 			| ! isValidSpriteArray(sprites)
+	 * @pre		sprites needs to be a valid sprite array
+	 * 			| isValidSpriteArray(sprites)
 	 * @post 	The sprites of this Mazub is equal to the given sprites
 	 * 			| new.getSprites() == sprites  	
 	 */
 	private void setSprites(Sprite[] sprites) throws IllegalArgumentException {
-		if (sprites.length < 10)
+		if (! isValidSpriteArray(sprites))
 			throw new IllegalArgumentException();
 		this.sprites = sprites;
 	}
@@ -357,6 +361,31 @@ public class Mazub {
 	 * The array of sprites.
 	 */
 	private Sprite[] sprites;
+	
+	/**
+	 * Return if the fiven sprites array is valid or not
+	 * @param 	sprites
+	 * 			the array of sprites that needs to be checked
+	 * @return	false if the length of the sprite array is less than zero
+	 * 			|if (sprites.length < 10)
+	 * 			|	return false;
+	 * @return	false if one of the elements of the array is a null pointer
+	 * 			|for (i = 0; i < sprites.length; i++)
+	 * 			|	if sprites[0] == null than
+	 * 			|		return false
+	 * @return	true if the array contains at least 10 elements and none of them is a null pointer
+	 * 			|if sprites[0....n] != null && n >= 10 than
+	 * 			|		return true
+	 */
+	public boolean isValidSpriteArray(Sprite[] sprites){
+		if (sprites.length < 10)
+			return false;
+		for (int i = 0; i < sprites.length; i++){
+			if (sprites[0] == null)
+				return false;			
+		}
+		return true;
+	}
 	
 	/**
 	 * Returns the right sprite for the current movements

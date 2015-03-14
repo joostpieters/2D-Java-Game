@@ -294,6 +294,7 @@ public class PartialFacadeTest {
 		assertEquals(sprites[7], facade.getCurrentSprite(alien));
 	}
 	
+	@Test
 	public void testStopMoveX() {
 		IFacade facade = new Facade();
 
@@ -306,6 +307,7 @@ public class PartialFacadeTest {
 		assertEquals(0, alien.getVelocityX(), Util.DEFAULT_EPSILON);
 	}
 	
+	@Test
 	public void testStopJump() {
 		IFacade facade = new Facade();
 
@@ -318,6 +320,7 @@ public class PartialFacadeTest {
 		assertEquals(0, alien.getVelocityY(), Util.DEFAULT_EPSILON);
 	}
 	
+	@Test
 	public void testStartJump() {
 		IFacade facade = new Facade();
 
@@ -325,5 +328,13 @@ public class PartialFacadeTest {
 		facade.startJump(alien);
 		
 		assertEquals(-10, alien.getAccelerationY(), Util.DEFAULT_EPSILON);
+	}
+	
+	@Test (expected = ModelException.class)
+	public void testIllegalSpriteArgument() {
+		IFacade facade = new Facade();
+
+		Sprite[] sprites = new Sprite[0];
+		facade.createMazub(0, 0, sprites);
 	}
 }
