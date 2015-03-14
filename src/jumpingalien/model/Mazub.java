@@ -547,9 +547,8 @@ public class Mazub {
 	 * Stops Mazub's horizontal movement and stores the direction of its last movement
 	 * @param 	direction
 	 * 			the direction in which mazub needs to be stop moving
-	 * @throws	IllegalArgumentException
-	 * 			if the given direction is not RIGHT or LEFT
-	 * 			|((direction != Direction.RIGHT) && (direction != Direction.RIGHT))
+	 * @pre		if the given direction is needs to be Direction.LEFT or Direction.RIGHT
+	 * 			|((direction == Direction.RIGHT) || (direction == Direction.LEFT))
 	 * @post	if the last movement was to the right and this Mazub is not ducking, 
 	 * 				then the lastMoveDirection equals Direction.RIGHT
 	 * 			| if isMovingRight() then
@@ -581,9 +580,8 @@ public class Mazub {
 	 * 			| new.getLastMoveTimer() == getTimer() && new.getVelocityX() == 0 &&
 	 * 			| 	new.getAccelerationX() == 0
 	 */
-	public void endMove(Direction direction) throws IllegalArgumentException {
-		if ((direction != Direction.RIGHT) && (direction != Direction.RIGHT))
-			throw new IllegalArgumentException();
+	public void endMove(Direction direction){
+		assert ((direction == Direction.RIGHT) || (direction == Direction.LEFT));
 		if ( direction == Direction.RIGHT ){
 			if (isMovingRight()){
 				if (isDucking())
