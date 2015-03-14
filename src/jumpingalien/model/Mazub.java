@@ -268,7 +268,7 @@ public class Mazub {
 	 * 			|	new.getAcceleration() == 0
 	 */
 	private void setAccelerationX(double accelerationX) {
-		if (accelerationX < 0)
+		if (accelerationX < 0 )
 				accelerationX = 0;
 		this.accelerationX = accelerationX;
 	}
@@ -480,7 +480,8 @@ public class Mazub {
 	 * 			|setTimer(getTimer() - 0.075); 
 	 */
 	private int spritesMovingLeftNormal() {
-		if ((this.getSpriteIndex() > 9 + getAmountSpritesForMovement() * 2) || this.getSpriteIndex() < 9 + this.getAmountSpritesForMovement())
+		if ((this.getSpriteIndex() > 9 + getAmountSpritesForMovement() * 2) 
+				|| this.getSpriteIndex() < 9 + this.getAmountSpritesForMovement())
 			return 9 + getAmountSpritesForMovement();
 		if (this.getTimer() >= 0.075){
 			this.setTimer(this.getTimer() - 0.075);
@@ -496,8 +497,8 @@ public class Mazub {
 	 * 
 	 * @param 	direction
 	 * 			the direction in which this Mazub needs to start moving
-	 * @pre		The given direction needs to be, RIGHT, LEFT or UP
-	 * 			|direction == Direction.RIGHT || direction == Direction.LEFT || direction == Direction.UP
+	 * @pre		The given direction needs to be, RIGHT, LEFT
+	 * 			|direction == Direction.RIGHT || direction == Direction.LEFT
 	 * @effect 	if the given direction is RIGHT, the horizontal velocity will be set to the 
 	 * 				initial horizontal velocity
 	 * 				and the acceleration will be equal to the initial horizontal acceleration
@@ -509,25 +510,30 @@ public class Mazub {
 	 * 				and the acceleration will be set to the initial horizontal acceleration
 	 * 			|if (direction == Direction.LEFT) then
 	 * 			|	setVelocityX(getInitialHorizontalVelocity()*(-1))
-	 * 			|	setAccelerationX(getInitialHorizontalAcceleration())
-	 * @effect	if the given direction is UP, the vertical velocity will be set to 8 and the
-	 * 				vertical acceleration will be set to minus ten
-	 * 			|if (direction == Direction.UP) then
-	 * 			|	setVelocityY(8)
-	 * 			| 	setAccelerationY(-10) 				
+	 * 			|	setAccelerationX(getInitialHorizontalAcceleration())				
 	 */
 	public void startMove(Direction direction) {
-		assert(direction == Direction.RIGHT || direction == Direction.LEFT || direction == Direction.UP);
+		assert(direction == Direction.RIGHT || direction == Direction.LEFT);
 		if (direction == Direction.RIGHT) {
 			setVelocityX(getInitialHorizontalVelocity());
 			setAccelerationX(getInitialHorizontalAcceleration());
 		} else if (direction == Direction.LEFT){
 			setVelocityX(getInitialHorizontalVelocity()*-1);
 			setAccelerationX(getInitialHorizontalAcceleration());
-		} else if (direction == Direction.UP){
-			setVelocityY(8);
-			setAccelerationY(-10);
 		}
+	}
+
+
+	/**
+	 * Let this Mazub jumping
+	 *  @effect	the vertical velocity will be set to 8 
+	 *  			and the vertical acceleration will be set to minus ten
+	 * 			|	setVelocityY(8)
+	 * 			| 	setAccelerationY(-10) 
+	 */
+	public void startJump() {
+		setVelocityY(8);
+		setAccelerationY(-10);
 	}
 	
 	/**
@@ -684,9 +690,9 @@ public class Mazub {
 	 * 			| if !isMovingLeft() then
 	 * 			|	updateLocation(seconds, getAccelerationX())
 	 * 			|	updateVelocityX(seconds, getAccelerationX())
-	 * @effect	Also the vertical velocity and acceleration will be updated using
-	 * 				updateVelocityAcceleration() with the given seconds as parameter
-	 * 			| updateVelocityAcceleration(seconds)
+	 * @effect	Also the vertical velocity and acceleration will be updated using the methode
+	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
+	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
 	public void advanceTime(double seconds) throws IllegalArgumentException {
 		if (seconds < 0 || seconds >= 0.2) 
@@ -700,7 +706,7 @@ public class Mazub {
 				
 		updateVelocityX(seconds, accelerationX);
 		
-		updateVelocityAccelerationY(seconds);
+		updateVelocityYAndAccelerationY(seconds);
 	}
 
 	
@@ -724,7 +730,7 @@ public class Mazub {
 	 * 			|	setVelocityY(0)
 	 * 			|	setAccelerationY(0)
 	 */
-	private void updateVelocityAccelerationY(double seconds) {
+	private void updateVelocityYAndAccelerationY(double seconds) {
 		assert(seconds >= 0);
 		if (getLocationY() <= 0) {
 			setVelocityY(0);
@@ -732,6 +738,7 @@ public class Mazub {
 		} else {
 			double velocityY = getVelocityY() + getAccelerationY()*seconds;
 			setVelocityY(velocityY);
+			setAccelerationY(-10);
 		}
 	}
 

@@ -89,6 +89,16 @@ public class PartialFacadeTest {
 		
 	}
 	
+	@Test(expected = ModelException.class)
+	public void testToBigTimeAmount2() {
+		IFacade facade = new Facade();
+
+		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
+			
+		facade.advanceTime(alien, 0.2);			
+		
+	}
+	
 	@Test 
 	public void testIllegalPosition() {
 		IFacade facade = new Facade();
@@ -365,6 +375,26 @@ public class PartialFacadeTest {
 
 		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
 		facade.startJump(alien);
+		
+		assertEquals(8, alien.getVelocityY(), Util.DEFAULT_EPSILON);
+	}
+	
+	@Test
+	public void testStartJump() {
+		IFacade facade = new Facade();
+
+		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
+		facade.startJump(alien);
+		
+		assertEquals(-10, alien.getAccelerationY(), Util.DEFAULT_EPSILON);
+	}
+	
+	@Test
+	public void testFalling() {
+		IFacade facade = new Facade();
+
+		Mazub alien = facade.createMazub(0, 10, spriteArrayForSize(2, 2));
+		facade.advanceTime(alien, 0.01);
 		
 		assertEquals(-10, alien.getAccelerationY(), Util.DEFAULT_EPSILON);
 	}
