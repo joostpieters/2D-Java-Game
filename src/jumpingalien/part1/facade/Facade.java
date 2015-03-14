@@ -77,7 +77,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void endMoveLeft(Mazub alien) {
-		alien.stopMoveX();
+		alien.endMove(Direction.LEFT);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void endMoveRight(Mazub alien) {
-		alien.stopMoveX();
+		alien.endMove(Direction.RIGHT);
 		
 	}
 

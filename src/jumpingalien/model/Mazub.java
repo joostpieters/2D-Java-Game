@@ -573,22 +573,29 @@ public class Mazub {
 	 * 			|	if isDucking() then
 	 * 			|		new.getLastMoveDirection(Direction.LEFT_AND_DUCKING)
 	 */
-	public void stopMoveX(){
-		if (isMovingRight()){
-			if (isDucking())
-				this.setLastMoveDirection(Direction.RIGHT_AND_DUCKING);
-			else
-				this.setLastMoveDirection(Direction.RIGHT);	
+	public void endMove(Direction direction){
+		if ( direction == Direction.RIGHT ){
+			if (isMovingRight()){
+				if (isDucking())
+					this.setLastMoveDirection(Direction.RIGHT_AND_DUCKING);
+				else
+					this.setLastMoveDirection(Direction.RIGHT);	
+				setVelocityX(0);
+				setAccelerationX(0);
+				this.setLastMoveTimer(getTimer());
+			}
 		}
-		else if (isMovingLeft()){
-			if (isDucking())
-				this.setLastMoveDirection(Direction.LEFT_AND_DUCKING);
-			else
-				this.setLastMoveDirection(Direction.LEFT);
+		if ( direction == Direction.LEFT ){
+			if (isMovingLeft()){
+				if (isDucking())
+					this.setLastMoveDirection(Direction.LEFT_AND_DUCKING);
+				else
+					this.setLastMoveDirection(Direction.LEFT);
+				setVelocityX(0);
+				setAccelerationX(0);
+				this.setLastMoveTimer(getTimer());
+			}
 		}
-		this.setLastMoveTimer(getTimer());
-		setVelocityX(0);
-		setAccelerationX(0);		
 	}
 	
 	/**
