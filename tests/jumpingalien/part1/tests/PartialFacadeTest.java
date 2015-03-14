@@ -342,4 +342,15 @@ public class PartialFacadeTest {
 		Sprite[] sprites = new Sprite[10];
 		facade.createMazub(0, 0, sprites);
 	}
+	
+	@Test
+	public void stopMovingWhileNotMoving() {
+		IFacade facade = new Facade();
+
+		Mazub alien = facade.createMazub(0, 0, spriteArrayForSize(2, 2));
+		facade.advanceTime(alien, 0.1);
+		facade.endMoveRight(alien);
+		
+	}
 }
+
