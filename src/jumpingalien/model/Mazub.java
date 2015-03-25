@@ -11,6 +11,9 @@ import jumpingalien.util.Sprite;
  * @invar	the Mazub's location is always in the game window
  * 			|  ((0 <= getLocationX()) && (getLocationX() < getWindowWidth()) 
  * 				&& (0 <= getLocationY()) && (getLocationY < getWindowHeight())
+ * 
+ * @invar	the Mazub's hitpoints are always between 0 and 500
+ * 			| (0 <= getHitPoints()) && (getHitPoints() <= 500)
  */
 public class Mazub {
 
@@ -37,6 +40,8 @@ public class Mazub {
 	 * 			| setTimer(0)
 	 * @post	calculate the number of sprites used to alternate when moving
 	 * 			| new.getAmountSpritesForMovement() = (sprites.length - 8) / 2 - 1
+	 * @effect	set hitpoints to 100
+	 * 			| setHitPoints(100)
 	 */
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws IllegalArgumentException{
 		this.setLocation(pixelLeftX, pixelBottomY);
@@ -48,6 +53,7 @@ public class Mazub {
 		this.setSpriteIndex(0);
 		this.setTimer(0);
 		this.amountSpritesForMovement = (sprites.length - 10) / 2;
+		this.setHitPoints(100);
 	}
 	
 	
@@ -1090,4 +1096,41 @@ public class Mazub {
 	 */
 	private final int amountSpritesForMovement;
 
+	
+	/**
+	 * @return the hitPoints
+	 */
+	@Basic
+	public int getHitPoints() {
+		return hitPoints;
+	}
+
+
+	/**
+	 * @param hitPoints the hitPoints to set
+	 * @post	if the given hitPoints is less than zero, the hitpoints will be set to zero
+	 * 			| if (hitPoints < 0)
+	 * 			|	then new.getHitPoints() == 0
+	 * @post	if the given hitPoints is greater than 500, the hitpoints will be set to 500
+	 * 			| if (hitPoints > 500)
+	 * 			|	then new.getHitPoints() == 500
+	 * @post 	if the given hitPoints are between 0 and 500, the hitpoints will be set to the given hitPoints
+	 * 			| if ((hitPoints >= 0) && (hitPoints <= 500))
+	 * 			|	then new.getHitPoints() == hitPoints
+	 */
+	private void setHitPoints(int hitPoints) {
+		if (hitPoints < 0)
+			this.hitPoints = 0;
+		else if (hitPoints > 500)
+			this.hitPoints = 500;
+		else
+			this.hitPoints = hitPoints;
+	}
+	
+	/**
+	 * This variable contains the hitpoints of this Mazub
+	 */
+	private int hitPoints;
+
+	
 }
