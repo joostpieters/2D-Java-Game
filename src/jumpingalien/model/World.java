@@ -122,7 +122,7 @@ public class World  {
 	 * 
 	 * @return 	The pixel coordinates of the visible window, in the order
 	 *         		left, bottom, right, top
-	 *         	|{getVisibleWindowWidth(), getVisibleWindowHeight()}
+	 *         	|{0, 0, getVisibleWindowWidth(), getVisibleWindowHeight()}
 	 */
 	public int[] getVisibleWindow(){
 		int[] window = new int[4];
