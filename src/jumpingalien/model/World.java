@@ -15,8 +15,7 @@ public class World  {
 	}
 	
 	/**
-	 * 
-	 * @return tileSize
+	 * Returns the length (in pixels) of a side of each square tile of this world
 	 */
 	private int getTileSize() {
 		return tileSize;
@@ -28,8 +27,7 @@ public class World  {
 	private final int tileSize;
 	
 	/**
-	 * 
-	 * @return nbTilesX
+	 * Returns the number of tiles in the horizontal direction of this world
 	 */
 	private int getNbTilesX() {
 		return nbTilesX;
@@ -40,8 +38,7 @@ public class World  {
 	private final int nbTilesX;
 	
 	/**
-	 * 
-	 * @return nbTilesY
+	 * Returns the number of tiles in the vertical direction of this world
 	 */
 	private int getNbTilesY() {
 		return nbTilesY;
@@ -53,8 +50,7 @@ public class World  {
 	private final int nbTilesY;
 	
 	/**
-	 * 
-	 * @return visibleWindowWidth
+	 * Returns the width of the visible window, in pixels of this world
 	 */
 	private int getVisibleWindowWidth() {
 		return visibleWindowWidth;
@@ -66,8 +62,7 @@ public class World  {
 	private final int visibleWindowWidth;
 	
 	/**
-	 * 
-	 * @return visibleWindowHeight
+	 * Returns the height of the visible window, in pixels of this world
 	 */
 	private int getVisibleWindowHeight() {
 		return visibleWindowHeight;
@@ -79,8 +74,7 @@ public class World  {
 	private final int visibleWindowHeight;
 	
 	/**
-	 * 
-	 * @return targetTileX
+	 * Returns the tile x-coordinate of the target tile of this world
 	 */
 	private int getTargetTileX() {
 		return targetTileX;
@@ -92,8 +86,7 @@ public class World  {
 	private final int targetTileX;
 	
 	/**
-	 * 
-	 * @return targetTileY
+	 * Returns the tile y-coordinate of the target tile of this world
 	 */
 	private int getTargetTileY() {
 		return targetTileY;
