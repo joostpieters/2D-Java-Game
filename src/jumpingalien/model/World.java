@@ -14,12 +14,19 @@ package jumpingalien.model;
 public class World  {
 	/**
 	 * @param tileSize
+	 *            Length (in pixels) of a side of each square tile in the world
 	 * @param nbTilesX
+	 *            Number of tiles in the horizontal direction
 	 * @param nbTilesY
+	 *            Number of tiles in the vertical direction
 	 * @param visibleWindowWidth
+	 *            Width of the visible window, in pixels
 	 * @param visibleWindowHeight
+	 *            Height of the visible window, in pixels
 	 * @param targetTileX
+	 *            Tile x-coordinate of the target tile of the created world
 	 * @param targetTileY
+	 *            Tile y-coordinate of the target tile of the created world
 	 * @throws	IllegalArgumentException
 	 * 			the given tileSize, nbTilesX or nbTilesY is smaller or equal to zero
 	 * 			| (tileSize <= 0) || (nbTilesX <= 0) || (nbTilesY <= 0)
