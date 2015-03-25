@@ -1098,7 +1098,7 @@ public class Mazub {
 
 	
 	/**
-	 * @return the hitPoints
+	 * Returns the hitpoints of this Mazub
 	 */
 	@Basic
 	public int getHitPoints() {
