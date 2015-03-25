@@ -156,4 +156,35 @@ public class World  {
 	 * this variable contains the tile y-coordinate of the target tile of this world
 	 */
 	private final int targetTileY;
+	
+	/**
+	 * Returns the bottom left pixel coordinate of the tile at the given tile position.
+	 * @param tileX
+	 * 			The x-position x_T of the tile
+	 * @param tileY
+	 * 			The y-position y_T of the tile
+	 * @return An array which contains the x-coordinate and y-coordinate of the
+	 *         bottom left pixel of the given tile, in that order.
+	 *         | {tileX * getTileSize(), tileY * getTileSize()}
+	 */
+	public int[] getBottomLeftPixelOfTile(int tileX, int tileY) {
+		int[] bottomLeftPixel = new int[2];
+		bottomLeftPixel[0] = tileX * getTileSize();
+		bottomLeftPixel[1] = tileY * getTileSize();
+		return bottomLeftPixel;
+	}
+	
+	/**
+	 * Sets the given alien as the player's character in this world.
+	 * @param alien
+	 * 			The alien to be set as the player's character.
+	 */
+	public void setMazub(Mazub alien) {
+		this.alien = alien;
+	}
+	
+	/**
+	 * This variable contains the player's character in this world.
+	 */
+	private Mazub alien;
 }

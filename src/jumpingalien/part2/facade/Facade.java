@@ -179,8 +179,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getBottomLeftPixelOfTile(World world, int tileX, int tileY) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getBottomLeftPixelOfTile(tileX, tileY);
 	}
 
 	@Override
@@ -206,8 +205,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void setMazub(World world, Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		world.setMazub(alien);		
 	}
 
 	@Override
