@@ -61,7 +61,6 @@ public class Facade implements IFacade {
 	@Override
 	public void startJump(Mazub alien) {
 		alien.startJump();
-		
 	}
 
 	@Override

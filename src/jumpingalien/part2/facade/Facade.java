@@ -2,6 +2,7 @@ package jumpingalien.part2.facade;
 
 import java.util.Collection;
 
+import jumpingalien.model.Direction;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
 import jumpingalien.model.School;
@@ -15,92 +16,107 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			Mazub alien = new Mazub(pixelLeftX, pixelBottomY, sprites);
+			return alien;
+		} catch (IllegalArgumentException e){
+			throw new ModelException("Illegal Sprite argment");
+		}
 	}
 
 	@Override
 	public int[] getLocation(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		int location[] = new int[2];
+		location[0] = (int) alien.getLocationX();
+		location[1] = (int) alien.getLocationY();
+		return location;
 	}
 
 	@Override
 	public double[] getVelocity(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		double[] velocity = new double[2];
+		velocity[0] = alien.getVelocityX();
+		velocity[1] = alien.getVelocityY();
+		return velocity;
 	}
 
 	@Override
 	public double[] getAcceleration(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		double[] acceleration = new double[2];
+		acceleration[0] = alien.getAccelerationX();
+		acceleration[1] = alien.getAccelerationY();
+		return acceleration;
 	}
 
 	@Override
 	public int[] getSize(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			return alien.getSize();
+		} catch (ModelException e){
+			throw new ModelException("Unvalid current sprite");
+		}
 	}
 
 	@Override
 	public Sprite getCurrentSprite(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		return alien.getCurrentSprite();
 	}
 
 	@Override
 	public void startJump(Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		alien.startJump();
 	}
 
 	@Override
 	public void endJump(Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		alien.endJump();
 	}
 
 	@Override
 	public void startMoveLeft(Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		alien.startMove(Direction.LEFT);
 	}
 
 	@Override
 	public void endMoveLeft(Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		alien.endMove(Direction.LEFT);
 	}
 
 	@Override
 	public void startMoveRight(Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		alien.startMove(Direction.RIGHT);
 	}
 
 	@Override
 	public void endMoveRight(Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		alien.endMove(Direction.RIGHT);
 	}
 
 	@Override
 	public void startDuck(Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		try{
+			alien.startDucking();
+		} catch (IllegalStateException e){
+			throw new ModelException("Mazub is already ducking");
+		}
 	}
 
 	@Override
 	public void endDuck(Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		try{
+			alien.endDucking();
+		} catch (IllegalStateException e){
+			throw new ModelException("Mazub is not ducking");
+		}	
 	}
 
 	@Override
 	public void advanceTime(Mazub alien, double dt) {
-		// TODO Auto-generated method stub
-		
+		try {
+			alien.advanceTime(dt);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("The elapsed time can never be negative.");
+		}
 	}
 
 	@Override
