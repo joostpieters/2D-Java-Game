@@ -128,9 +128,14 @@ public class Facade implements IFacadePart2 {
 	public World createWorld(int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight, int targetTileX,
 			int targetTileY) {
-		return new World(tileSize, nbTilesX, nbTilesY,
-			visibleWindowWidth, visibleWindowHeight, targetTileX,
-			 targetTileY);
+		try{
+			World world = new World(tileSize, nbTilesX, nbTilesY,
+					visibleWindowWidth, visibleWindowHeight, targetTileX,
+					 targetTileY);
+			return world;
+		} catch (IllegalArgumentException e){
+			throw new ModelException("Illegal Argument for Game World");
+		}
 	}
 
 	@Override

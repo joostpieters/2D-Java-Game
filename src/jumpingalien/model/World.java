@@ -1,10 +1,27 @@
 package jumpingalien.model;
 
 public class World  {
-	
+	/**
+	 * tileSize > 0
+	 * nbTilesX > 0
+	 * nbTilesY > 0
+	 * @param tileSize
+	 * @param nbTilesX
+	 * @param nbTilesY
+	 * @param visibleWindowWidth
+	 * @param visibleWindowHeight
+	 * @param targetTileX
+	 * @param targetTileY
+	 * @throws	IllegalArgumentException
+	 * 			the given tileSize, nbTilesX or nbTilesY is smaller or equal to zero
+	 * 			| (tileSize <= 0) || (nbTilesX <= 0) || (nbTilesY <= 0)
+	 */
 	public World (int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight, int targetTileX,
-			int targetTileY){
+			int targetTileY) throws IllegalArgumentException {
+		if ((tileSize <= 0) || (nbTilesX <= 0) || (nbTilesY <= 0))
+			throw new IllegalArgumentException();
+		
 		this.tileSize = tileSize;
 		this.nbTilesX = nbTilesX;
 		this.nbTilesY = nbTilesY;
