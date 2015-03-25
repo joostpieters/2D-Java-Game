@@ -40,6 +40,7 @@ public class World  {
 		this.tileSize = tileSize;
 		this.nbTilesX = nbTilesX;
 		this.nbTilesY = nbTilesY;
+		this.geologicalFeatureOfTiles = new int[nbTilesX][nbTilesY];
 		this.visibleWindowHeight = visibleWindowHeight;
 		this.visibleWindowWidth = visibleWindowWidth;
 		this.targetTileX = targetTileX;
@@ -187,4 +188,84 @@ public class World  {
 	 * This variable contains the player's character in this world.
 	 */
 	private Mazub alien;
+	
+	/**
+	 * Returns the feature of the given tile
+	 * @param 	tileX
+	 *            The x-position x_T of the tile for which the feature needs to be returned
+	 * @param 	tileY
+	 *            The y-position y_T of the tile for which the feature needs to be returned  
+	 * @pre		the given tile coordinate x_T and y_T needs to be valid
+	 * 			|isValidTileCoordinate(tileX, tileY)
+	 * @return 	The type of the tile with the given x-position x_T and y-position y_T ,
+	 *         		where
+	 *         		the value 0 is provided for an air tile
+	 *         		the value 1 is provided for a solid ground tile
+	 *            	the value 2 is provided for a water tile
+	 *           	the value 3 is provided for a magma tile
+	 */
+	public int getGeologicalFeatureOfTile(int tileX, int tileY){
+		assert(isValidTileCoordinate(tileX, tileY));
+		return geologicalFeatureOfTiles[tileX][tileY];
+	}
+	
+	/**
+	 * 
+	 * @param 	tileX
+	 *            The x-position x_T of the tile for which the type needs to be
+	 *            modified
+	 * @param 	tileY
+	 *            The y-position y_T of the tile for which the type needs to be
+	 *            modified
+	 * @param 	tileType
+	 *            The new type for the given tile, where
+	 *            the value 0 is provided for an air tile
+	 *            the value 1 is provided for a solid ground tile
+	 *            the value 2 is provided for a water tile
+	 *            the value 3 is provided for a magma tile
+	 * @post	the new geological feature of this tile equals the given tileType
+	 * 			|new.getGeologicalFeatureOfTile(tileX, tileY) = tileType;
+	 * @throws	IllegalArgumentException
+	 * 			when the given tileType is less than 
+	 */
+	public void setGeologicalFeatureOfTile(int tileX, int tileY, int tileType) 
+			throws IllegalArgumentException{
+		if (! isValidTileType(tileType) || (! isValidTileCoordinate(tileX, tileY)))
+			throw new IllegalArgumentException();
+		this.geologicalFeatureOfTiles[tileX][tileY] = tileType;
+	}
+	
+	/**
+	 * Checks if a given tile type is valid
+	 * @param 	tileType
+	 * 			the tile type that needs to be checked 
+	 * @return	true is the given tileType is between 0 and 3 (inclusive 0 and 3)
+	 * 				otherwise returns false
+	 * 			|((tileType < 0)||(tileType > 3))
+	 */
+	public boolean isValidTileType(int tileType){
+		return ((tileType >= 0)||(tileType <= 3));
+	}
+	
+	/**
+	 * Returs whereas the given X_T and Y_T coordinate is valid
+	 * @param 	xT
+	 * 			the X_T coordinate of the tile
+	 * @param 	yT
+	 * 			the Y_T coordinate of the tile
+	 * @return	true when xT and yT are greater or equal to zero and 
+	 * 				xT is less than the amount of horzontal tiles and 
+	 * 				yT is less than the amount of vertical tilles
+	 * 				otherwise returns false
+	 * 			|((xT >= 0) && (xT < getNbTilesX()) && (yT >= 0) && (yT < getNbTilesY()))
+	 */
+	public boolean isValidTileCoordinate(int xT, int yT){
+		return ((xT >= 0) && (xT < getNbTilesX()) && (yT >= 0) && (yT < getNbTilesY()));
+	}
+	
+	/**
+	 * This table contains the geological feature of all tiles in this world
+	 */
+	private int[][] geologicalFeatureOfTiles;
 }
+
