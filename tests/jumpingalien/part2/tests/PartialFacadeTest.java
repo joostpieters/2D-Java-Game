@@ -9,6 +9,7 @@ import jumpingalien.model.Mazub;
 import jumpingalien.model.World;
 import jumpingalien.part2.facade.Facade;
 import jumpingalien.part2.facade.IFacadePart2;
+import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 
@@ -131,6 +132,24 @@ public class PartialFacadeTest {
 		}
 
 		assertEquals(sprites[8 + m], facade.getCurrentSprite(alien));
+	}
+	
+	@Test(expected = ModelException.class)
+	public void testIllegalWorldArguments1() {
+		IFacadePart2 facade = new Facade();
+		World world = facade.createWorld(0, 1, 2, 1, 1, 1, 1);
+	}
+	
+	@Test(expected = ModelException.class)
+	public void testIllegalWorldArguments2() {
+		IFacadePart2 facade = new Facade();
+		World world = facade.createWorld(500, -1, 2, 1, 1, 1, 1);
+	}
+	
+	@Test(expected = ModelException.class)
+	public void testIllegalWorldArguments3() {
+		IFacadePart2 facade = new Facade();
+		World world = facade.createWorld(500, 1, -2, 1, 1, 1, 1);
 	}
 
 }
