@@ -140,14 +140,12 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getWorldSizeInPixels(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getWorldSizeInPixels();
 	}
 
 	@Override
 	public int getTileLength(World world) {
-		// TODO Auto-generated method stub
-		return 0;
+		return world.getTileSize();
 	}
 
 	@Override

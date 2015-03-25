@@ -24,9 +24,9 @@ public class World  {
 	 * @param visibleWindowHeight
 	 *            Height of the visible window, in pixels
 	 * @param targetTileX
-	 *            Tile x-coordinate of the target tile of the created world
+	 *            Tile x-coordinate of the target tile of the new world
 	 * @param targetTileY
-	 *            Tile y-coordinate of the target tile of the created world
+	 *            Tile y-coordinate of the target tile of the new world
 	 * @throws	IllegalArgumentException
 	 * 			the given tileSize, nbTilesX or nbTilesY is smaller or equal to zero
 	 * 			| (tileSize <= 0) || (nbTilesX <= 0) || (nbTilesY <= 0)
@@ -47,9 +47,22 @@ public class World  {
 	}
 	
 	/**
+	 * Return the world size as an array in pixels
+	 * @return 	The size of the game world, in pixels, as an array of two
+	 *         		elements: width (X) and height (Y), in that order.
+	 *         	| {getNbTilesX() * getTileSize(), getNbTilesY() * getTileSize()}
+	 */
+	public int[] getWorldSizeInPixels(){
+		int worldSize[] = new int[2];
+		worldSize[0] = getNbTilesX() * getTileSize();
+		worldSize[1] = getNbTilesY() * getTileSize();
+		return worldSize;
+	}
+	
+	/**
 	 * Returns the length (in pixels) of a side of each square tile of this world
 	 */
-	private int getTileSize() {
+	public int getTileSize() {
 		return tileSize;
 	}
 	
