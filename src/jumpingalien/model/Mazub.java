@@ -6,7 +6,7 @@ import jumpingalien.util.Sprite;
 
 /**
  * 
- * @author Pieter-Jan en Stijn
+ * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
  *
  * @invar	the Mazub's location is always in the game window
  * 			|  ((0 <= getLocationX()) && (getLocationX() < getWindowWidth()) 
