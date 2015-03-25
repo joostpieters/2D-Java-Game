@@ -1,10 +1,18 @@
 package jumpingalien.model;
 
+/**
+ * 
+ * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
+ * 
+ * @invar	the tileSize is greater than zero
+ * 			| getTileSize > 0;
+ * @invar	the nbTilesX is greater than zero
+ * 			| getNbTilesX > 0;
+ * @invar	the nbTilesY is greater than zero
+ * 			| getNbTilesY > 0;
+ */
 public class World  {
 	/**
-	 * tileSize > 0
-	 * nbTilesX > 0
-	 * nbTilesY > 0
 	 * @param tileSize
 	 * @param nbTilesX
 	 * @param nbTilesY
