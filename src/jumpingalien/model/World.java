@@ -119,6 +119,21 @@ public class World  {
 	private final int visibleWindowHeight;
 	
 	/**
+	 * 
+	 * @return 	The pixel coordinates of the visible window, in the order
+	 *         		left, bottom, right, top
+	 *         	|{getVisibleWindowWidth(), getVisibleWindowHeight()}
+	 */
+	public int[] getVisibleWindow(){
+		int[] window = new int[4];
+		window[0] = 0;
+		window[1] = 0;
+		window[2] = getVisibleWindowWidth();
+		window[3] = getVisibleWindowHeight();
+		return window;
+	}
+	
+	/**
 	 * Returns the tile x-coordinate of the target tile of this world
 	 */
 	private int getTargetTileX() {

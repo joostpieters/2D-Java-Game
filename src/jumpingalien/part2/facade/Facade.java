@@ -174,8 +174,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getVisibleWindow(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getVisibleWindow();
 	}
 
 	@Override
