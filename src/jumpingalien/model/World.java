@@ -243,10 +243,22 @@ public class World  {
 	 * 				otherwise returns false
 	 * 			|((tileType < 0)||(tileType > 3))
 	 */
-	public boolean isValidTileType(int tileType){
+	private boolean isValidTileType(int tileType){
 		return ((tileType >= 0)||(tileType <= 3));
 	}
 	
+	/**
+	 * 
+	 * @param 	pixelX
+	 * 			The X coordinate of the pixel
+	 * @param 	pixelY
+	 * 			The Y coordinate of the pixel
+	 * @return	...
+	 * 			|getGeologicalFeatureOfTile(pixelInWhichTile(pixelX, pixelY)[0], pixelInWhichTile(pixelX, pixelY)[1])
+	 * @throws 	IllegalArgumentException
+	 * 			...
+	 * 			|(!isValidBottomLeftTilePixel(pixelX, pixelY))
+	 */
 	public int getGeologicalFeatureByPixel(int pixelX, int pixelY) throws IllegalArgumentException{
 		if(!isValidBottomLeftTilePixel(pixelX, pixelY)){
 			throw new IllegalArgumentException();
@@ -255,6 +267,8 @@ public class World  {
 		return getGeologicalFeatureOfTile(tile[0], tile[1]);	
 		
 	}
+	
+	
 	
 	/**
 	 * 
