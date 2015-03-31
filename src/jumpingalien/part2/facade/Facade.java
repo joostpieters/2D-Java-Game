@@ -222,8 +222,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Plant createPlant(int x, int y, Sprite[] sprites) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Plant(x, y, sprites);
 	}
 
 	@Override
