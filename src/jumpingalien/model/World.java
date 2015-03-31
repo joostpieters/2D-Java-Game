@@ -286,6 +286,22 @@ public class World  {
 		
 	}
 	
+	/**
+	 * 
+	 * @param 	pixelLeft
+	 * @param 	pixelBottom
+	 * @param 	pixelRight
+	 * @param 	pixelTop
+	 * @return 	An array of tile positions, where each position (x_T, y_T) is
+	 *         	represented as an array of 2 elements, containing the horizontal
+	 *         	(x_T) and vertical (y_T) coordinate of a tile in that order.
+	 *         	The returned array is ordered from left to right,
+	 *         	bottom to top: all positions of the bottom row (ordered from
+	 *         	small to large x_T) precede the positions of the row above that.
+	 * 			|
+	 */
+	
+	//TODO commentaar
 	public int[][] getTilePositionsIn(int pixelLeft, int pixelBottom, int pixelRight, int pixelTop){
 		int[] rightTop = pixelInWhichTile(pixelRight, pixelTop);
 		int[] leftBottom = pixelInWhichTile(pixelLeft, pixelBottom);
