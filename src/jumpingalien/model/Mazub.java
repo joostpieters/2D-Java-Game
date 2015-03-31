@@ -685,11 +685,7 @@ public class Mazub {
 	/**
 	 * Given a time this methode will update the location, velocity and acceleration of this Mazub	 * 
 	 * @param 	seconds
-	 * 			the elapsed seconds
-	 * @pre 	seconds is greater or equal to zero
-	 * 			| seconds >= 0
-	 * @pre 	seconds is smaller than 0.2
-	 * 			| seconds < 0.2
+	 * 			the elapsed second
 	 * @throws 	IllegalArgumentException
 	 * 			if seconds is less than zero or if seconds is equal or bigger than 0.2
 	 * 			| (seconds < 0 || seconds >= 0.2)

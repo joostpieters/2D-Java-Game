@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import be.kuleuven.cs.som.annotate.Basic;
+
 /**
  * 
  * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
@@ -63,6 +65,7 @@ public class World  {
 	/**
 	 * Returns the length (in pixels) of a side of each square tile of this world
 	 */
+	@Basic
 	public int getTileSize() {
 		return tileSize;
 	}
@@ -75,6 +78,7 @@ public class World  {
 	/**
 	 * Returns the number of tiles in the horizontal direction of this world
 	 */
+	@Basic
 	private int getNbTilesX() {
 		return nbTilesX;
 	}
@@ -86,6 +90,7 @@ public class World  {
 	/**
 	 * Returns the number of tiles in the vertical direction of this world
 	 */
+	@Basic
 	private int getNbTilesY() {
 		return nbTilesY;
 	}
@@ -98,6 +103,7 @@ public class World  {
 	/**
 	 * Returns the width of the visible window, in pixels of this world
 	 */
+	@Basic
 	private int getVisibleWindowWidth() {
 		return visibleWindowWidth;
 	}
@@ -110,6 +116,7 @@ public class World  {
 	/**
 	 * Returns the height of the visible window, in pixels of this world
 	 */
+	@Basic
 	private int getVisibleWindowHeight() {
 		return visibleWindowHeight;
 	}
@@ -137,6 +144,7 @@ public class World  {
 	/**
 	 * Returns the tile x-coordinate of the target tile of this world
 	 */
+	@Basic
 	private int getTargetTileX() {
 		return targetTileX;
 	}
@@ -149,6 +157,7 @@ public class World  {
 	/**
 	 * Returns the tile y-coordinate of the target tile of this world
 	 */
+	@Basic
 	private int getTargetTileY() {
 		return targetTileY;
 	}
@@ -173,6 +182,14 @@ public class World  {
 		bottomLeftPixel[0] = tileX * getTileSize();
 		bottomLeftPixel[1] = tileY * getTileSize();
 		return bottomLeftPixel;
+	}
+	
+	/**
+	 * Returns the mazub of this world
+	 */
+	@Basic
+	private Mazub getMazub() {
+		return this.alien;
 	}
 	
 	/**
@@ -204,6 +221,7 @@ public class World  {
 	 *            	the value 2 is provided for a water tile
 	 *           	the value 3 is provided for a magma tile
 	 */
+	@Basic
 	public int getGeologicalFeatureOfTile(int tileX, int tileY){
 		assert(isValidTileCoordinate(tileX, tileY));
 		return geologicalFeatureOfTiles[tileX][tileY];
@@ -268,8 +286,40 @@ public class World  {
 		
 	}
 	
+	public int[][] getTilePositionsIn(int pixelLeft, int pixelBottom, int pixelRight, int pixelTop){
+		int[] rightTop = pixelInWhichTile(pixelRight, pixelTop);
+		int[] leftBottom = pixelInWhichTile(pixelLeft, pixelBottom);
+		int amountTiles = (rightTop[0]-leftBottom[0]+1) * (rightTop[1]-leftBottom[1]+1);
+		int[][] tiles = new int[amountTiles][2];
+		int left = leftBottom[0];
+		int right = rightTop[0];
+		int bottom = leftBottom[1];
+		for(int i=0; i < amountTiles; i++){
+			tiles[i][0] = left++;
+			tiles[i][1] = bottom;
+			if (left > right){
+				left = leftBottom[0];
+				bottom++;
+			}
+		}
+		return tiles;
+	}
 	
-	
+	/**
+	 * 
+	 * @param 	dt
+	 * 			the elapsed time in seconds
+	 * @throws 	IllegalArgumentException
+	 * 			if dt is less than zero or if seconds is equal or bigger than 0.2
+	 * 			| (dt < 0 || dt >= 0.2)
+	 * @effect	...
+	 * 			|getMazub().advanceTime(dt)
+	 */
+	public void advanceTime(double dt) throws IllegalArgumentException{
+		if (dt < 0 || dt >= 0.2) 
+			throw new IllegalArgumentException();
+		getMazub().advanceTime(dt);
+	}
 	/**
 	 * 
 	 * @param 	pixelX

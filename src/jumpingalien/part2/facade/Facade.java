@@ -167,9 +167,14 @@ public class Facade implements IFacadePart2 {
 	}
 
 	@Override
-	public void advanceTime(World world, double dt) {
-		// TODO Auto-generated method stub
-		
+	public void advanceTime(World world, double dt) throws ModelException {
+		try{
+			world.advanceTime(dt);
+		}
+		catch (IllegalArgumentException e) {
+			throw new ModelException("The given time needs to be between 0 and 0.2");
+		}
+				
 	}
 
 	@Override
@@ -185,8 +190,7 @@ public class Facade implements IFacadePart2 {
 	@Override
 	public int[][] getTilePositionsIn(World world, int pixelLeft,
 			int pixelBottom, int pixelRight, int pixelTop) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getTilePositionsIn(pixelLeft, pixelBottom, pixelRight, pixelTop);	
 	}
 
 	@Override
