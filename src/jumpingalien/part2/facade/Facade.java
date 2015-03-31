@@ -227,26 +227,22 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void addPlant(World world, Plant plant) {
-		// TODO Auto-generated method stub
-		
+		world.addPlant(plant);
 	}
 
 	@Override
 	public Collection<Plant> getPlants(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getPlants();
 	}
 
 	@Override
 	public int[] getLocation(Plant plant) {
-		// TODO Auto-generated method stub
-		return null;
+		return plant.getLocation();
 	}
 
 	@Override
 	public Sprite getCurrentSprite(Plant plant) {
-		// TODO Auto-generated method stub
-		return null;
+		return plant.getCurrentSprite();
 	}
 
 	@Override

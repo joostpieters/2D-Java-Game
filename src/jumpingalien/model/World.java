@@ -392,13 +392,27 @@ public class World  {
 	 */
 	private int[][] geologicalFeatureOfTiles;
 	
-	private void addPlant(Plant plant){
+	/**
+	 * Add the given plant to the plants of this world
+	 * @param plant
+	 * 			the plant to add
+	 * @post	the plant is added to the list of plants
+	 * 			| new.plants.contains(plant)
+	 */
+	public void addPlant(Plant plant){
 		this.plants.add(plant);
 	}
 	
-	private Collection<Plant> getPlants(){
+	/**
+	 * Returns a collection containing the Plants of this World
+	 */
+	public Collection<Plant> getPlants(){
 		return new ArrayList<Plant>(plants);
 	}
+	
+	/**
+	 * This List contains the Plants of this World
+	 */
 	private ArrayList<Plant> plants = new ArrayList<Plant>();
 }
 
