@@ -1,5 +1,8 @@
 package jumpingalien.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import be.kuleuven.cs.som.annotate.Basic;
 
 /**
@@ -388,5 +391,14 @@ public class World  {
 	 * This table contains the geological feature of all tiles in this world
 	 */
 	private int[][] geologicalFeatureOfTiles;
+	
+	private void addPlant(Plant plant){
+		this.plants.add(plant);
+	}
+	
+	private Collection<Plant> getPlants(){
+		return plants;
+	}
+	private ArrayList<Plant> plants = new ArrayList<Plant>();
 }
 
