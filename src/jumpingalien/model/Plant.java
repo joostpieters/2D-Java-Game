@@ -189,6 +189,6 @@ public class Plant {
 	private double timer;
 
 	public void advanceTime(double dt) {
-		setTimer(getTimer()+dt);
+		setTimer(getTimer()+dt);	
 	}
 }
