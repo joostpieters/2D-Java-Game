@@ -192,15 +192,18 @@ public class Facade implements IFacadePart2 {
 	@Override
 	public int getGeologicalFeature(World world, int pixelX, int pixelY)
 			throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		try{
+			return world.getGeologicalFeatureByPixel(pixelX, pixelY);
+		}
+		catch(IllegalArgumentException e){
+			throw new ModelException("The given pixels are no left bottom pixels off a tile");
+		}
 	}
 
 	@Override
 	public void setGeologicalFeature(World world, int tileX, int tileY,
 			int tileType) {
-		// TODO Auto-generated method stub
-		
+		world.setGeologicalFeatureOfTile(tileX, tileY, tileType);
 	}
 
 	@Override

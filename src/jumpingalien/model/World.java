@@ -247,6 +247,47 @@ public class World  {
 		return ((tileType >= 0)||(tileType <= 3));
 	}
 	
+	public int getGeologicalFeatureByPixel(int pixelX, int pixelY) throws IllegalArgumentException{
+		if(!isValidBottomLeftTilePixel(pixelX, pixelY)){
+			throw new IllegalArgumentException();
+		}
+		int[] tile = pixelInWhichTile(pixelX, pixelY);
+		return getGeologicalFeatureOfTile(tile[0], tile[1]);	
+		
+	}
+	
+	/**
+	 * 
+	 * @param 	pixelX
+	 * 			The X coordinate of the pixel
+	 * @param 	pixelY
+	 * 			The Y coordinate of the pixel
+	 * @return	...
+	 * 			|return((pixelX % getTileSize() == 0)&&(pixelY % getTileSize() == 0))
+	 */
+	private boolean isValidBottomLeftTilePixel(int pixelX, int pixelY){
+		return((pixelX % getTileSize() == 0)&&(pixelY % getTileSize() == 0));	
+	}
+	
+	/**
+	 * Returns the tile in which the pixel is located
+	 * 
+	 * @param 	pixelX
+	 * 			The X coordinate of the pixel
+	 * @param 	pixelY
+	 * 			The Y coordinate of the pixel
+	 * @pre		the pixel needs to be in the game World
+	 * 			|((pixelX <= getWorldSizeInPixels()[0]) && (pixelY <= getWorldSizeInPixels()[1]))
+	 * @return	{pixelX / getTileSize(), pixelY / getTileSize()}
+	 */
+	private int[] pixelInWhichTile(int pixelX, int pixelY){
+		assert((pixelX <= getWorldSizeInPixels()[0]) && (pixelY <= getWorldSizeInPixels()[1]));
+		int[] result = new int[2];
+		result[0] = pixelX / getTileSize();
+		result[1] = pixelY / getTileSize();
+		return result;
+	}
+	
 	/**
 	 * Returs whereas the given X_T and Y_T coordinate is valid
 	 * @param 	xT
