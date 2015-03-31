@@ -397,7 +397,7 @@ public class World  {
 	}
 	
 	private Collection<Plant> getPlants(){
-		return plants;
+		return new ArrayList<Plant>(plants);
 	}
 	private ArrayList<Plant> plants = new ArrayList<Plant>();
 }
