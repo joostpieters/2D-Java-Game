@@ -213,8 +213,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public boolean isImmune(Mazub alien) {
-		// TODO Auto-generated method stub
-		return false;
+		return alien.isImmune();
 	}
 
 	@Override

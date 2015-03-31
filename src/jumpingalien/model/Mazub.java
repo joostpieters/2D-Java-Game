@@ -1132,5 +1132,27 @@ public class Mazub {
 	 */
 	private int hitPoints;
 
+	/**
+	 * Sets the immunity of this Mazub to the given status
+	 * @param status
+	 * @post	the new immunity is equal to the given status
+	 * 			| new.getImmunity() == status 
+	 */
+	public void setImmunity(boolean status) {
+		this.immunity = status;
+	}
+	
+	/**
+	 * Returns whether this Mazub is immune.
+	 */
+	@Basic
+	public boolean isImmune() {
+		return this.immunity;
+	}
+	
+	/**
+	 * This variable contains wether this Mazub is immune
+	 */
+	private boolean immunity;
 	
 }
