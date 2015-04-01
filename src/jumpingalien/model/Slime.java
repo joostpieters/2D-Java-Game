@@ -19,6 +19,8 @@ public class Slime {
 	 * @throws	IllegalArgumentException()
 	 * 			...
 	 * 			|((sprites.length != 2) || (!school.canHaveAsSlime(this)))
+	 * @effect	...
+	 * 			| setHitpoints(50)
 	 */
 	public Slime (int x, int y, Sprite[] sprites, School school) throws IllegalArgumentException{
 		if(sprites.length != 2){
@@ -30,6 +32,7 @@ public class Slime {
 		setCurrentSpriteIndex(0);
 		setSchool(school);
 		school.addSlime(this);
+		setHitpoints(50);
 	}
 	
 	/**
@@ -202,4 +205,21 @@ public class Slime {
 	 * This variable contains the school in which this slime is
 	 */
 	private School school;
+	
+	@Basic
+	private int getHitpoints() {
+		return this.hitpoints;
+	}
+	
+	/**
+	 * 
+	 * @param points
+	 * @post	...
+	 * 			| new.getHitpoints() = points
+	 */
+	private void setHitpoints(int points) {
+		this.hitpoints = points;
+	}
+	
+	private int hitpoints;
 }

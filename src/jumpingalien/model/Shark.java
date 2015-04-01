@@ -14,12 +14,15 @@ public class Shark {
 	 * 			| setLocationY(y)
 	 * @effect 	...
 	 * 			| setSprites(sprites)
+	 * @effect	...
+	 * 			| setHitpoints(100)
 	 */
 	public Shark (int x, int y, Sprite[] sprites){
 		setLocationX(x);
 		setLocationY(y);
 		setSprites(sprites);
 		setCurrentSpriteIndex(0);
+		setHitpoints(100);
 	}
 	
 	/**
@@ -161,5 +164,22 @@ public class Shark {
 	 * This variable contains the world where this shark is in
 	 */
 	private World world;
+	
+	@Basic
+	private int getHitpoints() {
+		return this.hitpoints;
+	}
+	
+	/**
+	 * 
+	 * @param points
+	 * @post	...
+	 * 			| new.getHitpoints() = points
+	 */
+	private void setHitpoints(int points) {
+		this.hitpoints = points;
+	}
+	
+	private int hitpoints;
 	
 }
