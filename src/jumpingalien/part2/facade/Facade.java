@@ -290,8 +290,12 @@ public class Facade implements IFacadePart2 {
 	}
 
 	@Override
-	public void addSlime(World world, Slime slime) {
-		world.addSlime(slime);
+	public void addSlime(World world, Slime slime) throws ModelException{
+		try{
+			world.addSlime(slime);
+		} catch (IllegalArgumentException e){
+			throw new ModelException("Invalid argument for addSlime()");
+		}
 		
 	}
 
