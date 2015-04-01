@@ -16,6 +16,9 @@ public class Slime {
 	 * 			| setSprites(sprites)
 	 * @effect	...
 	 * 			| setSchool(school)
+	 * @throws	IllegalArgumentException()
+	 * 			...
+	 * 			|((sprites.length != 2) || (!school.canHaveAsSlime(this)))
 	 */
 	public Slime (int x, int y, Sprite[] sprites, School school) throws IllegalArgumentException{
 		if(sprites.length != 2){
