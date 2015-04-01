@@ -752,7 +752,7 @@ public class Mazub {
 	 */
 	private void updateVelocityYAndAccelerationY(double seconds) {
 		assert(seconds >= 0);
-		if (getLocationY() <= 0) {
+		if (isOnSolidGround()) {
 			setVelocityY(0);
 			setAccelerationY(0);
 		} else {
@@ -1154,8 +1154,14 @@ public class Mazub {
 	private boolean isOnSolidGround(){
 		int startX = (int) getLocationX();
 		int endX = startX + getCurrentSprite().getWidth();
-		
-		return true;
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(startX, (int)getLocationY(), endX, (int)getLocationY());
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
