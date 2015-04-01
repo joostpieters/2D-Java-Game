@@ -387,6 +387,8 @@ public class World  {
 	 * 			|((xT >= 0) && (xT < getNbTilesX()) && (yT >= 0) && (yT < getNbTilesY()))
 	 */
 	public boolean isValidTileCoordinate(int xT, int yT){
+		System.out.println(xT + ", " + yT);
+		System.out.println(getNbTilesX() + "; " + getNbTilesY());
 		return ((xT >= 0) && (xT < getNbTilesX()) && (yT >= 0) && (yT < getNbTilesY()));
 	}
 	
