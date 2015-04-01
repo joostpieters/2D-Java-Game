@@ -338,6 +338,9 @@ public class World  {
 		if (dt < 0 || dt >= 0.2) 
 			throw new IllegalArgumentException();
 		getMazub().advanceTime(dt);
+		for(Plant plant : plants){
+			plant.advanceTime(dt);
+		}
 	}
 	/**
 	 * 
@@ -401,6 +404,7 @@ public class World  {
 	 */
 	public void addPlant(Plant plant){
 		this.plants.add(plant);
+		plant.setWorld(this);
 	}
 	
 	/**

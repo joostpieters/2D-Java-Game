@@ -2,9 +2,16 @@ package jumpingalien.model;
 
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Immutable;
+import be.kuleuven.cs.som.annotate.Model;
 
+/**
+ * 
+ * @author Stijn Caerts en Pieter-Jan Coenen
+ * @invar
+ *
+ */
 public class Plant {
-
 	/**
 	 * 
 	 * @param x
@@ -28,7 +35,7 @@ public class Plant {
 		setLocationX(x);
 		setLocationY(y);
 		setSprites(sprites);
-		setCurrentSprite(sprites[0]);
+		setCurrentSpriteIndex(0);
 		setHorizontalVelocity(-0.5);
 	}
 	
@@ -122,24 +129,28 @@ public class Plant {
 	 */
 	@Basic
 	public Sprite getCurrentSprite() {
-		return this.currentSprite;
+		return getSprites()[getCurrentSpriteIndex()];
+	}
+	
+	private int getCurrentSpriteIndex() {
+		return this.currentSpriteIndex;
 	}
 	
 	/**
 	 * Sets the current sprite to the given sprite
-	 * @param sprite
+	 * @param 	index
 	 * 			the sprite to be set as current sprite
 	 * @post
 	 * 			new.getCurrentSprite() = sprite
 	 */
-	private void setCurrentSprite(Sprite sprite) {
-		this.currentSprite = sprite;
+	private void setCurrentSpriteIndex(int index) {
+		this.currentSpriteIndex = index;
 	}
 	
 	/**
-	 * This variable contains the current sprite
+	 * This variable contains the index of the current sprite
 	 */
-	private Sprite currentSprite;
+	private int currentSpriteIndex;
 	
 	
 	/**
@@ -188,7 +199,87 @@ public class Plant {
 	 */
 	private double timer;
 
+	/**
+	 * 
+	 * @param 	dt
+	 * 			The time interval (in seconds) by which to advance the given world's time.
+	 * @effect 	...
+	 * 			| updateLocationX(dt)
+	 * @effect	...
+	 * 			| setTimer(getTimer()+dt)
+	 * @effect	...
+	 * 			| if (getTimer() > 0.5) then
+	 * 			|		if(getHorizontalVelocity() > 0) then
+	 *			|			setHorizontalVelocity(-0.5)
+	 *			|			setCurrentSpriteIndex(0);
+	 *			|		else then
+	 *			|			setHorizontalVelocity(0.5)
+	 *			|			setCurrentSpriteIndex(0);
+	 *			|		setTimer(0);
+	 */
 	public void advanceTime(double dt) {
-		setTimer(getTimer()+dt);	
+		setTimer(getTimer()+dt);
+		if (getTimer() > 0.5){
+			if(getHorizontalVelocity() > 0){
+				setHorizontalVelocity(-0.5);
+				setCurrentSpriteIndex(0);
+			} else {
+				setHorizontalVelocity(0.5);
+				setCurrentSpriteIndex(1);
+			}
+			setTimer(0);
+		}
+		updateLocationX(dt);
+		
 	}
+	
+	/**
+	 * 
+	 * @param 	dt
+	 * @effect 	...
+	 * 			| if(locationX >= getWorld().getWorldSizeInPixels()[0]) then
+	 *			|		setLocationX(getWorld().getWorldSizeInPixels()[0] - 1)
+	 * @effect  ...
+	 * 			| if(locationX < 0) then
+	 *			|		setLocationX(0)
+	 * @effect 	...
+	 * 			| if((locationX < getWorld().getWorldSizeInPixels()[0]) && (locationX >= 0)) then
+	 * 			| 		setLocationX(locationX)
+	 */
+	private void updateLocationX(double dt){
+		double locationX = getLocationX() + (getHorizontalVelocity()*dt)*100;
+		if(locationX >= getWorld().getWorldSizeInPixels()[0]){
+			setLocationX(getWorld().getWorldSizeInPixels()[0] - 1);
+		} else if(locationX < 0){
+			setLocationX(locationX);
+		} else {
+			setLocationX(locationX);
+		}
+	}
+	
+	/**
+	 * Returns the world where this plant is in
+	 * @return 	...
+	 * 			|result == this.world
+	 */
+	private World getWorld() {
+		return world;
+	}
+
+	/**
+	 * 
+	 * @param 	world
+	 * 			The world where this plant is in
+	 * @post 	...
+	 * 			|new.getWorld() = world
+	 */
+	void setWorld(World world) {
+		this.world = world;
+	}
+	
+	/**
+	 * This variable contains the world where this plant is in.
+	 */
+	private World world;
+
 }
