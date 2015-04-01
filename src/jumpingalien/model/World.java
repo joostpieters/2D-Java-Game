@@ -454,11 +454,28 @@ public class World  {
 	 * 			| new.plants.contains(plant)
 	 * @effect 	...
 	 * 			| plant.setWorld(this);
+	 * @throw 	IllegalArgumentException
+	 * 			...
+	 * 			|!canHaveAsShark(shark)
 	 */
 	public void addShark(Shark shark){
+		if (!canHaveAsShark(shark)){
+			throw new IllegalArgumentException();
+		}
 		this.sharks.add(shark);
 		shark.setWorld(this);
 	}
+	
+	/**
+	 * Checks whether the given shark can be add to a world
+	 * @param 	shark
+	 * @return	...
+	 * 			|return ((shark != null) && (!shark.hasAWorld()))
+	 */
+	private boolean canHaveAsShark(Shark shark){
+		return ((shark != null) && (!shark.hasAWorld()));
+	}
+	
 	/**
 	 * Returns whether the given shark belongs to this world
 	 * @param 	shark
@@ -477,5 +494,54 @@ public class World  {
 	}
 	
 	private ArrayList<Shark> sharks = new ArrayList<Shark>();
+	
+	/**
+	 * Add the given plant to the plants of this world
+	 * @param plant
+	 * 			the plant to add
+	 * @post	the plant is added to the list of plants
+	 * 			| new.plants.contains(plant)
+	 * @effect 	...
+	 * 			| plant.setWorld(this);
+	 * @throw 	IllegalArgumentException
+	 * 			...
+	 * 			|!canHaveAsSlime(slime)
+	 */
+	public void addSlime(Slime slime){
+		if (!canHaveAsSlime(slime)){
+			throw new IllegalArgumentException();
+		}
+		this.slimes.add(slime);
+		slime.setWorld(this);
+	}
+	
+	/**
+	 * Checks whether the given slime can be add to a world
+	 * @param 	slime
+	 * @return	...
+	 * 			|return ((slime != null) && (!slime.hasAWorld()))
+	 */
+	private boolean canHaveAsSlime(Slime slime){
+		return ((slime != null) && (!slime.hasAWorld()));
+	}
+	
+	/**
+	 * Returns whether the given slime belongs to this world
+	 * @param 	slime
+	 * @return 	...
+	 * 			|return getSlimes().contains(slime);
+	 */
+	boolean hasAsSlime(Slime slime){
+		return slimes.contains(slime);
+	}
+	
+	/**
+	 * Returns a collection containing the slimes of this World
+	 */
+	public Collection<Slime> getSlimes(){
+		return new ArrayList<Slime>(slimes);
+	}
+	
+	private ArrayList<Slime> slimes = new ArrayList<Slime>();
 }
 

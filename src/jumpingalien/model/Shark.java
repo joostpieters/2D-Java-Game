@@ -128,6 +128,16 @@ public class Shark {
 	}
 	
 	/**
+	 * Returns the world where this shark is in
+	 * @return 	...
+	 * 			|result == this.world
+	 */
+	@Basic
+	private World getWorld() {
+		return world;
+	}
+	
+	/**
 	 * 
 	 * @param 	world
 	 * @post 	...
@@ -136,6 +146,15 @@ public class Shark {
 	void setWorld(World world) {
 		if((world != null) && (world.hasAsShark(this)))
 			this.world = world;		
+	}
+	
+	/**
+	 * Returns whether this shark is already in a world or not
+	 * @return	...
+	 * 			| getWorld() != null
+	 */
+	boolean hasAWorld(){
+		return getWorld() != null;
 	}
 	
 	/**

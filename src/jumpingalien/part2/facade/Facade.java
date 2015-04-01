@@ -277,44 +277,42 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public School createSchool() {
-		// TODO Auto-generated method stub
-		return null;
+		return new School();
 	}
 
 	@Override
-	public Slime createSlime(int x, int y, Sprite[] sprites, School school) {
-		// TODO Auto-generated method stub
-		return null;
+	public Slime createSlime(int x, int y, Sprite[] sprites, School school) throws ModelException {
+		try{
+			return new Slime(x, y, sprites, school);
+		} catch (IllegalArgumentException e){
+			throw new ModelException("Invalid argument for createSlime");
+		}
 	}
 
 	@Override
 	public void addSlime(World world, Slime slime) {
-		// TODO Auto-generated method stub
+		world.addSlime(slime);
 		
 	}
 
 	@Override
 	public Collection<Slime> getSlimes(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getSlimes();
 	}
 
 	@Override
 	public int[] getLocation(Slime slime) {
-		// TODO Auto-generated method stub
-		return null;
+		return slime.getLocation();
 	}
 
 	@Override
 	public Sprite getCurrentSprite(Slime slime) {
-		// TODO Auto-generated method stub
-		return null;
+		return slime.getCurrentSprite();
 	}
 
 	@Override
 	public School getSchool(Slime slime) {
-		// TODO Auto-generated method stub
-		return null;
+		return slime.getSchool();
 	}
 
 }
