@@ -90,6 +90,9 @@ public class Shark {
 			this.world = world;		
 	}
 	
+	/**
+	 * This variable contains the world where this shark is in
+	 */
 	private World world;
 	
 }
