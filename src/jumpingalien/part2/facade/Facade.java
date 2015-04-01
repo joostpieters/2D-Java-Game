@@ -211,8 +211,12 @@ public class Facade implements IFacadePart2 {
 	}
 
 	@Override
-	public void setMazub(World world, Mazub alien) {
-		world.setMazub(alien);		
+	public void setMazub(World world, Mazub alien) throws ModelException {
+		try{
+			world.setMazub(alien);	
+		} catch(IllegalArgumentException e){
+			throw new ModelException("Invalid Mazub");
+		}
 	}
 
 	@Override

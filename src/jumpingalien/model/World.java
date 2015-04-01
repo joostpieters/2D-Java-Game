@@ -190,8 +190,8 @@ public class World  {
 	/**
 	 * Returns the mazub of this world
 	 */
-	@Basic
-	private Mazub getMazub() {
+	@Basic 
+	Mazub getMazub() {
 		return this.alien;
 	}
 	
@@ -199,9 +199,25 @@ public class World  {
 	 * Sets the given alien as the player's character in this world.
 	 * @param alien
 	 * 			The alien to be set as the player's character.
+	 * @throws	IllegalArgumentException
+	 * 			...
+	 * 			|!isValidMazub(alien)
 	 */
-	public void setMazub(Mazub alien) {
+	public void setMazub(Mazub alien) throws IllegalArgumentException {
+		if(!isValidMazub(alien)){
+			throw new IllegalArgumentException();
+		}
 		this.alien = alien;
+		alien.setWorld(this);
+	}
+	/**
+	 * 
+	 * @param alien
+	 * @return	...
+	 * 			| return ((alien != null) && (!alien.hasAWorld()));
+	 */
+	private boolean isValidMazub(Mazub alien){
+		return ((alien != null) && (!alien.hasAWorld()));
 	}
 	
 	/**

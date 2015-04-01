@@ -1151,4 +1151,59 @@ public class Mazub {
 	 */
 	private boolean immunity;
 	
+	private boolean isOnSolidGround(){
+		int startX = (int) getLocationX();
+		int endX = startX + getCurrentSprite().getWidth();
+		
+		return true;
+	}
+	
+	/**
+	 * Returns the world where this mazub is in
+	 * @return 	The world in which this Mazub is
+	 * 			|result == this.world
+	 */
+	@Basic
+	private World getWorld() {
+		return world;
+	}
+	
+	/**
+	 * 
+	 * @param 	world
+	 * 			The world in which this mazub needs to be
+	 * @post 	the world where this Mazub is in, now equals the given world
+	 * 			| new.getWorld() = world			
+	 */
+	void setWorld(World world) throws IllegalArgumentException{
+		if(!isValidWorld(world)){
+			throw new IllegalArgumentException();
+		}
+		this.world = world;		
+	}
+	/**
+	 * Checks wether the given world is valid or not
+	 * @param 	world
+	 * 			the world which needs to be checked
+	 * @return	true if the given mazub is no null pointer and if the mazub of that world is this mazub
+	 * 			| result == ((world != null) && (world.getMazub()==this));
+	 */
+	private boolean isValidWorld(World world){
+		return (world != null) && (world.getMazub()==this);
+	}
+	
+	/**
+	 * Returns whether this mazub is already in a world or not
+	 * @return	returns whether this Mazub is already allocated to a world or not
+	 * 			| getWorld() != null
+	 */
+	boolean hasAWorld(){
+		return getWorld() != null;
+	}
+	
+	/**
+	 * This variable contains the world where this Mazub is in
+	 */
+	private World world;
+	
 }
