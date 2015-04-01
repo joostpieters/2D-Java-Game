@@ -17,6 +17,7 @@ import be.kuleuven.cs.som.annotate.Basic;
  * 			| getNbTilesY > 0;
  */
 public class World  {
+	//TODO effect!
 	/**
 	 * @param tileSize
 	 *            Length (in pixels) of a side of each square tile in the world
@@ -49,7 +50,8 @@ public class World  {
 		this.visibleWindowHeight = visibleWindowHeight;
 		this.visibleWindowWidth = visibleWindowWidth;
 		this.targetTileX = targetTileX;
-		this.targetTileY = targetTileY;		
+		this.targetTileY = targetTileY;
+		this.setVisibleWindow(0, 0, visibleWindowWidth, visibleWindowHeight);
 	}
 	
 	/**
@@ -137,11 +139,59 @@ public class World  {
 	 */
 	public int[] getVisibleWindow(){
 		int[] window = new int[4];
-		window[0] = 0;
-		window[1] = 0;
-		window[2] = getVisibleWindowWidth();
-		window[3] = getVisibleWindowHeight();
+		window[0] = windowLeft;
+		window[1] = windowBottom;
+		window[2] = windowRight;
+		window[3] = windowTop;
 		return window;
+	}
+	
+	/**
+	 * The boundaries for the window.
+	 */
+	private int windowLeft, windowBottom, windowRight, windowTop;
+	
+	/**
+	 * 
+	 * @param left
+	 * @param bottom
+	 * @param right
+	 * @param top
+	 * @post	...
+	 * 			| new.getVisibleWindow() = {left, bottom, right, top}
+	 */
+	private void setVisibleWindow(int left, int bottom, int right, int top) {
+		this.windowLeft = left;
+		this.windowBottom = bottom;
+		this.windowRight = right;
+		this.windowTop = top;
+	}
+	
+	private void updateWindow() {
+		int x = (int) getMazub().getLocationX();
+		int y = (int) getMazub().getLocationY();
+		int newLeft = getVisibleWindow()[0];
+		int newBottom = getVisibleWindow()[1];
+		int newRight = getVisibleWindow()[2];
+		int newTop = getVisibleWindow()[3];
+		
+		if ((x > getVisibleWindow()[2] - 200) && (x + 200 < getWorldSizeInPixels()[0])) {
+			newRight = x + 200;
+			newLeft = newRight - getVisibleWindowWidth();
+		} else if ((x < getVisibleWindow()[0] + 200) && (x - 200 >= 0)) {
+			newLeft = x - 200;
+			newRight = newLeft + getVisibleWindowWidth();
+		}
+		
+		if ((y > getVisibleWindow()[3] - 200) && (y + 200 < getWorldSizeInPixels()[1])) {
+			newTop = y + 200;
+			newBottom = newTop - getVisibleWindowHeight();
+		} else if ((y < getVisibleWindow()[1] + 200) && (y - 200 >= 0)) {
+			newBottom = y - 200;
+			newTop = newBottom + getVisibleWindowHeight();
+		}
+		
+		setVisibleWindow(newLeft, newBottom, newRight, newTop);
 	}
 	
 	/**
@@ -349,6 +399,8 @@ public class World  {
 	 * 			| (dt < 0 || dt >= 0.2)
 	 * @effect	...
 	 * 			|getMazub().advanceTime(dt)
+	 * @effect	...
+	 * 			| updateWindow()
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
 		if (dt < 0 || dt >= 0.2) 
@@ -357,6 +409,8 @@ public class World  {
 		for(Plant plant : plants){
 			plant.advanceTime(dt);
 		}
+		
+		updateWindow();
 	}
 	/**
 	 * 

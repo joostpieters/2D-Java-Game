@@ -97,7 +97,10 @@ public class Mazub {
 	/**
 	 * Return the width of the game window 	
 	 */
-	public final static int getWindowWidth() {
+	public final int getWindowWidth() {
+		if (getWorld() != null) {
+			return getWorld().getWorldSizeInPixels()[0];
+		}
 		return 1024;
 	}
 	
