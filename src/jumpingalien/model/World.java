@@ -396,18 +396,6 @@ public class World  {
 	private int[][] geologicalFeatureOfTiles;
 	
 	/**
-	 * Add the given plant to the plants of this world
-	 * @param plant
-	 * 			the plant to add
-	 * @post	the plant is added to the list of plants
-	 * 			| new.plants.contains(plant)
-	 */
-	public void addPlant(Plant plant){
-		this.plants.add(plant);
-		plant.setWorld(this);
-	}
-	
-	/**
 	 * Returns a collection containing the Plants of this World
 	 */
 	public Collection<Plant> getPlants(){
@@ -415,8 +403,77 @@ public class World  {
 	}
 	
 	/**
+	 * Add the given plant to the plants of this world
+	 * @param plant
+	 * 			the plant to add
+	 * @post	the plant is added to the list of plants
+	 * 			| new.plants.contains(plant)
+	 * @effect 	...
+	 * 			| plant.setWorld(this);
+	 */
+	public void addPlant(Plant plant) throws IllegalArgumentException{
+		if (!canHaveAsPlant(plant)){
+			throw new IllegalArgumentException();
+		}
+		this.plants.add(plant);
+		plant.setWorld(this);
+	}
+	
+	/**
+	 * Checks whether the given plant can be add to a world
+	 * @param plant
+	 * @return	...
+	 * 			|return ((plant != null) && (!plant.hasAWorld()))
+	 */
+	private boolean canHaveAsPlant(Plant plant){
+		return ((plant != null) && (!plant.hasAWorld()));
+	}
+	
+	/**
+	 * Returns whether the given plant belongs to this world
+	 * @param 	plant
+	 * @return 	...
+	 * 			|return getPlants().contains(plant);
+	 */
+	boolean hasAsPlant(Plant plant){
+		return plants.contains(plant);
+	}
+	
+	/**
 	 * This List contains the Plants of this World
 	 */
 	private ArrayList<Plant> plants = new ArrayList<Plant>();
+	
+	/**
+	 * Add the given plant to the plants of this world
+	 * @param plant
+	 * 			the plant to add
+	 * @post	the plant is added to the list of plants
+	 * 			| new.plants.contains(plant)
+	 * @effect 	...
+	 * 			| plant.setWorld(this);
+	 */
+	public void addShark(Shark shark){
+		this.sharks.add(shark);
+		shark.setWorld(this);
+	}
+	/**
+	 * Returns whether the given shark belongs to this world
+	 * @param 	shark
+	 * @return 	...
+	 * 			|return getSharks().contains(shark);
+	 */
+	boolean hasAsShark(Shark shark){
+		return sharks.contains(shark);
+	}
+	
+	/**
+	 * Returns a collection containing the sharks of this World
+	 */
+	public Collection<Shark> getSharks(){
+		return new ArrayList<Shark>(sharks);
+	}
+	
+	private ArrayList<Shark> sharks = new ArrayList<Shark>();
 }
 

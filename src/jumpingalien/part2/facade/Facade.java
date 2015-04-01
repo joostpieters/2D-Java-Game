@@ -226,8 +226,12 @@ public class Facade implements IFacadePart2 {
 	}
 
 	@Override
-	public void addPlant(World world, Plant plant) {
-		world.addPlant(plant);
+	public void addPlant(World world, Plant plant) throws ModelException {
+		try{
+			world.addPlant(plant);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("The given plant is not valid");
+		}
 	}
 
 	@Override
@@ -247,13 +251,12 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Shark createShark(int x, int y, Sprite[] sprites) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Shark(x, y, sprites);
 	}
 
 	@Override
 	public void addShark(World world, Shark shark) {
-		// TODO Auto-generated method stub
+		world.addShark(shark);
 		
 	}
 

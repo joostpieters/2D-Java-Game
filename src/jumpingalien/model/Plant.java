@@ -8,7 +8,6 @@ import be.kuleuven.cs.som.annotate.Model;
 /**
  * 
  * @author Stijn Caerts en Pieter-Jan Coenen
- * @invar
  *
  */
 public class Plant {
@@ -274,7 +273,12 @@ public class Plant {
 	 * 			|new.getWorld() = world
 	 */
 	void setWorld(World world) {
-		this.world = world;
+		if((world != null)&&(world.hasAsPlant(this)))
+			this.world = world;
+	}
+	
+	boolean hasAWorld(){
+		return (this.getWorld() != null);
 	}
 	
 	/**
