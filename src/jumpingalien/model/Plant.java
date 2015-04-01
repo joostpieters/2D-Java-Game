@@ -6,6 +6,7 @@ import be.kuleuven.cs.som.annotate.Basic;
 /**
  * 
  * @author Stijn Caerts en Pieter-Jan Coenen
+ * @invar de lengte van de spirtes is gelijk aan 2
  *
  */
 public class Plant {
@@ -27,8 +28,14 @@ public class Plant {
 	 * 			| setCurrentSprite(getSprites()[0])
 	 * @effect	...
 	 * 			| setHorizontalVelocity(-0.5)
+	 * @throws 	IllegalArgumentException
+	 * 			...
+	 * 			| sprites.length != 2
 	 */
-	public Plant(int x, int y, Sprite[] sprites) {
+	public Plant(int x, int y, Sprite[] sprites) throws IllegalArgumentException {
+		if(sprites.length != 2){
+			throw new IllegalArgumentException();
+		}
 		setLocationX(x);
 		setLocationY(y);
 		setSprites(sprites);
@@ -259,6 +266,7 @@ public class Plant {
 	 * @return 	...
 	 * 			|result == this.world
 	 */
+	@Basic
 	private World getWorld() {
 		return world;
 	}
