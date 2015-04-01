@@ -1,5 +1,6 @@
 package jumpingalien.model;
 
+import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 
 public class Shark {
@@ -17,13 +18,15 @@ public class Shark {
 	public Shark (int x, int y, Sprite[] sprites){
 		setLocationX(x);
 		setLocationY(y);
-		setSprites(sprites);		
+		setSprites(sprites);
+		setCurrentSpriteIndex(0);
 	}
 	
 	/**
 	 * Returns the current X coordinate of this shark
 	 */
-	private int getLocationX() {
+	@Basic
+	private double getLocationX() {
 		return locationX;
 	}
 	/**
@@ -33,17 +36,19 @@ public class Shark {
 	 * @post 	...
 	 * 			| new.getLocationX() = locationX 
 	 */
-	private void setLocationX(int locationX) {
+	private void setLocationX(double locationX) {
 		this.locationX = locationX;
 	}
 	/**
 	 * this variable contains the current X coordinate for this Shark
 	 */
-	private int locationX;
+	private double locationX;
+	
 	/**
 	 * Returns the current Y coordinate of this shark
 	 */
-	private int getLocationY() {
+	@Basic
+	private double getLocationY() {
 		return locationY;
 	}
 	/**
@@ -53,14 +58,28 @@ public class Shark {
 	 * @post 	...
 	 * 			| new.getLocationY() = locationY
 	 */
-	private void setLocationY(int locationY) {
+	private void setLocationY(double locationY) {
 		this.locationY = locationY;
 	}
 	
 	/**
 	 * this variable contains the current Y coordinate for this Shark
 	 */
-	private int locationY;
+	private double locationY;
+	
+	/**
+	 * Returns the location of this Shark
+	 * @return	returns an array of integers, the first element is the x location, the second element is the y location
+	 * 			| {(int) getLocationX(), (int) getLocationY()}
+	 */
+	public int[] getLocation() {
+		int[] location = new int[2];
+		location[0] = (int) getLocationX();
+		location[1] = (int) getLocationY();
+		return location;
+	}
+	
+
 	/**
 	 * Return the current list of sprites for this shark
 	 */
@@ -79,6 +98,35 @@ public class Shark {
 	}
 
 	private Sprite[] sprites;
+	
+	/**
+	 * Returns the current sprite index of this shark
+	 */
+	@Basic
+	private int getCurrentSpriteIndex() {
+		return this.currentSpriteIndex;
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @post	
+	 * 			| new.getCurrentSpriteIndex() = index
+	 */
+	private void setCurrentSpriteIndex(int index) {
+		this.currentSpriteIndex = index;
+	}
+	
+	private int currentSpriteIndex;
+	
+	/**
+	 * Returns the current sprite of this Shark
+	 */
+	@Basic
+	public Sprite getCurrentSprite() {
+		return getSprites()[getCurrentSpriteIndex()];
+	}
+	
 	/**
 	 * 
 	 * @param 	world

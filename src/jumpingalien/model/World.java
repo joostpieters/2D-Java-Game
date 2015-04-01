@@ -410,6 +410,8 @@ public class World  {
 	 * 			| new.plants.contains(plant)
 	 * @effect 	...
 	 * 			| plant.setWorld(this);
+	 * @throws 	IllegalArgumentException
+	 * 			| ! canHaveAsPlant(plant)
 	 */
 	public void addPlant(Plant plant) throws IllegalArgumentException{
 		if (!canHaveAsPlant(plant)){
