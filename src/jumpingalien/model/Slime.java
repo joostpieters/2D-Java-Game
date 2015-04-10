@@ -2,6 +2,7 @@ package jumpingalien.model;
 
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Immutable;
 
 public class Slime {
 	/**
@@ -33,6 +34,10 @@ public class Slime {
 		setSchool(school);
 		school.addSlime(this);
 		setHitpoints(50);
+		setVelocityX(0);
+		setVelocityY(0);
+		setAccelerationX(0);
+		setAccelerationY(0);
 	}
 	
 	/**
@@ -222,4 +227,365 @@ public class Slime {
 	}
 	
 	private int hitpoints;
+	
+	private double getVelocityX() {
+		return this.velocityX;
+	}
+	
+	private void setVelocityX(double velocityX) {
+		this.velocityX = velocityX;
+	}
+	
+	private double velocityX;
+	
+	private double getVelocityY() {
+		return this.velocityY;
+	}
+	
+	private void setVelocityY(double velocityY) {
+		this.velocityY = velocityY;
+	}
+	
+	private double velocityY;
+	
+	private double getAccelerationX() {
+		return accelerationX;
+	}
+	
+	private void setAccelerationX(double accelerationX) {
+		this.accelerationX = accelerationX;
+	}
+	
+	private double accelerationX;
+	
+	private double getAccelerationY() {
+		return accelerationY;
+	}
+	
+	private void setAccelerationY(double accelerationY) {
+		this.accelerationY = accelerationY;
+	}
+	
+	private double accelerationY;
+	
+	/**
+	 * Returns whether this Slime is moving left or not.
+	 * @return 	true when the horizontal velocity is less than zero, false otherwise.
+	 * 			| if getVelocityX() < 0 then
+	 * 			|	return true
+	 * 			| else then
+	 * 			| 	return false
+	 */
+	private boolean isMovingLeft() {
+		if (this.getVelocityX() < 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Updates the location of this Mazub given a certain amount of seconds and a horizontal acceleration.
+	 * @param 	seconds
+	 * 			The seconds to compute the new position.
+	 * @param 	accelerationX
+	 * 			The horizontal acceleration.
+	 * @pre		seconds needs to be positive.
+	 * 			| seconds >= 0
+	 * @effect 	Calculates the new horizontal position, using the given seconds and acceleration.
+	 * 			If the calculated position isn't valid, the position will be adjusted.
+	 * 			|new.getLocationX() ==  calculateValidLocationX(getLocationX() + 
+	 * 				(getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100);
+	 * @effect 	Calculates the new vertical position, using the given seconds and acceleration.
+	 * 			If the calculated position isn't valid, the position will be adjusted.
+	 * 			|new.getLocationY() ==  calculateValidLocationY(getLocationY() + 
+	 * 				(getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100);
+	 * 
+	 */
+	private void updateLocation(double seconds, double accelerationX) {
+		assert (seconds >= 0);
+		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
+		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
+		if(hasCollisionX((int)locationX,(int) locationY)){
+			locationX = getLocationX();
+		}
+		if(hasCollisionY((int)locationX,(int) locationY)){
+			locationY = getLocationY();
+			locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
+			if(hasCollisionX((int)locationX,(int) locationY)){
+				locationX = getLocationX();
+			}
+		}
+		try {
+			setLocationX(locationX);
+		} catch (IllegalArgumentException e1){
+			locationX = calculateValidLocationX(locationX);
+			setLocationX(locationX);
+		}
+		
+		try {
+			setLocationY(locationY);
+		} catch (IllegalArgumentException e2){
+			locationY = calculateValidLocationY(locationY);
+			setLocationY(locationY);
+		}
+	}
+
+	private int getWindowWidth() {
+		return getWorld().getWorldSizeInPixels()[0];
+	}
+	
+	private int getWindowHeight() {
+		return getWorld().getWorldSizeInPixels()[1];
+	}
+	
+	
+	/**
+	 * @param 	locationX
+	 * 			the X coordinate wich needs to be corrected
+	 * 
+	 * Return locationX if the given locationX is valid, 
+	 * 		returns the corrected locationX is if is unvalid
+	 * @return	if locationX is lower than the window width and greater or equal to zero
+	 * 				locationX will be returned
+	 * 			| if ((locationX < getWindowWidth()) && (locationX >= 0)) then
+	 * 			| 	return locationX
+	 * @return 	if locationX is greater than the window width minus one,
+	 * 				the window width minus one will be returned
+	 * 			| if (locationX > getWindowWidth()-1) then
+	 * 			| 	return getWindowWidth()-1
+	 * @return 	if locationX is less than zero, zero will be returned
+	 * 			| if (locationX < 0) then
+	 * 			| 	return 0
+	 */
+	private double calculateValidLocationX(double locationX) {
+		if (locationX > getWindowWidth() - 1){
+			locationX = getWindowWidth() - 1;
+		} else if (locationX < 0){
+			locationX = 0;
+		}
+		return locationX;
+	}
+	
+	/**
+	 * @param 	locationY
+	 * 			the Y coordinate wich needs to be corrected
+	 * 
+	 * Return locationY if the given locationY is valid, 
+	 * 		returns the corrected locationY if it is unvalid
+	 * @return	if locationY is lower than the window height and greater or equal than zero
+	 * 				locationY will be returned
+	 * 			| if ((locationY < getWindowHeight()) && (locationY >= 0)) then
+	 * 			| 	return locationY
+	 * @return 	if locationY is greater than the window height minus one,
+	 * 				the window height minus one will be returned
+	 * 			| if (locationY > getWindowHeight()-1) then
+	 * 			| 	return getWindowHeight()-1
+	 * @return 	if locationY is less than zero, zero will be returned
+	 * 			| if (locationY < 0) then
+	 * 			| 	return 0
+	 */
+	private double calculateValidLocationY(double locationY) {
+		if (locationY > getWindowHeight()-1){
+			locationY = getWindowHeight()-1;
+		} else if (locationY < 0){
+			locationY = 0;
+		}
+		return locationY;
+	}
+	
+	/**
+	 * 
+	 * @param 	seconds
+	 * 			The seconds to compute the new velocity.
+	 * @param 	accelerationX
+	 * 			The horizontal acceleration.
+	 * @pre		seconds needs to be bigger or equal to zero
+	 * 			| seconds >= 0
+	 * @effect	If the calculated velocity is smaller than the maximum horizontal velocity,
+	 * 				and not smaller than minus the maximum horizontal velocity, 
+	 * 				set the new velocity to the calculated velocity.
+	 *				If the calculated velocity is smaller than minus the maximum horizontal velocity, 
+	 *				set the new velocity to minus the maximum horizontal velocity.
+	 *				If the calculated velocity is greater than the maximum horizontal velocity, 
+	 *				set the new velocity to the maximum horizontal velocity.
+	 * 			| if ((getVelocityX() + accelerationX*seconds) < getMaximumHorizontalVelocity()) then
+	 * 			|	if ((getVelocityX() + accelerationX*seconds) < -getMaximumHorizontalVelocity()) then
+	 * 			|		setVelocityX(-getMaximumHorizontalVelocity)
+	 * 			|	else then
+	 * 			|		setVelocityX(getVelocityX() + accelerationX*seconds)
+	 * 			| else then
+	 * 			|	setVelocityX(getMaximumHorizontalVelocity())
+	 */
+	private void updateVelocityX(double seconds, double accelerationX) {
+		assert(seconds >= 0);
+		double velocityX = getVelocityX() + accelerationX*seconds;
+		if (velocityX < getMaximumHorizontalVelocity()){
+			if (velocityX < -getMaximumHorizontalVelocity()){
+				setVelocityX(-getMaximumHorizontalVelocity());
+			} else {
+				setVelocityX(velocityX);
+			}
+		} else{
+			setVelocityX(getMaximumHorizontalVelocity());
+		}
+	}
+
+	private double getMaximumHorizontalVelocity() {
+		return 2.5;
+	}
+	
+	/**
+	 * This function returns whether this Slime is on Solid ground or not
+	 * @return
+	 */
+	private boolean isOnSolidGround(){
+		int startX = (int) getLocationX();
+		int endX = startX + getCurrentSprite().getWidth();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(startX, (int)getLocationY(), endX, (int)getLocationY());
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void updateVelocityYAndAccelerationY(double seconds) {
+		assert(seconds >= 0);
+		if (isOnSolidGround()) {
+			setVelocityY(0);
+			setAccelerationY(0);
+		} else {
+			double velocityY = getVelocityY() + getAccelerationY()*seconds;
+			setVelocityY(velocityY);
+			setAccelerationY(-10);
+		}
+	}
+	
+	private boolean hasCollisionTop(int x, int y){
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(x, endY, endX, endY);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionBottom(int x, int y){
+		int startX = x;
+		int endX = startX + getCurrentSprite().getWidth();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(startX, y+1, endX, y+1);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionRight(int x, int y){
+		int startX = x;
+		int endX = startX + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(endX, y+1, endX, endY-1);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionLeft(int x, int y){
+		int endY = y + getCurrentSprite().getHeight();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(x, y+1, x, endY-1);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionX(int x, int y){
+		return hasCollisionLeft(x, y) || hasCollisionRight(x, y);
+	}
+	
+	private boolean hasCollisionY(int x, int y){
+		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
+	}
+	
+	public void advanceTime(double seconds) throws IllegalArgumentException {
+		if (seconds < 0 || seconds >= 0.2) 
+			throw new IllegalArgumentException();
+		this.setTimer(this.getTimer() + seconds);
+		while(seconds > 0){
+			double dt1 = 0.2;
+			double dt2 = 0.2;
+			if((getVelocityX() != 0) || (getAccelerationX() != 0)){
+				dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
+			}
+			if((getVelocityY() != 0) || (getAccelerationY() != 0)){
+				dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
+			}
+			if((dt1 != 0.2) || (dt2 != 0.2)){
+				if(dt1 >= seconds && dt2 >= seconds){
+					advanceTimeCollisionDetect(seconds);
+					seconds = 0;
+				} else if(dt1 < dt2){
+					advanceTimeCollisionDetect(dt1);
+					seconds -= dt1;
+				} else if(dt2 <= dt1){
+					advanceTimeCollisionDetect(dt2);
+					seconds -= dt2;
+				}
+			} else {
+				seconds = 0;
+			}
+		}
+	}
+	
+	public void advanceTimeCollisionDetect(double dt){
+		double accelerationX = getAccelerationX(); 
+		if (this.isMovingLeft())
+			accelerationX *= -1;
+		
+		updateLocation(dt, accelerationX);
+				
+		updateVelocityX(dt, accelerationX);
+		
+		updateVelocityYAndAccelerationY(dt);		
+	}
+	
+	/**
+	 * Returns the value of the timer
+	 */
+	@Basic
+	private double getTimer() {
+		return this.timer;
+	}
+	
+	/**
+	 * 
+	 * @param timer
+	 * @post	Sets the timer to the given value
+	 * 			| new.getTimer() == timer
+	 */
+	private void setTimer(double timer) {
+		this.timer = timer;
+	}
+	
+	/**
+	 * this variable contains the current value of the timer
+	 */
+	private double timer; 
 }

@@ -422,6 +422,12 @@ public class World  {
 		for(Plant plant : plants){
 			plant.advanceTime(dt);
 		}
+		for (Slime slime : slimes) {
+			slime.advanceTime(dt);
+		}
+		for (Shark shark : sharks) {
+			shark.advanceTime(dt);
+		}
 		
 		updateWindow();
 	}
