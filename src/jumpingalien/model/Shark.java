@@ -284,7 +284,7 @@ public class Shark {
 	void advanceTime(double seconds) throws IllegalArgumentException {
 		if (seconds < 0 || seconds >= 0.2) 
 			throw new IllegalArgumentException();
-		this.setTimer(this.getTimer() + seconds);
+		this.velocityX = 1;
 		while(seconds > 0){
 			double dt1 = 0.2;
 			double dt2 = 0.2;
@@ -312,9 +312,50 @@ public class Shark {
 		}
 	}
 	private void advanceTimeCollisionDetect(double dt){
-		// TODO 		
+		this.setTimer(this.getTimer() + dt);
+		if(getTimer() >= getTimeMovement()){
+			newMovement();
+			setTimer(0);
+		}
+		
 	}
 	
+	private void newMovement(){
+		int random = (int)(Math.random()*3);
+		switch (random){
+			case 0: setCurrentMovement(Direction.RIGHT);
+						break;
+			case 1: setCurrentMovement(Direction.LEFT);
+						break;
+			case 2: setCurrentMovement(Direction.RIGHT_AND_JUMPING);
+						break;
+			case 3: setCurrentMovement(Direction.LEFT_AND_JUMPING);
+						break;
+		}
+	}
+	
+	/**
+	 * @return 	...
+	 * 			| result == this.currentMovement
+	 */
+	private Direction getCurrentMovement() {
+		return currentMovement;
+	}
+
+	/**
+	 * @param 	currentMovement
+	 * @post	...
+	 * 			| new.getCurrentMovement() == currentMovement
+	 */
+	private void setCurrentMovement(Direction currentMovement) {
+		this.currentMovement = currentMovement;
+	}
+	
+	/**
+	 * This variable contains the current movement of this Shark
+	 */
+	private Direction currentMovement;
+
 	/**
 	 * 
 	 * @return	...
