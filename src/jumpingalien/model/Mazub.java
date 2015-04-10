@@ -688,13 +688,51 @@ public class Mazub {
 	/**
 	 * Given a time this methode will update the location, velocity and acceleration of this Mazub	 * 
 	 * @param 	seconds
-	 * 			the elapsed second
+	 * 			the elapsed time in seconds
 	 * @throws 	IllegalArgumentException
 	 * 			if seconds is less than zero or if seconds is equal or bigger than 0.2
 	 * 			| (seconds < 0 || seconds >= 0.2)
 	 * @effect	the timer will be added with the given seconds using setTimer() 
 	 * 				and the given seconds as parameter
 	 * 			| setTimer(getTimer() + seconds)
+	 * @effect 	
+
+	 */
+	public void advanceTime(double seconds) throws IllegalArgumentException {
+		if (seconds < 0 || seconds >= 0.2) 
+			throw new IllegalArgumentException();
+		this.addToTimer(this.getTimer() + seconds);
+		double countSeconds = seconds;
+		while(countSeconds > 0){
+			double dt1 = 0.2;
+			double dt2 = 0.2;
+			if((getVelocityX() != 0) || (getAccelerationX() != 0)){
+				dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*countSeconds);
+			}
+			if((getVelocityY() != 0) || (getAccelerationY() != 0)){
+				dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*countSeconds);
+			}
+			if((dt1 != 0.2) || (dt2 != 0.2)){
+				if(dt1 >= countSeconds && dt2 >= countSeconds){
+					AdvanceTimeCollisionDetect(countSeconds);
+					countSeconds = 0;
+				} else if(dt1 < dt2){
+					AdvanceTimeCollisionDetect(dt1);
+					countSeconds -= dt1;
+				} else if(dt2 <= dt1){
+					AdvanceTimeCollisionDetect(dt2);
+					countSeconds -= dt2;
+				}
+			} else {
+				countSeconds = 0;
+			}
+			
+		}
+		
+	}
+	/**
+	 * @param 	dt
+	 * 			the elapsed time in seconds
 	 * @effect	If this Mazub is Moving to the left, updateLocation() will be used
 	 * 				to update the location, with the given seconds as parameter
 	 * 				and the negative of the value of getAcceleration() as second parameter
@@ -717,19 +755,16 @@ public class Mazub {
 	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
-	public void advanceTime(double seconds) throws IllegalArgumentException {
-		if (seconds < 0 || seconds >= 0.2) 
-			throw new IllegalArgumentException();
-		this.addToTimer(this.getTimer() + seconds);
+	public void AdvanceTimeCollisionDetect(double dt){
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
 			accelerationX *= -1;
 		
-		updateLocation(seconds, accelerationX);
+		updateLocation(dt, accelerationX);
 				
-		updateVelocityX(seconds, accelerationX);
+		updateVelocityX(dt, accelerationX);
 		
-		updateVelocityYAndAccelerationY(seconds);
+		updateVelocityYAndAccelerationY(dt);		
 	}
 
 	
