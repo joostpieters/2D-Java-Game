@@ -737,13 +737,13 @@ public class Mazub {
 			}
 			if((dt1 != 0.2) || (dt2 != 0.2)){
 				if(dt1 >= seconds && dt2 >= seconds){
-					AdvanceTimeCollisionDetect(seconds);
+					advanceTimeCollisionDetect(seconds);
 					seconds = 0;
 				} else if(dt1 < dt2){
-					AdvanceTimeCollisionDetect(dt1);
+					advanceTimeCollisionDetect(dt1);
 					seconds -= dt1;
 				} else if(dt2 <= dt1){
-					AdvanceTimeCollisionDetect(dt2);
+					advanceTimeCollisionDetect(dt2);
 					seconds -= dt2;
 				}
 			} else {
@@ -778,7 +778,7 @@ public class Mazub {
 	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
-	public void AdvanceTimeCollisionDetect(double dt){
+	public void advanceTimeCollisionDetect(double dt){
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
 			accelerationX *= -1;
