@@ -203,21 +203,27 @@ public class Plant {
 
 	/**
 	 * 
-	 * @param dt
-	 *            The time interval (in seconds) by which to advance the given
+	 * @param 	dt
+	 *          The time interval (in seconds) by which to advance the given
 	 *            world's time.
-	 * @effect ... | updateLocationX(dt)
-	 * @effect ... | setTimer(getTimer()+dt)
-	 * @effect ... | if (getTimer() > 0.5) then | if(getHorizontalVelocity() >
-	 *         0) then | setHorizontalVelocity(-0.5) | setCurrentSpriteIndex(0);
-	 *         | else then | setHorizontalVelocity(0.5) |
-	 *         setCurrentSpriteIndex(0); | setTimer(0);
+	 * @effect 	... 
+	 * 			| setTimer(getTimer()+dt)
+	 * @effect 	...
+	 * 			| while (dt > 0)
+	 * 			|	if (getHorizontalVelocity() != 0) then
+	 * 			| 		if(dt < (0.01) / (Math.abs(getHorizontalVelocity()))) then
+	 * 			|			advanceTimeCollision(dt);
+	 * 			|			dt = 0
+	 * 			|		else then
+	 * 			| 			advanceTimeCollision(dt1);
+	 * 			| 			dt -= dt1
+	 * 			
 	 */
 	public void advanceTime(double dt) {
 		setTimer(getTimer() + dt);
 		while (dt > 0) {
 			double dt1 = 0.2;
-			if ((getHorizontalVelocity() != 0)) {
+			if (getHorizontalVelocity() != 0) {
 				dt1 = (0.01) / (Math.abs(getHorizontalVelocity()));
 			}
 			if ((dt1 != 0.2)) {
@@ -235,6 +241,23 @@ public class Plant {
 
 	}
 
+	/**
+	 * 
+	 * @param 	dt
+	 *          The time interval (in seconds) by which to advance the given
+	 *            world's time.
+	 * @effect 	... 
+	 * 			| updateLocationX(dt)
+	 * @effect 	... 
+	 * 			| setTimer(getTimer()+dt)
+	 * @effect 	... 
+	 * 			| if (getTimer() > 0.5) then | if(getHorizontalVelocity() > 0) then 
+	 * 			| setHorizontalVelocity(-0.5) | setCurrentSpriteIndex(0);
+	 *         	| else then 
+	 *         	| setHorizontalVelocity(0.5) 
+	 *         	| setCurrentSpriteIndex(0); 
+	 *         	| setTimer(0);
+	 */
 	public void advanceTimeCollision(double dt) {
 		if (getTimer() > 0.5) {
 			if (getHorizontalVelocity() > 0) {
