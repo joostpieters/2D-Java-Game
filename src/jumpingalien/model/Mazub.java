@@ -54,6 +54,7 @@ public class Mazub {
 		this.setTimer(0);
 		this.amountSpritesForMovement = (sprites.length - 10) / 2;
 		this.setHitPoints(100);
+		System.out.println(pixelBottomY);
 	}
 	
 	
@@ -967,8 +968,8 @@ public class Mazub {
 		Sprite sprite = this.getCurrentSprite();
 		if (sprite == null)
 			throw new ModelException("No valid Sprite given");
-		size[0] = sprite.getHeight();
-		size[1] = sprite.getWidth();
+		size[0] = sprite.getWidth();
+		size[1] = sprite.getHeight();
 		return size;
 	}
 	
