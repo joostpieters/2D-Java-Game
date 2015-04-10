@@ -167,6 +167,7 @@ public class World  {
 		this.windowTop = top;
 	}
 	
+	// TODO documentatie
 	private void updateWindow() {
 		int x = (int) getMazub().getLocationX();
 		int y = (int) getMazub().getLocationY();
@@ -181,6 +182,12 @@ public class World  {
 		} else if ((x < getVisibleWindow()[0] + 200) && (x - 200 >= 0)) {
 			newLeft = x - 200;
 			newRight = newLeft + getVisibleWindowWidth();
+		} else if (x <= 200) {
+			newLeft = 0;
+			newRight = newLeft + getVisibleWindowWidth();
+		} else if (x >= getWorldSizeInPixels()[0] - 200) {
+			newRight = getWorldSizeInPixels()[0]-1;
+			newLeft = newRight - getVisibleWindowWidth();
 		}
 		
 		if ((y > getVisibleWindow()[3] - 200) && (y + 200 < getWorldSizeInPixels()[1])) {
@@ -189,6 +196,12 @@ public class World  {
 		} else if ((y < getVisibleWindow()[1] + 200) && (y - 200 >= 0)) {
 			newBottom = y - 200;
 			newTop = newBottom + getVisibleWindowHeight();
+		} else if (y <= 200) {
+			newBottom = 0;
+			newTop = newBottom + getVisibleWindowHeight();
+		} else if (y >= getWorldSizeInPixels()[1] - 200) {
+			newTop = getWorldSizeInPixels()[1] - 1;
+			newBottom = newTop - getVisibleWindowHeight();
 		}
 		
 		setVisibleWindow(newLeft, newBottom, newRight, newTop);
