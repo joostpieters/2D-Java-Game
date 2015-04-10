@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import javax.jws.Oneway;
+
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
@@ -531,6 +533,9 @@ public class Slime {
 		while(seconds > 0){
 			double dt1 = 0.2;
 			double dt2 = 0.2;
+			if (! isOnSolidGround()) {
+				setAccelerationY(-10);
+			}
 			if((getVelocityX() != 0) || (getAccelerationX() != 0)){
 				dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
 			}
