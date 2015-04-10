@@ -21,8 +21,8 @@ public class Shark {
 		setLocationX(x);
 		setLocationY(y);
 		setSprites(sprites);
-		setCurrentSpriteIndex(0);
 		setHitpoints(100);
+		newMovement();
 	}
 	
 	/**
@@ -102,32 +102,12 @@ public class Shark {
 
 	private Sprite[] sprites;
 	
-	/**
-	 * Returns the current sprite index of this shark
-	 */
-	@Basic
-	private int getCurrentSpriteIndex() {
-		return this.currentSpriteIndex;
-	}
-	
-	/**
-	 * 
-	 * @param index
-	 * @post	
-	 * 			| new.getCurrentSpriteIndex() = index
-	 */
-	private void setCurrentSpriteIndex(int index) {
-		this.currentSpriteIndex = index;
-	}
-	
-	private int currentSpriteIndex;
-	
-	/**
-	 * Returns the current sprite of this Shark
-	 */
 	@Basic
 	public Sprite getCurrentSprite() {
-		return getSprites()[getCurrentSpriteIndex()];
+		if(getVelocityX() > 0)
+			return getSprites()[1];
+		else
+			return getSprites()[0];
 	}
 	
 	/**
@@ -200,7 +180,16 @@ public class Shark {
 	 * 			|new.getVelocityX() == velocityX
 	 */
 	private void setVelocityX(double velocityX) {
-		this.velocityX = velocityX;
+		if(velocityX > getMaximumVelocityX())
+			this.velocityX = getMaximumVelocityX();
+		else if(velocityX < -getMaximumVelocityX())
+			this.velocityX = -getMaximumVelocityX();
+		else
+			this.velocityX = velocityX;
+	}
+	
+	private static double getMaximumVelocityX(){
+		return 4;
 	}
 	
 	/**
@@ -236,26 +225,21 @@ public class Shark {
 	/**
 	 * 
 	 * @return	...
-	 * 			| result == this.acceleration
+	 * 			| result == getInitialHorizontalAcceleration()
 	 */
-	private double getAccelerationX() {
-		return accelerationX;
-	}
-
-	/**
-	 * 
-	 * @param accelerationX
-	 * @post 	...
-	 * 			| this.getAccelerationX() == accelerationX
-	 */
-	private void setAccelerationX(double accelerationX) {
-		this.accelerationX = accelerationX;
+	private static double getAccelerationX() {
+		return getInitialHorizontalAcceleration();
 	}
 	
+	
 	/**
-	 * This variable contains the current horizontal acceleration for this Mazub
+	 * 
+	 * @return	...
+	 * 			| result == 1.5
 	 */
-	private double accelerationX;
+	private static double getInitialHorizontalAcceleration(){
+		return 1.5;
+	}
 
 	/**
 	 * @return	...
@@ -284,7 +268,6 @@ public class Shark {
 	void advanceTime(double seconds) throws IllegalArgumentException {
 		if (seconds < 0 || seconds >= 0.2) 
 			throw new IllegalArgumentException();
-		this.velocityX = 1;
 		while(seconds > 0){
 			double dt1 = 0.2;
 			double dt2 = 0.2;
@@ -311,74 +294,156 @@ public class Shark {
 			
 		}
 	}
+	//TODO vergelijking van doubles
 	private void advanceTimeCollisionDetect(double dt){
-		this.setTimer(this.getTimer() + dt);
-		if(getTimer() >= getTimeMovement()){
+		setMovementTime(getMovementTime()-dt);
+		if(getMovementTime() <= 0){
 			newMovement();
-			setTimer(0);
 		}
-		
+		updateLocation(dt);	
+		updateVelocity(dt);
+	}
+	
+	private void updateLocation(Double dt){
+		double accelerationX = getAccelerationX();
+		if(getVelocityX() < 0){
+			accelerationX *= -1;
+		}
+		double locationX = getLocationX() + (getVelocityX()*dt + accelerationX*dt*dt/2)*100;
+		double locationY = getLocationY() + (getVelocityY()*dt + getAccelerationY()*dt*dt/2)*100;
+		if(hasCollisionX((int)locationX,(int) locationY)){
+			locationX = getLocationX();
+		}
+		if(hasCollisionY((int)locationX,(int) locationY)){
+			locationY = getLocationY();
+			locationX = getLocationX() + (getVelocityX()*dt + accelerationX*dt*dt/2)*100;
+			if(hasCollisionX((int)locationX,(int) locationY)){
+				locationX = getLocationX();
+			}
+		}
+		setLocationX(locationX);
+		setLocationY(locationY);
+	}
+	
+	private void updateVelocity(Double dt){
+		double accelerationX = getAccelerationX();
+		if(getVelocityX() < 0){
+			accelerationX *= -1;
+		}
+		setVelocityX(getVelocityX() + accelerationX*dt);
+	}
+	
+	private static double getInitialHorizontalVelocity(){
+		return 8;
 	}
 	
 	private void newMovement(){
-		int random = (int)(Math.random()*3);
+		int random = (int)(Math.random()*2);
 		switch (random){
-			case 0: setCurrentMovement(Direction.RIGHT);
+			case 0: setVelocityX(getInitialHorizontalVelocity());
 						break;
-			case 1: setCurrentMovement(Direction.LEFT);
-						break;
-			case 2: setCurrentMovement(Direction.RIGHT_AND_JUMPING);
-						break;
-			case 3: setCurrentMovement(Direction.LEFT_AND_JUMPING);
+			case 1: setVelocityX(-getInitialHorizontalVelocity());
 						break;
 		}
+		random = (int)(Math.random()*4);
+		switch (random){
+			case 0: setVelocityY(1);
+						break;
+			case 1: setVelocityY(1);
+						break;
+			case 3: setVelocityY(0);
+						break;
+		}
+		double time = 1 + (int)(Math.random()*5);
+		if(time < 4){
+			time+= (int)(Math.random()*10)/10;
+		}
+		setMovementTime(time);
+		
 	}
-	
-	/**
-	 * @return 	...
-	 * 			| result == this.currentMovement
-	 */
-	private Direction getCurrentMovement() {
-		return currentMovement;
-	}
-
-	/**
-	 * @param 	currentMovement
-	 * @post	...
-	 * 			| new.getCurrentMovement() == currentMovement
-	 */
-	private void setCurrentMovement(Direction currentMovement) {
-		this.currentMovement = currentMovement;
-	}
-	
-	/**
-	 * This variable contains the current movement of this Shark
-	 */
-	private Direction currentMovement;
-
+		
 	/**
 	 * 
 	 * @return	...
-	 * 			| result == this.timer
+	 * 			| result == this.movementTimer
 	 */
-	private double getTimer() {
-		return timer;
+	private double getMovementTime() {
+		return movementTime;
 	}
 
 	/**
 	 * 
 	 * @param time
 	 * @post	...
-	 * 			| new.getTimer() == time
+	 * 			| new.getMovementTimer() == time
 	 */
-	private void setTimer(double time) {
-		this.timer = time;
+	private void setMovementTime(double time) {
+		this.movementTime = time;
 	}
 	
 	/**
-	 * This variable contains the timer for the movements of this shark
+	 * This variable contains the time that the current movement will last
 	 */
-	private double timer;
+	private double movementTime;
 		
+	private boolean hasCollisionTop(int x, int y){
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(x, endY, endX, endY);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionBottom(int x, int y){
+		int startX = x;
+		int endX = startX + getCurrentSprite().getWidth();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(startX, y+1, endX, y+1);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionRight(int x, int y){
+		int startX = x;
+		int endX = startX + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(endX, y+1, endX, endY-1);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionLeft(int x, int y){
+		int endY = y + getCurrentSprite().getHeight();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(x, y+1, x, endY-1);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionX(int x, int y){
+		return hasCollisionLeft(x, y) || hasCollisionRight(x, y);
+	}
+	
+	private boolean hasCollisionY(int x, int y){
+		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
+	}
 	
 }

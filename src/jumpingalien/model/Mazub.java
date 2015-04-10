@@ -881,6 +881,7 @@ public class Mazub {
 	 * 				(getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100);
 	 * 
 	 */
+	// TODO onbreekt commentaar
 	private void updateLocation(double seconds, double accelerationX) {
 		assert (seconds >= 0);
 		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
