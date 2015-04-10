@@ -121,10 +121,6 @@ public class Mazub {
 	 * @throws 	IllegalArgumentException
 	 * 			if locationY is less than zero or if locationY is bigger than getWindowHeight() minus one
 	 * 			|(locationY < 0)||(locationY > getWindowHeight()-1)
-	 * @pre		The given locationY needs to be bigger or equal to 0
-	 * 			| locationY >= 0
-	 * @pre		The given locationY needs to smaller than the current game widow height
-	 * 			| locationY < getWindowHeight()
 	 * @post 	The locationY of this Mazub is equal to the given LocationY
 	 * 			| new.getLocationY() == locationY  
 	 */
@@ -541,8 +537,10 @@ public class Mazub {
 	 * 			| 	setAccelerationY(-10) 
 	 */
 	public void startJump() {
-		setVelocityY(8);
-		setAccelerationY(-10);
+		if(isOnSolideGround()){
+			setVelocityY(8);
+			setAccelerationY(-10);
+		}
 	}
 	
 	/**
@@ -739,13 +737,13 @@ public class Mazub {
 			}
 			if((dt1 != 0.2) || (dt2 != 0.2)){
 				if(dt1 >= seconds && dt2 >= seconds){
-					advanceTimeCollisionDetect(seconds);
+					AdvanceTimeCollisionDetect(seconds);
 					seconds = 0;
 				} else if(dt1 < dt2){
-					advanceTimeCollisionDetect(dt1);
+					AdvanceTimeCollisionDetect(dt1);
 					seconds -= dt1;
 				} else if(dt2 <= dt1){
-					advanceTimeCollisionDetect(dt2);
+					AdvanceTimeCollisionDetect(dt2);
 					seconds -= dt2;
 				}
 			} else {
@@ -780,7 +778,7 @@ public class Mazub {
 	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
-	public void advanceTimeCollisionDetect(double dt){
+	public void AdvanceTimeCollisionDetect(double dt){
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
 			accelerationX *= -1;
@@ -815,7 +813,7 @@ public class Mazub {
 	 */
 	private void updateVelocityYAndAccelerationY(double seconds) {
 		assert(seconds >= 0);
-		if (isOnSolidGround()) {
+		if (isOnSolideGround()) {
 			setVelocityY(0);
 			setAccelerationY(0);
 		} else {
@@ -886,14 +884,19 @@ public class Mazub {
 		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
 		
 		try {
-			setLocationX(locationX);
+			if(!hasCollisionRight((int)locationX, (int) locationY)){
+				setLocationX(locationX);
+			}
 		} catch (IllegalArgumentException e1){
 			locationX = calculateValidLocationX(locationX);
 			setLocationX(locationX);
 		}
 		
 		try {
-			setLocationY(locationY);
+			if((!hasCollisionTop((int)locationX,(int) locationY)) && 
+				(!hasCollisionBottom((int)locationX,(int) locationY))){
+				setLocationY(locationY);
+			}
 		} catch (IllegalArgumentException e2){
 			locationY = calculateValidLocationY(locationY);
 			setLocationY(locationY);
@@ -1214,11 +1217,57 @@ public class Mazub {
 	 */
 	private boolean immunity;
 	
-	private boolean isOnSolidGround(){
+	/**
+	 * This function returns whether this Mazub is on Solid ground or not
+	 * @return
+	 */
+	private boolean isOnSolideGround(){
 		int startX = (int) getLocationX();
 		int endX = startX + getCurrentSprite().getWidth();
 		int[][] tiles = 
 				getWorld().getTilePositionsIn(startX, (int)getLocationY(), endX, (int)getLocationY());
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionTop(int x, int y){
+		int startX = x;
+		int endX = startX + getCurrentSprite().getWidth();
+		y = y + getCurrentSprite().getHeight();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(startX, y, endX, y);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionBottom(int x, int y){
+		int startX = x;
+		int endX = startX + getCurrentSprite().getWidth();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(startX, y+1, endX, y+1);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionRight(int x, int y){
+		int startX = x;
+		int endX = startX + getCurrentSprite().getWidth();
+		int startY = y;
+		int endY = startY + getCurrentSprite().getWidth();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(endX, startY+1, endX, endY);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
