@@ -105,7 +105,7 @@ public class PartialFacadeTest {
 		Mazub alien1 = facade.createMazub(1920, 1080, spriteArrayForSize(2,2));
 		
 		assertEquals(alien1.getLocationX(), alien1.getWindowWidth()-1, Util.DEFAULT_EPSILON);
-		assertEquals(alien1.getLocationY(), Mazub.getWindowHeight()-1, Util.DEFAULT_EPSILON);
+		assertEquals(alien1.getLocationY(), alien1.getWindowHeight()-1, Util.DEFAULT_EPSILON);
 		
 		Mazub alien2 = facade.createMazub(-51, -212, spriteArrayForSize(2,2));
 		
