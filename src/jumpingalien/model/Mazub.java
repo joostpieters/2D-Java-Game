@@ -685,6 +685,7 @@ public class Mazub {
 		}
 	}
 	
+	//TODO tekst bij laatste @effect
 	/**
 	 * Given a time this methode will update the location, velocity and acceleration of this Mazub	 * 
 	 * @param 	seconds
@@ -695,36 +696,60 @@ public class Mazub {
 	 * @effect	the timer will be added with the given seconds using setTimer() 
 	 * 				and the given seconds as parameter
 	 * 			| setTimer(getTimer() + seconds)
-	 * @effect 	
-
+	 * @effect 	while(seconds > 0)
+	 * 				if((getVelocityX() != 0) || (getAccelerationX() != 0)) then
+	 * 					if((getVelocityY() != 0) || (getAccelerationY() != 0)) then
+	 * 						if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) >= seconds && (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds) >= seconds) then
+	 * 							AdvanceTimeCollisionDetect(seconds);
+	 *							seconds = 0;
+	 * 						else if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) < (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds)) then
+	 * 							AdvanceTimeCollisionDetect(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds));
+	 *							seconds -= Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
+	 *						else if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) > (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds)) then
+	 *							AdvanceTimeCollisionDetect((0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds));
+	 *							seconds -= (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
+	 *					else if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) >= seconds) then
+	 *						 AdvanceTimeCollisionDetect(seconds);
+	 *						 seconds = 0;
+	 *					else then
+	 *						AdvanceTimeCollisionDetect((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds));
+	 *						seconds -= (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
+	 *				else if((getVelocityY() != 0) || (getAccelerationY() != 0)) then
+	 *					if ((0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds) > seconds) then
+	 *						AdvanceTimeCollisionDetect(seconds);
+	 *						seconds = 0;
+	 *					else then
+	 *						AdvanceTimeCollisionDetect((0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds));
+	 *						seconds -= (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
+	 *				else then
+	 *					seconds = 0				
 	 */
 	public void advanceTime(double seconds) throws IllegalArgumentException {
 		if (seconds < 0 || seconds >= 0.2) 
 			throw new IllegalArgumentException();
 		this.addToTimer(this.getTimer() + seconds);
-		double countSeconds = seconds;
-		while(countSeconds > 0){
+		while(seconds > 0){
 			double dt1 = 0.2;
 			double dt2 = 0.2;
 			if((getVelocityX() != 0) || (getAccelerationX() != 0)){
-				dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*countSeconds);
+				dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
 			}
 			if((getVelocityY() != 0) || (getAccelerationY() != 0)){
-				dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*countSeconds);
+				dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
 			}
 			if((dt1 != 0.2) || (dt2 != 0.2)){
-				if(dt1 >= countSeconds && dt2 >= countSeconds){
-					AdvanceTimeCollisionDetect(countSeconds);
-					countSeconds = 0;
+				if(dt1 >= seconds && dt2 >= seconds){
+					advanceTimeCollisionDetect(seconds);
+					seconds = 0;
 				} else if(dt1 < dt2){
-					AdvanceTimeCollisionDetect(dt1);
-					countSeconds -= dt1;
+					advanceTimeCollisionDetect(dt1);
+					seconds -= dt1;
 				} else if(dt2 <= dt1){
-					AdvanceTimeCollisionDetect(dt2);
-					countSeconds -= dt2;
+					advanceTimeCollisionDetect(dt2);
+					seconds -= dt2;
 				}
 			} else {
-				countSeconds = 0;
+				seconds = 0;
 			}
 			
 		}
@@ -755,7 +780,7 @@ public class Mazub {
 	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
-	public void AdvanceTimeCollisionDetect(double dt){
+	public void advanceTimeCollisionDetect(double dt){
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
 			accelerationX *= -1;
