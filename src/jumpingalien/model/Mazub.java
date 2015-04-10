@@ -1269,7 +1269,7 @@ public class Mazub {
 		int endX = startX + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(endX, y+1, endX, endY);
+				getWorld().getTilePositionsIn(endX, y+1, endX, endY-1);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
@@ -1281,7 +1281,7 @@ public class Mazub {
 	private boolean hasCollisionLeft(int x, int y){
 		int endY = y + getCurrentSprite().getHeight();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(x, y+1, x, endY);
+				getWorld().getTilePositionsIn(x, y+1, x, endY-1);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
