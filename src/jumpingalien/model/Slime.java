@@ -1,10 +1,7 @@
 package jumpingalien.model;
 
-import javax.jws.Oneway;
-
 import jumpingalien.util.Sprite;
-import be.kuleuven.cs.som.annotate.Basic;
-import be.kuleuven.cs.som.annotate.Immutable;
+import be.kuleuven.cs.som.annotate.*;
 
 public class Slime {
 	/**
@@ -24,6 +21,14 @@ public class Slime {
 	 * 			|((sprites.length != 2) || (!school.canHaveAsSlime(this)))
 	 * @effect	...
 	 * 			| setHitpoints(50)
+	 * @effect	...
+	 * 			| setVelocityX(0)
+	 * @effect	...
+	 * 			| setVelocityY(0)
+	 * @effect	...
+	 * 			| setAccelerationX(0)
+	 * @effect	...
+	 * 			| setAccelerationY(0)
 	 */
 	public Slime (int x, int y, Sprite[] sprites, School school) throws IllegalArgumentException{
 		if(sprites.length != 2){
@@ -54,7 +59,7 @@ public class Slime {
 	 * @param 	locationX
 	 * 			the new X coordinate for this slime
 	 * @post 	...
-	 * 			| new.getLocationX() = locationX 
+	 * 			| new.getLocationX() == locationX 
 	 */
 	private void setLocationX(double locationX) {
 		this.locationX = locationX;
@@ -76,7 +81,7 @@ public class Slime {
 	 * @param 	locationY
 	 * 			the new T coordinate for this slime
 	 * @post 	...
-	 * 			| new.getLocationY() = locationY
+	 * 			| new.getLocationY() == locationY
 	 */
 	private void setLocationY(double locationY) {
 		this.locationY = locationY;
@@ -111,12 +116,15 @@ public class Slime {
 	 * @param 	sprites
 	 * 			the list of sprites for this slime
 	 * @post 	...
-	 * 			| new.getSprites() = sprites
+	 * 			| new.getSprites() == sprites
 	 */
 	private void setSprites(Sprite[] sprites) {
 		this.sprites = sprites;
 	}
 
+	/**
+	 * Contains the sprites of this slime.
+	 */
 	private Sprite[] sprites;
 	
 	/**
@@ -130,13 +138,16 @@ public class Slime {
 	/**
 	 * 
 	 * @param index
-	 * @post	
-	 * 			| new.getCurrentSpriteIndex() = index
+	 * @post	...
+	 * 			| new.getCurrentSpriteIndex() == index
 	 */
 	private void setCurrentSpriteIndex(int index) {
 		this.currentSpriteIndex = index;
 	}
 	
+	/**
+	 * Contains the index of the current sprite of this Slime
+	 */
 	private int currentSpriteIndex;
 	
 	/**
@@ -161,7 +172,7 @@ public class Slime {
 	 * 
 	 * @param 	world
 	 * @post 	...
-	 * 			| new.getWorld() = world			
+	 * 			| new.getWorld() == world			
 	 */
 	void setWorld(World world) {
 		if((world != null) && (world.hasAsSlime(this)))
@@ -178,7 +189,7 @@ public class Slime {
 	}
 	
 	/**
-	 * This variable contains the world where this slime is in
+	 * This variable contains the world where this Slime is in
 	 */
 	private World world;
 	
@@ -202,7 +213,7 @@ public class Slime {
 	/**
 	 * @param 	school
 	 * @post 	...
-	 * 			|new.getSchool = school;
+	 * 			|new.getSchool() == school;
 	 */
 	private void setSchool(School school) {
 		this.school = school;
@@ -222,48 +233,79 @@ public class Slime {
 	 * 
 	 * @param points
 	 * @post	...
-	 * 			| new.getHitpoints() = points
+	 * 			| new.getHitpoints() == points
 	 */
 	private void setHitpoints(int points) {
 		this.hitpoints = points;
 	}
 	
+	/**
+	 * This variable contains the amount of hitpoints of this Slime
+	 */
 	private int hitpoints;
 	
+	@Basic
 	private double getVelocityX() {
 		return this.velocityX;
 	}
 	
+	/**
+	 * 
+	 * @param velocityX
+	 * @post	...
+	 * 			| new.getVelocityX() == velocityX
+	 */
 	private void setVelocityX(double velocityX) {
 		this.velocityX = velocityX;
 	}
 	
 	private double velocityX;
 	
+	@Basic
 	private double getVelocityY() {
 		return this.velocityY;
 	}
 	
+	/**
+	 * 
+	 * @param velocityY
+	 * @post	...
+	 * 			| new.getVelocityY() == velocityY
+	 */
 	private void setVelocityY(double velocityY) {
 		this.velocityY = velocityY;
 	}
 	
 	private double velocityY;
 	
+	@Basic
 	private double getAccelerationX() {
 		return accelerationX;
 	}
 	
+	/**
+	 * 
+	 * @param accelerationX
+	 * @post	...
+	 * 			| new.getAccelerationX() == accelerationX
+	 */
 	private void setAccelerationX(double accelerationX) {
 		this.accelerationX = accelerationX;
 	}
 	
 	private double accelerationX;
 	
+	@Basic
 	private double getAccelerationY() {
 		return accelerationY;
 	}
 	
+	/**
+	 * 
+	 * @param accelerationY
+	 * @post	...
+	 * 			| new.getAccelerationY() == accelerationY
+	 */
 	private void setAccelerationY(double accelerationY) {
 		this.accelerationY = accelerationY;
 	}
@@ -287,7 +329,7 @@ public class Slime {
 	}
 	
 	/**
-	 * Updates the location of this Mazub given a certain amount of seconds and a horizontal acceleration.
+	 * Updates the location of this Slime given a certain amount of seconds and a horizontal acceleration.
 	 * @param 	seconds
 	 * 			The seconds to compute the new position.
 	 * @param 	accelerationX
@@ -333,10 +375,20 @@ public class Slime {
 		}
 	}
 
+	/**
+	 * 
+	 * @return	...
+	 * 			| getWorld().getWorldSizeInPixels[0]
+	 */
 	private int getWindowWidth() {
 		return getWorld().getWorldSizeInPixels()[0];
 	}
 	
+	/**
+	 * 
+	 * @return	...
+	 * 			| getWorld().getWorldSizeInPixels[1]
+	 */
 	private int getWindowHeight() {
 		return getWorld().getWorldSizeInPixels()[1];
 	}
