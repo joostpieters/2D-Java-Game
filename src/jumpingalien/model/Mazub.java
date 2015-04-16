@@ -1295,6 +1295,30 @@ public class Mazub {
 		return hasCollisionX(x, y) || hasCollisionY(x, y);
 	}
 	
+	private boolean inWater(int x, int y) {
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		int[][] tiles = getWorld().getTilePositionsIn(x+2, y, endX-1, endY-1);
+		for (int[] tile: tiles) {
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 2){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean inMagma(int x, int y) {
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		int[][] tiles = getWorld().getTilePositionsIn(x+2, y, endX-1, endY-1);
+		for (int[] tile: tiles) {
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 3){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Returns the world where this mazub is in
 	 * @return 	The world in which this Mazub is
