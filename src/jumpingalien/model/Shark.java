@@ -15,13 +15,13 @@ public class Shark {
 	 * @effect 	...
 	 * 			| setSprites(sprites)
 	 * @effect	...
-	 * 			| setHitpoints(100)
+	 * 			| setHitPoints(100)
 	 */
 	public Shark (int x, int y, Sprite[] sprites){
 		setLocationX(x);
 		setLocationY(y);
 		setSprites(sprites);
-		setHitpoints(100);
+		setHitPoints(100);
 		setMovementCounter(4);
 	}
 	
@@ -149,25 +149,6 @@ public class Shark {
 	 */
 	private World world;
 	
-	@Basic
-	private int getHitpoints() {
-		return this.hitpoints;
-	}
-	
-	/**
-	 * 
-	 * @param points
-	 * @post	...
-	 * 			| new.getHitpoints() = points
-	 */
-	private void setHitpoints(int points) {
-		this.hitpoints = points;
-	}
-	
-	/**
-	 * this variable contains the amount of hitpoints for this shark
-	 */
-	private int hitpoints;
 	
 	/**
 	 * @return 	...
@@ -275,6 +256,16 @@ public class Shark {
 	void advanceTime(double seconds) throws IllegalArgumentException {
 		if (seconds < 0 || seconds >= 0.2) 
 			throw new IllegalArgumentException();
+		if(!isInWater()){
+			setNotInWaterTimer(getNotInWaterTimer() + seconds);
+		} else {
+			setNotInWaterTimer(0);
+		}
+		//TODO double vergelijking
+		if(getNotInWaterTimer() >= 0.2){
+			setNotInWaterTimer(getNotInWaterTimer() - 0.2);
+			setHitPoints(getHitPoints() - 1);
+		}
 		while(seconds > 0){
 			double dt1 = 0.2;
 			double dt2 = 0.2;
@@ -608,5 +599,64 @@ public class Shark {
 		int endX = x + getCurrentSprite().getWidth();
 		return detectGeologicalFeature(x+1, y, endX-2, y, 1);		
 	}
+	
+	/**
+	 * 
+	 * @return 	...
+	 * 			| result == this.notInWaterTimer
+	 */
+	private double getNotInWaterTimer() {
+		return notInWaterTimer;
+	}
+
+	/**
+	 * 
+	 * @param notInWaterTimer
+	 * @post 	...
+	 * 			|new.getNotInWaterTimer() == notInWaterTimer
+	 */
+	private void setNotInWaterTimer(double notInWaterTimer) {
+		this.notInWaterTimer = notInWaterTimer;
+	}
+	
+	/**
+	 * This variable contains the time that the shark was not in the water
+	 */
+	private double notInWaterTimer;	
+	
+	/**
+	 * 
+	 * @return 	...
+	 * 			| result == this.hitPoints
+	 */
+	private int getHitPoints() {
+		return hitPoints;
+	}
+
+	/**
+	 * 
+	 * @param hitPoints
+	 * @post 	...
+	 * 			|new.getHitPoints = hitPoints
+	 */
+	private void setHitPoints(int hitPoints) {
+		if(hitPoints <= 0){
+			setHitPoints(0);
+			isDead();
+		} else if(hitPoints > 100) {
+			setHitPoints(100);
+		} else {
+			setHitPoints(hitPoints);
+		}
+	}
+	
+	private void isDead() {
+		// TODO Haai is dood
+		getWorld().deleteShark();		
+	}
+	/**
+	 * This variable contains the amount of hitpoints for this shark
+	 */
+	private int hitPoints;
 	
 }
