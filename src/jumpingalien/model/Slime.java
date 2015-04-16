@@ -615,7 +615,6 @@ public class Slime {
 					break;
 		}
 		double time = 2 + (int)(Math.random()*5);
-		System.out.println("Time: " + time);
 		
 		setVelocityX(0);
 		setAccelerationX(getInitialAccelerationX());

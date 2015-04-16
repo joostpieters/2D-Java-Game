@@ -790,7 +790,11 @@ public class Mazub {
 				
 		updateVelocityX(dt, accelerationX);
 		
-		updateVelocityYAndAccelerationY(dt);		
+		updateVelocityYAndAccelerationY(dt);
+		
+		if (inWater((int) getLocationX(), (int) getLocationY())) {
+			System.out.println("Auwtsch!");
+		}
 	}
 
 	
@@ -1298,13 +1302,7 @@ public class Mazub {
 	private boolean inWater(int x, int y) {
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = getWorld().getTilePositionsIn(x+2, y, endX-1, endY-1);
-		for (int[] tile: tiles) {
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 2){
-				return true;
-			}
-		}
-		return false;
+		return detectGeologicalFeature(x, y, endX-1, endY-1, 2);
 	}
 	
 	private boolean inMagma(int x, int y) {
@@ -1317,6 +1315,17 @@ public class Mazub {
 			}
 		}
 		return false;
+	}
+	
+	private boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(i, j, k, l);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == geologicalFeature){
+				return true;
+			}
+		}
+		return false;		
 	}
 	
 	/**
