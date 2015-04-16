@@ -321,7 +321,7 @@ public class Slime {
 	 * 			| 	return false
 	 */
 	private boolean isMovingLeft() {
-		if (this.getVelocityX() < 0) {
+		if (this.getMovementDirection() == Direction.LEFT) {
 			return true;
 		} else {
 			return false;
@@ -346,8 +346,12 @@ public class Slime {
 	 * 				(getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100);
 	 * 
 	 */
-	private void updateLocation(double seconds, double accelerationX) {
+	private void updateLocation(double seconds) {
 		assert (seconds >= 0);
+		double accelerationX = getAccelerationX();
+		if (isMovingLeft()) {
+			accelerationX *= -1;
+		}
 		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
 		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
 		if(hasCollisionX((int)locationX,(int) locationY)){
@@ -447,43 +451,6 @@ public class Slime {
 		}
 		return locationY;
 	}
-	
-	/**
-	 * 
-	 * @param 	seconds
-	 * 			The seconds to compute the new velocity.
-	 * @param 	accelerationX
-	 * 			The horizontal acceleration.
-	 * @pre		seconds needs to be bigger or equal to zero
-	 * 			| seconds >= 0
-	 * @effect	If the calculated velocity is smaller than the maximum horizontal velocity,
-	 * 				and not smaller than minus the maximum horizontal velocity, 
-	 * 				set the new velocity to the calculated velocity.
-	 *				If the calculated velocity is smaller than minus the maximum horizontal velocity, 
-	 *				set the new velocity to minus the maximum horizontal velocity.
-	 *				If the calculated velocity is greater than the maximum horizontal velocity, 
-	 *				set the new velocity to the maximum horizontal velocity.
-	 * 			| if ((getVelocityX() + accelerationX*seconds) < getMaximumHorizontalVelocity()) then
-	 * 			|	if ((getVelocityX() + accelerationX*seconds) < -getMaximumHorizontalVelocity()) then
-	 * 			|		setVelocityX(-getMaximumHorizontalVelocity)
-	 * 			|	else then
-	 * 			|		setVelocityX(getVelocityX() + accelerationX*seconds)
-	 * 			| else then
-	 * 			|	setVelocityX(getMaximumHorizontalVelocity())
-	 */
-	private void updateVelocityX(double seconds, double accelerationX) {
-		assert(seconds >= 0);
-		double velocityX = getVelocityX() + accelerationX*seconds;
-		if (velocityX < getMaximumHorizontalVelocity()){
-			if (velocityX < -getMaximumHorizontalVelocity()){
-				setVelocityX(-getMaximumHorizontalVelocity());
-			} else {
-				setVelocityX(velocityX);
-			}
-		} else{
-			setVelocityX(getMaximumHorizontalVelocity());
-		}
-	}
 
 	private double getMaximumHorizontalVelocity() {
 		return 2.5;
@@ -504,18 +471,6 @@ public class Slime {
 			}
 		}
 		return false;
-	}
-	
-	private void updateVelocityYAndAccelerationY(double seconds) {
-		assert(seconds >= 0);
-		if (isOnSolidGround()) {
-			setVelocityY(0);
-			setAccelerationY(0);
-		} else {
-			double velocityY = getVelocityY() + getAccelerationY()*seconds;
-			setVelocityY(velocityY);
-			setAccelerationY(-10);
-		}
 	}
 	
 	private boolean hasCollisionTop(int x, int y){
@@ -587,6 +542,9 @@ public class Slime {
 			double dt2 = 0.2;
 			if (! isOnSolidGround()) {
 				setAccelerationY(-10);
+			} else {
+				setAccelerationY(0);
+				setVelocityY(0);
 			}
 			if((getVelocityX() != 0) || (getAccelerationX() != 0)){
 				dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
@@ -611,17 +569,82 @@ public class Slime {
 		}
 	}
 	
-	public void advanceTimeCollisionDetect(double dt){
-		double accelerationX = getAccelerationX(); 
-		if (this.isMovingLeft())
-			accelerationX *= -1;
-		
-		updateLocation(dt, accelerationX);
-				
-		updateVelocityX(dt, accelerationX);
-		
-		updateVelocityYAndAccelerationY(dt);		
+	//TODO vergelijking van doubles
+	private void advanceTimeCollisionDetect(double dt){
+		setMovementTime(getMovementTime()-dt);
+		if(getMovementTime() <= 0){
+			newMovement();
+		}
+		updateVelocity(dt);
+		updateLocation(dt);	
 	}
+	
+	private void updateVelocity(double dt){
+		double accelerationX = getAccelerationX();
+		if(getVelocityX() < 0){
+			accelerationX *= -1;
+		}
+		setVelocityX(getVelocityX() + accelerationX*dt);
+		setVelocityY(getVelocityY() + getVelocityY()*dt);
+	}
+	
+	
+	private void newMovement(){
+		int random = (int)(Math.random()*2);
+		switch (random){
+			case 0: setMovementDirection(Direction.LEFT);;
+						break;
+			case 1: setMovementDirection(Direction.RIGHT);
+						break;
+		}
+		double time = 1 + (int)(Math.random()*5);
+		if(time < 4){
+			time+= (int)(Math.random()*10)/10;
+		}
+		setMovementTime(time);
+		
+	}
+	
+	@Basic
+	private Direction getMovementDirection() {
+		return this.movementDirection;
+	}
+	
+	/**
+	 * 
+	 * @param direction
+	 * @post	...
+	 * 			| new.getMovementDirection() == direction
+	 */
+	private void setMovementDirection(Direction direction) {
+		this.movementDirection = direction;
+	}
+	
+	private Direction movementDirection;
+		
+	/**
+	 * 
+	 * @return	...
+	 * 			| result == this.movementTimer
+	 */
+	private double getMovementTime() {
+		return movementTime;
+	}
+
+	/**
+	 * 
+	 * @param time
+	 * @post	...
+	 * 			| new.getMovementTimer() == time
+	 */
+	private void setMovementTime(double time) {
+		this.movementTime = time;
+	}
+	
+	/**
+	 * This variable contains the time that the current movement will last
+	 */
+	private double movementTime;
 	
 	/**
 	 * Returns the value of the timer
