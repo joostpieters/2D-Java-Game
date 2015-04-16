@@ -294,9 +294,9 @@ public class Shark {
 			
 		}
 	}
-	//TODO vergelijking van doubles
 	private void advanceTimeCollisionDetect(double dt){
 		setMovementTime(getMovementTime()-dt);
+		//TODO vergelijking van doubles
 		if(getMovementTime() <= 0){
 			newMovement();
 		}
@@ -334,7 +334,7 @@ public class Shark {
 	}
 	
 	private static double getInitialHorizontalVelocity(){
-		return 8;
+		return 4;
 	}
 	
 	private void newMovement(){
@@ -347,11 +347,11 @@ public class Shark {
 		}
 		random = (int)(Math.random()*4);
 		switch (random){
-			case 0: setVelocityY(1);
+			case 0: setVelocityY(0);
 						break;
-			case 1: setVelocityY(1);
+			case 1: setVelocityY(-0.2);
 						break;
-			case 3: setVelocityY(0);
+			case 3: setVelocityY(0.2);
 						break;
 		}
 		double time = 1 + (int)(Math.random()*5);
@@ -390,7 +390,7 @@ public class Shark {
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(x, endY, endX, endY);
+				getWorld().getTilePositionsIn(x+1, endY-2, endX-2, endY-2);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
@@ -400,10 +400,9 @@ public class Shark {
 	}
 	
 	private boolean hasCollisionBottom(int x, int y){
-		int startX = x;
-		int endX = startX + getCurrentSprite().getWidth();
+		int endX = x + getCurrentSprite().getWidth();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(startX, y+1, endX, y+1);
+				getWorld().getTilePositionsIn(x+1, y+1, endX-2, y+1);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
@@ -413,11 +412,10 @@ public class Shark {
 	}
 	
 	private boolean hasCollisionRight(int x, int y){
-		int startX = x;
-		int endX = startX + getCurrentSprite().getWidth();
+		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(endX, y+1, endX, endY-1);
+				getWorld().getTilePositionsIn(endX-2, y+2, endX-2, endY-3);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
@@ -429,7 +427,7 @@ public class Shark {
 	private boolean hasCollisionLeft(int x, int y){
 		int endY = y + getCurrentSprite().getHeight();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(x, y+1, x, endY-1);
+				getWorld().getTilePositionsIn(x+1, y+2, x+1, endY-3);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
@@ -445,5 +443,7 @@ public class Shark {
 	private boolean hasCollisionY(int x, int y){
 		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
 	}
+	
+	private Direction movement; 
 	
 }
