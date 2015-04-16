@@ -54,6 +54,7 @@ public class Mazub {
 		this.setTimer(0);
 		this.amountSpritesForMovement = (sprites.length - 10) / 2;
 		this.setHitPoints(100);
+		this.setMagmaTimer(0.2);
 	}
 	
 	
@@ -757,7 +758,7 @@ public class Mazub {
 		
 		//TODO double vergelijking
 		if (isInWater((int) getLocationX(), (int) getLocationY())) {
-			if (getWaterTimer() > 0.2) {
+			if (getWaterTimer() >= 0.2) {
 				setHitPoints(getHitPoints()-2);
 				setWaterTimer(0);
 			} else {
@@ -768,14 +769,15 @@ public class Mazub {
 		}
 		
 		if (isInMagma((int) getLocationX(), (int) getLocationY())) {
-			if (getMagmaTimer() > 0.2) {
+			if (getMagmaTimer() >= 0.2) {
 				setHitPoints(getHitPoints()-50);
 				setMagmaTimer(0);
 			} else {
 				setMagmaTimer(getMagmaTimer() + seconds);
 			}
 		} else {
-			setMagmaTimer(0);
+			// immediately lose points when in magma
+			setMagmaTimer(0.2);
 		}
 	}
 	/**
