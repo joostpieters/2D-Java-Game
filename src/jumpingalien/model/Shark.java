@@ -311,7 +311,6 @@ public class Shark {
 			if(getAccelerationY()<-9){
 				setAccelerationY(0);
 				setVelocityX(0);
-				System.out.println("Op Null");
 			}
 		}
 		updateLocation(dt);	
@@ -365,7 +364,6 @@ public class Shark {
 						break;
 		}
 		if((getMovementCounter() == 4)&&(isBottomPerimeterInWater())){
-			System.out.println("Pring mogelijkheid");
 			random = (int)(Math.random()*4);
 			if(random == 1){
 				setVelocityY(2);
