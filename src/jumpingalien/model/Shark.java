@@ -310,7 +310,7 @@ public class Shark {
 			//TODO double vergelijken
 			if(getAccelerationY()<-9){
 				setAccelerationY(0);
-				setVelocityX(0);
+				setVelocityY(0);
 			}
 		}
 		updateLocation(dt);	
@@ -363,12 +363,14 @@ public class Shark {
 			case 1: setMovement(Direction.LEFT);
 						break;
 		}
-		if((getMovementCounter() == 4)&&(isBottomPerimeterInWater())){
-			random = (int)(Math.random()*2);
-			if(random == 1){
-				setVelocityY(2);
-				isJumping = true;
-				setMovementCounter(0);
+		if((getMovementCounter() == 4)){
+			if(isBottomPerimeterInWater() || isBottomPerimeterInSolidGround()){
+				random = (int)(Math.random()*2);
+				if(random == 1){
+					setVelocityY(2);
+					isJumping = true;
+					setMovementCounter(-1);
+				}
 			}
 		}
 		if(!isJumping){
@@ -517,7 +519,7 @@ public class Shark {
 		if(getMovementCounter() + value >= 4)
 			setMovementCounter(4);
 		else
-			setMovementCounter(value);
+			setMovementCounter(getMovementCounter() + value);
 	}
 	
 
@@ -592,6 +594,14 @@ public class Shark {
 	
 	private boolean isInWater(){
 		return (isRightPerimeterInWater() || isLeftPerimeterInWater() || isBottomPerimeterInWater() || isTopPerimeterInWater());
+	}
+	
+	private boolean isBottomPerimeterInSolidGround(){
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
+		int endX = x + getCurrentSprite().getWidth();
+		return detectGeologicalFeature(x+1, y, endX-2, y, 1);		
 	}
 	
 }
