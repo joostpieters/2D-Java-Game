@@ -299,10 +299,8 @@ public class Slime {
 	private double accelerationX;
 	
 	private static double getInitialAccelerationX() {
-		return initialAccelerationX;
+		return 0.7;
 	}
-	
-	private final static double initialAccelerationX = 0.7;
 	
 	@Basic
 	private double getAccelerationY() {
