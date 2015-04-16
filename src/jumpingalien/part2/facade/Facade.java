@@ -161,8 +161,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public boolean didPlayerWin(World world) {
-		// TODO Auto-generated method stub
-		return false;
+		return world.hasReachedEnd();
 	}
 
 	@Override

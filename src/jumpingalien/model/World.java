@@ -294,7 +294,41 @@ public class World  {
 	 * 			| result == getMazub().isDead()
 	 */
 	public boolean isGameOver() {
-		return getMazub().isDead();
+		return (getMazub().isDead() || hasReachedEnd());
+	}
+	
+	@Basic
+	public boolean hasReachedEnd() {
+		return this.reachedEnd;
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 * @post	...
+	 * 			| new.hasReachedEnd() == value
+	 */
+	private void setReachedEnd(boolean value) {
+		this.reachedEnd = value;
+	}
+	
+	private boolean reachedEnd;
+	
+	private boolean alienIsAtTargetTile() {
+		Mazub alien = getMazub();
+		int x = (int) alien.getLocationX();
+		int y = (int) alien.getLocationY();
+		int endX = (int) (alien.getLocationX() + alien.getCurrentSprite().getWidth() - 1);
+		int endY = (int) (alien.getLocationY() + alien.getCurrentSprite().getHeight() - 1);
+		
+		int[][] tiles = getTilePositionsIn(x, y, endX, endY);
+		
+		for (int[] tile : tiles) {
+			if (tile[0] == getTargetTileX() && tile[1] == getTargetTileY()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -436,6 +470,10 @@ public class World  {
 		}
 		for (Shark shark : sharks) {
 			shark.advanceTime(dt);
+		}
+		
+		if (alienIsAtTargetTile()) {
+			setReachedEnd(true);
 		}
 		
 		updateWindow();
