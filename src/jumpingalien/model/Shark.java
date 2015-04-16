@@ -364,7 +364,7 @@ public class Shark {
 						break;
 		}
 		if((getMovementCounter() == 4)&&(isBottomPerimeterInWater())){
-			random = (int)(Math.random()*4);
+			random = (int)(Math.random()*2);
 			if(random == 1){
 				setVelocityY(2);
 				isJumping = true;
