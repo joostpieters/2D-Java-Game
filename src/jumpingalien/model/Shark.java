@@ -22,6 +22,7 @@ public class Shark {
 		setLocationY(y);
 		setSprites(sprites);
 		setHitpoints(100);
+		setMovementCounter(4);
 		newMovement();
 	}
 	
@@ -360,7 +361,7 @@ public class Shark {
 				setVelocityY(getVelocityY()*-1);
 			}			
 		}
-		if((getMovementCounter() == 4)&&(canJump())){
+		if((getMovementCounter() == 4)&&(isBottomPerimeterInWater())){
 			setVelocityY(2);
 			setJumping(true);
 		}
@@ -369,11 +370,6 @@ public class Shark {
 		setMovementTime(time);
 		addToMovementCounter(1);
 		
-	}
-		
-	private boolean canJump() {
-		// TODO Auto-generated method stub
-		return true;
 	}
 
 	/**
@@ -550,22 +546,21 @@ public class Shark {
 	 */
 	private boolean isJumping;
 	
-	private boolean hasCollisionTopWithWater(int x, int y){
+	private boolean isTopPerimeterInWater(){
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(x+1, endY-2, endX-2, endY-2, 2);
+		return detectGeologicalFeature(x+1, endY-1, endX-1, endY-2, 2);
 	}
 
-	private boolean hasCollisionBottomWithWater(int x, int y){
+	private boolean isBottomPerimeterInWater(){
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
 		int endX = x + getCurrentSprite().getWidth();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, y+1, endX-2, y+1);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return detectGeologicalFeature(x+1, y, endX-2, y, 2);
 	}
 	
 	private boolean hasCollisionRightWithWater(int x, int y){
