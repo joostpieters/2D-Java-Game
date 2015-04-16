@@ -310,6 +310,7 @@ public class Shark {
 			//TODO double vergelijken
 			if(getAccelerationY()<-9){
 				setAccelerationY(0);
+				setVelocityX(0);
 				System.out.println("Op Null");
 			}
 		}
@@ -349,13 +350,13 @@ public class Shark {
 	
 	
 	private void newMovement(){
+		Boolean isJumping = false;
 		setVelocityX(0);
 		//Todo double vergelijking
 		if(getAccelerationY() > 0)
 			setAccelerationY(0);
 		if(getVelocityY() > 0)
 			setVelocityY(0);
-		setJumping(false);
 		int random = (int)(Math.random()*2);
 		switch (random){
 			case 0: setMovement(Direction.RIGHT);
@@ -367,10 +368,11 @@ public class Shark {
 			random = (int)(Math.random()*4);
 			if(random == 1){
 				setVelocityY(2);
-				setJumping(true);
+				isJumping = true;
+				setMovementCounter(0);
 			}
 		}
-		if(!isJumping()){
+		if(!isJumping){
 			random = (int)(Math.random()*3);
 			switch (random){
 				case 0: setAccelerationY(0);
@@ -381,7 +383,7 @@ public class Shark {
 							break;
 			}
 			if(random != 0){
-				random = (int)(Math.random()*2);
+				random = (int)(Math.random()*20);
 				if(random == 1){
 					setAccelerationY(getAccelerationY()*-1);
 				}			
@@ -543,30 +545,6 @@ public class Shark {
 	 * This variable contains the amount of movements after a jump
 	 */
 	private int movementCounter;
-	
-	/**
-	 * 
-	 * @return 	...
-	 * 			| result == this.isJumping
-	 */
-	private boolean isJumping() {
-		return isJumping;
-	}
-
-	/**
-	 * 
-	 * @param isJumping
-	 * @post 	...
-	 * 			| new.isJumping() == isJumping
-	 */
-	private void setJumping(boolean isJumping) {
-		this.isJumping = isJumping;
-	}
-	
-	/**
-	 * This variable contains wheter this shark is jumping or not
-	 */
-	private boolean isJumping;
 	
 	private boolean isTopPerimeterInWater(){
 		int[] position = getLocation();
