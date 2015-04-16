@@ -304,6 +304,15 @@ public class Shark {
 		if(getMovementTime() <= 0){
 			newMovement();
 		}
+		if(!isInWater()){
+			setAccelerationY(-10);
+		} else {
+			//TODO double vergelijken
+			if(getAccelerationY()<-9){
+				setAccelerationY(0);
+				System.out.println("Op Null");
+			}
+		}
 		updateLocation(dt);	
 		updateVelocity(dt);
 	}
@@ -329,18 +338,23 @@ public class Shark {
 		setLocationY(locationY);
 	}
 	
-	private void updateVelocity(Double dt){
+	private void updateVelocity(double dt){
 		double accelerationX = getAccelerationX();
 		if(getMovement() == Direction.LEFT){
 			accelerationX *= -1;
 		}
 		setVelocityX(getVelocityX() + accelerationX*dt);
+		setVelocityY(getVelocityY() + getAccelerationY()*dt);
 	}
 	
 	
 	private void newMovement(){
 		setVelocityX(0);
-		setVelocityY(0);
+		//Todo double vergelijking
+		if(getAccelerationY() > 0)
+			setAccelerationY(0);
+		if(getVelocityY() > 0)
+			setVelocityY(0);
 		setJumping(false);
 		int random = (int)(Math.random()*2);
 		switch (random){
@@ -349,24 +363,29 @@ public class Shark {
 			case 1: setMovement(Direction.LEFT);
 						break;
 		}
-		random = (int)(Math.random()*3);
-		switch (random){
-			case 0: setVelocityY(0);
-						break;
-			case 1: setVelocityY(0.1);
-						break;
-			case 2: setVelocityY(0.2);
-						break;
-		}
-		if(random != 0){
-			random = (int)(Math.random()*2);
-			if(random == 1){
-				setVelocityY(getVelocityY()*-1);
-			}			
-		}
 		if((getMovementCounter() == 4)&&(isBottomPerimeterInWater())){
-			setVelocityY(2);
-			setJumping(true);
+			random = (int)(Math.random()*4);
+			if(random == 1){
+				setVelocityY(2);
+				setJumping(true);
+			}
+		}
+		if(!isJumping()){
+			random = (int)(Math.random()*3);
+			switch (random){
+				case 0: setAccelerationY(0);
+							break;
+				case 1: setAccelerationY(0.1);
+							break;
+				case 2: setAccelerationY(0.2);
+							break;
+			}
+			if(random != 0){
+				random = (int)(Math.random()*2);
+				if(random == 1){
+					setAccelerationY(getAccelerationY()*-1);
+				}			
+			}
 		}
 		
 		double time = 1 + (int)(Math.random()*4);
@@ -555,7 +574,7 @@ public class Shark {
 		int y = position[1];
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(x+1, endY-1, endX-1, endY-2, 2);
+		return detectGeologicalFeature(x+1, endY-1, endX-1, endY-1, 2);
 	}
 
 	private boolean isBottomPerimeterInWater(){
@@ -566,15 +585,21 @@ public class Shark {
 		return detectGeologicalFeature(x+1, y, endX-2, y, 2);
 	}
 	
-	private boolean hasCollisionRightWithWater(int x, int y){
+	private boolean isRightPerimeterInWater(){
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(endX-2, y+2, endX-2, endY-3, 2);
+		return detectGeologicalFeature(endX-1, y+2, endX-1, endY-3, 2);
 	}
 	
-	private boolean hasCollisionLeftWithWater(int x, int y){
+	private boolean isLeftPerimeterInWater(){
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(x+1, y+2, x+1, endY-3, 2);
+		return detectGeologicalFeature(x, y+2, x, endY-3, 2);
 	}
 	
 	private boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
@@ -586,6 +611,10 @@ public class Shark {
 			}
 		}
 		return false;		
+	}
+	
+	private boolean isInWater(){
+		return (isRightPerimeterInWater() || isLeftPerimeterInWater() || isBottomPerimeterInWater() || isTopPerimeterInWater());
 	}
 	
 }
