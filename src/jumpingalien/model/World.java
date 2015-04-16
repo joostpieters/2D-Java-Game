@@ -289,6 +289,15 @@ public class World  {
 	private Mazub alien;
 	
 	/**
+	 * Returns whether the game is over.
+	 * @return	...
+	 * 			| result == getMazub().isDead()
+	 */
+	public boolean isGameOver() {
+		return getMazub().isDead();
+	}
+	
+	/**
 	 * Returns the feature of the given tile
 	 * @param 	tileX
 	 *            The x-position x_T of the tile for which the feature needs to be returned
@@ -632,5 +641,8 @@ public class World  {
 	}
 	
 	private ArrayList<Slime> slimes = new ArrayList<Slime>();
+	
+//	
+//	private Collection<Slime> 
 }
 

@@ -156,8 +156,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public boolean isGameOver(World world) {
-		// TODO Auto-generated method stub
-		return false;
+		return world.isGameOver();
 	}
 
 	@Override

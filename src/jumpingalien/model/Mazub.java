@@ -758,11 +758,7 @@ public class Mazub {
 		//TODO double vergelijking
 		if (isInWater((int) getLocationX(), (int) getLocationY())) {
 			if (getWaterTimer() > 0.2) {
-				if (getHitPoints() <= 2) {
-					//TODO GAME OVER
-				} else {
-					setHitPoints(getHitPoints()-2);
-				}
+				setHitPoints(getHitPoints()-2);
 				setWaterTimer(0);
 			} else {
 				setWaterTimer(getWaterTimer() + seconds);
@@ -773,11 +769,7 @@ public class Mazub {
 		
 		if (isInMagma((int) getLocationX(), (int) getLocationY())) {
 			if (getMagmaTimer() > 0.2) {
-				if (getHitPoints() <= 50) {
-					//TODO GAME OVER
-				} else {
-					setHitPoints(getHitPoints()-50);
-				}
+				setHitPoints(getHitPoints()-50);
 				setMagmaTimer(0);
 			} else {
 				setMagmaTimer(getMagmaTimer() + seconds);
@@ -1221,12 +1213,13 @@ public class Mazub {
 	 * 			|	then new.getHitPoints() == hitPoints
 	 */
 	private void setHitPoints(int hitPoints) {
-		if (hitPoints < 0)
+		if (hitPoints <= 0) {
 			this.hitPoints = 0;
-		else if (hitPoints > 500)
+		} else if (hitPoints > 500) {
 			this.hitPoints = 500;
-		else
+		} else {
 			this.hitPoints = hitPoints;
+		}
 	}
 	
 	/**
@@ -1435,5 +1428,9 @@ public class Mazub {
 	 * This variable contains the world where this Mazub is in
 	 */
 	private World world;
+
 	
+	public boolean isDead() {
+		return (this.getHitPoints() == 0);
+	}
 }
