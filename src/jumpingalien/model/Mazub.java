@@ -1230,16 +1230,7 @@ public class Mazub {
 	 * @return
 	 */
 	private boolean isOnSolidGround(){
-		int startX = (int) getLocationX();
-		int endX = startX + getCurrentSprite().getWidth();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(startX, (int)getLocationY(), endX-1, (int)getLocationY());
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1);
 	}
 	
 	private boolean hasCollisionTop(int x, int y){
