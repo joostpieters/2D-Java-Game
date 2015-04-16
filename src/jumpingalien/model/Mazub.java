@@ -42,6 +42,8 @@ public class Mazub {
 	 * 			| new.getAmountSpritesForMovement() = (sprites.length - 8) / 2 - 1
 	 * @effect	set hitpoints to 100
 	 * 			| setHitPoints(100)
+	 * @effect 	set the magma timer to 0.2
+	 * 			| setMagmaTimer(0.2)
 	 */
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws IllegalArgumentException{
 		this.setLocation(pixelLeftX, pixelBottomY);
@@ -756,6 +758,11 @@ public class Mazub {
 			}	
 		}
 		
+		if (getWantToStopDucking() && isDucking() && canStopDucking()) {
+			setDucking(false);
+			setWantToStopDucking(false);
+		}
+		
 		//TODO double vergelijking
 		if (isInWater((int) getLocationX(), (int) getLocationY())) {
 			if (getWaterTimer() >= 0.2) {
@@ -815,8 +822,6 @@ public class Mazub {
 		updateVelocityX(dt, accelerationX);
 		
 		updateVelocityYAndAccelerationY(dt);
-		
-		
 	}
 
 	
@@ -1125,14 +1130,34 @@ public class Mazub {
 	 * @throws	IllegalStateException
 	 * 			if the this Mazub is not ducking while stopDucking is involved
 	 * 			| !isDucking()
-	 * @effect 	the ducking state of this Mazub will be set to false
-	 * 			|setDucking(false);
+	 * @effect 	sets that this Mazub wants to stop ducking
+	 * 			| setWantToStopDucking(true)
 	 */
 	public void endDucking() throws IllegalStateException{
 		if (!isDucking())
 			throw new IllegalStateException();
-		setDucking(false);
+		setWantToStopDucking(true);		
 	}
+	
+	/**
+	 * 
+	 * @param value
+	 * @post	...
+	 * 			| new.getWantToStopDucking() == value
+	 */
+	private void setWantToStopDucking(boolean value) {
+		this.wantToStopDucking = value;
+	}
+	
+	@Basic
+	private boolean getWantToStopDucking() {
+		return this.wantToStopDucking;
+	}
+	
+	/**
+	 * This variable contains whether this Mazub wants to stop ducking.
+	 */
+	private boolean wantToStopDucking;
 	
 	/**
 	 * Returns the current value of the timer.
@@ -1371,6 +1396,12 @@ public class Mazub {
 	
 	
 	//TODO un-duck blokkeren als er niet ge-un-duckt kan worden
+	private boolean canStopDucking() {
+		int newEndY = (int) getLocationY() + getSprites()[0].getHeight();
+		int newEndX = (int) getLocationX() + getSprites()[0].getWidth();
+		
+		return !(detectGeologicalFeature((int) getLocationX()+1, (int) getLocationY()+2, newEndX-2, newEndY-2, 1));
+	}
 	
 	private boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
 		int[][] tiles = 
