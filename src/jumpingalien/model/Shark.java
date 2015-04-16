@@ -652,7 +652,7 @@ public class Shark {
 	
 	private void isDead() {
 		// TODO Haai is dood
-		getWorld().deleteShark();		
+		getWorld().deleteShark(this);		
 	}
 	/**
 	 * This variable contains the amount of hitpoints for this shark
