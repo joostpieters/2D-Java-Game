@@ -231,8 +231,11 @@ public class Shark {
 	 * @return	...
 	 * 			| result == getInitialHorizontalAcceleration()
 	 */
-	private static double getAccelerationX() {
-		return getInitialHorizontalAcceleration();
+	private double getAccelerationX() {
+		if(getMovement() != null)
+			return getInitialHorizontalAcceleration();
+		else
+			return 0;
 	}
 	
 	
@@ -306,7 +309,8 @@ public class Shark {
 		}
 		if(!isInWater()){
 			setAccelerationY(-10);
-		if(isTopPerimeterInWater() && getAccelerationY()<-9 )
+		}
+		if(isTopPerimeterInWater() && getAccelerationY()<-9 ){
 			setAccelerationY(0);
 			setVelocityY(0);
 		}
@@ -348,18 +352,13 @@ public class Shark {
 	private void newMovement(){
 		Boolean isJumping = false;
 		setVelocityX(0);
+		setMovement(null);
 		//Todo double vergelijking
 		if(getAccelerationY() > 0)
 			setAccelerationY(0);
 		if(isInWater())
 			setVelocityY(0);
-		int random = (int)(Math.random()*2);
-		switch (random){
-			case 0: setMovement(Direction.RIGHT);
-						break;
-			case 1: setMovement(Direction.LEFT);
-						break;
-		}
+		int random;
 		if((getMovementCounter() == 4)){
 			if(isBottomPerimeterInWater() || isBottomPerimeterInSolidGround()){
 				random = (int)(Math.random()*2);
@@ -370,7 +369,16 @@ public class Shark {
 				}
 			}
 		}
-		if(!isJumping && isTopPerimeterInWater()){
+		if(isInWater() || isJumping){
+			random = (int)(Math.random()*2);
+			switch (random){
+				case 0: setMovement(Direction.RIGHT);
+							break;
+				case 1: setMovement(Direction.LEFT);
+							break;
+			}
+		}
+		if(!isJumping && isInWater()){
 			random = (int)(Math.random()*3);
 			switch (random){
 				case 0: setAccelerationY(0);
