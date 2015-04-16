@@ -306,7 +306,7 @@ public class Shark {
 	
 	private void updateLocation(Double dt){
 		double accelerationX = getAccelerationX();
-		if(getVelocityX() < 0){
+		if(getMovement() == Direction.LEFT){
 			accelerationX *= -1;
 		}
 		double locationX = getLocationX() + (getVelocityX()*dt + accelerationX*dt*dt/2)*100;
@@ -327,41 +327,55 @@ public class Shark {
 	
 	private void updateVelocity(Double dt){
 		double accelerationX = getAccelerationX();
-		if(getVelocityX() < 0){
+		if(getMovement() == Direction.LEFT){
 			accelerationX *= -1;
 		}
 		setVelocityX(getVelocityX() + accelerationX*dt);
 	}
 	
-	private static double getInitialHorizontalVelocity(){
-		return 4;
-	}
 	
 	private void newMovement(){
+		setVelocityX(0);
+		setVelocityY(0);
+		setJumping(false);
 		int random = (int)(Math.random()*2);
 		switch (random){
-			case 0: setVelocityX(getInitialHorizontalVelocity());
+			case 0: setMovement(Direction.RIGHT);
 						break;
-			case 1: setVelocityX(-getInitialHorizontalVelocity());
+			case 1: setMovement(Direction.LEFT);
 						break;
 		}
-		random = (int)(Math.random()*4);
+		random = (int)(Math.random()*3);
 		switch (random){
 			case 0: setVelocityY(0);
 						break;
-			case 1: setVelocityY(-0.2);
+			case 1: setVelocityY(0.1);
 						break;
-			case 3: setVelocityY(0.2);
+			case 2: setVelocityY(0.2);
 						break;
 		}
-		double time = 1 + (int)(Math.random()*5);
-		if(time < 4){
-			time+= (int)(Math.random()*10)/10;
+		if(random != 0){
+			random = (int)(Math.random()*2);
+			if(random == 1){
+				setVelocityY(getVelocityY()*-1);
+			}			
 		}
+		if((getMovementCounter() == 4)&&(canJump())){
+			setVelocityY(2);
+			setJumping(true);
+		}
+		
+		double time = 1 + (int)(Math.random()*4);
 		setMovementTime(time);
+		addToMovementCounter(1);
 		
 	}
 		
+	private boolean canJump() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 	/**
 	 * 
 	 * @return	...
@@ -443,7 +457,136 @@ public class Shark {
 	private boolean hasCollisionY(int x, int y){
 		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
 	}
+
+	/**
+	 * 
+	 * @return 	...
+	 * 			|result == this.movement
+	 */
+	private Direction getMovement() {
+		return movement;
+	}
+
+	/**
+	 * 
+	 * @param 	movement
+	 * 			...
+	 * @post 	...
+	 * 			| new.getMovement() = movement
+	 */
+	@Basic
+	private void setMovement(Direction movement) {
+		this.movement = movement;
+	} 
 	
-	private Direction movement; 
+	/**
+	 * This variable contains the current movement for this shark
+	 */
+	private Direction movement;
 	
+	/**
+	 * 
+	 * @param value
+	 * @effect 	...
+	 * 			if (getMovementCounter() + value >= 4) then
+	 *				setMovementCounter(4);
+	 * @effect 	...
+	 * 			if (getMovementCounter() + value < 4) then
+	 *				setMovementCounter(value);
+	 */
+	private void addToMovementCounter(int value){
+		if(getMovementCounter() + value >= 4)
+			setMovementCounter(4);
+		else
+			setMovementCounter(value);
+	}
+	
+
+	/**
+	 * 
+	 * @return 	...
+	 * 			| result == this.movementCounter
+	 */
+	private int getMovementCounter() {
+		return movementCounter;
+	}
+
+	/**
+	 * 
+	 * @param movementCounter
+	 * @post 	...
+	 * 			| new.getMovementCounter() = movementCounter;
+	 */
+	private void setMovementCounter(int movementCounter) {
+		this.movementCounter = movementCounter;
+	}
+	
+	/**
+	 * This variable contains the amount of movements after a jump
+	 */
+	private int movementCounter;
+	
+	/**
+	 * 
+	 * @return 	...
+	 * 			| result == this.isJumping
+	 */
+	private boolean isJumping() {
+		return isJumping;
+	}
+
+	/**
+	 * 
+	 * @param isJumping
+	 * @post 	...
+	 * 			| new.isJumping() == isJumping
+	 */
+	private void setJumping(boolean isJumping) {
+		this.isJumping = isJumping;
+	}
+	
+	/**
+	 * This variable contains wheter this shark is jumping or not
+	 */
+	private boolean isJumping;
+	
+	private boolean hasCollisionTopWithWater(int x, int y){
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		return detectGeologicalFeature(x+1, endY-2, endX-2, endY-2, 2);
+	}
+
+	private boolean hasCollisionBottomWithWater(int x, int y){
+		int endX = x + getCurrentSprite().getWidth();
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(x+1, y+1, endX-2, y+1);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionRightWithWater(int x, int y){
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		return detectGeologicalFeature(endX-2, y+2, endX-2, endY-3, 2);
+	}
+	
+	private boolean hasCollisionLeftWithWater(int x, int y){
+		int endY = y + getCurrentSprite().getHeight();
+		return detectGeologicalFeature(x+1, y+2, x+1, endY-3, 2);
+	}
+	
+	private boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(i, j, k, l);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == geologicalFeature){
+				return true;
+			}
+		}
+		return false;		
+	}
 }
