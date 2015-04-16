@@ -355,7 +355,7 @@ public class Shark {
 		//Todo double vergelijking
 		if(getAccelerationY() > 0)
 			setAccelerationY(0);
-		if(getVelocityY() > 0)
+		if(isInWater())
 			setVelocityY(0);
 		int random = (int)(Math.random()*2);
 		switch (random){
@@ -365,6 +365,7 @@ public class Shark {
 						break;
 		}
 		if((getMovementCounter() == 4)&&(isBottomPerimeterInWater())){
+			System.out.println("Pring mogelijkheid");
 			random = (int)(Math.random()*4);
 			if(random == 1){
 				setVelocityY(2);
@@ -383,7 +384,7 @@ public class Shark {
 							break;
 			}
 			if(random != 0){
-				random = (int)(Math.random()*20);
+				random = (int)(Math.random()*2);
 				if(random == 1){
 					setAccelerationY(getAccelerationY()*-1);
 				}			
