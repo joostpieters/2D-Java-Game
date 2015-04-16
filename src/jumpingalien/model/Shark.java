@@ -641,12 +641,12 @@ public class Shark {
 	 */
 	private void setHitPoints(int hitPoints) {
 		if(hitPoints <= 0){
-			setHitPoints(0);
+			this.hitPoints = 0;
 			isDead();
 		} else if(hitPoints > 100) {
-			setHitPoints(100);
+			this.hitPoints = 100;
 		} else {
-			setHitPoints(hitPoints);
+			this.hitPoints = hitPoints;
 		}
 	}
 	
