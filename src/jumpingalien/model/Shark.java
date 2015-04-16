@@ -306,12 +306,9 @@ public class Shark {
 		}
 		if(!isInWater()){
 			setAccelerationY(-10);
-		} else {
-			//TODO double vergelijken
-			if(getAccelerationY()<-9){
-				setAccelerationY(0);
-				setVelocityY(0);
-			}
+		if(isTopPerimeterInWater() && getAccelerationY()<-9 )
+			setAccelerationY(0);
+			setVelocityY(0);
 		}
 		updateLocation(dt);	
 		updateVelocity(dt);
@@ -373,7 +370,7 @@ public class Shark {
 				}
 			}
 		}
-		if(!isJumping){
+		if(!isJumping && isTopPerimeterInWater()){
 			random = (int)(Math.random()*3);
 			switch (random){
 				case 0: setAccelerationY(0);
@@ -553,7 +550,7 @@ public class Shark {
 		int y = position[1];
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(x+1, endY-1, endX-1, endY-1, 2);
+		return detectGeologicalFeature(x+1, endY-1, endX-2, endY-1, 2);
 	}
 
 	private boolean isBottomPerimeterInWater(){
