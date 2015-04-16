@@ -29,6 +29,8 @@ public class Slime {
 	 * 			| setAccelerationX(0)
 	 * @effect	...
 	 * 			| setAccelerationY(0)
+	 * @effect	...
+	 * 			| newMovement()
 	 */
 	public Slime (int x, int y, Sprite[] sprites, School school) throws IllegalArgumentException{
 		if(sprites.length != 2){
@@ -45,6 +47,7 @@ public class Slime {
 		setVelocityY(0);
 		setAccelerationX(0);
 		setAccelerationY(0);
+		newMovement();
 	}
 	
 	/**
@@ -295,6 +298,12 @@ public class Slime {
 	
 	private double accelerationX;
 	
+	private static double getInitialAccelerationX() {
+		return initialAccelerationX;
+	}
+	
+	private final static double initialAccelerationX = 0.7;
+	
 	@Basic
 	private double getAccelerationY() {
 		return accelerationY;
@@ -461,23 +470,14 @@ public class Slime {
 	 * @return
 	 */
 	private boolean isOnSolidGround(){
-		int startX = (int) getLocationX();
-		int endX = startX + getCurrentSprite().getWidth();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(startX, (int)getLocationY(), endX, (int)getLocationY());
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1);
 	}
 	
 	private boolean hasCollisionTop(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(x, endY, endX, endY);
+				getWorld().getTilePositionsIn(x+1, endY-2, endX-2, endY-2);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
@@ -487,10 +487,9 @@ public class Slime {
 	}
 	
 	private boolean hasCollisionBottom(int x, int y){
-		int startX = x;
-		int endX = startX + getCurrentSprite().getWidth();
+		int endX = x + getCurrentSprite().getWidth();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(startX, y+1, endX, y+1);
+				getWorld().getTilePositionsIn(x+1, y+1, endX-2, y+1);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
@@ -504,7 +503,7 @@ public class Slime {
 		int endX = startX + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(endX, y+1, endX, endY-1);
+				getWorld().getTilePositionsIn(endX-2, y+2, endX-2, endY-3);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
@@ -516,7 +515,7 @@ public class Slime {
 	private boolean hasCollisionLeft(int x, int y){
 		int endY = y + getCurrentSprite().getHeight();
 		int[][] tiles = 
-				getWorld().getTilePositionsIn(x, y+1, x, endY-1);
+				getWorld().getTilePositionsIn(x+1, y+2, x+1, endY-3);
 		for(int[] tile : tiles){
 			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
 				return true;
@@ -542,9 +541,6 @@ public class Slime {
 			double dt2 = 0.2;
 			if (! isOnSolidGround()) {
 				setAccelerationY(-10);
-			} else {
-				setAccelerationY(0);
-				setVelocityY(0);
 			}
 			if((getVelocityX() != 0) || (getAccelerationX() != 0)){
 				dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
@@ -581,26 +577,49 @@ public class Slime {
 	
 	private void updateVelocity(double dt){
 		double accelerationX = getAccelerationX();
-		if(getVelocityX() < 0){
+		double velocityX;
+		if(isMovingLeft()){
 			accelerationX *= -1;
+			velocityX = getVelocityX() + accelerationX*dt;
+			if (velocityX < -getMaximumHorizontalVelocity()) {
+				setVelocityX(-getMaximumHorizontalVelocity());
+			} else {
+				setVelocityX(velocityX);
+			}
+		} else {
+			velocityX = getVelocityX() + accelerationX*dt;
+			if (velocityX > getMaximumHorizontalVelocity()) {
+				setVelocityX(getMaximumHorizontalVelocity());
+			} else {
+				setVelocityX(velocityX);
+			}
 		}
-		setVelocityX(getVelocityX() + accelerationX*dt);
-		setVelocityY(getVelocityY() + getVelocityY()*dt);
+		
+		if (isOnSolidGround()) {
+			setVelocityY(0);
+			setAccelerationY(0);
+		} else {
+			setVelocityY(getVelocityY() + getAccelerationY()*dt);
+		}
 	}
 	
 	
 	private void newMovement(){
 		int random = (int)(Math.random()*2);
 		switch (random){
-			case 0: setMovementDirection(Direction.LEFT);;
-						break;
+			case 0: setMovementDirection(Direction.LEFT);
+					setCurrentSpriteIndex(0);
+					break;
 			case 1: setMovementDirection(Direction.RIGHT);
-						break;
+					setCurrentSpriteIndex(1);
+					break;
 		}
-		double time = 1 + (int)(Math.random()*5);
-		if(time < 4){
-			time+= (int)(Math.random()*10)/10;
-		}
+		double time = 2 + (int)(Math.random()*5);
+		System.out.println("Time: " + time);
+		
+		setVelocityX(0);
+		setAccelerationX(getInitialAccelerationX());
+		
 		setMovementTime(time);
 		
 	}
