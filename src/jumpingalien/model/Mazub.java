@@ -726,10 +726,11 @@ public class Mazub {
 	 *					seconds = 0				
 	 */
 	public void advanceTime(double seconds) throws IllegalArgumentException {
+		double copySeconds = seconds;
 		if (seconds < 0 || seconds >= 0.2) 
 			throw new IllegalArgumentException();
 		this.addToTimer(this.getTimer() + seconds);
-		while(seconds > 0){
+		while(copySeconds > 0){
 			double dt1 = 0.2;
 			double dt2 = 0.2;
 			if((getVelocityX() != 0) || (getAccelerationX() != 0)){
@@ -739,22 +740,51 @@ public class Mazub {
 				dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
 			}
 			if((dt1 != 0.2) || (dt2 != 0.2)){
-				if(dt1 >= seconds && dt2 >= seconds){
-					advanceTimeCollisionDetect(seconds);
-					seconds = 0;
+				if(dt1 >= copySeconds && dt2 >= copySeconds){
+					advanceTimeCollisionDetect(copySeconds);
+					copySeconds = 0;
 				} else if(dt1 < dt2){
 					advanceTimeCollisionDetect(dt1);
-					seconds -= dt1;
+					copySeconds -= dt1;
 				} else if(dt2 <= dt1){
 					advanceTimeCollisionDetect(dt2);
-					seconds -= dt2;
+					copySeconds -= dt2;
 				}
 			} else {
-				seconds = 0;
-			}
-			
+				copySeconds = 0;
+			}	
 		}
 		
+		//TODO double vergelijking
+		if (isInWater((int) getLocationX(), (int) getLocationY())) {
+			if (getWaterTimer() > 0.2) {
+				if (getHitPoints() <= 2) {
+					//TODO GAME OVER
+				} else {
+					setHitPoints(getHitPoints()-2);
+				}
+				setWaterTimer(0);
+			} else {
+				setWaterTimer(getWaterTimer() + seconds);
+			}
+		} else {
+			setWaterTimer(0);
+		}
+		
+		if (isInMagma((int) getLocationX(), (int) getLocationY())) {
+			if (getMagmaTimer() > 0.2) {
+				if (getHitPoints() <= 50) {
+					//TODO GAME OVER
+				} else {
+					setHitPoints(getHitPoints()-50);
+				}
+				setMagmaTimer(0);
+			} else {
+				setMagmaTimer(getMagmaTimer() + seconds);
+			}
+		} else {
+			setMagmaTimer(0);
+		}
 	}
 	/**
 	 * @param 	dt
@@ -792,9 +822,7 @@ public class Mazub {
 		
 		updateVelocityYAndAccelerationY(dt);
 		
-		if (inWater((int) getLocationX(), (int) getLocationY())) {
-			System.out.println("Auwtsch!");
-		}
+		
 	}
 
 	
@@ -1299,23 +1327,55 @@ public class Mazub {
 		return hasCollisionX(x, y) || hasCollisionY(x, y);
 	}
 	
-	private boolean inWater(int x, int y) {
+	private boolean isInWater(int x, int y) {
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
 		return detectGeologicalFeature(x, y, endX-1, endY-1, 2);
 	}
 	
-	private boolean inMagma(int x, int y) {
+	/**
+	 * @return the waterTimer
+	 */
+	private double getWaterTimer() {
+		return waterTimer;
+	}
+
+
+	/**
+	 * @param waterTimer the waterTimer to set
+	 */
+	private void setWaterTimer(double waterTimer) {
+		this.waterTimer = waterTimer;
+	}
+	
+	private double waterTimer;	
+
+
+	private boolean isInMagma(int x, int y) {
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = getWorld().getTilePositionsIn(x+2, y, endX-1, endY-1);
-		for (int[] tile: tiles) {
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 3){
-				return true;
-			}
-		}
-		return false;
+		return detectGeologicalFeature(x, y, endX-1, endY-1, 3);
 	}
+	
+	/**
+	 * @return the magmaTimer
+	 */
+	private double getMagmaTimer() {
+		return magmaTimer;
+	}
+
+
+	/**
+	 * @param magmaTimer the magmaTimer to set
+	 */
+	private void setMagmaTimer(double magmaTimer) {
+		this.magmaTimer = magmaTimer;
+	}
+	
+	private double magmaTimer;
+	
+	
+	//TODO un-duck blokkeren als er niet ge-un-duckt kan worden
 	
 	private boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
 		int[][] tiles = 
