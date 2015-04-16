@@ -23,7 +23,6 @@ public class Shark {
 		setSprites(sprites);
 		setHitpoints(100);
 		setMovementCounter(4);
-		newMovement();
 	}
 	
 	/**
@@ -125,11 +124,15 @@ public class Shark {
 	 * 
 	 * @param 	world
 	 * @post 	...
-	 * 			| new.getWorld() = world			
+	 * 			| new.getWorld() = world
+	 * @effect 	...
+	 * 			|newMovement()			
 	 */
 	void setWorld(World world) {
-		if((world != null) && (world.hasAsShark(this)))
-			this.world = world;		
+		if((world != null) && (world.hasAsShark(this))){
+			this.world = world;
+			newMovement();
+		}		
 	}
 	
 	/**
