@@ -16,6 +16,8 @@ public class Shark {
 	 * 			| setSprites(sprites)
 	 * @effect	...
 	 * 			| setHitPoints(100)
+	 * @effect	...
+	 * 			| setMagmaTimer(100)
 	 */
 	public Shark (int x, int y, Sprite[] sprites){
 		setLocationX(x);
@@ -23,6 +25,7 @@ public class Shark {
 		setSprites(sprites);
 		setHitPoints(100);
 		setMovementCounter(4);
+		this.setMagmaTimer(0.2);
 	}
 	
 	/**
@@ -292,6 +295,17 @@ public class Shark {
 			}
 			
 		}
+		if (isInMagma()) {
+			if (getMagmaTimer() >= 0.2) {
+				setHitPoints(getHitPoints()-50);
+				setMagmaTimer(0);
+			} else {
+				setMagmaTimer(getMagmaTimer() + seconds);
+			}
+		} else {
+			// immediately lose points when in magma
+			setMagmaTimer(0.2);
+		}
 	}
 	private void advanceTimeCollisionDetect(double dt){
 		setMovementTime(getMovementTime()-dt);
@@ -421,51 +435,23 @@ public class Shark {
 	private boolean hasCollisionTop(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, endY-2, endX-2, endY-2);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(x+1, endY-2, endX-2, endY-2, 1);
 	}
 	
 	private boolean hasCollisionBottom(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, y+1, endX-2, y+1);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(x+1, y+1, endX-2, y+1, 1);
 	}
 	
 	private boolean hasCollisionRight(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(endX-2, y+2, endX-2, endY-3);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(endX-2, y+2, endX-2, endY-3, 1);
 	}
 	
 	private boolean hasCollisionLeft(int x, int y){
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, y+2, x+1, endY-3);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(x+1, y+2, x+1, endY-3, 1);
 	}
 	
 	private boolean hasCollisionX(int x, int y){
@@ -558,7 +544,7 @@ public class Shark {
 		int x = position[0];
 		int y = position[1];
 		int endX = x + getCurrentSprite().getWidth();
-		return detectGeologicalFeature(x+1, y, endX-2, y, 2);
+		return getWorld().detectGeologicalFeature(x+1, y, endX-2, y, 2);
 	}
 	
 	private boolean isRightPerimeterInWater(){
@@ -567,7 +553,7 @@ public class Shark {
 		int y = position[1];
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(endX-1, y+2, endX-1, endY-3, 2);
+		return getWorld().detectGeologicalFeature(endX-1, y+2, endX-1, endY-3, 2);
 	}
 	
 	private boolean isLeftPerimeterInWater(){
@@ -575,18 +561,7 @@ public class Shark {
 		int x = position[0];
 		int y = position[1];
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(x, y+2, x, endY-3, 2);
-	}
-	
-	private boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(i, j, k, l);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == geologicalFeature){
-				return true;
-			}
-		}
-		return false;		
+		return getWorld().detectGeologicalFeature(x, y+2, x, endY-3, 2);
 	}
 	
 	private boolean isInWater(){
@@ -598,8 +573,35 @@ public class Shark {
 		int x = position[0];
 		int y = position[1];
 		int endX = x + getCurrentSprite().getWidth();
-		return detectGeologicalFeature(x+1, y, endX-2, y, 1);		
+		return getWorld().detectGeologicalFeature(x+1, y, endX-2, y, 1);		
 	}
+	
+	private boolean isInMagma() {
+		int x = (int) getLocationX();
+		int y = (int) getLocationY();
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
+	}
+	
+	/**
+	 * @return the magmaTimer
+	 */
+	private double getMagmaTimer() {
+		return magmaTimer;
+	}
+
+
+	/**
+	 * @param magmaTimer the magmaTimer to set
+	 */
+	private void setMagmaTimer(double magmaTimer) {
+		this.magmaTimer = magmaTimer;
+	}
+	
+	private double magmaTimer;
+	
+	
 	
 	/**
 	 * 
