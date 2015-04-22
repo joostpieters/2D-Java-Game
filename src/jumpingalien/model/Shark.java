@@ -550,7 +550,7 @@ public class Shark {
 		int y = position[1];
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(x+1, endY-1, endX-2, endY-1, 2);
+		return getWorld().detectGeologicalFeature(x+1, endY-1, endX-2, endY-1, 2);
 	}
 
 	private boolean isBottomPerimeterInWater(){

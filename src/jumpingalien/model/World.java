@@ -378,7 +378,7 @@ public class World  {
 		this.geologicalFeatureOfTiles[tileX][tileY] = tileType;
 	}
 	
-	private boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
+	boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
 		int[][] tiles = 
 				this.getTilePositionsIn(i, j, k, l);
 		for(int[] tile : tiles){
