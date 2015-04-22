@@ -740,5 +740,10 @@ public class World  {
 		assert (plant != null);
 		plants.remove(plant);
 	}
+	
+	void removeSlime(Slime slime) {
+		assert (slime != null);
+		slimes.remove(slime);
+	}
 }
 

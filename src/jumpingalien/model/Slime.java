@@ -684,4 +684,23 @@ public class Slime {
 	 * this variable contains the current value of the timer
 	 */
 	private double timer; 
+	
+	void terminate() {
+		// remove slime from world
+		getWorld().removeSlime(this);
+		// remove world
+		this.setWorld(null);
+		// set boolean
+		setTerminated(true);
+	}
+	
+	private boolean isTerminated() {
+		return this.terminated;
+	}
+	
+	private void setTerminated(boolean value) {
+		this.terminated = value;
+	}
+	
+	private boolean terminated;
 }
