@@ -42,7 +42,7 @@ public class Slime {
 		setCurrentSpriteIndex(0);
 		setSchool(school);
 		school.addSlime(this);
-		setHitpoints(50);
+		setHitpoints(100);
 		setVelocityX(0);
 		setVelocityY(0);
 		setAccelerationX(0);
@@ -239,7 +239,14 @@ public class Slime {
 	 * 			| new.getHitpoints() == points
 	 */
 	private void setHitpoints(int points) {
-		this.hitpoints = points;
+		if (points <= 0) {
+			hitpoints = 0;
+			this.terminate();
+		} else if (points > 100) {
+			hitpoints = 100;
+		} else {
+			this.hitpoints = points;
+		}
 	}
 	
 	/**
@@ -684,6 +691,10 @@ public class Slime {
 	 * this variable contains the current value of the timer
 	 */
 	private double timer; 
+	
+	void handleCollisionMazub() {
+		setHitpoints(getHitpoints() - 50);
+	}
 	
 	void terminate() {
 		// remove slime from world

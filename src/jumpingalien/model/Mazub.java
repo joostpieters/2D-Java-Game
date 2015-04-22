@@ -826,6 +826,7 @@ public class Mazub {
 		updateVelocityYAndAccelerationY(dt);
 		
 		handleCollisionPlant();
+		handleCollisionSlime();
 	}
 
 	
@@ -1499,12 +1500,11 @@ public class Mazub {
 		Collection<Slime> collection = getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime : collection) {
 			// TODO
-			if (getHitPoints() < 500) {
-				// TODO remove hitpoints
-				setHitPoints(getHitPoints() + 50);
-				// remove slime
-				slime.terminate();
+			if (!isImmune()) {
+				setHitPoints(getHitPoints() - 50);
+				slime.handleCollisionMazub();
 			}
+			setImmunity(true);
 		}
 	}
 }
