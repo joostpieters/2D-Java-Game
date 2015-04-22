@@ -788,6 +788,13 @@ public class Mazub {
 			// immediately lose points when in magma
 			setMagmaTimer(0.2);
 		}
+		
+		if (isImmune() && getImmunityTimer() < 0.6) {
+			setImmunityTimer(getImmunityTimer() + seconds);
+		} else {
+			setImmunity(false);
+			setImmunityTimer(0);
+		}
 	}
 	/**
 	 * @param 	dt
@@ -826,7 +833,10 @@ public class Mazub {
 		updateVelocityYAndAccelerationY(dt);
 		
 		handleCollisionPlant();
-		handleCollisionSlime();
+		if (! isImmune()) {
+			handleCollisionSlime();
+		}
+		
 	}
 
 	
@@ -1282,6 +1292,17 @@ public class Mazub {
 	 */
 	private boolean immunity;
 	
+	//TODO documentatie
+	private double getImmunityTimer() {
+		return this.immunityTimer;
+	}
+	
+	private void setImmunityTimer(double value) {
+		this.immunityTimer = value;
+	}
+	
+	private double immunityTimer;
+	
 	/**
 	 * This function returns whether this Mazub is on Solid ground or not
 	 * @return
@@ -1503,8 +1524,9 @@ public class Mazub {
 			if (!isImmune()) {
 				setHitPoints(getHitPoints() - 50);
 				slime.handleCollisionMazub();
+				setImmunity(true);
 			}
-			setImmunity(true);
+			
 		}
 	}
 }
