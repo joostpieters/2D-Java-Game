@@ -270,6 +270,9 @@ public class Shark {
 			setNotInWaterTimer(getNotInWaterTimer() - 0.2);
 			setHitPoints(getHitPoints() - 1);
 		}
+		if(!isInWater()){
+			setAccelerationY(-10);
+		}
 		while(seconds > 0){
 			double dt1 = 0.2;
 			double dt2 = 0.2;
@@ -310,13 +313,19 @@ public class Shark {
 	private void advanceTimeCollisionDetect(double dt){
 		setMovementTime(getMovementTime()-dt);
 		//TODO vergelijking van doubles
+		if(isBottomPerimeterInSolidGround() && !isInWater()){
+			setAccelerationY(0);
+			setVelocityY(0);
+			setVelocityX(0);
+			setMovement(null);
+		}
 		if(getMovementTime() <= 0){
 			newMovement();
 		}
 		if(!isInWater()){
 			setAccelerationY(-10);
 		}
-		if(isTopPerimeterInWater() && getAccelerationY()<-9 ){
+		if(isTopPerimeterInWater() && getAccelerationY()<-9){
 			setAccelerationY(0);
 			setVelocityY(0);
 		}
@@ -356,7 +365,7 @@ public class Shark {
 	
 	
 	private void newMovement(){
-		Boolean isJumping = false;
+		boolean isJumping = false;
 		setVelocityX(0);
 		setMovement(null);
 		//Todo double vergelijking
@@ -654,8 +663,10 @@ public class Shark {
  	}
 	
 	private void terminate() {
+		System.out.println("hij is dood");
 		// TODO Haai is dood
-		getWorld().deleteShark(this);
+		getWorld().removeShark(this);
+		this.setWorld(null);
 		setTerminated(true);
 	}
 	/**
