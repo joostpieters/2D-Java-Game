@@ -679,7 +679,8 @@ public class World  {
 	}
 	
 	private ArrayList<Slime> slimes = new ArrayList<Slime>();
-	public void deleteShark(Shark shark){
+	
+	void deleteShark(Shark shark){
 		sharks.remove(shark);
 	}
 	
@@ -707,7 +708,6 @@ public class World  {
 		int slimeStartY;
 		int slimeEndY;
 		for (Slime slime :  getSlimes()) {
-			slimeStartX = slime.getLocation()[0];
 			slimeStartY = slime.getLocation()[1];
 			slimeEndX =	slimeStartX + slime.getCurrentSprite().getWidth();
 			slimeEndY = slimeStartY + slime.getCurrentSprite().getHeight();
