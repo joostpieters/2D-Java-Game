@@ -691,7 +691,8 @@ public class World  {
 	
 	private ArrayList<Slime> slimes = new ArrayList<Slime>();
 	
-	void deleteShark(Shark shark){
+	void removeShark(Shark shark){
+		assert(shark != null);
 		sharks.remove(shark);
 	}
 	
