@@ -120,6 +120,7 @@ public class Shark {
 		return world;
 	}
 	
+	// TODO hoe geprogrammeerd ?
 	/**
 	 * 
 	 * @param 	world
@@ -129,7 +130,7 @@ public class Shark {
 	 * 			|newMovement()			
 	 */
 	void setWorld(World world) {
-		if((world != null) && (world.hasAsShark(this))){
+		if((world != null) && (world.hasAsShark(this) && !isTerminated())){
 			this.world = world;
 			newMovement();
 		}		
@@ -652,11 +653,22 @@ public class Shark {
 	
 	private void isDead() {
 		// TODO Haai is dood
-		getWorld().deleteShark(this);	
+		getWorld().deleteShark(this);
+		setTerminated(true);
 	}
 	/**
 	 * This variable contains the amount of hitpoints for this shark
 	 */
 	private int hitPoints;
+	
+	public boolean isTerminated() {
+		return isTerminated;
+	}
+
+	public void setTerminated(boolean isTerminated) {
+		this.isTerminated = isTerminated;
+	}
+	
+	private boolean isTerminated;
 	
 }
