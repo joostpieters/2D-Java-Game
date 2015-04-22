@@ -700,6 +700,24 @@ public class World  {
 		return false;
 	}
 	
+	Collection<Slime> collisionSlimes(int startX, int startY, int endX, int endY) {
+		ArrayList<Slime> list = new ArrayList<Slime>();
+		int slimeStartX;
+		int slimeEndX;
+		int slimeStartY;
+		int slimeEndY;
+		for (Slime slime :  getSlimes()) {
+			slimeStartX = slime.getLocation()[0];
+			slimeStartY = slime.getLocation()[1];
+			slimeEndX =	slimeStartX + slime.getCurrentSprite().getWidth();
+			slimeEndY = slimeStartY + slime.getCurrentSprite().getHeight();
+			if (hasCollision(startX, startY, endX, endY, slimeStartX, slimeStartY, slimeEndX, slimeEndY)) {
+				list.add(slime);
+			}
+		}
+		return list;
+	}
+	
 	Collection<Plant> collisionPlants(int startX, int startY, int endX, int endY) {
 		ArrayList<Plant> list = new ArrayList<Plant>();
 		int plantStartX;

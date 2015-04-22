@@ -825,7 +825,7 @@ public class Mazub {
 		
 		updateVelocityYAndAccelerationY(dt);
 		
-		checkCollisionPlant();
+		handleCollisionPlant();
 	}
 
 	
@@ -1471,13 +1471,30 @@ public class Mazub {
 		return (this.getHitPoints() == 0);
 	}
 	
-	private void checkCollisionPlant() {
+	private void handleCollisionPlant() {
 		Collection<Plant> collection = getWorld().collisionPlants((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Plant plant : collection) {
 			if (getHitPoints() < 500) {
 				setHitPoints(getHitPoints() + 50);
 				// remove plant
 				plant.terminate();
+			}
+		}
+	}
+	
+	private boolean hasCollisionSlime() {
+		return !(getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight()).isEmpty());
+	}
+	
+	private void handleCollisionSlime() {
+		Collection<Slime> collection = getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
+		for (Slime slime : collection) {
+			// TODO
+			if (getHitPoints() < 500) {
+				// TODO remove hitpoints
+				setHitPoints(getHitPoints() + 50);
+				// remove slime
+				slime.terminate();
 			}
 		}
 	}
