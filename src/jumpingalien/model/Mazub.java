@@ -1482,6 +1482,15 @@ public class Mazub {
 		}
 	}
 	
+	void handleCollisionPlant(Plant plant) {
+		if (getHitPoints() < 500) {
+			setHitPoints(getHitPoints() + 50);
+			// remove plant
+			plant.terminate();
+		}
+	}
+	
+	
 	private boolean hasCollisionSlime() {
 		return !(getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight()).isEmpty());
 	}
