@@ -378,6 +378,17 @@ public class World  {
 		this.geologicalFeatureOfTiles[tileX][tileY] = tileType;
 	}
 	
+	private boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
+		int[][] tiles = 
+				this.getTilePositionsIn(i, j, k, l);
+		for(int[] tile : tiles){
+			if (this.getGeologicalFeatureOfTile(tile[0], tile[1]) == geologicalFeature){
+				return true;
+			}
+		}
+		return false;		
+	}
+	
 	/**
 	 * Checks if a given tile type is valid
 	 * @param 	tileType
@@ -746,5 +757,7 @@ public class World  {
 		assert (slime != null);
 		slimes.remove(slime);
 	}
+	
+	
 }
 
