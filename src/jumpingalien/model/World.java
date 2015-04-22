@@ -683,7 +683,44 @@ public class World  {
 		sharks.remove(shark);
 	}
 	
-//	
-//	private Collection<Slime> 
+	private boolean hasCollision(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
+		startX1 += 1;
+		startX2 += 1;
+		startY1 += 1;
+		startY2 += 1;
+		endX1 -= 2;
+		endX2 -= 2;
+		endY1 -= 2;
+		endY2 -= 2;
+		if ((startX2 < endX1 && startX2 > startX1) || (startX1 < endX2 && startX1 > startX2)) {
+			if ((startY2 < endY1 && startY2 > startY1) || (startY1 < endY2 && startY1 > startY2)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	Collection<Plant> collisionPlants(int startX, int startY, int endX, int endY) {
+		ArrayList<Plant> list = new ArrayList<Plant>();
+		int plantStartX;
+		int plantEndX;
+		int plantStartY;
+		int plantEndY;
+		for (Plant plant :  getPlants()) {
+			plantStartX = plant.getLocation()[0];
+			plantStartY = plant.getLocation()[1];
+			plantEndX =	plantStartX + plant.getCurrentSprite().getWidth();
+			plantEndY = plantStartY + plant.getCurrentSprite().getHeight();
+			if (hasCollision(startX, startY, endX, endY, plantStartX, plantStartY, plantEndX, plantEndY)) {
+				list.add(plant);
+			}
+		}
+		return list;
+	}
+	
+	void removePlant(Plant plant) {
+		assert (plant != null);
+		plants.remove(plant);
+	}
 }
 

@@ -354,4 +354,22 @@ public class Plant {
 		return hasCollisionRight(x, y) || hasCollisionLeft(x, y);
 	}
 
+	void terminate() {
+		// remove plant from world
+		getWorld().removePlant(this);
+		// remove world
+		this.setWorld(null);
+		// set boolean
+		setTerminated(true);
+	}
+	
+	private boolean isTerminated() {
+		return this.terminated;
+	}
+	
+	private void setTerminated(boolean value) {
+		this.terminated = value;
+	}
+	
+	private boolean terminated;
 }

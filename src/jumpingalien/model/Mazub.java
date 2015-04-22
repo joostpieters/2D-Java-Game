@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import java.util.Collection;
+
 import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
@@ -822,6 +824,8 @@ public class Mazub {
 		updateVelocityX(dt, accelerationX);
 		
 		updateVelocityYAndAccelerationY(dt);
+		
+		checkCollisionPlant();
 	}
 
 	
@@ -1465,5 +1469,16 @@ public class Mazub {
 	
 	public boolean isDead() {
 		return (this.getHitPoints() == 0);
+	}
+	
+	private void checkCollisionPlant() {
+		Collection<Plant> collection = getWorld().collisionPlants((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
+		for (Plant plant : collection) {
+			if (getHitPoints() < 500) {
+				setHitPoints(getHitPoints() + 50);
+				// remove plant
+				plant.terminate();
+			}
+		}
 	}
 }
