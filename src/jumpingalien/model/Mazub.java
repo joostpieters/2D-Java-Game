@@ -791,7 +791,7 @@ public class Mazub {
 		
 		if (isImmune() && getImmunityTimer() < 0.6) {
 			setImmunityTimer(getImmunityTimer() + seconds);
-		} else {
+		} else if (isImmune()) {
 			setImmunity(false);
 			setImmunityTimer(0);
 		}
@@ -833,9 +833,9 @@ public class Mazub {
 		updateVelocityYAndAccelerationY(dt);
 		
 		handleCollisionPlant();
-		if (! isImmune()) {
+//		if (! isImmune()) {
 			handleCollisionSlime();
-		}
+//		}
 		
 	}
 
@@ -1519,14 +1519,13 @@ public class Mazub {
 	
 	private void handleCollisionSlime() {
 		Collection<Slime> collection = getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
-		for (Slime slime : collection) {
-			// TODO
-			if (!isImmune()) {
+		if (!isImmune()) {
+			for (Slime slime : collection) {
+				// TODO
 				setHitPoints(getHitPoints() - 50);
 				slime.handleCollisionMazub();
 				setImmunity(true);
 			}
-			
 		}
 	}
 }

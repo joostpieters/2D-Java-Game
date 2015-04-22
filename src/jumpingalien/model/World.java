@@ -704,8 +704,8 @@ public class World  {
 		endX2 -= 2;
 		endY1 -= 2;
 		endY2 -= 2;
-		if ((startX2 < endX1 && startX2 > startX1) || (startX1 < endX2 && startX1 > startX2)) {
-			if ((startY2 < endY1 && startY2 > startY1) || (startY1 < endY2 && startY1 > startY2)) {
+		if ((startX2 <= endX1 && startX2 >= startX1) || (startX1 <= endX2 && startX1 >= startX2)) {
+			if ((startY2 <= endY1 && startY2 >= startY1) || (startY1 <= endY2 && startY1 >= startY2)) {
 				return true;
 			}
 		}
