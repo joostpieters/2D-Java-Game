@@ -643,7 +643,7 @@ public class Shark {
 	private void setHitPoints(int hitPoints) {
  		if(hitPoints <= 0){
 			this.hitPoints = 0;
- 			isDead();
+ 			terminate();
  		} else if(hitPoints > 100) {
 			this.hitPoints = 100;
  		} else {
@@ -651,7 +651,7 @@ public class Shark {
  		}
  	}
 	
-	private void isDead() {
+	private void terminate() {
 		// TODO Haai is dood
 		getWorld().deleteShark(this);
 		setTerminated(true);
