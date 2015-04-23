@@ -257,7 +257,8 @@ public class Shark {
 	 */
 	private double accelerationY;
 	
-	void advanceTime(double seconds) throws IllegalArgumentException {
+	void advanceTime(double dt) throws IllegalArgumentException {
+		double seconds = dt;
 		if (seconds < 0 || seconds >= 0.2) 
 			throw new IllegalArgumentException();
 		if(!isInWater()){
@@ -295,11 +296,10 @@ public class Shark {
 			
 		}
 		if (isInMagma()) {
+			setMagmaTimer(getMagmaTimer() + dt);
 			if (getMagmaTimer() >= 0.2) {
+				setMagmaTimer(getMagmaTimer()-dt);
 				setHitPoints(getHitPoints()-50);
-				setMagmaTimer(0);
-			} else {
-				setMagmaTimer(getMagmaTimer() + seconds);
 			}
 		} else {
 			// immediately lose points when in magma
@@ -678,9 +678,6 @@ public class Shark {
  	}
 	
 	private void terminate() {
-		System.out.println("hij is dood");
-		// TODO Haai is dood
-		getWorld().removeShark(this);
 		this.setWorld(null);
 		setTerminated(true);
 	}

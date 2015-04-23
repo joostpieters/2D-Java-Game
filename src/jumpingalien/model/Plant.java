@@ -342,15 +342,13 @@ public class Plant {
 	}
 
 	void terminate() {
-		// remove plant from world
-		getWorld().removePlant(this);
 		// remove world
 		this.setWorld(null);
 		// set boolean
 		setTerminated(true);
 	}
 	
-	private boolean isTerminated() {
+	boolean isTerminated() {
 		return this.terminated;
 	}
 	

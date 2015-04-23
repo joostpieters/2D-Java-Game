@@ -473,16 +473,30 @@ public class World  {
 		if (dt < 0 || dt >= 0.2) 
 			throw new IllegalArgumentException();
 		getMazub().advanceTime(dt);
-		for(Plant plant : plants){
+		ArrayList<Plant> plantsToRemove = new ArrayList<Plant>();
+		for (Plant plant : plants) {
 			plant.advanceTime(dt);
+			if(plant.isTerminated()){
+				plantsToRemove.add(plant);
+			}
 		}
+		plants.removeAll(plantsToRemove);
+		ArrayList<Slime> slimesToRemove = new ArrayList<Slime>();
 		for (Slime slime : slimes) {
 			slime.advanceTime(dt);
+			if(slime.isTerminated()){
+				slimesToRemove.add(slime);
+			}
 		}
+		slimes.removeAll(slimesToRemove);
+		ArrayList<Shark> sharksToRemove = new ArrayList<Shark>();
 		for (Shark shark : sharks) {
 			shark.advanceTime(dt);
+			if(shark.isTerminated()){
+				sharksToRemove.add(shark);
+			}
 		}
-		
+		sharks.removeAll(sharksToRemove);
 		if (alienIsAtTargetTile()) {
 			setReachedEnd(true);
 		}

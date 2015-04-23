@@ -538,7 +538,8 @@ public class Slime {
 		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
 	}
 	
-	public void advanceTime(double seconds) throws IllegalArgumentException {
+	public void advanceTime(double dt) throws IllegalArgumentException {
+		double seconds = dt;
 		if (seconds < 0 || seconds >= 0.2) 
 			throw new IllegalArgumentException();
 		this.setTimer(this.getTimer() + seconds);
@@ -570,11 +571,11 @@ public class Slime {
 			}
 		}
 		if (isInMagma()) {
-			setMagmaTimer(getMagmaTimer() + seconds);
+			setMagmaTimer(getMagmaTimer() + dt);
 			//TODO double vergelijking
 			if (getMagmaTimer() >= 0.2) {
-				setHitpoints(getHitpoints()-50);
 				setMagmaTimer(getMagmaTimer() - 0.2);
+				setHitpoints(getHitpoints()-50);
 			}
 		} else {
 			// immediately lose points when in magma
@@ -709,15 +710,13 @@ public class Slime {
 	}
 	
 	void terminate() {
-		// remove slime from world
-		getWorld().removeSlime(this);
 		// remove world
 		this.setWorld(null);
 		// set boolean
 		setTerminated(true);
 	}
 	
-	private boolean isTerminated() {
+	boolean isTerminated() {
 		return this.terminated;
 	}
 	
