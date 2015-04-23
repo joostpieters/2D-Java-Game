@@ -766,7 +766,7 @@ public class Mazub {
 		}
 		
 		//TODO double vergelijking
-		if (isInWater((int) getLocationX(), (int) getLocationY())) {
+		if (isInWater()) {
 			if (getWaterTimer() >= 0.2) {
 				setHitPoints(getHitPoints()-2);
 				setWaterTimer(0);
@@ -1374,10 +1374,12 @@ public class Mazub {
 		return hasCollisionX(x, y) || hasCollisionY(x, y);
 	}
 	
-	private boolean isInWater(int x, int y) {
+	private boolean isInWater() {
+		int x = (int) getLocationX();
+		int y = (int) getLocationY();
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(x, y, endX-1, endY-1, 2);
+		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 2);
 	}
 	
 	/**
@@ -1401,7 +1403,7 @@ public class Mazub {
 	private boolean isInMagma(int x, int y) {
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return detectGeologicalFeature(x, y, endX-1, endY-1, 3);
+		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
 	}
 	
 	/**
@@ -1427,18 +1429,7 @@ public class Mazub {
 		int newEndY = (int) getLocationY() + getSprites()[0].getHeight();
 		int newEndX = (int) getLocationX() + getSprites()[0].getWidth();
 		
-		return !(detectGeologicalFeature((int) getLocationX()+1, (int) getLocationY()+2, newEndX-2, newEndY-2, 1));
-	}
-	
-	private boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(i, j, k, l);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == geologicalFeature){
-				return true;
-			}
-		}
-		return false;		
+		return !(getWorld().detectGeologicalFeature((int) getLocationX()+1, (int) getLocationY()+2, newEndX-2, newEndY-2, 1));
 	}
 	
 	/**
@@ -1500,7 +1491,7 @@ public class Mazub {
 			if (getHitPoints() < 500) {
 				setHitPoints(getHitPoints() + 50);
 				// remove plant
-				plant.terminate();
+				plant.terminateHard();
 			}
 		}
 	}
@@ -1509,7 +1500,7 @@ public class Mazub {
 		if (getHitPoints() < 500) {
 			setHitPoints(getHitPoints() + 50);
 			// remove plant
-			plant.terminate();
+			plant.terminateHard();
 		}
 	}
 	

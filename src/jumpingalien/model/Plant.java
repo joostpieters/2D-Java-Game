@@ -341,8 +341,15 @@ public class Plant {
 		return hasCollisionRight(x, y) || hasCollisionLeft(x, y);
 	}
 
-	void terminate() {
+	void terminateHard() {
+		getWorld().removePlant(this);
 		// remove world
+		this.setWorld(null);
+		// set boolean
+		setTerminated(true);
+	}
+	
+	void teminate(){
 		this.setWorld(null);
 		// set boolean
 		setTerminated(true);
