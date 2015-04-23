@@ -258,65 +258,66 @@ public class Shark {
 	private double accelerationY;
 	
 	void advanceTime(double dt) throws IllegalArgumentException {
-		double seconds = dt;
-		if (seconds < 0 || seconds >= 0.2) 
-			throw new IllegalArgumentException();
-		if(isDeath()){
+		if(!isDeath()){
+			double seconds = dt;
+			if (seconds < 0 || seconds >= 0.2) 
+				throw new IllegalArgumentException();
+			if(!isInWater()){
+				setNotInWaterTimer(getNotInWaterTimer() + seconds);
+			} else {
+				setNotInWaterTimer(0);
+			}
+			if (isInMagma()) {
+				setMagmaTimer(getMagmaTimer() + dt);
+			} else {
+				// immediately lose points when in magma
+				setMagmaTimer(0.2);
+			}
+			//TODO double vergelijking
+			while(seconds > 0){
+				double dt1 = 0.2;
+				double dt2 = 0.2;
+				if((getVelocityX() != 0) || (getAccelerationX() != 0)){
+					dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
+				}
+				if((getVelocityY() != 0) || (getAccelerationY() != 0)){
+					dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
+				}
+				if((dt1 != 0.2) || (dt2 != 0.2)){
+					if(dt1 >= seconds && dt2 >= seconds){
+						advanceTimeCollisionDetect(seconds);
+						seconds = 0;
+					} else if(dt1 < dt2){
+						advanceTimeCollisionDetect(dt1);
+						seconds -= dt1;
+					} else if(dt2 <= dt1){
+						advanceTimeCollisionDetect(dt2);
+						seconds -= dt2;
+					}
+				} else {
+					seconds = 0;
+				}
+				
+			}
+			if(getNotInWaterTimer() >= 0.2){
+				setNotInWaterTimer(getNotInWaterTimer() - 0.2);
+				setHitPoints(getHitPoints() - 1);
+			}
+			if (isInMagma()) {
+				if (getMagmaTimer() >= 0.2) {
+					setMagmaTimer(getMagmaTimer()-0.2);
+					setHitPoints(getHitPoints()-50);
+				}
+			} else {
+				// immediately lose points when in magma
+				setMagmaTimer(0.2);
+			}
+		} else {
 			setTimeDeath(getTimeDeath() + dt);
 			//TODO vergelijking met double
 			if(getTimeDeath() > 0.6){
 				terminate();
 			}
-		}
-		if(!isInWater()){
-			setNotInWaterTimer(getNotInWaterTimer() + seconds);
-		} else {
-			setNotInWaterTimer(0);
-		}
-		if (isInMagma()) {
-			setMagmaTimer(getMagmaTimer() + dt);
-		} else {
-			// immediately lose points when in magma
-			setMagmaTimer(0.2);
-		}
-		//TODO double vergelijking
-		while(seconds > 0){
-			double dt1 = 0.2;
-			double dt2 = 0.2;
-			if((getVelocityX() != 0) || (getAccelerationX() != 0)){
-				dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
-			}
-			if((getVelocityY() != 0) || (getAccelerationY() != 0)){
-				dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
-			}
-			if((dt1 != 0.2) || (dt2 != 0.2)){
-				if(dt1 >= seconds && dt2 >= seconds){
-					advanceTimeCollisionDetect(seconds);
-					seconds = 0;
-				} else if(dt1 < dt2){
-					advanceTimeCollisionDetect(dt1);
-					seconds -= dt1;
-				} else if(dt2 <= dt1){
-					advanceTimeCollisionDetect(dt2);
-					seconds -= dt2;
-				}
-			} else {
-				seconds = 0;
-			}
-			
-		}
-		if(getNotInWaterTimer() >= 0.2){
-			setNotInWaterTimer(getNotInWaterTimer() - 0.2);
-			setHitPoints(getHitPoints() - 1);
-		}
-		if (isInMagma()) {
-			if (getMagmaTimer() >= 0.2) {
-				setMagmaTimer(getMagmaTimer()-0.2);
-				setHitPoints(getHitPoints()-50);
-			}
-		} else {
-			// immediately lose points when in magma
-			setMagmaTimer(0.2);
 		}
 	}
 	private void advanceTimeCollisionDetect(double dt){
@@ -744,21 +745,21 @@ public class Shark {
 	}
 
 	
-	public boolean isDeath() {
+	private boolean isDeath() {
 		return isDeath;
 	}
 
-	public void setDeath(boolean isDeath) {
+	private void setDeath(boolean isDeath) {
 		this.isDeath = isDeath;
 	}
 	
 	private boolean isDeath;
 
-	public double getTimeDeath() {
+	private double getTimeDeath() {
 		return timeDeath;
 	}
 
-	public void setTimeDeath(double timeDeath) {
+	private void setTimeDeath(double timeDeath) {
 		this.timeDeath = timeDeath;
 	}
 	private double timeDeath;
