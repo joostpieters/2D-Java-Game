@@ -261,15 +261,25 @@ public class Shark {
 		double seconds = dt;
 		if (seconds < 0 || seconds >= 0.2) 
 			throw new IllegalArgumentException();
+		if(isDeath()){
+			setTimeDeath(getTimeDeath() + dt);
+			//TODO vergelijking met double
+			if(getTimeDeath() > 0.6){
+				terminate();
+			}
+		}
 		if(!isInWater()){
 			setNotInWaterTimer(getNotInWaterTimer() + seconds);
 		} else {
 			setNotInWaterTimer(0);
 		}
-		//TODO double vergelijking
-		if(!isInWater()){
-			setAccelerationY(-10);
+		if (isInMagma()) {
+			setMagmaTimer(getMagmaTimer() + dt);
+		} else {
+			// immediately lose points when in magma
+			setMagmaTimer(0.2);
 		}
+		//TODO double vergelijking
 		while(seconds > 0){
 			double dt1 = 0.2;
 			double dt2 = 0.2;
@@ -295,22 +305,24 @@ public class Shark {
 			}
 			
 		}
+		if(getNotInWaterTimer() >= 0.2){
+			setNotInWaterTimer(getNotInWaterTimer() - 0.2);
+			setHitPoints(getHitPoints() - 1);
+		}
 		if (isInMagma()) {
-			setMagmaTimer(getMagmaTimer() + dt);
 			if (getMagmaTimer() >= 0.2) {
-				setMagmaTimer(getMagmaTimer()-dt);
+				setMagmaTimer(getMagmaTimer()-0.2);
 				setHitPoints(getHitPoints()-50);
 			}
 		} else {
 			// immediately lose points when in magma
 			setMagmaTimer(0.2);
 		}
-		if(getNotInWaterTimer() >= 0.2){
-			setNotInWaterTimer(getNotInWaterTimer() - 0.2);
-			setHitPoints(getHitPoints() - 1);
-		}
 	}
 	private void advanceTimeCollisionDetect(double dt){
+		if(!isInWater()){
+			setAccelerationY(-10);
+		}
 		setMovementTime(getMovementTime()-dt);
 		//TODO vergelijking van doubles
 		if(isBottomPerimeterInSolidGround() && !isInWater()){
@@ -699,8 +711,9 @@ public class Shark {
 	private void setHitPoints(int hitPoints) {
  		if(hitPoints <= 0){
 			this.hitPoints = 0;
- 			terminate();
- 		} else if(hitPoints > 100) {
+ 			setDeath(true);
+ 		} else if(
+ 			hitPoints > 100) {
 			this.hitPoints = 100;
  		} else {
 			this.hitPoints = hitPoints;
@@ -729,5 +742,25 @@ public class Shark {
 	void handleCollisionMazub() {
 		setHitPoints(getHitPoints()-50);
 	}
+
+	
+	public boolean isDeath() {
+		return isDeath;
+	}
+
+	public void setDeath(boolean isDeath) {
+		this.isDeath = isDeath;
+	}
+	
+	private boolean isDeath;
+
+	public double getTimeDeath() {
+		return timeDeath;
+	}
+
+	public void setTimeDeath(double timeDeath) {
+		this.timeDeath = timeDeath;
+	}
+	private double timeDeath;
 	
 }
