@@ -760,10 +760,21 @@ public class Slime {
 	 */
 	private double timer; 
 	
+	/**
+	 * 
+	 * @effect 	...
+	 * 			| setHitPoints(getHitPoints() - 50)
+	 */
 	void handleCollisionMazub() {
 		setHitPoints(getHitPoints() - 50);
 	}
 	
+	/**
+	 * @effect	...
+	 * 			| setWorld(null)
+	 * @effect	...
+	 * 			| setTerminated(true)
+	 */
 	void terminate() {
 		// remove world
 		this.setWorld(null);
@@ -771,10 +782,20 @@ public class Slime {
 		setTerminated(true);
 	}
 	
+	/**
+	 * Returns whether this Slime is terminated
+	 */
+	@Basic
 	boolean isTerminated() {
 		return this.terminated;
 	}
 	
+	/**
+	 * sets the terminated state to the given value
+	 * @param value
+	 * @post	...
+	 * 			| new.isTerminated() == value
+	 */
 	private void setTerminated(boolean value) {
 		this.terminated = value;
 	}
