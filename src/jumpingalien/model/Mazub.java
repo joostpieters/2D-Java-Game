@@ -837,6 +837,8 @@ public class Mazub {
 	
 		handleCollisionSlime();
 		
+		handleCollisionShark();
+		
 	}
 
 	
@@ -1551,6 +1553,37 @@ public class Mazub {
 					getWorld().removeSlime(slime);				
 				}
 				setImmunity(true);
+			}
+		}
+		collection = getWorld().collisionSlimesInBottomPerimeter((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
+		for (Slime slime : collection) {
+			slime.handleCollisionMazub();
+			if(slime.isTerminated()){
+				getWorld().removeSlime(slime);	
+				System.out.println("Vermoord door sprong");
+			}
+		}
+	}
+	
+	private void handleCollisionShark() {
+		Collection<Shark> collection = getWorld().collisionSharksInPerimetersExceptBottom((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
+		if (!isImmune()) {
+			for (Shark shark : collection) {
+				// TODO
+				setHitPoints(getHitPoints() - 50);
+				shark.handleCollisionMazub();
+				if(shark.isTerminated()){
+					getWorld().removeShark(shark);				
+				}
+				setImmunity(true);
+			}
+		}
+		collection = getWorld().collisionSharksInBottomPerimeter((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
+		for (Shark shark : collection) {
+			shark.handleCollisionMazub();
+			if(shark.isTerminated()){
+				getWorld().removeShark(shark);	
+				System.out.println("Vermoord door sprong");
 			}
 		}
 	}

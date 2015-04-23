@@ -725,5 +725,9 @@ public class Shark {
 	}
 	
 	private boolean isTerminated;
+
+	void handleCollisionMazub() {
+		setHitPoints(getHitPoints()-50);
+	}
 	
 }

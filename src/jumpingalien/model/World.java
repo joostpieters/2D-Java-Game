@@ -719,6 +719,64 @@ public class World  {
 		endX2 -= 2;
 		endY1 -= 2;
 		endY2 -= 2;
+		return hasOverlap(startX1, startY1, endX1, endY1, startX2, startY2,
+				endX2, endY2);
+	}
+	
+	private boolean hasCollisionInBottomPerimeter(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
+		startX1 += 1;
+		endX1 -= 2;
+		endY1 = startY1;
+		startX2 += 1;
+		endX2 -= 2;
+		endY2 -= 1;
+		return hasOverlap(startX1, startY1, endX1, endY1, startX2, startY2,
+				endX2, endY2);
+	}
+	
+	private boolean hasCollisionInPerimetersExceptBottom(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
+		startY1 += 2;
+		endX2 -= 1;
+		endY1 -= 2;
+		endY2 -= 1;
+		if(hasOverlap(startX1, startY1, startX1, endY1, startX2, startY2, endX2, endY2)){
+			return true;
+		}
+		startY1 -= 2;
+		endY1 += 2;
+		// alles terug gereset
+		startX1 += 1;
+		endX1 -= 2;
+		endY1 -= 1;
+		if(hasOverlap(startX1, endY1, endX1, endY1, startX2, startY2, endX2, endY2)){
+			return true;
+		}
+		startX1 -= 1;
+		endX1 += 2;
+		endY1 += 1;
+		// alles resetten
+		startY1 += 2;
+		endX1 -= 1;
+		endY1 -= 2;
+		if(hasOverlap(endX1, startY1, endX1, endY1, startX2, startY2,endX2, endY2)){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * @param startX1
+	 * @param startY1
+	 * @param endX1
+	 * @param endY1
+	 * @param startX2
+	 * @param startY2
+	 * @param endX2
+	 * @param endY2
+	 * @return
+	 */
+	public boolean hasOverlap(int startX1, int startY1, int endX1, int endY1,
+			int startX2, int startY2, int endX2, int endY2) {
 		if ((startX2 <= endX1 && startX2 >= startX1) || (startX1 <= endX2 && startX1 >= startX2)) {
 			if ((startY2 <= endY1 && startY2 >= startY1) || (startY1 <= endY2 && startY1 >= startY2)) {
 				return true;
@@ -727,41 +785,6 @@ public class World  {
 		return false;
 	}
 	
-	private boolean hasCollisionInPerimetersExceptBottom(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
-		startY1 += 1;
-		endX2 -= 1;
-		endY1 -= 2;
-		endY2 -= 1;
-		if ((startX2 <= startX1 && startX2 >= startX1) || (startX1 <= endX2 && startX1 >= startX2)) {
-			if ((startY2 <= endY1 && startY2 >= startY1) || (startY1 <= endY2 && startY1 >= startY2)) {
-				return true;
-			}
-		}
-		startY1 -= 1;
-		endY1 += 2;
-		// alles terug gereset
-		startX1 += 1;
-		endX1 -= 2;
-		endY1 -= 1;
-		if ((startX2 <= endX1 && startX2 >= startX1) || (startX1 <= endX2 && startX1 >= startX2)) {
-			if ((startY2 <= endY1 && startY2 >= startY1) || (endY1 <= endY2 && endY1 >= startY2)) {
-				return true;
-			}
-		}
-		startX1 -= 1;
-		endX1 += 2;
-		endY1 += 1;
-		// alles resetten
-		startY1 += 1;
-		endX1 -= 1;
-		endY1 -= 2;
-		if ((startX2 <= endX1 && startX2 >= endX1) || (endX1 <= endX2 && endX1 >= startX2)) {
-			if ((startY2 <= endY1 && startY2 >= startY1) || (startY1 <= endY2 && startY1 >= startY2)) {
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	Collection<Slime> collisionSlimes(int startX, int startY, int endX, int endY) {
 		ArrayList<Slime> list = new ArrayList<Slime>();
@@ -793,6 +816,24 @@ public class World  {
 			slimeEndX =	slimeStartX + slime.getCurrentSprite().getWidth();
 			slimeEndY = slimeStartY + slime.getCurrentSprite().getHeight();
 			if (hasCollisionInPerimetersExceptBottom(startX, startY, endX, endY, slimeStartX, slimeStartY, slimeEndX, slimeEndY)) {
+				list.add(slime);
+			}
+		}
+		return list;
+	}
+	
+	Collection<Slime> collisionSlimesInBottomPerimeter(int startX, int startY, int endX, int endY) {
+		ArrayList<Slime> list = new ArrayList<Slime>();
+		int slimeStartX;
+		int slimeEndX;
+		int slimeStartY;
+		int slimeEndY;
+		for (Slime slime :  getSlimes()) {
+			slimeStartX = slime.getLocation()[0];
+			slimeStartY = slime.getLocation()[1];
+			slimeEndX =	slimeStartX + slime.getCurrentSprite().getWidth();
+			slimeEndY = slimeStartY + slime.getCurrentSprite().getHeight();
+			if (hasCollisionInBottomPerimeter(startX, startY, endX, endY, slimeStartX, slimeStartY, slimeEndX, slimeEndY)) {
 				list.add(slime);
 			}
 		}
@@ -879,6 +920,42 @@ public class World  {
 				if (hasCollision(startX, startY, endX, endY, sharkStartX, sharkStartY, sharkEndX, sharkEndY)) {
 					list.add(shark);
 				}
+			}
+		}
+		return list;
+	}
+	
+	Collection<Shark> collisionSharksInPerimetersExceptBottom(int startX, int startY, int endX, int endY) {
+		ArrayList<Shark> list = new ArrayList<Shark>();
+		int sharkStartX;
+		int sharkEndX;
+		int sharkStartY;
+		int sharkEndY;
+		for (Shark shark :  getSharks()) {
+			sharkStartX = shark.getLocation()[0];
+			sharkStartY = shark.getLocation()[1];
+			sharkEndX =	sharkStartX + shark.getCurrentSprite().getWidth();
+			sharkEndY = sharkStartY + shark.getCurrentSprite().getHeight();
+			if (hasCollisionInPerimetersExceptBottom(startX, startY, endX, endY, sharkStartX, sharkStartY, sharkEndX, sharkEndY)) {
+				list.add(shark);
+			}
+		}
+		return list;
+	}
+	
+	Collection<Shark> collisionSharksInBottomPerimeter(int startX, int startY, int endX, int endY) {
+		ArrayList<Shark> list = new ArrayList<Shark>();
+		int sharkStartX;
+		int sharkEndX;
+		int sharkStartY;
+		int sharkEndY;
+		for (Shark shark :  getSharks()) {
+			sharkStartX = shark.getLocation()[0];
+			sharkStartY = shark.getLocation()[1];
+			sharkEndX =	sharkStartX + shark.getCurrentSprite().getWidth();
+			sharkEndY = sharkStartY + shark.getCurrentSprite().getHeight();
+			if (hasCollisionInBottomPerimeter(startX, startY, endX, endY, sharkStartX, sharkStartY, sharkEndX, sharkEndY)) {
+				list.add(shark);
 			}
 		}
 		return list;
