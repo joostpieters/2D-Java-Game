@@ -727,16 +727,35 @@ public class World  {
 		return false;
 	}
 	
-	private boolean hasCollisionInPerimetersNoBottom(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
-		startX1 += 1;
-		startX2 += 1;
+	private boolean hasCollisionInPerimetersExceptBottom(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
 		startY1 += 1;
-		startY2 += 1;
-		endX1 -= 2;
-		endX2 -= 2;
+		endX2 -= 1;
 		endY1 -= 2;
-		endY2 -= 2;
+		endY2 -= 1;
+		if ((startX2 <= startX1 && startX2 >= startX1) || (startX1 <= endX2 && startX1 >= startX2)) {
+			if ((startY2 <= endY1 && startY2 >= startY1) || (startY1 <= endY2 && startY1 >= startY2)) {
+				return true;
+			}
+		}
+		startY1 -= 1;
+		endY1 += 2;
+		// alles terug gereset
+		startX1 += 1;
+		endX1 -= 2;
+		endY1 -= 1;
 		if ((startX2 <= endX1 && startX2 >= startX1) || (startX1 <= endX2 && startX1 >= startX2)) {
+			if ((startY2 <= endY1 && startY2 >= startY1) || (endY1 <= endY2 && endY1 >= startY2)) {
+				return true;
+			}
+		}
+		startX1 -= 1;
+		endX1 += 2;
+		endY1 += 1;
+		// alles resetten
+		startY1 += 1;
+		endX1 -= 1;
+		endY1 -= 2;
+		if ((startX2 <= endX1 && startX2 >= endX1) || (endX1 <= endX2 && endX1 >= startX2)) {
 			if ((startY2 <= endY1 && startY2 >= startY1) || (startY1 <= endY2 && startY1 >= startY2)) {
 				return true;
 			}
@@ -756,6 +775,24 @@ public class World  {
 			slimeEndX =	slimeStartX + slime.getCurrentSprite().getWidth();
 			slimeEndY = slimeStartY + slime.getCurrentSprite().getHeight();
 			if (hasCollision(startX, startY, endX, endY, slimeStartX, slimeStartY, slimeEndX, slimeEndY)) {
+				list.add(slime);
+			}
+		}
+		return list;
+	}
+	
+	Collection<Slime> collisionSlimesInPerimeterExceptBottom(int startX, int startY, int endX, int endY) {
+		ArrayList<Slime> list = new ArrayList<Slime>();
+		int slimeStartX;
+		int slimeEndX;
+		int slimeStartY;
+		int slimeEndY;
+		for (Slime slime :  getSlimes()) {
+			slimeStartX = slime.getLocation()[0];
+			slimeStartY = slime.getLocation()[1];
+			slimeEndX =	slimeStartX + slime.getCurrentSprite().getWidth();
+			slimeEndY = slimeStartY + slime.getCurrentSprite().getHeight();
+			if (hasCollisionInPerimetersExceptBottom(startX, startY, endX, endY, slimeStartX, slimeStartY, slimeEndX, slimeEndY)) {
 				list.add(slime);
 			}
 		}

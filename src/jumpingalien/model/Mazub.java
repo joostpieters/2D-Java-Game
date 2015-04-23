@@ -789,7 +789,7 @@ public class Mazub {
 			// immediately lose points when in magma
 			setMagmaTimer(0.2);
 		}
-		
+		//TODO vergelijking met double
 		if (isImmune() && getImmunityTimer() < 0.6) {
 			setImmunityTimer(getImmunityTimer() + seconds);
 		} else if (isImmune()) {
@@ -834,9 +834,8 @@ public class Mazub {
 		updateVelocityYAndAccelerationY(dt);
 		
 		handleCollisionPlant();
-//		if (! isImmune()) {
-			handleCollisionSlime();
-//		}
+	
+		handleCollisionSlime();
 		
 	}
 
@@ -1542,7 +1541,7 @@ public class Mazub {
 	}
 	
 	private void handleCollisionSlime() {
-		Collection<Slime> collection = getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
+		Collection<Slime> collection = getWorld().collisionSlimesInPerimeterExceptBottom((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		if (!isImmune()) {
 			for (Slime slime : collection) {
 				// TODO
