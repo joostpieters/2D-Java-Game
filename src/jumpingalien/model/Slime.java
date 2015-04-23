@@ -48,6 +48,7 @@ public class Slime {
 		setAccelerationX(0);
 		setAccelerationY(0);
 		newMovement();
+		setMagmaTimer(0.2);
 	}
 	
 	/**
@@ -568,6 +569,17 @@ public class Slime {
 				seconds = 0;
 			}
 		}
+		if (isInMagma()) {
+			setMagmaTimer(getMagmaTimer() + seconds);
+			//TODO double vergelijking
+			if (getMagmaTimer() >= 0.2) {
+				setHitpoints(getHitpoints()-50);
+				setMagmaTimer(getMagmaTimer() - 0.2);
+			}
+		} else {
+			// immediately lose points when in magma
+			setMagmaTimer(0.2);
+		}
 	}
 	
 	//TODO vergelijking van doubles
@@ -714,4 +726,29 @@ public class Slime {
 	}
 	
 	private boolean terminated;
+	
+	private boolean isInMagma() {
+		int x = (int) getLocationX();
+		int y = (int) getLocationY();
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
+	}
+	
+	/**
+	 * @return the magmaTimer
+	 */
+	private double getMagmaTimer() {
+		return magmaTimer;
+	}
+
+
+	/**
+	 * @param magmaTimer
+	 */
+	private void setMagmaTimer(double magmaTimer) {
+		this.magmaTimer = magmaTimer;
+	}
+	
+	private double magmaTimer;
 }

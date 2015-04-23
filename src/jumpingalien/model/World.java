@@ -748,6 +748,23 @@ public class World  {
 		}
 		return list;
 	}
+	Collection<Shark> collisionSharks(int startX, int startY, int endX, int endY) {
+		ArrayList<Shark> list = new ArrayList<Shark>();
+		int sharkStartX;
+		int sharkEndX;
+		int sharkStartY;
+		int sharkEndY;
+		for (Shark shark :  getSharks()) {
+			sharkStartX = shark.getLocation()[0];
+			sharkStartY = shark.getLocation()[1];
+			sharkEndX =	sharkStartX + shark.getCurrentSprite().getWidth();
+			sharkEndY = sharkStartY + shark.getCurrentSprite().getHeight();
+			if (hasCollision(startX, startY, endX, endY, sharkStartX, sharkStartY, sharkEndX, sharkEndY)) {
+				list.add(shark);
+			}
+		}
+		return list;
+	}
 	
 	void removePlant(Plant plant) {
 		assert (plant != null);

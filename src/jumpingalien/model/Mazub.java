@@ -778,6 +778,7 @@ public class Mazub {
 		}
 		
 		if (isInMagma((int) getLocationX(), (int) getLocationY())) {
+			//TODO double vergelijking
 			if (getMagmaTimer() >= 0.2) {
 				setHitPoints(getHitPoints()-50);
 				setMagmaTimer(0);

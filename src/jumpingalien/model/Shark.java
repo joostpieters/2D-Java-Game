@@ -17,7 +17,7 @@ public class Shark {
 	 * @effect	...
 	 * 			| setHitPoints(100)
 	 * @effect	...
-	 * 			| setMagmaTimer(100)
+	 * 			| setMagmaTimer(0.2)
 	 */
 	public Shark (int x, int y, Sprite[] sprites){
 		setLocationX(x);
@@ -25,7 +25,7 @@ public class Shark {
 		setSprites(sprites);
 		setHitPoints(100);
 		setMovementCounter(4);
-		this.setMagmaTimer(0.2);
+		setMagmaTimer(0.2);
 	}
 	
 	/**
@@ -266,10 +266,6 @@ public class Shark {
 			setNotInWaterTimer(0);
 		}
 		//TODO double vergelijking
-		if(getNotInWaterTimer() >= 0.2){
-			setNotInWaterTimer(getNotInWaterTimer() - 0.2);
-			setHitPoints(getHitPoints() - 1);
-		}
 		if(!isInWater()){
 			setAccelerationY(-10);
 		}
@@ -308,6 +304,10 @@ public class Shark {
 		} else {
 			// immediately lose points when in magma
 			setMagmaTimer(0.2);
+		}
+		if(getNotInWaterTimer() >= 0.2){
+			setNotInWaterTimer(getNotInWaterTimer() - 0.2);
+			setHitPoints(getHitPoints() - 1);
 		}
 	}
 	private void advanceTimeCollisionDetect(double dt){
@@ -350,6 +350,21 @@ public class Shark {
 				locationX = getLocationX();
 			}
 		}
+/*		boolean hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
+		if(hasCollisionShark){
+			hasCollisionShark = getWorld().collisionSharks((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
+			if(!hasCollisionShark){
+				locationX = getLocationX();				
+			} else {
+				hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
+				if(!hasCollisionShark){
+					locationY = getLocationY();	
+				} else {
+					locationX = getLocationX();
+					locationY = getLocationY();
+				}
+			}
+		}*/
 		setLocationX(locationX);
 		setLocationY(locationY);
 	}
