@@ -20,7 +20,7 @@ public class Slime {
 	 * 			...
 	 * 			|((sprites.length != 2) || (!school.canHaveAsSlime(this)))
 	 * @effect	...
-	 * 			| setHitpoints(50)
+	 * 			| setHitPoints(50)
 	 * @effect	...
 	 * 			| setVelocityX(0)
 	 * @effect	...
@@ -42,7 +42,7 @@ public class Slime {
 		setCurrentSpriteIndex(0);
 		setSchool(school);
 		school.addSlime(this);
-		setHitpoints(100);
+		setHitPoints(100);
 		setVelocityX(0);
 		setVelocityY(0);
 		setAccelerationX(0);
@@ -229,31 +229,31 @@ public class Slime {
 	private School school;
 	
 	@Basic
-	private int getHitpoints() {
-		return this.hitpoints;
+	private int getHitPoints() {
+		return this.hitPoints;
 	}
 	
 	/**
 	 * 
 	 * @param points
 	 * @post	...
-	 * 			| new.getHitpoints() == points
+	 * 			| new.getHitPoints() == points
 	 */
-	private void setHitpoints(int points) {
+	private void setHitPoints(int points) {
 		if (points <= 0) {
-			hitpoints = 0;
+			hitPoints = 0;
 			this.terminate();
 		} else if (points > 100) {
-			hitpoints = 100;
+			hitPoints = 100;
 		} else {
-			this.hitpoints = points;
+			this.hitPoints = points;
 		}
 	}
 	
 	/**
-	 * This variable contains the amount of hitpoints of this Slime
+	 * This variable contains the amount of hitPoints of this Slime
 	 */
-	private int hitpoints;
+	private int hitPoints;
 	
 	@Basic
 	private double getVelocityX() {
@@ -575,11 +575,21 @@ public class Slime {
 			//TODO double vergelijking
 			if (getMagmaTimer() >= 0.2) {
 				setMagmaTimer(getMagmaTimer() - 0.2);
-				setHitpoints(getHitpoints()-50);
+				setHitPoints(getHitPoints()-50);
 			}
 		} else {
 			// immediately lose points when in magma
 			setMagmaTimer(0.2);
+		}
+		if (isInWater()) {
+			setWaterTimer(getWaterTimer() + dt);
+			if (getWaterTimer() >= 0.2) {
+				setHitPoints(getHitPoints()-2);
+				setWaterTimer(getWaterTimer()-0.2);
+			} else {
+			}
+		} else {
+			setWaterTimer(0);
 		}
 	}
 	
@@ -706,7 +716,7 @@ public class Slime {
 	private double timer; 
 	
 	void handleCollisionMazub() {
-		setHitpoints(getHitpoints() - 50);
+		setHitPoints(getHitPoints() - 50);
 	}
 	
 	void terminate() {
@@ -750,4 +760,29 @@ public class Slime {
 	}
 	
 	private double magmaTimer;
+	
+	private boolean isInWater() {
+		int x = (int) getLocationX();
+		int y = (int) getLocationY();
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 2);
+	}
+	
+	/**
+	 * @return the waterTimer
+	 */
+	private double getWaterTimer() {
+		return waterTimer;
+	}
+
+
+	/**
+	 * @param waterTimer the waterTimer to set
+	 */
+	private void setWaterTimer(double waterTimer) {
+		this.waterTimer = waterTimer;
+	}
+	
+	private double waterTimer;
 }
