@@ -1491,7 +1491,10 @@ public class Mazub {
 			if (getHitPoints() < 500) {
 				setHitPoints(getHitPoints() + 50);
 				// remove plant
-				plant.terminateHard();
+				plant.handleCollisionMazub();
+				if(plant.isTerminated()){
+					getWorld().removePlant(plant);
+				}
 			}
 		}
 	}
@@ -1500,10 +1503,9 @@ public class Mazub {
 		if (getHitPoints() < 500) {
 			setHitPoints(getHitPoints() + 50);
 			// remove plant
-			plant.terminateHard();
+			plant.handleCollisionMazub();
 		}
 	}
-	
 	
 	private boolean hasCollisionSlime() {
 		return !(getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight()).isEmpty());
@@ -1516,6 +1518,9 @@ public class Mazub {
 				// TODO
 				setHitPoints(getHitPoints() - 50);
 				slime.handleCollisionMazub();
+				if(slime.isTerminated()){
+					getWorld().removeSlime(slime);				
+				}
 				setImmunity(true);
 			}
 		}

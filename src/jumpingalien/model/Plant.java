@@ -340,16 +340,8 @@ public class Plant {
 	private boolean hasCollisionX(int x, int y){
 		return hasCollisionRight(x, y) || hasCollisionLeft(x, y);
 	}
-
-	void terminateHard() {
-		getWorld().removePlant(this);
-		// remove world
-		this.setWorld(null);
-		// set boolean
-		setTerminated(true);
-	}
 	
-	void teminate(){
+	private void teminate(){
 		this.setWorld(null);
 		// set boolean
 		setTerminated(true);
@@ -364,4 +356,8 @@ public class Plant {
 	}
 	
 	private boolean terminated;
+
+	void handleCollisionMazub() {
+		teminate();		
+	}
 }
