@@ -350,7 +350,7 @@ public class Shark {
 				locationX = getLocationX();
 			}
 		}
-/*		boolean hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
+		boolean hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
 		if(hasCollisionShark){
 			hasCollisionShark = getWorld().collisionSharks((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
 			if(!hasCollisionShark){
@@ -364,7 +364,7 @@ public class Shark {
 					locationY = getLocationY();
 				}
 			}
-		}*/
+		}
 		setLocationX(locationX);
 		setLocationY(locationY);
 	}
