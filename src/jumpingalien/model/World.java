@@ -727,6 +727,23 @@ public class World  {
 		return false;
 	}
 	
+	private boolean hasCollisionInPerimetersNoBottom(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
+		startX1 += 1;
+		startX2 += 1;
+		startY1 += 1;
+		startY2 += 1;
+		endX1 -= 2;
+		endX2 -= 2;
+		endY1 -= 2;
+		endY2 -= 2;
+		if ((startX2 <= endX1 && startX2 >= startX1) || (startX1 <= endX2 && startX1 >= startX2)) {
+			if ((startY2 <= endY1 && startY2 >= startY1) || (startY1 <= endY2 && startY1 >= startY2)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	Collection<Slime> collisionSlimes(int startX, int startY, int endX, int endY) {
 		ArrayList<Slime> list = new ArrayList<Slime>();
 		int slimeStartX;
@@ -743,6 +760,35 @@ public class World  {
 			}
 		}
 		return list;
+	}
+	
+	Collection<Slime> collisionSlimes(int startX, int startY, int endX, int endY, Slime slimeOriginal) {
+		ArrayList<Slime> list = new ArrayList<Slime>();
+		int slimeStartX;
+		int slimeEndX;
+		int slimeStartY;
+		int slimeEndY;
+		for (Slime slime :  getSlimes()) {
+			if(slime != slimeOriginal){
+				slimeStartX = slime.getLocation()[0];
+				slimeStartY = slime.getLocation()[1];
+				slimeEndX =	slimeStartX + slime.getCurrentSprite().getWidth();
+				slimeEndY = slimeStartY + slime.getCurrentSprite().getHeight();
+				if (hasCollision(startX, startY, endX, endY, slimeStartX, slimeStartY, slimeEndX, slimeEndY)) {
+					list.add(slime);
+				}
+			}
+		}
+		return list;
+	}
+	
+	boolean collisionMazub(int startX, int startY, int endX, int endY) {
+		Mazub mazub = getMazub();
+		int mazubStartX = (int) mazub.getLocationX();
+		int mazubStartY = (int) mazub.getLocationY();
+		int mazubEndX =	mazubStartX + mazub.getCurrentSprite().getWidth();
+		int mazubEndY = mazubStartY + mazub.getCurrentSprite().getHeight();
+		return hasCollision(startX, startY, endX, endY, mazubStartX, mazubStartY, mazubEndX, mazubEndY);
 	}
 	
 	Collection<Plant> collisionPlants(int startX, int startY, int endX, int endY) {
@@ -762,6 +808,7 @@ public class World  {
 		}
 		return list;
 	}
+	
 	Collection<Shark> collisionSharks(int startX, int startY, int endX, int endY) {
 		ArrayList<Shark> list = new ArrayList<Shark>();
 		int sharkStartX;
@@ -775,6 +822,26 @@ public class World  {
 			sharkEndY = sharkStartY + shark.getCurrentSprite().getHeight();
 			if (hasCollision(startX, startY, endX, endY, sharkStartX, sharkStartY, sharkEndX, sharkEndY)) {
 				list.add(shark);
+			}
+		}
+		return list;
+	}
+	
+	Collection<Shark> collisionSharks(int startX, int startY, int endX, int endY, Shark sharkOriginal) {
+		ArrayList<Shark> list = new ArrayList<Shark>();
+		int sharkStartX;
+		int sharkEndX;
+		int sharkStartY;
+		int sharkEndY;
+		for (Shark shark :  getSharks()) {
+			if(shark != sharkOriginal){
+				sharkStartX = shark.getLocation()[0];
+				sharkStartY = shark.getLocation()[1];
+				sharkEndX =	sharkStartX + shark.getCurrentSprite().getWidth();
+				sharkEndY = sharkStartY + shark.getCurrentSprite().getHeight();
+				if (hasCollision(startX, startY, endX, endY, sharkStartX, sharkStartY, sharkEndX, sharkEndY)) {
+					list.add(shark);
+				}
 			}
 		}
 		return list;

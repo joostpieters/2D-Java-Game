@@ -943,6 +943,36 @@ public class Mazub {
 				locationX = getLocationX();
 			}
 		}
+		boolean hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
+		if(hasCollisionSlime){
+			hasCollisionSlime = getWorld().collisionSlimes((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
+			if(!hasCollisionSlime){
+				locationX = getLocationX();				
+			} else {
+				hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
+				if(!hasCollisionSlime){
+					locationY = getLocationY();	
+				} else {
+					locationX = getLocationX();
+					locationY = getLocationY();
+				}
+			}
+		}
+		boolean hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
+		if(hasCollisionShark){
+			hasCollisionShark = getWorld().collisionSharks((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
+			if(!hasCollisionShark){
+				locationX = getLocationX();				
+			} else {
+				hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
+				if(!hasCollisionShark){
+					locationY = getLocationY();	
+				} else {
+					locationX = getLocationX();
+					locationY = getLocationY();
+				}
+			}
+		}
 		try {
 			setLocationX(locationX);
 		} catch (IllegalArgumentException e1){
