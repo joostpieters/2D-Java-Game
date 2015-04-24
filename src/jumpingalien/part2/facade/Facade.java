@@ -150,8 +150,11 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void startGame(World world) {
-		// TODO Auto-generated method stub
-		
+		try {
+			world.setGameStarted(true);	
+		} catch (IllegalArgumentException e){
+			throw new ModelException("You can not stop the game by yourself");
+		}
 	}
 
 	@Override
@@ -233,6 +236,8 @@ public class Facade implements IFacadePart2 {
 			world.addPlant(plant);
 		} catch (IllegalArgumentException e) {
 			throw new ModelException("The given plant is not valid");
+		} catch (IllegalStateException e){
+			throw new ModelException("The game is already started");
 		}
 	}
 

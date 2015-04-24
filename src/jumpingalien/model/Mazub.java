@@ -2,6 +2,7 @@ package jumpingalien.model;
 
 import java.util.Collection;
 
+
 import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
@@ -691,7 +692,7 @@ public class Mazub {
 		}
 	}
 	
-	//TODO tekst bij laatste @effect
+	//TODO tekst bij laatste @effect + ontbreekt nog hoop shit
 	/**
 	 * Given a time this methode will update the location, velocity and acceleration of this Mazub	 * 
 	 * @param 	seconds
@@ -730,71 +731,86 @@ public class Mazub {
 	 *				else then
 	 *					seconds = 0				
 	 */
-	public void advanceTime(double seconds) throws IllegalArgumentException {
-		double copySeconds = seconds;
-		if (seconds < 0 || seconds >= 0.2) 
+	public void advanceTime(double dt) throws IllegalArgumentException {
+		if (dt < 0 || dt >= 0.2){
 			throw new IllegalArgumentException();
-		this.addToTimer(this.getTimer() + seconds);
-		while(copySeconds > 0){
-			double dt1 = 0.2;
-			double dt2 = 0.2;
-			if((getVelocityX() != 0) || (getAccelerationX() != 0)){
-				dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
+		}
+		if(!isDeath()){
+			double seconds = dt;
+			//Todo vergelijking van double
+			if (isImmune() && getImmunityTimer() < 0.6) {
+				setImmunityTimer(getImmunityTimer() + seconds);
+			} else if (isImmune()) {
+				setImmunity(false);
+				setImmunityTimer(0);
 			}
-			if((getVelocityY() != 0) || (getAccelerationY() != 0)){
-				dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
+			if (isInMagma()) {
+				setMagmaTimer(getMagmaTimer() + dt);
+			} else {
+				// immediately lose points when in magma
+				setMagmaTimer(0.2);
 			}
-			if((dt1 != 0.2) || (dt2 != 0.2)){
-				if(dt1 >= copySeconds && dt2 >= copySeconds){
-					advanceTimeCollisionDetect(copySeconds);
+			if (isInWater()) {
+				setWaterTimer(getWaterTimer() + dt);
+			} else {
+				setWaterTimer(0);
+			}
+			double copySeconds = seconds;
+			this.addToTimer(this.getTimer() + seconds);
+			while(copySeconds > 0){
+				double dt1 = 0.2;
+				double dt2 = 0.2;
+				if((getVelocityX() != 0) || (getAccelerationX() != 0)){
+					dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
+				}
+				if((getVelocityY() != 0) || (getAccelerationY() != 0)){
+					dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
+				}
+				if((dt1 != 0.2) || (dt2 != 0.2)){
+					if(dt1 >= copySeconds && dt2 >= copySeconds){
+						advanceTimeCollisionDetect(copySeconds);
+						copySeconds = 0;
+					} else if(dt1 < dt2){
+						advanceTimeCollisionDetect(dt1);
+						copySeconds -= dt1;
+					} else if(dt2 <= dt1){
+						advanceTimeCollisionDetect(dt2);
+						copySeconds -= dt2;
+					}
+				} else {
 					copySeconds = 0;
-				} else if(dt1 < dt2){
-					advanceTimeCollisionDetect(dt1);
-					copySeconds -= dt1;
-				} else if(dt2 <= dt1){
-					advanceTimeCollisionDetect(dt2);
-					copySeconds -= dt2;
+				}	
+			}
+			
+			if (getWantToStopDucking() && isDucking() && canStopDucking()) {
+				setDucking(false);
+				setWantToStopDucking(false);
+			}
+			
+			if (isInWater()) {
+				if (getWaterTimer() >= 0.2) {
+					setHitPoints(getHitPoints()-2);
+					setWaterTimer(getWaterTimer()-0.2);
 				}
 			} else {
-				copySeconds = 0;
-			}	
-		}
-		
-		if (getWantToStopDucking() && isDucking() && canStopDucking()) {
-			setDucking(false);
-			setWantToStopDucking(false);
-		}
-		
-		//TODO double vergelijking
-		if (isInWater()) {
-			if (getWaterTimer() >= 0.2) {
-				setHitPoints(getHitPoints()-2);
 				setWaterTimer(0);
-			} else {
-				setWaterTimer(getWaterTimer() + seconds);
 			}
-		} else {
-			setWaterTimer(0);
-		}
-		
-		if (isInMagma((int) getLocationX(), (int) getLocationY())) {
-			//TODO double vergelijking
-			if (getMagmaTimer() >= 0.2) {
-				setHitPoints(getHitPoints()-50);
-				setMagmaTimer(0);
+			if (isInMagma()) {
+				if (getMagmaTimer() >= 0.2) {
+					setMagmaTimer(getMagmaTimer()-0.2);
+					setHitPoints(getHitPoints()-50);
+				}
 			} else {
-				setMagmaTimer(getMagmaTimer() + seconds);
+				// immediately lose points when in magma
+				setMagmaTimer(0.2);
 			}
+			//TODO vergelijking met double
 		} else {
-			// immediately lose points when in magma
-			setMagmaTimer(0.2);
-		}
-		//TODO vergelijking met double
-		if (isImmune() && getImmunityTimer() < 0.6) {
-			setImmunityTimer(getImmunityTimer() + seconds);
-		} else if (isImmune()) {
-			setImmunity(false);
-			setImmunityTimer(0);
+			setTimeDeath(getTimeDeath() + dt);
+			//TODO vergelijking met double
+			if(getTimeDeath() > 0.6){
+				terminate();
+			}
 		}
 	}
 	/**
@@ -1289,6 +1305,7 @@ public class Mazub {
 	private void setHitPoints(int hitPoints) {
 		if (hitPoints <= 0) {
 			this.hitPoints = 0;
+			setDeath(true);
 		} else if (hitPoints > 500) {
 			this.hitPoints = 500;
 		} else {
@@ -1431,7 +1448,9 @@ public class Mazub {
 	private double waterTimer;	
 
 
-	private boolean isInMagma(int x, int y) {
+	private boolean isInMagma() {
+		int x = (int) getLocationX();
+		int y = (int) getLocationY();
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
 		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
@@ -1481,10 +1500,13 @@ public class Mazub {
 	 * 			| new.getWorld() = world			
 	 */
 	void setWorld(World world) throws IllegalArgumentException{
-		if(!isValidWorld(world)){
+		if(hasAWorld() && world == null){
+			this.world = null;
+		}else if(!isValidWorld(world)){
 			throw new IllegalArgumentException();
-		}
-		this.world = world;		
+		} else {
+			this.world = world;	
+		}	
 	}
 	/**
 	 * Checks wether the given world is valid or not
@@ -1510,11 +1532,6 @@ public class Mazub {
 	 * This variable contains the world where this Mazub is in
 	 */
 	private World world;
-
-	
-	public boolean isDead() {
-		return (this.getHitPoints() == 0);
-	}
 	
 	private void handleCollisionPlant() {
 		Collection<Plant> collection = getWorld().collisionPlants((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
@@ -1587,4 +1604,39 @@ public class Mazub {
 			}
 		}
 	}
+	private boolean isDeath() {
+		return isDeath;
+	}
+
+	private void setDeath(boolean isDeath) {
+		this.isDeath = isDeath;
+	}
+	
+	private boolean isDeath;
+
+	private double getTimeDeath() {
+		return timeDeath;
+	}
+
+	private void setTimeDeath(double timeDeath) {
+		this.timeDeath = timeDeath;
+	}
+	private double timeDeath;
+	
+	private void terminate(){
+		setWorld(null);
+		setTerminated(true);
+	}
+
+	boolean isTerminated() {
+		return isTerminated;
+	}
+
+
+	private void setTerminated(boolean isTerminated) {
+		this.isTerminated = isTerminated;
+	}
+	
+	private boolean isTerminated;
 }
+

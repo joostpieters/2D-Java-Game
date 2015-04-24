@@ -269,9 +269,14 @@ public class World  {
 	public void setMazub(Mazub alien) throws IllegalArgumentException {
 		if(!isValidMazub(alien)){
 			throw new IllegalArgumentException();
+		} else {
+			this.alien = alien;
+			alien.setWorld(this);
 		}
-		this.alien = alien;
-		alien.setWorld(this);
+	}
+	
+	private void removeMazub(){
+		this.alien = null;
 	}
 	/**
 	 * 
@@ -280,7 +285,7 @@ public class World  {
 	 * 			| return ((alien != null) && (!alien.hasAWorld()));
 	 */
 	private boolean isValidMazub(Mazub alien){
-		return ((alien != null) && (!alien.hasAWorld()));
+		return ((alien != null) && (!alien.hasAWorld() && !alien.isTerminated()));
 	}
 	
 	/**
@@ -288,13 +293,15 @@ public class World  {
 	 */
 	private Mazub alien;
 	
+	
+	//TODO tekst fout
 	/**
 	 * Returns whether the game is over.
 	 * @return	...
 	 * 			| result == getMazub().isDead()
 	 */
 	public boolean isGameOver() {
-		return (getMazub().isDead() || hasReachedEnd());
+		return (getMazub() == null || hasReachedEnd());
 	}
 	
 	@Basic
@@ -470,38 +477,47 @@ public class World  {
 	 * 			| updateWindow()
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
-		if (dt < 0 || dt >= 0.2) 
+		//TODO nakijken + double vergelijking
+		if (dt < 0 || dt > 0.2){
 			throw new IllegalArgumentException();
-		getMazub().advanceTime(dt);
-		ArrayList<Plant> plantsToRemove = new ArrayList<Plant>();
-		for (Plant plant : plants) {
-			plant.advanceTime(dt);
-			if(plant.isTerminated()){
-				plantsToRemove.add(plant);
+		}
+		if(getMazub() != null){
+			getMazub().advanceTime(dt);
+		}
+		if(getMazub().isTerminated()){
+			removeMazub();
+		}
+		if(getMazub() != null){
+			ArrayList<Plant> plantsToRemove = new ArrayList<Plant>();
+			for (Plant plant : plants) {
+				plant.advanceTime(dt);
+				if(plant.isTerminated()){
+					plantsToRemove.add(plant);
+				}
 			}
-		}
-		plants.removeAll(plantsToRemove);
-		ArrayList<Slime> slimesToRemove = new ArrayList<Slime>();
-		for (Slime slime : slimes) {
-			slime.advanceTime(dt);
-			if(slime.isTerminated()){
-				slimesToRemove.add(slime);
+			plants.removeAll(plantsToRemove);
+			ArrayList<Slime> slimesToRemove = new ArrayList<Slime>();
+			for (Slime slime : slimes) {
+				slime.advanceTime(dt);
+				if(slime.isTerminated()){
+					slimesToRemove.add(slime);
+				}
 			}
-		}
-		slimes.removeAll(slimesToRemove);
-		ArrayList<Shark> sharksToRemove = new ArrayList<Shark>();
-		for (Shark shark : sharks) {
-			shark.advanceTime(dt);
-			if(shark.isTerminated()){
-				sharksToRemove.add(shark);
+			slimes.removeAll(slimesToRemove);
+			ArrayList<Shark> sharksToRemove = new ArrayList<Shark>();
+			for (Shark shark : sharks) {
+				shark.advanceTime(dt);
+				if(shark.isTerminated()){
+					sharksToRemove.add(shark);
+				}
 			}
+			sharks.removeAll(sharksToRemove);
+			if (alienIsAtTargetTile()) {
+				setReachedEnd(true);
+			}
+			
+			updateWindow();
 		}
-		sharks.removeAll(sharksToRemove);
-		if (alienIsAtTargetTile()) {
-			setReachedEnd(true);
-		}
-		
-		updateWindow();
 	}
 	/**
 	 * 
@@ -574,9 +590,11 @@ public class World  {
 	 * @throws 	IllegalArgumentException
 	 * 			| ! canHaveAsPlant(plant)
 	 */
-	public void addPlant(Plant plant) throws IllegalArgumentException{
+	public void addPlant(Plant plant) throws IllegalArgumentException, IllegalStateException{
 		if (!canHaveAsPlant(plant)){
 			throw new IllegalArgumentException();
+		} else if(isGameStarted()){
+			throw new IllegalStateException();
 		}
 		this.plants.add(plant);
 		plant.setWorld(this);
@@ -970,7 +988,18 @@ public class World  {
 		assert (slime != null);
 		slimes.remove(slime);
 	}
+
+	private boolean isGameStarted() {
+		return gameStarted;
+	}
+
+	public void setGameStarted(boolean gameStarted) throws IllegalArgumentException {
+		if(!gameStarted){
+			throw new IllegalArgumentException();
+		}
+		this.gameStarted = gameStarted;
+	}
 	
-	
+	private boolean gameStarted;	
 }
 
