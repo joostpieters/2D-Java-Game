@@ -1500,13 +1500,22 @@ public class Mazub {
 	 * 			| new.getWorld() = world			
 	 */
 	void setWorld(World world) throws IllegalArgumentException{
-		if(hasAWorld() && world == null){
-			this.world = null;
-		}else if(!isValidWorld(world)){
+		if(!isValidWorld(world)){
 			throw new IllegalArgumentException();
 		} else {
 			this.world = world;	
 		}	
+	}
+	
+	/**
+	 * @pre 	there must be a world set, which you can remove
+	 * 			| getWorld() != null
+	 * @post 	mazub will not longer belong to a world
+	 * 			| new.getWorld() == null
+	 */
+	private void removeWorld(){
+		assert(getWorld() != null);
+		this.world = null;
 	}
 	/**
 	 * Checks wether the given world is valid or not
@@ -1624,7 +1633,7 @@ public class Mazub {
 	private double timeDeath;
 	
 	private void terminate(){
-		setWorld(null);
+		removeWorld();
 		setTerminated(true);
 	}
 
