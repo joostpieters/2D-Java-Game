@@ -347,6 +347,7 @@ public class Shark {
 	}
 	
 	private void updateLocation(Double dt){
+		setVelocityYZero(false);
 		double accelerationX = getAccelerationX();
 		if(getMovement() == Direction.LEFT){
 			accelerationX *= -1;
@@ -371,10 +372,12 @@ public class Shark {
 			} else {
 				hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
 				if(!hasCollisionShark){
-					locationY = getLocationY();	
+					locationY = getLocationY();
+					setVelocityYZero(true);
 				} else {
 					locationX = getLocationX();
 					locationY = getLocationY();
+					setVelocityYZero(true);
 				}
 			}
 		}
@@ -386,10 +389,12 @@ public class Shark {
 			} else {
 				hasCollisionMazub = getWorld().collisionMazub((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight());
 				if(!hasCollisionMazub){
-					locationY = getLocationY();	
+					locationY = getLocationY();
+					setVelocityYZero(true);
 				} else {
 					locationX = getLocationX();
 					locationY = getLocationY();
+					setVelocityYZero(true);
 				}
 			}
 		}
@@ -401,16 +406,43 @@ public class Shark {
 			} else {
 				hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
 				if(!hasCollisionSlime){
-					locationY = getLocationY();	
+					locationY = getLocationY();
+					setVelocityYZero(true);
 				} else {
 					locationX = getLocationX();
 					locationY = getLocationY();
+					setVelocityYZero(true);
 				}
 			}
 		}
 		setLocationX(locationX);
 		setLocationY(locationY);
 	}
+	
+	/**
+	 * @return 	if the velocity needs to be set to zero
+	 *			|result == setVelocityYZero
+	 */
+	private boolean isSetVelocityYZero() {
+		return setVelocityYZero;
+	}
+
+
+	/**
+	 * 
+	 * @param setVelocityYZero
+	 * 			this boolean indicades if the velocityY needs to be set to zero or not
+	 * @post 	setVelocityZero of this shark will equal the given setVelocityYZero
+	 * 			|new.isSetVelocityYZero() == setVelocityYZero
+	 */
+	private void setVelocityYZero(boolean setVelocityYZero) {
+		this.setVelocityYZero = setVelocityYZero;
+	}
+	
+	/**
+	 * This boolean indicades if this sharks vertical velocity needs to be set to zero
+	 */
+	private boolean setVelocityYZero;
 	
 	private void updateVelocity(double dt){
 		double accelerationX = getAccelerationX();
@@ -419,6 +451,8 @@ public class Shark {
 		}
 		setVelocityX(getVelocityX() + accelerationX*dt);
 		setVelocityY(getVelocityY() + getAccelerationY()*dt);
+		if(isSetVelocityYZero())
+			setVelocityY(0);
 	}
 	
 	

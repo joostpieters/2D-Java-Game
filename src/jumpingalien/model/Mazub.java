@@ -1012,15 +1012,29 @@ public class Mazub {
 		}
 	}
 	
+	/**
+	 * @return 	if the velocity needs to be set to zero
+	 *			|result == setVelocityYZero
+	 */
 	private boolean isSetVelocityYZero() {
 		return setVelocityYZero;
 	}
 
 
+	/**
+	 * 
+	 * @param setVelocityYZero
+	 * 			this boolean indicades if the velocityY needs to be set to zero or not
+	 * @post 	setVelocityZero of this mazub will equal the given setVelocityYZero
+	 * 			|new.isSetVelocityYZero() == setVelocityYZero
+	 */
 	private void setVelocityYZero(boolean setVelocityYZero) {
 		this.setVelocityYZero = setVelocityYZero;
 	}
 	
+	/**
+	 * This boolean indicades if mazub's vertical velocity needs to be set to zero
+	 */
 	private boolean setVelocityYZero;
 
 	/**

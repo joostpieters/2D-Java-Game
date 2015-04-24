@@ -363,6 +363,7 @@ public class Slime {
 	 */
 	private void updateLocation(double seconds) {
 		assert (seconds >= 0);
+		setVelocityYZero(false);
 		double accelerationX = getAccelerationX();
 		if (isMovingLeft()) {
 			accelerationX *= -1;
@@ -388,9 +389,11 @@ public class Slime {
 				hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
 				if(!hasCollisionSlime){
 					locationY = getLocationY();	
+					setVelocityYZero(true);
 				} else {
 					locationX = getLocationX();
 					locationY = getLocationY();
+					setVelocityYZero(true);
 				}
 			}
 		}
@@ -403,9 +406,11 @@ public class Slime {
 				hasCollisionMazub = getWorld().collisionMazub((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight());
 				if(!hasCollisionMazub){
 					locationY = getLocationY();	
+					setVelocityYZero(true);
 				} else {
 					locationX = getLocationX();
 					locationY = getLocationY();
+					setVelocityYZero(true);
 				}
 			}
 		}
@@ -418,9 +423,11 @@ public class Slime {
 				hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
 				if(!hasCollisionShark){
 					locationY = getLocationY();	
+					setVelocityYZero(true);
 				} else {
 					locationX = getLocationX();
 					locationY = getLocationY();
+					setVelocityYZero(true);
 				}
 			}
 		}
@@ -438,6 +445,31 @@ public class Slime {
 			setLocationY(locationY);
 		}
 	}
+	
+	/**
+	 * @return 	if the velocity needs to be set to zero
+	 *			|result == setVelocityYZero
+	 */
+	private boolean isSetVelocityYZero() {
+		return setVelocityYZero;
+	}
+
+
+	/**
+	 * 
+	 * @param setVelocityYZero
+	 * 			this boolean indicades if the velocityY needs to be set to zero or not
+	 * @post 	setVelocityZero of this slime will equal the given setVelocityYZero
+	 * 			|new.isSetVelocityYZero() == setVelocityYZero
+	 */
+	private void setVelocityYZero(boolean setVelocityYZero) {
+		this.setVelocityYZero = setVelocityYZero;
+	}
+	
+	/**
+	 * This boolean indicades if this slime's vertical velocity needs to be set to zero
+	 */
+	private boolean setVelocityYZero;
 
 	/**
 	 * 
