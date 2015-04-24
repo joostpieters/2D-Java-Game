@@ -275,6 +275,10 @@ public class World  {
 		}
 	}
 	
+	/**
+	 * @post 	...
+	 * 			|new.getMazub() == null
+	 */
 	private void removeMazub(){
 		this.alien = null;
 	}
