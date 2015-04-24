@@ -883,6 +883,8 @@ public class Mazub {
 		if (isOnSolidGround()) {
 			setVelocityY(0);
 			setAccelerationY(0);
+		} else if(isSetVelocityYZero()){
+			setVelocityY(0);
 		} else {
 			double velocityY = getVelocityY() + getAccelerationY()*seconds;
 			setVelocityY(velocityY);
@@ -947,6 +949,7 @@ public class Mazub {
 	 */
 	// TODO onbreekt commentaar
 	private void updateLocation(double seconds, double accelerationX) {
+		setVelocityYZero(false);
 		assert (seconds >= 0);
 		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
 		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
@@ -968,10 +971,12 @@ public class Mazub {
 			} else {
 				hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
 				if(!hasCollisionSlime){
-					locationY = getLocationY();	
+					locationY = getLocationY();
+					setVelocityYZero(true);
 				} else {
 					locationX = getLocationX();
 					locationY = getLocationY();
+					setVelocityYZero(true);
 				}
 			}
 		}
@@ -984,9 +989,11 @@ public class Mazub {
 				hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
 				if(!hasCollisionShark){
 					locationY = getLocationY();	
+					setVelocityYZero(true);
 				} else {
 					locationX = getLocationX();
 					locationY = getLocationY();
+					setVelocityYZero(true);
 				}
 			}
 		}
@@ -1005,6 +1012,17 @@ public class Mazub {
 		}
 	}
 	
+	private boolean isSetVelocityYZero() {
+		return setVelocityYZero;
+	}
+
+
+	private void setVelocityYZero(boolean setVelocityYZero) {
+		this.setVelocityYZero = setVelocityYZero;
+	}
+	
+	private boolean setVelocityYZero;
+
 	/**
 	 * @param 	locationX
 	 * 			the X coordinate wich needs to be corrected
