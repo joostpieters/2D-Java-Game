@@ -175,12 +175,26 @@ public class Slime {
 	/**
 	 * 
 	 * @param 	world
+	 * @throws 	IllegalArgumentException
+	 * 			| world == null
 	 * @post 	...
 	 * 			| new.getWorld() == world			
 	 */
-	void setWorld(World world) {
-		if((world != null) && (world.hasAsSlime(this)))
+	void setWorld(World world) throws IllegalArgumentException {
+		if (world == null)
+			throw new IllegalArgumentException();
+		if((world.hasAsSlime(this)))
 			this.world = world;		
+	}
+	
+	/**
+	 * 
+	 * @param world
+	 * @post	...
+	 * 			| new.getWorld() == null
+	 */
+	private void removeWorld() {
+		this.world = null;
 	}
 	
 	/**
@@ -213,14 +227,39 @@ public class Slime {
 	public boolean hasAsSchool(School school) {
 		return (getSchool() == school);
 	}
+	
+	private boolean isValidNewSchool(School newSchool) {
+		return isValidSchool(newSchool) && (newSchool != getSchool()) && (getSchool().getAmountSlimes() > newSchool.getAmountSlimes());
+	}
+	
+	private boolean isValidSchool(School school) {
+		return (school != null);
+	}
+	
+	private void removeSchool() {
+		this.school = null;
+	}
 
 	/**
 	 * @param 	school
 	 * @post 	...
 	 * 			|new.getSchool() == school;
 	 */
-	private void setSchool(School school) {
+	private void setSchool(School school) throws IllegalArgumentException {
+		if (!isValidSchool(school))
+			throw new IllegalArgumentException();
 		this.school = school;
+	}
+	
+	/**
+	 * 
+	 * @param school
+	 * @pre	...
+	 * 		| isValidNewSchool(school)
+	 */
+	private void setNewSchool(School school) {
+		assert(isValidNewSchool(school));
+		setSchool(school);
 	}
 	
 	/**
@@ -229,7 +268,7 @@ public class Slime {
 	private School school;
 	
 	@Basic
-	private int getHitPoints() {
+	int getHitPoints() {
 		return this.hitPoints;
 	}
 	
@@ -239,10 +278,10 @@ public class Slime {
 	 * @post	...
 	 * 			| new.getHitPoints() == points
 	 */
-	private void setHitPoints(int points) {
+	void setHitPoints(int points) {
 		if (points <= 0) {
 			hitPoints = 0;
-			setDeath(true);
+			setDead(true);
 		} else if (points > 100) {
 			hitPoints = 100;
 		} else {
@@ -616,7 +655,7 @@ public class Slime {
 	}
 	
 	public void advanceTime(double dt) throws IllegalArgumentException {
-		if(!isDeath){
+		if(!isDead()){
 			double seconds = dt;
 			if (seconds < 0 || seconds >= 0.2) 
 				throw new IllegalArgumentException();
@@ -677,9 +716,9 @@ public class Slime {
 				setMagmaTimer(0.2);
 			}
 		} else {
-			setTimeDeath(getTimeDeath() + dt);
+			setTimeDeath(getTimeDead() + dt);
 			//TODO vergelijking met double
-			if(getTimeDeath() > 0.6){
+			if(getTimeDead() > 0.6){
 				terminate();
 			}
 		}
@@ -811,9 +850,20 @@ public class Slime {
 	 * 
 	 * @effect 	...
 	 * 			| setHitPoints(getHitPoints() - 50)
+	 * @effect 	...
+	 * 			| school.reducePoint(this)
 	 */
 	void handleCollisionMazub() {
 		setHitPoints(getHitPoints() - 50);
+		getSchool().reducePoint(this);
+	}
+	
+	void changeSchool(School newSchool) {
+		assert (isValidNewSchool(newSchool));
+		school.removeSlime(this);
+		// TODO
+		setSchool(newSchool);
+		newSchool.addNewSchoolMember(this);
 	}
 	
 	/**
@@ -824,7 +874,9 @@ public class Slime {
 	 */
 	void terminate() {
 		// remove world
-		this.setWorld(null);
+		this.removeWorld();
+		getSchool().removeSlime(this);
+		removeSchool();
 		// set boolean
 		setTerminated(true);
 	}
@@ -899,22 +951,22 @@ public class Slime {
 	
 	private double waterTimer;
 	
-	private boolean isDeath() {
-		return isDeath;
+	boolean isDead() {
+		return isDead;
 	}
 
-	private void setDeath(boolean isDeath) {
-		this.isDeath = isDeath;
+	private void setDead(boolean isDead) {
+		this.isDead = isDead;
 	}
 	
-	private boolean isDeath;
+	private boolean isDead;
 
-	private double getTimeDeath() {
-		return timeDeath;
+	private double getTimeDead() {
+		return timeDead;
 	}
 
-	private void setTimeDeath(double timeDeath) {
-		this.timeDeath = timeDeath;
+	private void setTimeDeath(double timeDead) {
+		this.timeDead = timeDead;
 	}
-	private double timeDeath;
+	private double timeDead;
 }

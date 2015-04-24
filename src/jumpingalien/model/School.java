@@ -8,7 +8,7 @@ public class School {
 	 * 			|setAmountSlimes(0)
 	 */
 	public School(){
-		setAmountSlimes(0);
+		
 	}
 
 	/**
@@ -27,8 +27,35 @@ public class School {
 			throw new IllegalArgumentException();
 		}
 		slimes.add(slime);
-		setAmountSlimes(getAmountSlimes() + 1);
 	}
+	
+	// TODO documentation
+	void removeSlime(Slime slime) {
+		assert (slime != null);
+		slimes.remove(slime);
+		for (Slime otherSlime : slimes) {
+			if (!slime.isDead()) {
+				slime.setHitPoints(slime.getHitPoints() - 1);
+				otherSlime.setHitPoints(otherSlime.getHitPoints() + 1);
+			} else {
+				break;
+			}
+		}
+	}
+	
+	//TODO
+	void addNewSchoolMember(Slime slime) {
+		assert (canHaveAsSlime(slime));
+		for (Slime otherSlime : slimes) {
+			if (!otherSlime.isDead()) {
+				otherSlime.setHitPoints(otherSlime.getHitPoints() - 1);
+				slime.setHitPoints(slime.getHitPoints() + 1);
+			}
+		}
+		addSlime(slime);
+	}
+	
+	
 	/**
 	 * 
 	 * @param 	slime
@@ -42,24 +69,18 @@ public class School {
 	/**
 	 * Returns the amount of slimes in this school
 	 */
-	private int getAmountSlimes(){
-		return this.amountSlimes; 
-	}
-	
-	/**
-	 * 
-	 * @param 	amount
-	 * @post 	...
-	 * 			|new.getAmountSlimes() = amount
-	 */
-	private void setAmountSlimes(int amount){
-		this.amountSlimes = amount; 
+	int getAmountSlimes(){
+		return slimes.size(); 
 	}
 	
 	private ArrayList<Slime> slimes = new ArrayList<Slime>();
-	/**
-	 * This variable contains the amout of slimes in this school
-	 */
-	private int amountSlimes;
-
+	
+	
+	void reducePoint(Slime slime) {
+		for (Slime otherSlime : slimes) {
+			if (otherSlime != slime) {
+				otherSlime.setHitPoints(otherSlime.getHitPoints() - 1);
+			}
+		}
+	}	
 }
