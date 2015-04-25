@@ -1408,14 +1408,7 @@ public class Mazub {
 	
 	private boolean hasCollisionBottom(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, y+1, endX-2, y+1);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(x+1, y+1, endX-2, y+1, 1);
 	}
 	
 	private boolean hasCollisionRight(int x, int y){
