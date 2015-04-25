@@ -1623,17 +1623,23 @@ public class Mazub {
 		}
 	}
 	
+	void hadCollissionShark(){
+		if (!isImmune()) {
+			setHitPoints(getHitPoints() - 50);
+			setImmunity(true);
+		}
+	}
+	
 	private void handleCollisionShark() {
 		Collection<Shark> collection = getWorld().collisionSharksInPerimetersExceptBottom((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		if (!isImmune()) {
 			for (Shark shark : collection) {
 				// TODO
-				setHitPoints(getHitPoints() - 50);
+				hadCollissionShark();
 				shark.hadCollisionMazub();
 				if(shark.isTerminated()){
 					getWorld().removeShark(shark);				
 				}
-				setImmunity(true);
 			}
 		}
 		collection = getWorld().collisionSharksInBottomPerimeter((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());

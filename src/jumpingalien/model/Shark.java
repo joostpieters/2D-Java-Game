@@ -344,6 +344,7 @@ public class Shark {
 		}
 		updateLocation(dt);	
 		updateVelocity(dt);
+		handleCollisionMazub();
 	}
 	
 	private void updateLocation(Double dt){
@@ -773,6 +774,13 @@ public class Shark {
 	}
 	
 	private boolean isTerminated;
+	
+	private void handleCollisionMazub(){
+		if(getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
+			getWorld().getMazub().hadCollissionShark();
+			hadCollisionMazub();
+		}
+	}
 
 	void hadCollisionMazub() {
 		setHitPoints(getHitPoints()-50);
