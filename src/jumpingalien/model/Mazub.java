@@ -788,9 +788,8 @@ public class Mazub {
 				setDucking(false);
 				setWantToStopDucking(false);
 			}
-			
 			if (isInWater()) {
-				if (getWaterTimer() >= 0.2) {
+				if (Util.fuzzyGreaterThanOrEqualTo(getWaterTimer(), 0.2)) {
 					setHitPoints(getHitPoints()-2);
 					setWaterTimer(getWaterTimer()-0.2);
 				}
@@ -798,7 +797,7 @@ public class Mazub {
 				setWaterTimer(0);
 			}
 			if (isInMagma()) {
-				if (getMagmaTimer() >= 0.2) {
+				if (Util.fuzzyGreaterThanOrEqualTo(getMagmaTimer(), 0.2)) {
 					setMagmaTimer(getMagmaTimer()-0.2);
 					setHitPoints(getHitPoints()-50);
 				}
