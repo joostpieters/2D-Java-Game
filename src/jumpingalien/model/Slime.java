@@ -231,11 +231,11 @@ public class Slime {
 	}
 	
 	private boolean isValidNewSchool(School newSchool) {
-		return isValidSchool(newSchool) && (newSchool != getSchool()) && (getSchool().getAmountSlimes() > newSchool.getAmountSlimes());
+		return isValidSchool(newSchool) && (newSchool != getSchool()) && (getSchool().getAmountSlimes() < newSchool.getAmountSlimes());
 	}
 	
 	private boolean isValidSchool(School school) {
-		return (school != null);
+		return ((school != null) && (!school.isTerminated()));
 	}
 	
 	private void removeSchool() {
@@ -882,7 +882,7 @@ public class Slime {
 	}
 	
 	private void handleCollisionSlime() {
-		Collection<Slime> collection = getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight(), this);
+		Collection<Slime> collection = getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime: collection) {
 			if (!(this.getSchool().equals(slime.getSchool())) && (slime.getSchool().getAmountSlimes() > this.getSchool().getAmountSlimes())) {
 				this.changeSchool(slime.getSchool());

@@ -2,6 +2,15 @@ package jumpingalien.model;
 
 import java.util.ArrayList;
 
+import be.kuleuven.cs.som.annotate.Basic;
+
+/**
+ * 
+ * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
+ * @invar	The amount of Slimes in a School is always greater or equal to zero.
+ * 			| this.getAmountSlimes() >= 0
+ *
+ */
 public class School {
 	/**
 	 * @effect 	...
@@ -29,7 +38,22 @@ public class School {
 		slimes.add(slime);
 	}
 	
-	// TODO documentation
+	/**
+	 * @pre	...
+	 * 		| slime != null
+	 * @param slime
+	 * 			the Slime to remove from this School
+	 * @effect 	...
+	 * 			| slimes.remove(slime)
+	 * @effect	...
+	 * 			| for (Slime otherSlime : slimes)
+	 * 			|	if not slime.isDead() then
+	 * 			|		slime.setHitpoints(slime.getHitPoints() - 1)
+	 * 			|		otherSlime.setHitPoints(otherSlime.getHitpoints() + 1)
+	 * @effect	...
+	 * 			| if (new.getAmountSlimes() == 0) then
+	 * 			|	this.terminate()
+	 */
 	void removeSlime(Slime slime) {
 		assert (slime != null);
 		slimes.remove(slime);
@@ -41,9 +65,23 @@ public class School {
 				break;
 			}
 		}
+		if (getAmountSlimes() == 0) {
+			terminate();
+		}
 	}
 	
-	//TODO
+	/**
+	 * @pre	...
+	 * 		| canHaveAsSlime(slime)
+	 * @param slime
+	 * @effect	...
+	 * 			| for (Slime otherSlime : slimes) 
+	 * 			| 	if (not otherSlime.isDead()) then
+	 * 			|		otherSlime.setHitPoints(otherSlime.getHitPoints() - 1)
+	 * 			|		slime.setHitPoints(slime.getHitPoints() + 1)
+	 * @effect	...
+	 * 			| addSlime(slime)
+	 */
 	void addNewSchoolMember(Slime slime) {
 		assert (canHaveAsSlime(slime));
 		for (Slime otherSlime : slimes) {
@@ -60,10 +98,10 @@ public class School {
 	 * 
 	 * @param 	slime
 	 * @return 	...
-	 * 			| return ((slime != null) && (slime.hasAsSchool(this)));
+	 * 			| return ((slime != null) && (slime.hasAsSchool(this)) && (not slime.isTerminated());
 	 */
 	private boolean canHaveAsSlime(Slime slime){
-		return ((slime != null) && (slime.hasAsSchool(this)));
+		return ((slime != null) && (slime.hasAsSchool(this) && (!slime.isTerminated())));
 	}
 	
 	/**
@@ -73,9 +111,21 @@ public class School {
 		return slimes.size(); 
 	}
 	
+	/**
+	 * This list holds the Slimes of this School
+	 */
 	private ArrayList<Slime> slimes = new ArrayList<Slime>();
 	
-	
+	/**
+	 * 
+	 * @param slime
+	 * 			the Slime who has lost some points
+	 * @effect	...
+	 * 			| for (Slime otherSlime : slimes)
+	 * 			| 	if (otherSlime != slime) then
+	 * 			|		otherSlime.setHitPoints(otherSlime.getHitPoints() - 1)
+	 * 
+	 */
 	void reducePoint(Slime slime) {
 		for (Slime otherSlime : slimes) {
 			if (otherSlime != slime) {
@@ -83,4 +133,29 @@ public class School {
 			}
 		}
 	}	
+	
+	/**
+	 * @effect	...
+	 * 			| setTerminated(true)
+	 */
+	private void terminate() {
+		setTerminated(true);
+	}
+	
+	@Basic
+	boolean isTerminated() {
+		return this.terminated;
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 * @post	...
+	 * 			| new.isTerminated() == value
+	 */
+	private void setTerminated(boolean value) {
+		this.terminated = value;
+	}
+	
+	private boolean terminated;
 }
