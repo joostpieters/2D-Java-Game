@@ -735,6 +735,8 @@ public class Slime {
 		updateVelocity(dt);
 		updateLocation(dt);	
 		handleCollisionMazub();
+		
+		handleCollisionSlime();
 	}
 	
 	private void updateVelocity(double dt){
@@ -879,7 +881,16 @@ public class Slime {
 		}
 	}
 	
-	void changeSchool(School newSchool) {
+	private void handleCollisionSlime() {
+		Collection<Slime> collection = getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight(), this);
+		for (Slime slime: collection) {
+			if (!(this.getSchool().equals(slime.getSchool())) && (slime.getSchool().getAmountSlimes() > this.getSchool().getAmountSlimes())) {
+				this.changeSchool(slime.getSchool());
+			}
+		}
+	}
+	
+	private void changeSchool(School newSchool) {
 		assert (isValidNewSchool(newSchool));
 		school.removeSlime(this);
 		// TODO
