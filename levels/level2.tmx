@@ -1248,7 +1248,7 @@
   </data>
  </layer>
  <objectgroup name="Objects">
-  <object id="1" gid="177" x="867" y="646"/>
+  <object id="1" gid="177" x="833" y="676"/>
   <object id="2" gid="177" x="899" y="740"/>
   <object id="3" gid="186" x="208" y="211">
    <properties>
@@ -1275,23 +1275,14 @@
   <object id="9" gid="238" x="770" y="450"/>
   <object id="10" gid="238" x="840" y="450"/>
   <object id="11" gid="238" x="910" y="450"/>
-  <object id="13" gid="186" x="815" y="132">
+  <object id="13" gid="186" x="721" y="542">
    <properties>
     <property name="school" value="0"/>
    </properties>
   </object>
   <object id="14" gid="177" x="1179" y="463"/>
-  <object id="15" gid="177" x="1069" y="487"/>
-  <object id="16" gid="177" x="729" y="517"/>
-  <object id="17" gid="177" x="732" y="400"/>
-  <object id="18" gid="177" x="643" y="352"/>
-  <object id="19" gid="177" x="646" y="418"/>
-  <object id="20" gid="177" x="758" y="324"/>
-  <object id="21" gid="177" x="671" y="476"/>
-  <object id="22" gid="177" x="700" y="643"/>
+  <object id="15" gid="177" x="720" y="382"/>
   <object id="23" gid="177" x="745" y="716"/>
   <object id="24" gid="177" x="649" y="738"/>
-  <object id="26" gid="177" x="788" y="669"/>
-  <object id="27" gid="177" x="667" y="580"/>
  </objectgroup>
 </map>

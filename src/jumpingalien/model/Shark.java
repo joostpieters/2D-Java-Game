@@ -347,6 +347,7 @@ public class Shark {
 		updateLocation(dt);	
 		updateVelocity(dt);
 		handleCollisionMazub();
+		handleCollisionSlime();
 	}
 	
 	private void updateLocation(Double dt){
@@ -799,7 +800,7 @@ public class Shark {
 		}
 	}
 	
-	private void hadCollisionSlime(){
+	void hadCollisionSlime(){
 		setHitPoints(getHitPoints()-50);		
 	}
 

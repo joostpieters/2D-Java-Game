@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import java.util.Collection;
+
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -863,6 +865,17 @@ public class Slime {
 		if(!getWorld().getMazub().isImmune() && getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
 			getWorld().getMazub().hadCollissionSlime();
 			hadCollisionMazub();
+		}
+	}
+	
+	private void handleCollisionShark() {
+		Collection<Shark> collection = getWorld().collisionSharksInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
+		for (Shark shark : collection) {
+			hadCollisionShark();
+			shark.hadCollisionSlime();
+			if(shark.isTerminated()){
+				getWorld().removeShark(shark);				
+			}
 		}
 	}
 	
