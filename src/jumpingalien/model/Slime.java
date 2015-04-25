@@ -10,6 +10,12 @@ public class Slime {
 	 * @param x
 	 * @param y
 	 * @param sprites
+	 * @throws	IllegalArgumentException()
+	 * 			...
+	 * 			|((sprites.length != 2) || (!school.canHaveAsSlime(this)))
+	 * @throws 	IllegalArgumentException()
+	 * 			...	
+	 * 			| (!isValidSchool())
 	 * @effect 	...
 	 * 			| setLocationX(x)
 	 * @effect 	...
@@ -18,9 +24,6 @@ public class Slime {
 	 * 			| setSprites(sprites)
 	 * @effect	...
 	 * 			| setSchool(school)
-	 * @throws	IllegalArgumentException()
-	 * 			...
-	 * 			|((sprites.length != 2) || (!school.canHaveAsSlime(this)))
 	 * @effect	...
 	 * 			| setHitPoints(50)
 	 * @effect	...
@@ -33,9 +36,14 @@ public class Slime {
 	 * 			| setAccelerationY(0)
 	 * @effect	...
 	 * 			| newMovement()
+	 * @effect	...
+	 * 			| setMagmaTimer(0.2)
 	 */
 	public Slime (int x, int y, Sprite[] sprites, School school) throws IllegalArgumentException{
 		if(sprites.length != 2){
+			throw new IllegalArgumentException();
+		}
+		if (!isValidSchool(school)) {
 			throw new IllegalArgumentException();
 		}
 		setLocationX(x);
@@ -54,38 +62,41 @@ public class Slime {
 	}
 	
 	/**
-	 * Returns the current X coordinate of this slime
+	 * Returns the current X coordinate of this Slime
 	 */
 	@Basic
 	private double getLocationX() {
 		return locationX;
 	}
+	
 	/**
 	 * 
 	 * @param 	locationX
-	 * 			the new X coordinate for this slime
+	 * 			the new X coordinate for this Slime
 	 * @post 	...
 	 * 			| new.getLocationX() == locationX 
 	 */
 	private void setLocationX(double locationX) {
 		this.locationX = locationX;
 	}
+	
 	/**
-	 * this variable contains the current X coordinate for this slime
+	 * this variable contains the current X coordinate for this Slime
 	 */
 	private double locationX;
 	
 	/**
-	 * Returns the current Y coordinate of this slime
+	 * Returns the current Y coordinate of this Slime
 	 */
 	@Basic
 	private double getLocationY() {
 		return locationY;
 	}
+	
 	/**
 	 * 
 	 * @param 	locationY
-	 * 			the new T coordinate for this slime
+	 * 			the new Y coordinate for this slime
 	 * @post 	...
 	 * 			| new.getLocationY() == locationY
 	 */
@@ -114,9 +125,11 @@ public class Slime {
 	/**
 	 * Return the current list of sprites for this slime
 	 */
+	@Basic
 	private Sprite[] getSprites() {
 		return sprites;
 	}
+	
 	/**
 	 * 
 	 * @param 	sprites
@@ -224,28 +237,47 @@ public class Slime {
 	 * 
 	 * @param 	school
 	 * @return 	...
-	 * 			| return (getSchool() == school)
+	 * 			| result == (getSchool() == school)
 	 */
 	public boolean hasAsSchool(School school) {
 		return (getSchool() == school);
 	}
 	
+	/**
+	 * 
+	 * @param newSchool
+	 * @return	...
+	 * 			| result == (isValidSchool(newSchool) && (newSchool != getSchool()) && (getSchool().getAmountSlimes() < newSchool.getAmountSlimes()))
+	 */
 	private boolean isValidNewSchool(School newSchool) {
 		return isValidSchool(newSchool) && (newSchool != getSchool()) && (getSchool().getAmountSlimes() < newSchool.getAmountSlimes());
 	}
 	
+	/**
+	 * 
+	 * @param school
+	 * @return	...
+	 * 			| result == ((school != null) && (not school.isTerminated()))
+	 */
 	private boolean isValidSchool(School school) {
 		return ((school != null) && (!school.isTerminated()));
 	}
 	
+	/**
+	 * @post	...
+	 * 			| new.getSchool() == null
+	 */
 	private void removeSchool() {
 		this.school = null;
 	}
 
 	/**
 	 * @param 	school
+	 * @throws	IllegalArgumentException
+	 * 			...
+	 * 			| ! isValidSchool(school)
 	 * @post 	...
-	 * 			|new.getSchool() == school;
+	 * 			| new.getSchool() == school;
 	 */
 	private void setSchool(School school) throws IllegalArgumentException {
 		if (!isValidSchool(school))
@@ -258,6 +290,8 @@ public class Slime {
 	 * @param school
 	 * @pre	...
 	 * 		| isValidNewSchool(school)
+	 * @effect	...
+	 * 			| setSchool(school)
 	 */
 	private void setNewSchool(School school) {
 		assert(isValidNewSchool(school));
@@ -278,14 +312,20 @@ public class Slime {
 	 * 
 	 * @param points
 	 * @post	...
-	 * 			| new.getHitPoints() == points
+	 * 			| if (points <= 0) then
+	 * 			|	new.getHitPoints() == 0
+	 * 			|	new.isDead() == true
+	 * @post	...
+	 * 			| if (points > 0) then
+	 * 			|	new.getHitPoints == points
 	 */
+	// TODO hitpoints groter dan 100?
 	void setHitPoints(int points) {
 		if (points <= 0) {
 			hitPoints = 0;
 			setDead(true);
-		} else if (points > 100) {
-			hitPoints = 100;
+//		} else if (points > 100) {
+//			hitPoints = 100;
 		} else {
 			this.hitPoints = points;
 		}
@@ -311,6 +351,9 @@ public class Slime {
 		this.velocityX = velocityX;
 	}
 	
+	/**
+	 * This variable contains the current horizontal velocity of this Slime
+	 */
 	private double velocityX;
 	
 	@Basic
@@ -328,6 +371,9 @@ public class Slime {
 		this.velocityY = velocityY;
 	}
 	
+	/**
+	 * This variable contains the current vertical velocity of this Slime
+	 */
 	private double velocityY;
 	
 	@Basic
@@ -345,8 +391,17 @@ public class Slime {
 		this.accelerationX = accelerationX;
 	}
 	
+	/**
+	 * This variable contains the current horizontal acceleration
+	 */
 	private double accelerationX;
 	
+	/**
+	 * 
+	 * @return	...
+	 * 			| result == 0.7
+	 * 			
+	 */
 	private static double getInitialAccelerationX() {
 		return 0.7;
 	}
@@ -366,6 +421,10 @@ public class Slime {
 		this.accelerationY = accelerationY;
 	}
 	
+	
+	/**
+	 * This variable contains the current vertical acceleration of this Slime
+	 */
 	private double accelerationY;
 	
 	/**
@@ -894,7 +953,7 @@ public class Slime {
 		assert (isValidNewSchool(newSchool));
 		school.removeSlime(this);
 		// TODO
-		setSchool(newSchool);
+		setNewSchool(newSchool);
 		newSchool.addNewSchoolMember(this);
 	}
 	
