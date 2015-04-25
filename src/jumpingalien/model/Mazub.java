@@ -1577,14 +1577,7 @@ public class Mazub {
 	private void handleCollisionPlant() {
 		Collection<Plant> collection = getWorld().collisionPlants((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Plant plant : collection) {
-			if (getHitPoints() < 500) {
-				setHitPoints(getHitPoints() + 50);
-				// remove plant
-				plant.handleCollisionMazub();
-				if(plant.isTerminated()){
-					getWorld().removePlant(plant);
-				}
-			}
+			handleCollisionPlant(plant);
 		}
 	}
 	
@@ -1592,7 +1585,10 @@ public class Mazub {
 		if (getHitPoints() < 500) {
 			setHitPoints(getHitPoints() + 50);
 			// remove plant
-			plant.handleCollisionMazub();
+			plant.hadCollisionMazub();
+			if(plant.isTerminated()){
+				getWorld().removePlant(plant);
+			}
 		}
 	}
 	

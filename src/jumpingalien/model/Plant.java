@@ -357,7 +357,13 @@ public class Plant {
 	
 	private boolean terminated;
 
-	void handleCollisionMazub() {
+	void hadCollisionMazub() {
 		teminate();		
+	}
+	
+	private void handleCollisionMazub(){
+		if(!getWorld().getMazub().isImmune() && getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
+			getWorld().getMazub().handleCollisionPlant(this);
+		}
 	}
 }
