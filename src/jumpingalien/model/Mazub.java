@@ -1604,23 +1604,27 @@ public class Mazub {
 		Collection<Slime> collection = getWorld().collisionSlimesInPerimeterExceptBottom((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		if (!isImmune()) {
 			for (Slime slime : collection) {
-				// TODO
-				setHitPoints(getHitPoints() - 50);
+				hadCollisionSlime();				
 				slime.hadCollisionMazub();
 				if(slime.isTerminated()){
 					getWorld().removeSlime(slime);				
 				}
-				setImmunity(true);
 			}
 		}
 		collection = getWorld().collisionSlimesInBottomPerimeter((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime : collection) {
 			slime.hadCollisionMazub();
 			if(slime.isTerminated()){
-				getWorld().removeSlime(slime);	
-				System.out.println("Vermoord door sprong");
+				getWorld().removeSlime(slime);
 			}
 		}
+	}
+	
+	void hadCollisionSlime(){
+		if (!isImmune()) {
+			setHitPoints(getHitPoints() - 50);
+			setImmunity(true);
+		}		
 	}
 	
 	void hadCollissionShark(){

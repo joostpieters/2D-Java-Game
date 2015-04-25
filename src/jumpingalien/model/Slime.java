@@ -732,6 +732,7 @@ public class Slime {
 		}
 		updateVelocity(dt);
 		updateLocation(dt);	
+		handleCollisionMazub();
 	}
 	
 	private void updateVelocity(double dt){
@@ -856,6 +857,13 @@ public class Slime {
 	void hadCollisionMazub() {
 		setHitPoints(getHitPoints() - 50);
 		getSchool().reducePoint(this);
+	}
+	
+	private void handleCollisionMazub(){
+		if(getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
+			getWorld().getMazub().hadCollisionSlime();
+			hadCollisionMazub();
+		}
 	}
 	
 	void changeSchool(School newSchool) {
