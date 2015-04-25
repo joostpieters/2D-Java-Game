@@ -806,6 +806,10 @@ public class Mazub {
 				// immediately lose points when in magma
 				setMagmaTimer(0.2);
 			}
+			if (isOnSolidGround()) {
+				setVelocityY(0);
+				setAccelerationY(0);
+			}
 			//TODO vergelijking met double
 		} else {
 			setTimeDeath(getTimeDeath() + dt);
@@ -840,7 +844,7 @@ public class Mazub {
 	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
-	public void advanceTimeCollisionDetect(double dt){
+	private void advanceTimeCollisionDetect(double dt){
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
 			accelerationX *= -1;
@@ -882,10 +886,7 @@ public class Mazub {
 	 */
 	private void updateVelocityYAndAccelerationY(double seconds) {
 		assert(seconds >= 0);
-		if (isOnSolidGround()) {
-			setVelocityY(0);
-			setAccelerationY(0);
-		} else if(isSetVelocityYZero()){
+		if(isSetVelocityYZero()){
 			setVelocityY(0);
 		} else {
 			double velocityY = getVelocityY() + getAccelerationY()*seconds;
