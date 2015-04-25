@@ -1634,7 +1634,6 @@ public class Mazub {
 		Collection<Shark> collection = getWorld().collisionSharksInPerimetersExceptBottom((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		if (!isImmune()) {
 			for (Shark shark : collection) {
-				// TODO
 				hadCollissionShark();
 				shark.hadCollisionMazub();
 				if(shark.isTerminated()){
@@ -1646,8 +1645,7 @@ public class Mazub {
 		for (Shark shark : collection) {
 			shark.hadCollisionMazub();
 			if(shark.isTerminated()){
-				getWorld().removeShark(shark);	
-				System.out.println("Vermoord door sprong");
+				getWorld().removeShark(shark);
 			}
 		}
 	}

@@ -887,6 +887,24 @@ public class World  {
 		return list;
 	}
 	
+	Collection<Slime> collisionSlimesInPerimeters(int startX, int startY, int endX, int endY) {
+		ArrayList<Slime> list = new ArrayList<Slime>();
+		int slimeStartX;
+		int slimeEndX;
+		int slimeStartY;
+		int slimeEndY;
+		for (Slime slime :  getSlimes()) {
+			slimeStartX = slime.getLocation()[0];
+			slimeStartY = slime.getLocation()[1];
+			slimeEndX =	slimeStartX + slime.getCurrentSprite().getWidth();
+			slimeEndY = slimeStartY + slime.getCurrentSprite().getHeight();
+			if (hasCollisionInPerimeters(startX, startY, endX, endY, slimeStartX, slimeStartY, slimeEndX, slimeEndY)) {
+				list.add(slime);
+			}
+		}
+		return list;
+	}
+	
 	boolean collisionMazub(int startX, int startY, int endX, int endY) {
 		Mazub mazub = getMazub();
 		int mazubStartX = (int) mazub.getLocationX();

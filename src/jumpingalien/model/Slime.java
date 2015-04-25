@@ -977,4 +977,8 @@ public class Slime {
 		this.timeDead = timeDead;
 	}
 	private double timeDead;
+
+	public void hadCollisionShark() {
+		setHitPoints(getHitPoints()-50);		
+	}
 }
