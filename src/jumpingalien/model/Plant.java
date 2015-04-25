@@ -270,6 +270,7 @@ public class Plant {
 			setTimer(0);
 		}
 		updateLocationX(dt);
+		handleCollisionMazub();
 	}
 
 	/**
