@@ -1621,10 +1621,8 @@ public class Mazub {
 	}
 	
 	void hadCollisionSlime(){
-		if (!isImmune()) {
-			setHitPoints(getHitPoints() - 50);
-			setImmunity(true);
-		}		
+		setHitPoints(getHitPoints() - 50);
+		setImmunity(true);	
 	}
 	
 	void hadCollissionShark(){

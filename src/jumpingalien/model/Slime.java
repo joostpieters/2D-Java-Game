@@ -860,7 +860,7 @@ public class Slime {
 	}
 	
 	private void handleCollisionMazub(){
-		if(getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
+		if(!getWorld().getMazub().isImmune() && getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
 			getWorld().getMazub().hadCollisionSlime();
 			hadCollisionMazub();
 		}
