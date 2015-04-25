@@ -790,7 +790,7 @@ public class Mazub {
 			}
 			
 			if (isInWater()) {
-				if (Util.fuzzyGreaterThanOrEqualTo(getWaterTimer(), 0.2)) {
+				if (getWaterTimer() >= 0.2) {
 					setHitPoints(getHitPoints()-2);
 					setWaterTimer(getWaterTimer()-0.2);
 				}
@@ -798,17 +798,13 @@ public class Mazub {
 				setWaterTimer(0);
 			}
 			if (isInMagma()) {
-				if (Util.fuzzyGreaterThanOrEqualTo(getMagmaTimer(), 0.2)) {
+				if (getMagmaTimer() >= 0.2) {
 					setMagmaTimer(getMagmaTimer()-0.2);
 					setHitPoints(getHitPoints()-50);
 				}
 			} else {
 				// immediately lose points when in magma
 				setMagmaTimer(0.2);
-			}
-			if (isOnSolidGround()) {
-				setVelocityY(0);
-				setAccelerationY(0);
 			}
 			//TODO vergelijking met double
 		} else {
@@ -844,7 +840,7 @@ public class Mazub {
 	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
-	private void advanceTimeCollisionDetect(double dt){
+	public void advanceTimeCollisionDetect(double dt){
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
 			accelerationX *= -1;
@@ -886,7 +882,10 @@ public class Mazub {
 	 */
 	private void updateVelocityYAndAccelerationY(double seconds) {
 		assert(seconds >= 0);
-		if(isSetVelocityYZero()){
+		if (isOnSolidGround()) {
+			setVelocityY(0);
+			setAccelerationY(0);
+		} else if(isSetVelocityYZero()){
 			setVelocityY(0);
 		} else {
 			double velocityY = getVelocityY() + getAccelerationY()*seconds;
@@ -919,7 +918,7 @@ public class Mazub {
 	 * 			|	setVelocityX(getMaximumHorizontalVelocity())
 	 */
 	private void updateVelocityX(double seconds, double accelerationX) {
-		assert(Util.fuzzyGreaterThanOrEqualTo(seconds, 0));
+		assert(seconds >= 0);
 		double velocityX = getVelocityX() + accelerationX*seconds;
 		if (velocityX < getMaximumHorizontalVelocity()){
 			if (velocityX < -getMaximumHorizontalVelocity()){
@@ -952,8 +951,8 @@ public class Mazub {
 	 */
 	// TODO onbreekt commentaar
 	private void updateLocation(double seconds, double accelerationX) {
-		assert (Util.fuzzyGreaterThanOrEqualTo(seconds, 0));
 		setVelocityYZero(false);
+		assert (seconds >= 0);
 		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
 		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
 		if(hasCollisionX((int)locationX,(int) locationY)){
@@ -1398,23 +1397,51 @@ public class Mazub {
 	private boolean hasCollisionTop(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x+1, endY-2, endX-2, endY-2, 1);
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(x+1, endY-2, endX-2, endY-2);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private boolean hasCollisionBottom(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
-		return getWorld().detectGeologicalFeature(x+1, y+1, endX-2, y+1, 1);
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(x+1, y+1, endX-2, y+1);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private boolean hasCollisionRight(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(endX-2, y+2, endX-2, endY-3, 1);
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(endX-2, y+2, endX-2, endY-3);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private boolean hasCollisionLeft(int x, int y){
 		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x+1, y+2, x+1, endY-3, 1);
+		int[][] tiles = 
+				getWorld().getTilePositionsIn(x+1, y+2, x+1, endY-3);
+		for(int[] tile : tiles){
+			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private boolean hasCollisionX(int x, int y){
