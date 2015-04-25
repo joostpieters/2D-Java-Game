@@ -389,9 +389,9 @@ public class World  {
 		this.geologicalFeatureOfTiles[tileX][tileY] = tileType;
 	}
 	
-	boolean detectGeologicalFeature(int i, int j, int k, int l, int geologicalFeature) {
+	boolean detectGeologicalFeature(int xMin, int yMin, int xMax, int yMax, int geologicalFeature) {
 		int[][] tiles = 
-				this.getTilePositionsIn(i, j, k, l);
+				this.getTilePositionsIn(xMin, yMin, xMax, yMax);
 		for(int[] tile : tiles){
 			if (this.getGeologicalFeatureOfTile(tile[0], tile[1]) == geologicalFeature){
 				return true;

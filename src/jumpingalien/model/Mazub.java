@@ -1397,51 +1397,23 @@ public class Mazub {
 	private boolean hasCollisionTop(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, endY-2, endX-2, endY-2);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(x+1, endY-2, endX-2, endY-2, 1);
 	}
 	
 	private boolean hasCollisionBottom(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, y+1, endX-2, y+1);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(x+1, y+1, endX-2, y+1, 1);
 	}
 	
 	private boolean hasCollisionRight(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(endX-2, y+2, endX-2, endY-3);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(endX-2, y+2, endX-2, endY-3, 1);
 	}
 	
 	private boolean hasCollisionLeft(int x, int y){
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, y+2, x+1, endY-3);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(x+1, y+2, x+1, endY-3, 1);
 	}
 	
 	private boolean hasCollisionX(int x, int y){
