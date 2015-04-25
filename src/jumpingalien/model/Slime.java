@@ -853,7 +853,7 @@ public class Slime {
 	 * @effect 	...
 	 * 			| school.reducePoint(this)
 	 */
-	void handleCollisionMazub() {
+	void hadCollisionMazub() {
 		setHitPoints(getHitPoints() - 50);
 		getSchool().reducePoint(this);
 	}

@@ -1606,7 +1606,7 @@ public class Mazub {
 			for (Slime slime : collection) {
 				// TODO
 				setHitPoints(getHitPoints() - 50);
-				slime.handleCollisionMazub();
+				slime.hadCollisionMazub();
 				if(slime.isTerminated()){
 					getWorld().removeSlime(slime);				
 				}
@@ -1615,7 +1615,7 @@ public class Mazub {
 		}
 		collection = getWorld().collisionSlimesInBottomPerimeter((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime : collection) {
-			slime.handleCollisionMazub();
+			slime.hadCollisionMazub();
 			if(slime.isTerminated()){
 				getWorld().removeSlime(slime);	
 				System.out.println("Vermoord door sprong");
