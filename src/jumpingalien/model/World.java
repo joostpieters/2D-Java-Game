@@ -786,6 +786,11 @@ public class World  {
 		return false;
 	}
 	
+	private boolean hasCollisionInPerimeters(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
+		return hasCollisionInBottomPerimeter(startX1, startY1, endX1, endY1, startX2, startY2, endX2, endY2)
+				|| hasCollisionInPerimetersExceptBottom(startX1, startY1, endX1, endY1, startX2, startY2, endX2, endY2);
+	}
+	
 	/**
 	 * @param startX1
 	 * @param startY1
@@ -890,7 +895,15 @@ public class World  {
 		int mazubEndY = mazubStartY + mazub.getCurrentSprite().getHeight();
 		return hasCollision(startX, startY, endX, endY, mazubStartX, mazubStartY, mazubEndX, mazubEndY);
 	}
-	
+
+	boolean collisionMazubInPerimeters(int startX, int startY, int endX, int endY) {
+		Mazub mazub = getMazub();
+		int mazubStartX = (int) mazub.getLocationX();
+		int mazubStartY = (int) mazub.getLocationY();
+		int mazubEndX =	mazubStartX + mazub.getCurrentSprite().getWidth();
+		int mazubEndY = mazubStartY + mazub.getCurrentSprite().getHeight();
+		return hasCollisionInPerimeters(startX, startY, endX, endY, mazubStartX, mazubStartY, mazubEndX, mazubEndY);
+	}
 	Collection<Plant> collisionPlants(int startX, int startY, int endX, int endY) {
 		ArrayList<Plant> list = new ArrayList<Plant>();
 		int plantStartX;
