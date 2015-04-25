@@ -1604,7 +1604,7 @@ public class Mazub {
 		Collection<Slime> collection = getWorld().collisionSlimesInPerimeterExceptBottom((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		if (!isImmune()) {
 			for (Slime slime : collection) {
-				hadCollisionSlime();				
+				hadCollissionSlime();				
 				slime.hadCollisionMazub();
 				if(slime.isTerminated()){
 					getWorld().removeSlime(slime);				
@@ -1620,16 +1620,14 @@ public class Mazub {
 		}
 	}
 	
-	void hadCollisionSlime(){
+	void hadCollissionSlime(){
 		setHitPoints(getHitPoints() - 50);
 		setImmunity(true);	
 	}
 	
 	void hadCollissionShark(){
-		if (!isImmune()) {
-			setHitPoints(getHitPoints() - 50);
-			setImmunity(true);
-		}
+		setHitPoints(getHitPoints() - 50);
+		setImmunity(true);
 	}
 	
 	private void handleCollisionShark() {
