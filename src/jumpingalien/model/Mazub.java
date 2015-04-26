@@ -1,6 +1,5 @@
 package jumpingalien.model;
 
-import java.security.GeneralSecurityException;
 import java.util.Collection;
 
 
@@ -1344,10 +1343,6 @@ public class Mazub extends GameObjects {
 			// remove plant
 			plant.hadCollisionMazub();
 		}
-	}
-	
-	private boolean hasCollisionSlime() {
-		return !(getWorld().collisionSlimes((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight()).isEmpty());
 	}
 	
 	private void handleCollisionSlime() {
