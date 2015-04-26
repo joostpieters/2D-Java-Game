@@ -1619,5 +1619,11 @@ public class Mazub implements CollisionDetect {
 	}
 	
 	private boolean isTerminated;
+
+	//TODO verwijderen
+	@Override
+	public int[] getLocation() {
+		return null;
+	}
 }
 

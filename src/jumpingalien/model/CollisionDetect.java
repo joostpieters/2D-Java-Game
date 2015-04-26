@@ -32,8 +32,45 @@ import jumpingalien.util.Sprite;
 	default boolean hasCollisionY(int x, int y){
 		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
 	}
+	
+	default boolean isTopPerimeterInWater(){
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		return getWorld().detectGeologicalFeature(x+1, endY-1, endX-2, endY-1, 2);
+	}
 
-	World getWorld();
+	default boolean isBottomPerimeterInWater(){
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
+		int endX = x + getCurrentSprite().getWidth();
+		return getWorld().detectGeologicalFeature(x+1, y, endX-2, y, 2);
+	}
+	
+	default boolean isRightPerimeterInWater(){
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		return getWorld().detectGeologicalFeature(endX-1, y+2, endX-1, endY-3, 2);
+	}
+	
+	default boolean isLeftPerimeterInWater(){
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
+		int endY = y + getCurrentSprite().getHeight();
+		return getWorld().detectGeologicalFeature(x, y+2, x, endY-3, 2);
+	}
+	
 
-	Sprite getCurrentSprite();
+	abstract int[] getLocation();
+	
+	abstract World getWorld();
+
+	abstract Sprite getCurrentSprite();
 }

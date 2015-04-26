@@ -5,7 +5,7 @@ import java.util.Collection;
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 
-public class Shark implements CollisionDetect {
+public class Shark extends GameObjects {
 	/**
 	 * @param x
 	 * @param y
@@ -29,83 +29,6 @@ public class Shark implements CollisionDetect {
 		setMovementCounter(4);
 		setMagmaTimer(0.2);
 	}
-	
-	/**
-	 * Returns the current X coordinate of this shark
-	 */
-	@Basic
-	private double getLocationX() {
-		return locationX;
-	}
-	/**
-	 * 
-	 * @param 	locationX
-	 * 			the new X coordinate for this shark
-	 * @post 	...
-	 * 			| new.getLocationX() = locationX 
-	 */
-	private void setLocationX(double locationX) {
-		this.locationX = locationX;
-	}
-	/**
-	 * this variable contains the current X coordinate for this Shark
-	 */
-	private double locationX;
-	
-	/**
-	 * Returns the current Y coordinate of this shark
-	 */
-	@Basic
-	private double getLocationY() {
-		return locationY;
-	}
-	/**
-	 * 
-	 * @param 	locationY
-	 * 			the new T coordinate for this shark
-	 * @post 	...
-	 * 			| new.getLocationY() = locationY
-	 */
-	private void setLocationY(double locationY) {
-		this.locationY = locationY;
-	}
-	
-	/**
-	 * this variable contains the current Y coordinate for this Shark
-	 */
-	private double locationY;
-	
-	/**
-	 * Returns the location of this Shark
-	 * @return	returns an array of integers, the first element is the x location, the second element is the y location
-	 * 			| {(int) getLocationX(), (int) getLocationY()}
-	 */
-	public int[] getLocation() {
-		int[] location = new int[2];
-		location[0] = (int) getLocationX();
-		location[1] = (int) getLocationY();
-		return location;
-	}
-	
-
-	/**
-	 * Return the current list of sprites for this shark
-	 */
-	private Sprite[] getSprites() {
-		return sprites;
-	}
-	/**
-	 * 
-	 * @param 	sprites
-	 * 			the list of sprites for this shark
-	 * @post 	...
-	 * 			| new.getSprites() = sprites
-	 */
-	private void setSprites(Sprite[] sprites) {
-		this.sprites = sprites;
-	}
-
-	private Sprite[] sprites;
 	
 	@Basic
 	public Sprite getCurrentSprite() {
@@ -616,48 +539,15 @@ public class Shark implements CollisionDetect {
 	 */
 	private int movementCounter;
 	
-	private boolean isTopPerimeterInWater(){
-		int[] position = getLocation();
-		int x = position[0];
-		int y = position[1];
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x+1, endY-1, endX-2, endY-1, 2);
-	}
-
-	private boolean isBottomPerimeterInWater(){
-		int[] position = getLocation();
-		int x = position[0];
-		int y = position[1];
-		int endX = x + getCurrentSprite().getWidth();
-		return getWorld().detectGeologicalFeature(x+1, y, endX-2, y, 2);
-	}
 	
-	private boolean isRightPerimeterInWater(){
-		int[] position = getLocation();
-		int x = position[0];
-		int y = position[1];
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(endX-1, y+2, endX-1, endY-3, 2);
-	}
-	
-	private boolean isLeftPerimeterInWater(){
-		int[] position = getLocation();
-		int x = position[0];
-		int y = position[1];
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x, y+2, x, endY-3, 2);
-	}
 	
 	private boolean isInWater(){
 		return (isRightPerimeterInWater() || isLeftPerimeterInWater() || isBottomPerimeterInWater() || isTopPerimeterInWater());
 	}
 	
 	private boolean isBottomPerimeterInSolidGround(){
-		int[] position = getLocation();
-		int x = position[0];
-		int y = position[1];
+		int x = (int) getLocationX();
+		int y = (int) getLocationY();
 		int endX = x + getCurrentSprite().getWidth();
 		return getWorld().detectGeologicalFeature(x+1, y, endX-2, y, 1);		
 	}
@@ -716,29 +606,11 @@ public class Shark implements CollisionDetect {
 	/**
 	 * 
 	 * @return 	...
-	 * 			| result == this.hitPoints
+	 * 			| result == 100
 	 */
-	private int getHitPoints() {
-		return hitPoints;
+	int getMaxHitPoints(){
+		return 100;
 	}
-
-	/**
-	 * 
-	 * @param hitPoints
-	 * @post 	...
-	 * 			|new.getHitPoints = hitPoints
-	 */
-	private void setHitPoints(int hitPoints) {
- 		if(hitPoints <= 0){
-			this.hitPoints = 0;
- 			setDeath(true);
- 		} else if(
- 			hitPoints > 100) {
-			this.hitPoints = 100;
- 		} else {
-			this.hitPoints = hitPoints;
- 		}
- 	}
 	
 	/**
 	 * @effect 	...
@@ -750,31 +622,6 @@ public class Shark implements CollisionDetect {
 		removeWorld();
 		setTerminated(true);
 	}
-	/**
-	 * This variable contains the amount of hitpoints for this shark
-	 */
-	private int hitPoints;
-	
-	/**
-	 * Returns whether this shark is terminated or not
-	 */
-	public boolean isTerminated() {
-		return isTerminated;
-	}
-
-	/**
-	 * @param 	isTerminated
-	 * @post 	....
-	 * 			| result == isTerminated
-	 */
-	public void setTerminated(boolean isTerminated) {
-		this.isTerminated = isTerminated;
-	}
-	
-	/**
-	 * This variable indicates whether this shark is terminated or not
-	 */
-	private boolean isTerminated;
 	
 	private void handleCollisionMazub(){
 		if(!getWorld().getMazub().isImmune() && getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
@@ -811,51 +658,6 @@ public class Shark implements CollisionDetect {
 	}
 
 	
-	/**
-	 * 
-	 * @return 	...
-	 * 			| result == this.isDeath
-	 */
-	private boolean isDead() {
-		return isDead;
-	}
-
-	/**
-	 * 
-	 * @param isDead
-	 * @post 	...
-	 * 			|new.isDead() = isDead
-	 */
-	private void setDeath(boolean isDead) {
-		this.isDead = isDead;
-	}
 	
-	/**
-	 * This variable indicates whether this Shark is dead or not
-	 */
-	private boolean isDead;
-
-	/**
-	 * 
-	 * @return	...
-	 * 			| result == this.timeDeath
-	 */
-	private double getTimeDead() {
-		return timeDead;
-	}
-
-	/**
-	 * 
-	 * @param timeDead
-	 * @post 	...
-	 * 			|new.getTimeDead() == timeDead
-	 */
-	private void setTimeDead(double timeDead) {
-		this.timeDead = timeDead;
-	}
-	/**
-	 * This variable containts the time that this shark is dead
-	 */
-	private double timeDead;
 	
 }
