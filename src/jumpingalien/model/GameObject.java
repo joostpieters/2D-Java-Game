@@ -144,6 +144,16 @@ public abstract class GameObject implements CollisionDetect {
  	}
 	
 	/**
+	 * 
+	 * @param 	amount
+	 * @post 	the amount of hitPoints will be reduced with the given amount
+	 * 			|new.getHitPoints() == getHitPoints()-amount
+	 */
+	protected void lowerHitPoints(int amount) {
+ 		setHitPoints(getHitPoints()-amount);
+ 	}
+	
+	/**
 	 * This variable contains the amount of hitpoints for this Game Object
 	 */
 	private int hitPoints;

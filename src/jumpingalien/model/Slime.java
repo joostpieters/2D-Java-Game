@@ -3,6 +3,7 @@ package jumpingalien.model;
 import java.util.Collection;
 
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.*;
 
 public class Slime extends GameObject {
@@ -495,12 +496,6 @@ public class Slime extends GameObject {
 			double seconds = dt;
 			if (seconds < 0 || seconds >= 0.2) 
 				throw new IllegalArgumentException();
-			if (isInMagma()) {
-				setInMagmaTimer(getInMagmaTimer() + dt);
-			} else {
-				// immediately lose points when in magma
-				setInMagmaTimer(0.2);
-			}
 			if (isInWater()) {
 				setInWaterTimer(getInWaterTimer() + dt);
 			} else {
@@ -522,15 +517,6 @@ public class Slime extends GameObject {
 			} else {
 				setInWaterTimer(0);
 			}
-			if (isInMagma()) {
-				if (getInMagmaTimer() >= 0.2) {
-					setInMagmaTimer(getInMagmaTimer()-0.2);
-					setHitPoints(getHitPoints()-50);
-				}
-			} else {
-				// immediately lose points when in magma
-				setInMagmaTimer(0.2);
-			}
 		} else {
 			setTimeDead(getTimeDead() + dt);
 			if(getTimeDead() > 0.6){
@@ -546,6 +532,16 @@ public class Slime extends GameObject {
 		}
 		updateVelocity(dt);
 		updateLocation(dt);	
+		if(isInMagma()){
+			if(Util.fuzzyGreaterThanOrEqualTo(getInMagmaTimer(), 0.2)){
+				lowerHitPoints(50);
+				setInMagmaTimer(0);
+			} else {
+				setInMagmaTimer(getInMagmaTimer() + dt);
+			}
+		} else {
+			setInMagmaTimer(0.2);
+		}
 		handleCollisionMazub();
 		handleCollisionShark();		
 		handleCollisionSlime();
