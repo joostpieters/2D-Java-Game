@@ -1,6 +1,7 @@
 package jumpingalien.model;
 
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 
 public abstract class GameObject implements CollisionDetect {
@@ -290,4 +291,45 @@ public abstract class GameObject implements CollisionDetect {
 	 * This variable contains the world for this Game Object
 	 */
 	private World world;
+	
+	// TODO commentaar
+	public double timeOnePixelMovement(double seconds) {
+		double dt1 = 0.2;
+		double dt2 = 0.2;
+		if((getVelocityX() != 0) || (getAccelerationX() != 0)){
+			dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
+		}
+		if((getVelocityY() != 0) || (getAccelerationY() != 0)){
+			dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
+		}
+		if((dt1 != 0.2) || (dt2 != 0.2)){
+			if(Util.fuzzyGreaterThanOrEqualTo(dt1, seconds)&& Util.fuzzyGreaterThanOrEqualTo(dt2, seconds)){
+				return seconds;
+			} else if(dt1 < dt2){
+				return dt1;
+			} else if(dt2 <= dt1){
+				return dt2;
+			}
+		}
+		return seconds;
+	}
+	
+	public double updateLocationAndVelocity(double seconds) {
+		while(seconds > 0){
+			double advanceTime = timeOnePixelMovement(seconds);
+			advanceTimeCollisionDetect(advanceTime);
+			seconds -= advanceTime;				
+		}
+		return seconds;
+	}
+
+	protected abstract void advanceTimeCollisionDetect(double advanceTime);
+
+	protected abstract double getAccelerationY();
+
+	protected abstract double getVelocityY();
+
+	protected abstract double getAccelerationX();
+
+	protected abstract double getVelocityX();
 }

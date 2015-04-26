@@ -171,7 +171,7 @@ public class Slime extends GameObject {
 	
 	
 	@Basic
-	private double getVelocityX() {
+	protected double getVelocityX() {
 		return this.velocityX;
 	}
 	
@@ -191,7 +191,7 @@ public class Slime extends GameObject {
 	private double velocityX;
 	
 	@Basic
-	private double getVelocityY() {
+	protected double getVelocityY() {
 		return this.velocityY;
 	}
 	
@@ -211,7 +211,7 @@ public class Slime extends GameObject {
 	private double velocityY;
 	
 	@Basic
-	private double getAccelerationX() {
+	protected double getAccelerationX() {
 		return accelerationX;
 	}
 	
@@ -241,7 +241,7 @@ public class Slime extends GameObject {
 	}
 	
 	@Basic
-	private double getAccelerationY() {
+	protected double getAccelerationY() {
 		return accelerationY;
 	}
 	
@@ -507,31 +507,12 @@ public class Slime extends GameObject {
 				setInWaterTimer(0);
 			}
 			while(seconds > 0){
-				double dt1 = 0.2;
-				double dt2 = 0.2;
 				if (! isOnSolidGround()) {
 					setAccelerationY(-10);
 				}
-				if((getVelocityX() != 0) || (getAccelerationX() != 0)){
-					dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
-				}
-				if((getVelocityY() != 0) || (getAccelerationY() != 0)){
-					dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
-				}
-				if((dt1 != 0.2) || (dt2 != 0.2)){
-					if(dt1 >= seconds && dt2 >= seconds){
-						advanceTimeCollisionDetect(seconds);
-						seconds = 0;
-					} else if(dt1 < dt2){
-						advanceTimeCollisionDetect(dt1);
-						seconds -= dt1;
-					} else if(dt2 <= dt1){
-						advanceTimeCollisionDetect(dt2);
-						seconds -= dt2;
-					}
-				} else {
-					seconds = 0;
-				}
+				double timeOnePixel = timeOnePixelMovement(dt);
+				seconds -= timeOnePixel;
+				advanceTimeCollisionDetect(timeOnePixel);
 			}
 			if (isInWater()) {
 				if (getInWaterTimer() >= 0.2) {
@@ -558,7 +539,7 @@ public class Slime extends GameObject {
 		}
 	}
 	
-	private void advanceTimeCollisionDetect(double dt){
+	protected void advanceTimeCollisionDetect(double dt){
 		setMovementTime(getMovementTime()-dt);
 		if(getMovementTime() <= 0){
 			newMovement();

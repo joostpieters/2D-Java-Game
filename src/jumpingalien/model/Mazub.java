@@ -641,9 +641,8 @@ public class Mazub extends GameObject {
 		}
 		this.addToTimer(dt);
 		if(!isDead()){
-			double seconds = dt;
 			if (isImmune() && getImmunityTimer() < 0.6) {
-				setImmunityTimer(getImmunityTimer() + seconds);
+				setImmunityTimer(getImmunityTimer() + dt);
 			} else if (isImmune()) {
 				setImmunity(false);
 				setImmunityTimer(0);
@@ -659,32 +658,7 @@ public class Mazub extends GameObject {
 			} else {
 				setInWaterTimer(0);
 			}
-			double copySeconds = seconds;
-			while(copySeconds > 0){
-				double dt1 = 0.2;
-				double dt2 = 0.2;
-				if((getVelocityX() != 0) || (getAccelerationX() != 0)){
-					dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*copySeconds);
-				}
-				if((getVelocityY() != 0) || (getAccelerationY() != 0)){
-					dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*copySeconds);
-				}
-				if((!Util.fuzzyEquals(dt1, 0.2)) || (!Util.fuzzyEquals(dt2, 0.2)) ){
-					if(Util.fuzzyGreaterThanOrEqualTo(dt1, copySeconds) && Util.fuzzyGreaterThanOrEqualTo(dt2, copySeconds)){
-						advanceTimeCollisionDetect(copySeconds);
-						copySeconds = 0;
-					} else if(dt1 < dt2){
-						advanceTimeCollisionDetect(dt1);
-						copySeconds -= dt1;
-					} else if(Util.fuzzyLessThanOrEqualTo(dt2, dt1)){
-						advanceTimeCollisionDetect(dt2);
-						copySeconds -= dt2;
-					}
-				} else {
-					copySeconds = 0;
-				}	
-			}
-			
+			updateLocationAndVelocity(dt);			
 			if (getWantToStopDucking() && isDucking() && canStopDucking()) {
 				setDucking(false);
 				setWantToStopDucking(false);

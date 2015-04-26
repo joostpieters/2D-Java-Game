@@ -35,7 +35,7 @@ public class Plant extends GameObject {
 		setLocationY(y);
 		setSprites(sprites);
 		setCurrentSpriteIndex(0);
-		setHorizontalVelocity(-0.5);
+		setVelocityX(-0.5);
 	}
 
 	/**
@@ -70,8 +70,8 @@ public class Plant extends GameObject {
 	 * @return the horizontalVelocity
 	 */
 	@Basic
-	private double getHorizontalVelocity() {
-		return horizontalVelocity;
+	protected double getVelocityX() {
+		return velocityX;
 	}
 
 	/**
@@ -79,14 +79,14 @@ public class Plant extends GameObject {
 	 *            the horizontalVelocity to set
 	 * @post ... | new.getHorizontalVelocity() == horizontalVelocity
 	 */
-	private void setHorizontalVelocity(double horizontalVelocity) {
-		this.horizontalVelocity = horizontalVelocity;
+	private void setVelocityX(double horizontalVelocity) {
+		this.velocityX = horizontalVelocity;
 	}
 
 	/**
 	 * This variable contains the current horizontal velocity of this Plant
 	 */
-	private double horizontalVelocity;
+	private double velocityX;
 
 	/**
 	 * Sets the timer of this Plant to the given time
@@ -132,24 +132,7 @@ public class Plant extends GameObject {
 	 */
 	public void advanceTime(double dt) {
 		setTimer(getTimer() + dt);
-		while (dt > 0) {
-			double dt1 = 0.2;
-			if (getHorizontalVelocity() != 0) {
-				dt1 = (0.01) / (Math.abs(getHorizontalVelocity()));
-			}
-			if ((dt1 != 0.2)) {
-				if (dt < dt1) {
-					advanceTimeCollision(dt);
-					dt = 0;
-				} else {
-					advanceTimeCollision(dt1);
-					dt -= dt1;
-				}
-			} else {
-				dt = 0;
-			}
-		}
-
+		updateLocationAndVelocity(dt);
 	}
 
 	/**
@@ -169,13 +152,13 @@ public class Plant extends GameObject {
 	 *         	| setCurrentSpriteIndex(0); 
 	 *         	| setTimer(0);
 	 */
-	public void advanceTimeCollision(double dt) {
+	protected void advanceTimeCollisionDetect(double dt) {
 		if (getTimer() > 0.5) {
-			if (getHorizontalVelocity() > 0) {
-				setHorizontalVelocity(-0.5);
+			if (getVelocityX() > 0) {
+				setVelocityX(-0.5);
 				setCurrentSpriteIndex(0);
 			} else {
-				setHorizontalVelocity(0.5);
+				setVelocityX(0.5);
 				setCurrentSpriteIndex(1);
 			}
 			setTimer(0);
@@ -194,7 +177,7 @@ public class Plant extends GameObject {
 	 *         (locationX >= 0)) then | setLocationX(locationX)
 	 */
 	private void updateLocationX(double dt) {
-		double locationX = getLocationX() + (getHorizontalVelocity() * dt) * 100;
+		double locationX = getLocationX() + (getVelocityX() * dt) * 100;
 		if(hasCollisionX((int)locationX, (int)getLocationY())){
 			locationX = getLocationX();
 		}
@@ -236,5 +219,20 @@ public class Plant extends GameObject {
 	protected boolean isValidWorld(World world) {
 		// TODO nog niet klaar
 		return world != null;
+	}
+
+	@Override
+	protected double getAccelerationY() {
+		return 0;
+	}
+
+	@Override
+	protected double getVelocityY() {
+		return 0;
+	}
+
+	@Override
+	protected double getAccelerationX() {
+		return 0;
 	}
 }

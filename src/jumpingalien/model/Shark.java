@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 
 public class Shark extends GameObject {
 	/**
@@ -42,7 +43,7 @@ public class Shark extends GameObject {
 	 * @return 	...
 	 * 			|result == this.velocityX
 	 */
-	private double getVelocityX() {
+	protected double getVelocityX() {
 		return velocityX;
 	}
 
@@ -75,7 +76,7 @@ public class Shark extends GameObject {
 	 * @return	...
 	 * 			| result == this.velocityX
 	 */
-	private double getVelocityY() {
+	protected double getVelocityY() {
 		return velocityY;
 	}
 
@@ -100,7 +101,7 @@ public class Shark extends GameObject {
 	 * @return	...
 	 * 			| result == getInitialHorizontalAcceleration()
 	 */
-	private double getAccelerationX() {
+	protected double getAccelerationX() {
 		if(getMovement() != null)
 			return getInitialHorizontalAcceleration();
 		else
@@ -121,7 +122,7 @@ public class Shark extends GameObject {
 	 * @return	...
 	 * 			| result == this.accelerationY;
 	 */
-	private double getAccelerationY() {
+	protected double getAccelerationY() {
 		return accelerationY;
 	}
 
@@ -143,11 +144,10 @@ public class Shark extends GameObject {
 	
 	void advanceTime(double dt) throws IllegalArgumentException {
 		if(!isDead()){
-			double seconds = dt;
-			if (seconds < 0 || seconds >= 0.2) 
+			if (dt < 0 || dt >= 0.2) 
 				throw new IllegalArgumentException();
 			if(!isInWater()){
-				setNotInWaterTimer(getNotInWaterTimer() + seconds);
+				setNotInWaterTimer(getNotInWaterTimer() + dt);
 			} else {
 				setNotInWaterTimer(0);
 			}
@@ -156,32 +156,7 @@ public class Shark extends GameObject {
 				// immediately lose points when in magma
 				setInMagmaTimer(0.2);
 			}
-			//TODO double vergelijking
-			while(seconds > 0){
-				double dt1 = 0.2;
-				double dt2 = 0.2;
-				if((getVelocityX() != 0) || (getAccelerationX() != 0)){
-					dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
-				}
-				if((getVelocityY() != 0) || (getAccelerationY() != 0)){
-					dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
-				}
-				if((dt1 != 0.2) || (dt2 != 0.2)){
-					if(dt1 >= seconds && dt2 >= seconds){
-						advanceTimeCollisionDetect(seconds);
-						seconds = 0;
-					} else if(dt1 < dt2){
-						advanceTimeCollisionDetect(dt1);
-						seconds -= dt1;
-					} else if(dt2 <= dt1){
-						advanceTimeCollisionDetect(dt2);
-						seconds -= dt2;
-					}
-				} else {
-					seconds = 0;
-				}
-				
-			}
+			updateLocationAndVelocity(dt);
 			if(getNotInWaterTimer() >= 0.2){
 				setNotInWaterTimer(getNotInWaterTimer() - 0.2);
 				setHitPoints(getHitPoints() - 1);
@@ -203,7 +178,8 @@ public class Shark extends GameObject {
 			}
 		}
 	}
-	private void advanceTimeCollisionDetect(double dt){
+
+	protected void advanceTimeCollisionDetect(double dt){
 		if(!isInWater()){
 			setAccelerationY(-10);
 		}
