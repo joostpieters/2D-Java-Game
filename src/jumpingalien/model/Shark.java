@@ -39,56 +39,6 @@ public class Shark extends GameObjects {
 	}
 	
 	/**
-	 * Returns the world where this shark is in
-	 * @return 	...
-	 * 			|result == this.world
-	 */
-	@Basic
-	@Override
-	public World getWorld() {
-		return this.world;
-	}
-	
-	// TODO hoe geprogrammeerd ?
-	/**
-	 * 
-	 * @param 	world
-	 * @post 	...
-	 * 			| new.getWorld() = world
-	 * @effect 	...
-	 * 			|newMovement()			
-	 */
-	void setWorld(World world) {
-		if((world != null) && (world.hasAsShark(this) && !isTerminated())){
-			this.world = world;
-			newMovement();
-		}		
-	}
-	
-	/**
-	 * @post 	...
-	 * 			|new.getWorld() == null
-	 */
-	private void removeWorld(){
-		this.world = null;
-	}
-	
-	/**
-	 * Returns whether this shark is already in a world or not
-	 * @return	...
-	 * 			| getWorld() != null
-	 */
-	boolean hasAWorld(){
-		return getWorld() != null;
-	}
-	
-	/**
-	 * This variable contains the world where this shark is in
-	 */
-	private World world;
-	
-	
-	/**
 	 * @return 	...
 	 * 			|result == this.velocityX
 	 */
@@ -621,6 +571,12 @@ public class Shark extends GameObjects {
 	 */
 	void hadCollisionSlime(){
 		setHitPoints(getHitPoints()-50);		
+	}
+
+	//TODO nog niet klaar
+	@Override
+	protected boolean isValidWorld(World world) {
+		return world != null;
 	}
 
 	

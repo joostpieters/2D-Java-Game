@@ -239,4 +239,30 @@ public abstract class GameObjects implements CollisionDetect {
 	 * This variable contains the value how long this Game Object is in Magma
 	 */
 	private double inMagmaTimer;
+
+	public World getWorld() {
+		return world;
+	}
+
+	protected void setWorld(World world) {
+		if(isValidWorld(world))
+			this.world = world;
+	}
+	
+	protected abstract boolean isValidWorld(World world);
+
+	protected void removeWorld() {
+		this.world = null;
+	}
+	
+	/**
+	 * Returns whether this mazub is already in a world or not
+	 * @return	returns whether this Mazub is already allocated to a world or not
+	 * 			| getWorld() != null
+	 */
+	protected boolean hasAWorld(){
+		return getWorld() != null;
+	}
+	
+	private World world;
 }

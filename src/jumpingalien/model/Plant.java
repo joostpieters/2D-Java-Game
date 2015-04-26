@@ -206,38 +206,6 @@ public class Plant extends GameObjects {
 			setLocationX(locationX);
 		}
 	}
-
-	/**
-	 * Returns the world where this plant is in
-	 * 
-	 * @return 	... 
-	 * 			|result == this.world
-	 */
-	@Basic
-	@Override
-	public World getWorld() {
-		return world;
-	}
-
-	/**
-	 * 
-	 * @param world
-	 *            The world where this plant is in
-	 * @post ... |new.getWorld() = world
-	 */
-	void setWorld(World world) {
-		if ((world != null) && (world.hasAsPlant(this)))
-			this.world = world;
-	}
-
-	boolean hasAWorld() {
-		return (this.getWorld() != null);
-	}
-
-	/**
-	 * This variable contains the world where this plant is in.
-	 */
-	private World world;
 	
 	private void teminate(){
 		this.setWorld(null);
@@ -262,5 +230,11 @@ public class Plant extends GameObjects {
 	@Override
 	int getMaxHitPoints() {
 		return 0;
+	}
+
+	@Override
+	protected boolean isValidWorld(World world) {
+		// TODO nog niet klaar
+		return world != null;
 	}
 }

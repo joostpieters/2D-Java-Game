@@ -93,56 +93,6 @@ public class Slime extends GameObjects {
 	}
 	
 	/**
-	 * Returns the world where this slime is in
-	 * @return 	...
-	 * 			|result == this.world
-	 */
-	@Basic
-	@Override
-	public World getWorld() {
-		return world;
-	}
-	
-	/**
-	 * 
-	 * @param 	world
-	 * @throws 	IllegalArgumentException
-	 * 			| world == null
-	 * @post 	...
-	 * 			| new.getWorld() == world			
-	 */
-	void setWorld(World world) throws IllegalArgumentException {
-		if (world == null)
-			throw new IllegalArgumentException();
-		if((world.hasAsSlime(this)))
-			this.world = world;		
-	}
-	
-	/**
-	 * 
-	 * @param world
-	 * @post	...
-	 * 			| new.getWorld() == null
-	 */
-	private void removeWorld() {
-		this.world = null;
-	}
-	
-	/**
-	 * Returns whether this slime is already in a world or not
-	 * @return	...
-	 * 			| getWorld() != null
-	 */
-	boolean hasAWorld(){
-		return getWorld() != null;
-	}
-	
-	/**
-	 * This variable contains the world where this Slime is in
-	 */
-	private World world;
-	
-	/**
 	 * Return the school in which this slime is
 	 */
 	public School getSchool() {
@@ -780,5 +730,11 @@ public class Slime extends GameObjects {
 	@Override
 	int getMaxHitPoints() {
 		return Integer.MAX_VALUE;
+	}
+
+	@Override
+	protected boolean isValidWorld(World world) {
+		// TODO niet volledig
+		return world != null;
 	}
 }
