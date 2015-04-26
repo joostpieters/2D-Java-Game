@@ -602,14 +602,12 @@ public class Slime extends GameObjects {
 			}
 		} else {
 			setTimeDead(getTimeDead() + dt);
-			//TODO vergelijking met double
 			if(getTimeDead() > 0.6){
 				terminate();
 			}
 		}
 	}
 	
-	//TODO vergelijking van doubles
 	private void advanceTimeCollisionDetect(double dt){
 		setMovementTime(getMovementTime()-dt);
 		if(getMovementTime() <= 0){
@@ -641,10 +639,11 @@ public class Slime extends GameObjects {
 				setVelocityX(velocityX);
 			}
 		}
-		
 		if (isOnSolidGround()) {
 			setVelocityY(0);
 			setAccelerationY(0);
+		} else if(isSetVelocityYZero()){
+			setVelocityY(0);
 		} else {
 			setVelocityY(getVelocityY() + getAccelerationY()*dt);
 		}
