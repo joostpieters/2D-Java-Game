@@ -5,7 +5,7 @@ import java.util.Collection;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 
-public class Slime {
+public class Slime implements CollisionDetect {
 	/**
 	 * @param x
 	 * @param y
@@ -183,7 +183,8 @@ public class Slime {
 	 * 			|result == this.world
 	 */
 	@Basic
-	private World getWorld() {
+	@Override
+	public World getWorld() {
 		return world;
 	}
 	
@@ -654,65 +655,6 @@ public class Slime {
 	 */
 	private boolean isOnSolidGround(){
 		return hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1);
-	}
-	
-	private boolean hasCollisionTop(int x, int y){
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, endY-2, endX-2, endY-2);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private boolean hasCollisionBottom(int x, int y){
-		int endX = x + getCurrentSprite().getWidth();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, y+1, endX-2, y+1);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private boolean hasCollisionRight(int x, int y){
-		int startX = x;
-		int endX = startX + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(endX-2, y+2, endX-2, endY-3);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private boolean hasCollisionLeft(int x, int y){
-		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, y+2, x+1, endY-3);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private boolean hasCollisionX(int x, int y){
-		return hasCollisionLeft(x, y) || hasCollisionRight(x, y);
-	}
-	
-	private boolean hasCollisionY(int x, int y){
-		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
 	}
 	
 	public void advanceTime(double dt) throws IllegalArgumentException {

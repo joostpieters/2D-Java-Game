@@ -9,7 +9,7 @@ import be.kuleuven.cs.som.annotate.Basic;
  * @invar de lengte van de spirtes is gelijk aan 2
  *
  */
-public class Plant {
+public class Plant implements CollisionDetect {
 	/**
 	 * 
 	 * @param x
@@ -302,7 +302,8 @@ public class Plant {
 	 * @return ... |result == this.world
 	 */
 	@Basic
-	private World getWorld() {
+	@Override
+	public World getWorld() {
 		return world;
 	}
 
@@ -325,22 +326,6 @@ public class Plant {
 	 * This variable contains the world where this plant is in.
 	 */
 	private World world;
-
-	private boolean hasCollisionRight(int x, int y) {
-		int startX = x;
-		int endX = startX + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(endX, y + 1, endX, endY - 1, 1);
-	}
-
-	private boolean hasCollisionLeft(int x, int y) {
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x, y + 1, x, endY - 1, 1);
-	}
-	
-	private boolean hasCollisionX(int x, int y){
-		return hasCollisionRight(x, y) || hasCollisionLeft(x, y);
-	}
 	
 	private void teminate(){
 		this.setWorld(null);

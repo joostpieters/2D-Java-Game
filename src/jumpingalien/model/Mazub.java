@@ -20,7 +20,7 @@ import jumpingalien.util.Util;
  * @invar	the Mazub's hitpoints are always between 0 and 500
  * 			| (0 <= getHitPoints()) && (getHitPoints() <= 500)
  */
-public class Mazub {
+public class Mazub implements CollisionDetect {
 
 	/**
 	 * 
@@ -1393,47 +1393,6 @@ public class Mazub {
 		return hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1);
 	}
 	
-	private boolean hasCollisionTop(int x, int y){
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, endY-2, endX-2, endY-2);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private boolean hasCollisionBottom(int x, int y){
-		int endX = x + getCurrentSprite().getWidth();
-		return getWorld().detectGeologicalFeature(x+1, y+1, endX-2, y+1, 1);
-	}
-	
-	private boolean hasCollisionRight(int x, int y){
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(endX-2, y+2, endX-2, endY-3, 1);
-	}
-	
-	private boolean hasCollisionLeft(int x, int y){
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x+1, y+2, x+1, endY-3, 1);
-	}
-	
-	private boolean hasCollisionX(int x, int y){
-		return hasCollisionLeft(x, y) || hasCollisionRight(x, y);
-	}
-	
-	private boolean hasCollisionY(int x, int y){
-		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
-	}
-	
-	private boolean hasCollision(int x, int y){
-		return hasCollisionX(x, y) || hasCollisionY(x, y);
-	}
-	
 	private boolean isInWater() {
 		int x = (int) getLocationX();
 		int y = (int) getLocationY();
@@ -1500,7 +1459,8 @@ public class Mazub {
 	 * 			|result == this.world
 	 */
 	@Basic
-	private World getWorld() {
+	@Override
+	public World getWorld() {
 		return world;
 	}
 	

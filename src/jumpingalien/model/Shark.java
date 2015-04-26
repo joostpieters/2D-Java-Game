@@ -5,7 +5,7 @@ import java.util.Collection;
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 
-public class Shark {
+public class Shark implements CollisionDetect {
 	/**
 	 * @param x
 	 * @param y
@@ -121,8 +121,9 @@ public class Shark {
 	 * 			|result == this.world
 	 */
 	@Basic
-	private World getWorld() {
-		return world;
+	@Override
+	public World getWorld() {
+		return this.world;
 	}
 	
 	// TODO hoe geprogrammeerd ?
@@ -537,35 +538,7 @@ public class Shark {
 	 */
 	private double movementTime;
 		
-	private boolean hasCollisionTop(int x, int y){
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x+1, endY-2, endX-2, endY-2, 1);
-	}
 	
-	private boolean hasCollisionBottom(int x, int y){
-		int endX = x + getCurrentSprite().getWidth();
-		return getWorld().detectGeologicalFeature(x+1, y+1, endX-2, y+1, 1);
-	}
-	
-	private boolean hasCollisionRight(int x, int y){
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(endX-2, y+2, endX-2, endY-3, 1);
-	}
-	
-	private boolean hasCollisionLeft(int x, int y){
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x+1, y+2, x+1, endY-3, 1);
-	}
-	
-	private boolean hasCollisionX(int x, int y){
-		return hasCollisionLeft(x, y) || hasCollisionRight(x, y);
-	}
-	
-	private boolean hasCollisionY(int x, int y){
-		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
-	}
 
 	/**
 	 * 
