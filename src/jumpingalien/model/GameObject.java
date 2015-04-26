@@ -3,7 +3,7 @@ package jumpingalien.model;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Basic;
 
-public abstract class GameObjects implements CollisionDetect {
+public abstract class GameObject implements CollisionDetect {
 	
 	/**
 	 * @return will return terminated
@@ -240,29 +240,54 @@ public abstract class GameObjects implements CollisionDetect {
 	 */
 	private double inMagmaTimer;
 
+	/**
+	 * Returns the current world where this game object is in
+	 */
 	public World getWorld() {
 		return world;
 	}
 
+	/**
+	 * Sets a new world for this Game Object
+	 * @param 	world
+	 * 			the new world for this Game Object
+	 * @post 	the the world of this game object will equal the given world if it is valid
+	 * 			|if(isValidWorld(world)) then
+	 *			|	new.getWorld() == world;
+	 */
 	protected void setWorld(World world) {
 		if(isValidWorld(world))
 			this.world = world;
 	}
 	
+	/**
+	 * Checks wheter the given world if valid for this Game Object or not
+	 * @param 	world
+	 * 			the world that has to be checked
+	 * @return	true if the world is valid else false
+	 */
 	protected abstract boolean isValidWorld(World world);
 
+	/**
+	 * The world of this Game Object will be removed
+	 * @post	the world of this Game Object will equal null
+	 * 			|new.getWorld() == null
+	 */
 	protected void removeWorld() {
 		this.world = null;
 	}
 	
 	/**
-	 * Returns whether this mazub is already in a world or not
-	 * @return	returns whether this Mazub is already allocated to a world or not
-	 * 			| getWorld() != null
+	 * Returns whether this Game Object is already in a world or not
+	 * @return	returns true if the Game Object has a world, else false will be returned
+	 * 			| result == (getWorld() != null);
 	 */
 	protected boolean hasAWorld(){
 		return getWorld() != null;
 	}
 	
+	/**
+	 * This variable contains the world for this Game Object
+	 */
 	private World world;
 }

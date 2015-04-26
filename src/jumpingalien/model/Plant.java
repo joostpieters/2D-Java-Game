@@ -9,7 +9,7 @@ import be.kuleuven.cs.som.annotate.Basic;
  * @invar de lengte van de spirtes is gelijk aan 2
  *
  */
-public class Plant extends GameObjects {
+public class Plant extends GameObject {
 	/**
 	 * 
 	 * @param x

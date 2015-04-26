@@ -21,7 +21,7 @@ import jumpingalien.util.Util;
  * @invar	the Mazub's hitpoints are always between 0 and 500
  * 			| (0 <= getHitPoints()) && (getHitPoints() <= 500)
  */
-public class Mazub extends GameObjects {
+public class Mazub extends GameObject {
 
 	/**
 	 * 

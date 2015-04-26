@@ -5,7 +5,7 @@ import java.util.Collection;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 
-public class Slime extends GameObjects {
+public class Slime extends GameObject {
 	/**
 	 * @param x
 	 * @param y

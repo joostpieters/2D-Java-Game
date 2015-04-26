@@ -5,7 +5,7 @@ import java.util.Collection;
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 
-public class Shark extends GameObjects {
+public class Shark extends GameObject {
 	/**
 	 * @param x
 	 * @param y
