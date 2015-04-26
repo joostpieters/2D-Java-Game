@@ -143,6 +143,14 @@ public class Shark implements CollisionDetect {
 	}
 	
 	/**
+	 * @post 	...
+	 * 			|new.getWorld() == null
+	 */
+	private void removeWorld(){
+		this.world = null;
+	}
+	
+	/**
 	 * Returns whether this shark is already in a world or not
 	 * @return	...
 	 * 			| getWorld() != null
@@ -261,7 +269,7 @@ public class Shark implements CollisionDetect {
 	private double accelerationY;
 	
 	void advanceTime(double dt) throws IllegalArgumentException {
-		if(!isDeath()){
+		if(!isDead()){
 			double seconds = dt;
 			if (seconds < 0 || seconds >= 0.2) 
 				throw new IllegalArgumentException();
@@ -316,9 +324,9 @@ public class Shark implements CollisionDetect {
 				setMagmaTimer(0.2);
 			}
 		} else {
-			setTimeDeath(getTimeDeath() + dt);
+			setTimeDead(getTimeDead() + dt);
 			//TODO vergelijking met double
-			if(getTimeDeath() > 0.6){
+			if(getTimeDead() > 0.6){
 				terminate();
 			}
 		}
@@ -732,8 +740,14 @@ public class Shark implements CollisionDetect {
  		}
  	}
 	
+	/**
+	 * @effect 	...
+	 * 			|removeWorld()
+	 * @effect	...
+	 * 			|setTerminated(true)
+	 */
 	private void terminate() {
-		this.setWorld(null);
+		removeWorld();
 		setTerminated(true);
 	}
 	/**
@@ -741,14 +755,25 @@ public class Shark implements CollisionDetect {
 	 */
 	private int hitPoints;
 	
+	/**
+	 * Returns whether this shark is terminated or not
+	 */
 	public boolean isTerminated() {
 		return isTerminated;
 	}
 
+	/**
+	 * @param 	isTerminated
+	 * @post 	....
+	 * 			| result == isTerminated
+	 */
 	public void setTerminated(boolean isTerminated) {
 		this.isTerminated = isTerminated;
 	}
 	
+	/**
+	 * This variable indicates whether this shark is terminated or not
+	 */
 	private boolean isTerminated;
 	
 	private void handleCollisionMazub(){
@@ -758,6 +783,10 @@ public class Shark implements CollisionDetect {
 		}
 	}
 
+	/**
+	 * @effect ...
+	 * 			| setHitPoints(getHitPoints()-50)
+	 */
 	void hadCollisionMazub() {
 		setHitPoints(getHitPoints()-50);
 	}
@@ -773,28 +802,60 @@ public class Shark implements CollisionDetect {
 		}
 	}
 	
+	/**
+	 * @effect 	...
+	 * 			|setHitPoints(getHitPoints()-50)
+	 */
 	void hadCollisionSlime(){
 		setHitPoints(getHitPoints()-50);		
 	}
 
 	
-	private boolean isDeath() {
-		return isDeath;
+	/**
+	 * 
+	 * @return 	...
+	 * 			| result == this.isDeath
+	 */
+	private boolean isDead() {
+		return isDead;
 	}
 
-	private void setDeath(boolean isDeath) {
-		this.isDeath = isDeath;
+	/**
+	 * 
+	 * @param isDead
+	 * @post 	...
+	 * 			|new.isDead() = isDead
+	 */
+	private void setDeath(boolean isDead) {
+		this.isDead = isDead;
 	}
 	
-	private boolean isDeath;
+	/**
+	 * This variable indicates whether this Shark is dead or not
+	 */
+	private boolean isDead;
 
-	private double getTimeDeath() {
-		return timeDeath;
+	/**
+	 * 
+	 * @return	...
+	 * 			| result == this.timeDeath
+	 */
+	private double getTimeDead() {
+		return timeDead;
 	}
 
-	private void setTimeDeath(double timeDeath) {
-		this.timeDeath = timeDeath;
+	/**
+	 * 
+	 * @param timeDead
+	 * @post 	...
+	 * 			|new.getTimeDead() == timeDead
+	 */
+	private void setTimeDead(double timeDead) {
+		this.timeDead = timeDead;
 	}
-	private double timeDeath;
+	/**
+	 * This variable containts the time that this shark is dead
+	 */
+	private double timeDead;
 	
 }
