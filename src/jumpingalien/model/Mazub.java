@@ -738,6 +738,7 @@ public class Mazub {
 		if (dt < 0 || dt > 0.2){
 			throw new IllegalArgumentException();
 		}
+		this.addToTimer(this.getTimer() + dt);
 		if(!isDeath()){
 			double seconds = dt;
 			if (isImmune() && getImmunityTimer() < 0.6) {
@@ -758,15 +759,14 @@ public class Mazub {
 				setWaterTimer(0);
 			}
 			double copySeconds = seconds;
-			this.addToTimer(this.getTimer() + seconds);
 			while(copySeconds > 0){
 				double dt1 = 0.2;
 				double dt2 = 0.2;
 				if((getVelocityX() != 0) || (getAccelerationX() != 0)){
-					dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
+					dt1 = (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*copySeconds);
 				}
 				if((getVelocityY() != 0) || (getAccelerationY() != 0)){
-					dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
+					dt2 = (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*copySeconds);
 				}
 				if((!Util.fuzzyEquals(dt1, 0.2)) || (!Util.fuzzyEquals(dt2, 0.2)) ){
 					if(Util.fuzzyGreaterThanOrEqualTo(dt1, copySeconds) && Util.fuzzyGreaterThanOrEqualTo(dt2, copySeconds)){
@@ -1414,26 +1414,12 @@ public class Mazub {
 	private boolean hasCollisionRight(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(endX-2, y+2, endX-2, endY-3);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(endX-2, y+2, endX-2, endY-3, 1);
 	}
 	
 	private boolean hasCollisionLeft(int x, int y){
 		int endY = y + getCurrentSprite().getHeight();
-		int[][] tiles = 
-				getWorld().getTilePositionsIn(x+1, y+2, x+1, endY-3);
-		for(int[] tile : tiles){
-			if (getWorld().getGeologicalFeatureOfTile(tile[0], tile[1]) == 1){
-				return true;
-			}
-		}
-		return false;
+		return getWorld().detectGeologicalFeature(x+1, y+2, x+1, endY-3, 1);
 	}
 	
 	private boolean hasCollisionX(int x, int y){
