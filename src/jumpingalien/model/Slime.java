@@ -532,16 +532,7 @@ public class Slime extends GameObject {
 		}
 		updateVelocity(dt);
 		updateLocation(dt);	
-		if(isInMagma()){
-			if(Util.fuzzyGreaterThanOrEqualTo(getInMagmaTimer(), 0.2)){
-				lowerHitPoints(50);
-				setInMagmaTimer(0);
-			} else {
-				setInMagmaTimer(getInMagmaTimer() + dt);
-			}
-		} else {
-			setInMagmaTimer(0.2);
-		}
+		handleMagma(dt);
 		handleCollisionMazub();
 		handleCollisionShark();		
 		handleCollisionSlime();

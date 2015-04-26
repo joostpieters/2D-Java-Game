@@ -332,6 +332,22 @@ public abstract class GameObject implements CollisionDetect {
 		}
 		return seconds;
 	}
+	
+	/**
+	 * @param dt
+	 */
+	public void handleMagma(double dt) {
+		if(isInMagma()){
+			if(Util.fuzzyGreaterThanOrEqualTo(getInMagmaTimer(), 0.2)){
+				lowerHitPoints(50);
+				setInMagmaTimer(0);
+			} else {
+				setInMagmaTimer(getInMagmaTimer() + dt);
+			}
+		} else {
+			setInMagmaTimer(0.2);
+		}
+	}
 
 	protected abstract void advanceTimeCollisionDetect(double advanceTime);
 
