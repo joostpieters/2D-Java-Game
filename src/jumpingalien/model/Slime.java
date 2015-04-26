@@ -58,7 +58,7 @@ public class Slime extends GameObjects {
 		setAccelerationX(0);
 		setAccelerationY(0);
 		newMovement();
-		setMagmaTimer(0.2);
+		setInMagmaTimer(0.2);
 	}
 	
 	/**
@@ -546,15 +546,15 @@ public class Slime extends GameObjects {
 			if (seconds < 0 || seconds >= 0.2) 
 				throw new IllegalArgumentException();
 			if (isInMagma()) {
-				setMagmaTimer(getMagmaTimer() + dt);
+				setInMagmaTimer(getInMagmaTimer() + dt);
 			} else {
 				// immediately lose points when in magma
-				setMagmaTimer(0.2);
+				setInMagmaTimer(0.2);
 			}
 			if (isInWater()) {
-				setWaterTimer(getWaterTimer() + dt);
+				setInWaterTimer(getInWaterTimer() + dt);
 			} else {
-				setWaterTimer(0);
+				setInWaterTimer(0);
 			}
 			while(seconds > 0){
 				double dt1 = 0.2;
@@ -584,21 +584,21 @@ public class Slime extends GameObjects {
 				}
 			}
 			if (isInWater()) {
-				if (getWaterTimer() >= 0.2) {
+				if (getInWaterTimer() >= 0.2) {
 					setHitPoints(getHitPoints()-2);
-					setWaterTimer(getWaterTimer()-0.2);
+					setInWaterTimer(getInWaterTimer()-0.2);
 				}
 			} else {
-				setWaterTimer(0);
+				setInWaterTimer(0);
 			}
 			if (isInMagma()) {
-				if (getMagmaTimer() >= 0.2) {
-					setMagmaTimer(getMagmaTimer()-0.2);
+				if (getInMagmaTimer() >= 0.2) {
+					setInMagmaTimer(getInMagmaTimer()-0.2);
 					setHitPoints(getHitPoints()-50);
 				}
 			} else {
 				// immediately lose points when in magma
-				setMagmaTimer(0.2);
+				setInMagmaTimer(0.2);
 			}
 		} else {
 			setTimeDead(getTimeDead() + dt);

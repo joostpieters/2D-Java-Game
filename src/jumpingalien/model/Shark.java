@@ -27,7 +27,7 @@ public class Shark extends GameObjects {
 		setSprites(sprites);
 		setHitPoints(100);
 		setMovementCounter(4);
-		setMagmaTimer(0.2);
+		setInMagmaTimer(0.2);
 	}
 	
 	@Basic
@@ -202,9 +202,9 @@ public class Shark extends GameObjects {
 				setNotInWaterTimer(0);
 			}
 			if (isInMagma()) {
-				setMagmaTimer(getMagmaTimer() + dt);
+				setInMagmaTimer(getInMagmaTimer() + dt);
 				// immediately lose points when in magma
-				setMagmaTimer(0.2);
+				setInMagmaTimer(0.2);
 			}
 			//TODO double vergelijking
 			while(seconds > 0){
@@ -237,13 +237,13 @@ public class Shark extends GameObjects {
 				setHitPoints(getHitPoints() - 1);
 			}
 			if (isInMagma()) {
-				if (getMagmaTimer() >= 0.2) {
-					setMagmaTimer(getMagmaTimer()-0.2);
+				if (getInMagmaTimer() >= 0.2) {
+					setInMagmaTimer(getInMagmaTimer()-0.2);
 					setHitPoints(getHitPoints()-50);
 				}
 			} else {
 				// immediately lose points when in magma
-				setMagmaTimer(0.2);
+				setInMagmaTimer(0.2);
 			}
 		} else {
 			setTimeDead(getTimeDead() + dt);

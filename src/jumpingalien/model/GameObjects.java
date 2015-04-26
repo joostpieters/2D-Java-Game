@@ -39,10 +39,10 @@ public abstract class GameObjects implements CollisionDetect {
 	/**
 	 * Sets the x location of this Game Object to the given x
 	 * 
-	 * @param x
-	 *            the new x location for this Game Object
-	 * @post the x location of this Game Object is equal to the given x |
-	 *       new.getLocationX() = x
+	 * @param 	x
+	 *          the new x location for this Game Object
+	 * @post 	the x location of this Game Object is equal to the given x 
+	 * 			|new.getLocationX() == x
 	 */
 	protected void setLocationX(double x) {
 		this.locationX = x;
@@ -64,10 +64,10 @@ public abstract class GameObjects implements CollisionDetect {
 	/**
 	 * Sets the y location of this Game Object to the given y
 	 * 
-	 * @param y
-	 *            the new y location for this Game Object
-	 * @post the y location of this Game Object is equal to the given y |
-	 *       new.getLocationY() = y
+	 * @param 	y
+	 *          the new y location for this Game Object
+	 * @post 	the y location of this Game Object is equal to the given y
+	 *       	|new.getLocationY() = y
 	 */
 	protected void setLocationY(double y) {
 		this.locationY = y;
@@ -82,8 +82,8 @@ public abstract class GameObjects implements CollisionDetect {
 	 * Returns the location of this Game Object
 	 * 
 	 * @return returns an array of integers, the first element is the x
-	 *         location, the second element is the y location | {(int)
-	 *         getLocationX(), (int) getLocationY()}
+	 *         location, the second element is the y location 
+	 *         | result == {(int) getLocationX(), (int) getLocationY()}
 	 */
 	public int[] getLocation() {
 		int[] location = new int[2];
@@ -103,10 +103,10 @@ public abstract class GameObjects implements CollisionDetect {
 	/**
 	 * Set the sprites of this Game Object to the given sprites
 	 * 
-	 * @param sprites
-	 *            the new sprites for this Game Object
-	 * @post the sprites of this Game Object is equal to the given sprites |
-	 *       new.getSprites() = sprites
+	 * @param 	sprites
+	 *          the new sprites for this Game Object
+	 * @post 	the sprites of this Game Object is equal to the given sprites
+	 *       	|new.getSprites() == sprites
 	 */
 	protected void setSprites(Sprite[] sprites) {
 		this.sprites = sprites;
@@ -118,14 +118,7 @@ public abstract class GameObjects implements CollisionDetect {
 	private Sprite[] sprites;
 	
 	/**
-	 * This variable contains the amount of hitpoints for this Game Object
-	 */
-	private int hitPoints;
-	
-	/**
-	 * 
-	 * @return 	...
-	 * 			| result == this.hitPoints
+	 * Returns the hitPoints of this game object
 	 */
 	protected int getHitPoints() {
 		return hitPoints;
@@ -133,9 +126,9 @@ public abstract class GameObjects implements CollisionDetect {
 
 	/**
 	 * 
-	 * @param hitPoints
-	 * @post 	...
-	 * 			|new.getHitPoints = hitPoints
+	 * @param 	hitPoints
+	 * @post 	the amount of hitPoints of this Game Object will equal the given amount of hitPoints
+	 * 			|new.getHitPoints() == hitPoints
 	 */
 	protected void setHitPoints(int hitPoints) {
  		if(hitPoints <= 0){
@@ -150,9 +143,12 @@ public abstract class GameObjects implements CollisionDetect {
  	}
 	
 	/**
-	 * 
-	 * @return 	...
-	 * 			| result == this.isdead
+	 * This variable contains the amount of hitpoints for this Game Object
+	 */
+	private int hitPoints;
+	
+	/**
+	 * This variable returns whether this Game Object is dead or not
 	 */
 	protected boolean isDead() {
 		return isDead;
@@ -160,9 +156,10 @@ public abstract class GameObjects implements CollisionDetect {
 
 	/**
 	 * 
-	 * @param isDead
-	 * @post 	...
-	 * 			|new.isDead() = isDead
+	 * @param 	isDead
+	 * 			the new dead state for this Game Object
+	 * @post 	the new dead state for this object will equal the given boolean
+	 * 			|new.isDead() == isDead
 	 */
 	void setdead(boolean isDead) {
 		this.isDead = isDead;
@@ -174,9 +171,7 @@ public abstract class GameObjects implements CollisionDetect {
 	private boolean isDead;
 
 	/**
-	 * 
-	 * @return	...
-	 * 			| result == this.timedead
+	 * Returns how long this Game Object is already dead
 	 */
 	protected double getTimeDead() {
 		return timeDead;
@@ -184,8 +179,9 @@ public abstract class GameObjects implements CollisionDetect {
 
 	/**
 	 * 
-	 * @param timeDead
-	 * @post 	...
+	 * @param 	timeDead
+	 * 			the time this Object is already dead
+	 * @post 	the new timeDead of this Game Object will equal the given timeDead
 	 * 			|new.getTimeDead() == timeDead
 	 */
 	protected void setTimeDead(double timeDead) {
@@ -197,39 +193,50 @@ public abstract class GameObjects implements CollisionDetect {
 	private double timeDead;
 	
 	/**
-	 * @return the waterTimer
+	 * Returns how long this Game Object is already in the water
 	 */
-	protected double getWaterTimer() {
-		return waterTimer;
+	protected double getInWaterTimer() {
+		return inWaterTimer;
 	}
 
 
 	/**
-	 * @param waterTimer 
-	 * 			the waterTimer to set
+	 * @param 	inWaterTime 
+	 * 			the time how long this game object is under water
+	 * @post 	the inWaterTimer will equal the given inWaterTime
+	 * 			|new.getInWaterTimer() == inWaterTime 
 	 */
-	protected void setWaterTimer(double waterTimer) {
-		this.waterTimer = waterTimer;
+	protected void setInWaterTimer(double inWaterTime) {
+		this.inWaterTimer = inWaterTime;
 	}
 	
-	private double waterTimer;
+	/**
+	 * This variable contains how long this game Object is already under water
+	 */
+	private double inWaterTimer;
 
 	abstract int getMaxHitPoints();
 	
 	/**
-	 * @return the magmaTimer
+	 * Returns how long this Game Object is already under water
 	 */
-	protected double getMagmaTimer() {
-		return magmaTimer;
+	protected double getInMagmaTimer() {
+		return inMagmaTimer;
 	}
 
 
 	/**
-	 * @param magmaTimer
+	 * @param 	inMagmaTime
+	 * 			the time how long this game Object is already in magma
+	 * @post	the inMagmaTimer will equal the given inMagmaTime
+	 * 			|new.getInMagmaTimer() == inMagmaTime
 	 */
-	protected void setMagmaTimer(double magmaTimer) {
-		this.magmaTimer = magmaTimer;
+	protected void setInMagmaTimer(double magmaTimer) {
+		this.inMagmaTimer = magmaTimer;
 	}
 	
-	private double magmaTimer;
+	/**
+	 * This variable contains the value how long this Game Object is in Magma
+	 */
+	private double inMagmaTimer;
 }

@@ -59,10 +59,10 @@ public class Mazub extends GameObjects {
 			throw new IllegalArgumentException();
 		}
 		this.setSpriteIndex(0);
-		this.setTimer(0);
+		this.setSpriteTimer(0);
 		this.amountSpritesForMovement = (sprites.length - 10) / 2;
 		this.setHitPoints(100);
-		this.setMagmaTimer(0.2);
+		this.setInMagmaTimer(0.2);
 	}
 	
 	
@@ -317,7 +317,7 @@ public class Mazub extends GameObjects {
 				setSpriteIndex(6);
 			else {
 				setSpriteIndex(spritesMovingRightNormal());
-				while (getTimer() >= 0.075) {
+				while (getSpriteTimer() >= 0.075) {
 					setSpriteIndex(spritesMovingRightNormal());
 				}
 			}
@@ -331,7 +331,7 @@ public class Mazub extends GameObjects {
 				setSpriteIndex(7);
 			else {
 				setSpriteIndex(spritesMovingLeftNormal());
-				while (getTimer() >= 0.075) {
+				while (getSpriteTimer() >= 0.075) {
 					setSpriteIndex(spritesMovingLeftNormal());
 				}
 			}
@@ -340,11 +340,11 @@ public class Mazub extends GameObjects {
 		// if the character is Ducking
 		else if(this.isDucking()){
 			if ((this.lastMoveDirection == Direction.RIGHT_AND_DUCKING) 
-					&&(getTimer() - this.lastMoveTimer < 1)) {
+					&&(getSpriteTimer() - this.lastMoveTimer < 1)) {
 				setSpriteIndex(6);
 			}
 			else if ((this.lastMoveDirection == Direction.LEFT_AND_DUCKING) 
-					&&(getTimer() - this.lastMoveTimer < 1)) {
+					&&(getSpriteTimer() - this.lastMoveTimer < 1)) {
 				setSpriteIndex(7);
 			}
 			else {
@@ -356,11 +356,11 @@ public class Mazub extends GameObjects {
 		else {
 			if (((this.lastMoveDirection == Direction.RIGHT) || 
 					(this.lastMoveDirection == Direction.RIGHT_AND_DUCKING)) 
-					&&(getTimer() - this.lastMoveTimer < 1))
+					&&(getSpriteTimer() - this.lastMoveTimer < 1))
 				setSpriteIndex(2);
 			else if (((this.lastMoveDirection == Direction.LEFT)|| 
 					(this.lastMoveDirection == Direction.LEFT_AND_DUCKING)) 
-					&& (getTimer() - this.lastMoveTimer < 1))
+					&& (getSpriteTimer() - this.lastMoveTimer < 1))
 				setSpriteIndex(3);
 			else
 				setSpriteIndex(0);
@@ -379,8 +379,8 @@ public class Mazub extends GameObjects {
 	private int spritesMovingRightNormal() {
 		if ((this.getSpriteIndex() > 8 + this.getAmountSpritesForMovement()) || (this.getSpriteIndex() < 8))
 			return 8;
-		if (this.getTimer() >= 0.075){
-			this.setTimer(getTimer() - 0.075);
+		if (this.getSpriteTimer() >= 0.075){
+			this.setSpriteTimer(getSpriteTimer() - 0.075);
 			if ((this.getSpriteIndex() == 8 + this.getAmountSpritesForMovement()))
 				return 8;
 			else
@@ -400,8 +400,8 @@ public class Mazub extends GameObjects {
 		if ((this.getSpriteIndex() > 9 + getAmountSpritesForMovement() * 2) 
 				|| this.getSpriteIndex() < 9 + this.getAmountSpritesForMovement())
 			return 9 + getAmountSpritesForMovement();
-		if (this.getTimer() >= 0.075) {
-			this.setTimer(this.getTimer() - 0.075);
+		if (this.getSpriteTimer() >= 0.075) {
+			this.setSpriteTimer(this.getSpriteTimer() - 0.075);
 			if ((this.getSpriteIndex() == 9 + getAmountSpritesForMovement() * 2))
 				return 9 + getAmountSpritesForMovement();
 			else
@@ -509,7 +509,7 @@ public class Mazub extends GameObjects {
 					this.setLastMoveDirection(Direction.RIGHT);	
 				setVelocityX(0);
 				setAccelerationX(0);
-				this.setLastMoveTimer(getTimer());
+				this.setLastMoveTimer(getSpriteTimer());
 			}
 		}
 		if ( direction == Direction.LEFT ){
@@ -520,7 +520,7 @@ public class Mazub extends GameObjects {
 					this.setLastMoveDirection(Direction.LEFT);
 				setVelocityX(0);
 				setAccelerationX(0);
-				this.setLastMoveTimer(getTimer());
+				this.setLastMoveTimer(getSpriteTimer());
 			}
 		}
 	}
@@ -639,7 +639,7 @@ public class Mazub extends GameObjects {
 		if (dt < 0 || dt > 0.2){
 			throw new IllegalArgumentException();
 		}
-		this.addToTimer(this.getTimer() + dt);
+		this.addToTimer(dt);
 		if(!isDead()){
 			double seconds = dt;
 			if (isImmune() && getImmunityTimer() < 0.6) {
@@ -649,15 +649,15 @@ public class Mazub extends GameObjects {
 				setImmunityTimer(0);
 			}
 			if (isInMagma()) {
-				setMagmaTimer(getMagmaTimer() + dt);
+				setInMagmaTimer(getInMagmaTimer() + dt);
 			} else {
 				// immediately lose points when in magma
-				setMagmaTimer(0.2);
+				setInMagmaTimer(0.2);
 			}
 			if (isInWater()) {
-				setWaterTimer(getWaterTimer() + dt);
+				setInWaterTimer(getInWaterTimer() + dt);
 			} else {
-				setWaterTimer(0);
+				setInWaterTimer(0);
 			}
 			double copySeconds = seconds;
 			while(copySeconds > 0){
@@ -690,21 +690,21 @@ public class Mazub extends GameObjects {
 				setWantToStopDucking(false);
 			}
 			if (isInWater()) {
-				if (Util.fuzzyGreaterThanOrEqualTo(getWaterTimer(), 0.2)) {
+				if (Util.fuzzyGreaterThanOrEqualTo(getInWaterTimer(), 0.2)) {
 					setHitPoints(getHitPoints()-2);
-					setWaterTimer(getWaterTimer()-0.2);
+					setInWaterTimer(getInWaterTimer()-0.2);
 				}
 			} else {
-				setWaterTimer(0);
+				setInWaterTimer(0);
 			}
 			if (isInMagma()) {
-				if (Util.fuzzyGreaterThanOrEqualTo(getMagmaTimer(), 0.2)) {
-					setMagmaTimer(getMagmaTimer()-0.2);
+				if (Util.fuzzyGreaterThanOrEqualTo(getInMagmaTimer(), 0.2)) {
+					setInMagmaTimer(getInMagmaTimer()-0.2);
 					setHitPoints(getHitPoints()-50);
 				}
 			} else {
 				// immediately lose points when in magma
-				setMagmaTimer(0.2);
+				setInMagmaTimer(0.2);
 			}
 			//TODO vergelijking met double
 		} else {
@@ -1160,8 +1160,8 @@ public class Mazub extends GameObjects {
 	 * Returns the current value of the timer.
 	 */
 	@Basic
-	private double getTimer() {
-		return timer;
+	private double getSpriteTimer() {
+		return spriteTimer;
 	}
 
 	/**
@@ -1171,8 +1171,8 @@ public class Mazub extends GameObjects {
 	 * @post	The timer of this Mazub is equal to the given time.
 	 * 			| new.getTimer() == time
 	 */
-	private void setTimer(double time) {
-		this.timer = time;
+	private void setSpriteTimer(double time) {
+		this.spriteTimer = time;
 	}
 	
 	/**
@@ -1187,18 +1187,13 @@ public class Mazub extends GameObjects {
 	 * 			| new.getTimer() == 0
 	 */
 	private void addToTimer(double time) {
-		if ((time != 0) && (this.getTimer() + time < this.getTimer()))
-		{
-			this.setTimer(0);
-		}
-		else
-			this.timer = time;
+		setSpriteTimer(getSpriteTimer()+time);
 	}
 
 	/**
 	 * This variable contains the current time for this Mazub.
 	 */
-	private double timer;
+	private double spriteTimer;
 		
 	/**
 	 * Return the amount of sprites available for a movement to the left or right
