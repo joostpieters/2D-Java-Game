@@ -23,7 +23,7 @@ public abstract class GameObject implements CollisionDetect {
 		this.terminated = value;
 	}
 	
-	/*
+	/**
 	 * This variable contains whether the given Game Object is terminated or not
 	 */
 	private boolean terminated;
