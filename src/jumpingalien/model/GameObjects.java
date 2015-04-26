@@ -140,7 +140,7 @@ public abstract class GameObjects implements CollisionDetect {
 	protected void setHitPoints(int hitPoints) {
  		if(hitPoints <= 0){
 			this.hitPoints = 0;
- 			setDeath(true);
+ 			setdead(true);
  		} else if(
  			hitPoints > getMaxHitPoints()) {
 			this.hitPoints = getMaxHitPoints();
@@ -152,7 +152,7 @@ public abstract class GameObjects implements CollisionDetect {
 	/**
 	 * 
 	 * @return 	...
-	 * 			| result == this.isDeath
+	 * 			| result == this.isdead
 	 */
 	protected boolean isDead() {
 		return isDead;
@@ -164,7 +164,7 @@ public abstract class GameObjects implements CollisionDetect {
 	 * @post 	...
 	 * 			|new.isDead() = isDead
 	 */
-	void setDeath(boolean isDead) {
+	void setdead(boolean isDead) {
 		this.isDead = isDead;
 	}
 	
@@ -176,7 +176,7 @@ public abstract class GameObjects implements CollisionDetect {
 	/**
 	 * 
 	 * @return	...
-	 * 			| result == this.timeDeath
+	 * 			| result == this.timedead
 	 */
 	protected double getTimeDead() {
 		return timeDead;
@@ -195,6 +195,41 @@ public abstract class GameObjects implements CollisionDetect {
 	 * This variable containts the time that this Game Object is dead
 	 */
 	private double timeDead;
+	
+	/**
+	 * @return the waterTimer
+	 */
+	protected double getWaterTimer() {
+		return waterTimer;
+	}
+
+
+	/**
+	 * @param waterTimer 
+	 * 			the waterTimer to set
+	 */
+	protected void setWaterTimer(double waterTimer) {
+		this.waterTimer = waterTimer;
+	}
+	
+	private double waterTimer;
 
 	abstract int getMaxHitPoints();
+	
+	/**
+	 * @return the magmaTimer
+	 */
+	protected double getMagmaTimer() {
+		return magmaTimer;
+	}
+
+
+	/**
+	 * @param magmaTimer
+	 */
+	protected void setMagmaTimer(double magmaTimer) {
+		this.magmaTimer = magmaTimer;
+	}
+	
+	private double magmaTimer;
 }

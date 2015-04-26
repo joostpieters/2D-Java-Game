@@ -260,12 +260,6 @@ public class Plant extends GameObjects {
 	}
 
 	@Override
-	void setDeath(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	int getMaxHitPoints() {
 		return 0;
 	}

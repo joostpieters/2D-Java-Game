@@ -203,7 +203,6 @@ public class Shark extends GameObjects {
 			}
 			if (isInMagma()) {
 				setMagmaTimer(getMagmaTimer() + dt);
-			} else {
 				// immediately lose points when in magma
 				setMagmaTimer(0.2);
 			}
@@ -539,46 +538,13 @@ public class Shark extends GameObjects {
 	 */
 	private int movementCounter;
 	
-	
-	
-	private boolean isInWater(){
-		return (isRightPerimeterInWater() || isLeftPerimeterInWater() || isBottomPerimeterInWater() || isTopPerimeterInWater());
-	}
-	
 	private boolean isBottomPerimeterInSolidGround(){
 		int x = (int) getLocationX();
 		int y = (int) getLocationY();
 		int endX = x + getCurrentSprite().getWidth();
 		return getWorld().detectGeologicalFeature(x+1, y, endX-2, y, 1);		
 	}
-	
-	private boolean isInMagma() {
-		int x = (int) getLocationX();
-		int y = (int) getLocationY();
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
-	}
-	
-	/**
-	 * @return the magmaTimer
-	 */
-	private double getMagmaTimer() {
-		return magmaTimer;
-	}
 
-
-	/**
-	 * @param magmaTimer the magmaTimer to set
-	 */
-	private void setMagmaTimer(double magmaTimer) {
-		this.magmaTimer = magmaTimer;
-	}
-	
-	private double magmaTimer;
-	
-	
-	
 	/**
 	 * 
 	 * @return 	...

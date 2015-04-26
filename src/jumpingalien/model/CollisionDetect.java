@@ -67,6 +67,24 @@ import jumpingalien.util.Sprite;
 		return getWorld().detectGeologicalFeature(x, y+2, x, endY-3, 2);
 	}
 	
+	default boolean isInWater() {
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 2);
+	}
+	
+	default boolean isInMagma() {
+		int[] position = getLocation();
+		int x = position[0];
+		int y = position[1];
+		int endX = x + getCurrentSprite().getWidth();
+		int endY = y + getCurrentSprite().getHeight();
+		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
+	}
+	
 
 	abstract int[] getLocation();
 	

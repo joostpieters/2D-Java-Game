@@ -26,10 +26,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getLocation(Mazub alien) {
-		int location[] = new int[2];
-		location[0] = (int) alien.getLocationX();
-		location[1] = (int) alien.getLocationY();
-		return location;
+		return alien.getLocation();
 	}
 
 	@Override

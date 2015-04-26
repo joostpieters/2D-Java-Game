@@ -5,7 +5,7 @@ import java.util.Collection;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 
-public class Slime implements CollisionDetect {
+public class Slime extends GameObjects {
 	/**
 	 * @param x
 	 * @param y
@@ -60,91 +60,6 @@ public class Slime implements CollisionDetect {
 		newMovement();
 		setMagmaTimer(0.2);
 	}
-	
-	/**
-	 * Returns the current X coordinate of this Slime
-	 */
-	@Basic
-	private double getLocationX() {
-		return locationX;
-	}
-	
-	/**
-	 * 
-	 * @param 	locationX
-	 * 			the new X coordinate for this Slime
-	 * @post 	...
-	 * 			| new.getLocationX() == locationX 
-	 */
-	private void setLocationX(double locationX) {
-		this.locationX = locationX;
-	}
-	
-	/**
-	 * this variable contains the current X coordinate for this Slime
-	 */
-	private double locationX;
-	
-	/**
-	 * Returns the current Y coordinate of this Slime
-	 */
-	@Basic
-	private double getLocationY() {
-		return locationY;
-	}
-	
-	/**
-	 * 
-	 * @param 	locationY
-	 * 			the new Y coordinate for this slime
-	 * @post 	...
-	 * 			| new.getLocationY() == locationY
-	 */
-	private void setLocationY(double locationY) {
-		this.locationY = locationY;
-	}
-	
-	/**
-	 * this variable contains the current Y coordinate for this Slime
-	 */
-	private double locationY;
-	
-	/**
-	 * Returns the location of this Slime
-	 * @return	returns an array of integers, the first element is the x location, the second element is the y location
-	 * 			| {(int) getLocationX(), (int) getLocationY()}
-	 */
-	public int[] getLocation() {
-		int[] location = new int[2];
-		location[0] = (int) getLocationX();
-		location[1] = (int) getLocationY();
-		return location;
-	}
-	
-
-	/**
-	 * Return the current list of sprites for this slime
-	 */
-	@Basic
-	private Sprite[] getSprites() {
-		return sprites;
-	}
-	
-	/**
-	 * 
-	 * @param 	sprites
-	 * 			the list of sprites for this slime
-	 * @post 	...
-	 * 			| new.getSprites() == sprites
-	 */
-	private void setSprites(Sprite[] sprites) {
-		this.sprites = sprites;
-	}
-
-	/**
-	 * Contains the sprites of this slime.
-	 */
-	private Sprite[] sprites;
 	
 	/**
 	 * Returns the current sprite index of this slime
@@ -304,38 +219,6 @@ public class Slime implements CollisionDetect {
 	 */
 	private School school;
 	
-	@Basic
-	int getHitPoints() {
-		return this.hitPoints;
-	}
-	
-	/**
-	 * 
-	 * @param points
-	 * @post	...
-	 * 			| if (points <= 0) then
-	 * 			|	new.getHitPoints() == 0
-	 * 			|	new.isDead() == true
-	 * @post	...
-	 * 			| if (points > 0) then
-	 * 			|	new.getHitPoints == points
-	 */
-	// TODO hitpoints groter dan 100?
-	void setHitPoints(int points) {
-		if (points <= 0) {
-			hitPoints = 0;
-			setDead(true);
-//		} else if (points > 100) {
-//			hitPoints = 100;
-		} else {
-			this.hitPoints = points;
-		}
-	}
-	
-	/**
-	 * This variable contains the amount of hitPoints of this Slime
-	 */
-	private int hitPoints;
 	
 	@Basic
 	private double getVelocityX() {
@@ -662,7 +545,6 @@ public class Slime implements CollisionDetect {
 			double seconds = dt;
 			if (seconds < 0 || seconds >= 0.2) 
 				throw new IllegalArgumentException();
-			this.setTimer(this.getTimer() + seconds);
 			if (isInMagma()) {
 				setMagmaTimer(getMagmaTimer() + dt);
 			} else {
@@ -719,7 +601,7 @@ public class Slime implements CollisionDetect {
 				setMagmaTimer(0.2);
 			}
 		} else {
-			setTimeDeath(getTimeDead() + dt);
+			setTimeDead(getTimeDead() + dt);
 			//TODO vergelijking met double
 			if(getTimeDead() > 0.6){
 				terminate();
@@ -736,7 +618,7 @@ public class Slime implements CollisionDetect {
 		updateVelocity(dt);
 		updateLocation(dt);	
 		handleCollisionMazub();
-		
+		handleCollisionShark();		
 		handleCollisionSlime();
 	}
 	
@@ -830,29 +712,6 @@ public class Slime implements CollisionDetect {
 	private double movementTime;
 	
 	/**
-	 * Returns the value of the timer
-	 */
-	@Basic
-	private double getTimer() {
-		return this.timer;
-	}
-	
-	/**
-	 * 
-	 * @param timer
-	 * @post	Sets the timer to the given value
-	 * 			| new.getTimer() == timer
-	 */
-	private void setTimer(double timer) {
-		this.timer = timer;
-	}
-	
-	/**
-	 * this variable contains the current value of the timer
-	 */
-	private double timer; 
-	
-	/**
 	 * 
 	 * @effect 	...
 	 * 			| setHitPoints(getHitPoints() - 50)
@@ -914,97 +773,13 @@ public class Slime implements CollisionDetect {
 		// set boolean
 		setTerminated(true);
 	}
-	
-	/**
-	 * Returns whether this Slime is terminated
-	 */
-	@Basic
-	boolean isTerminated() {
-		return this.terminated;
-	}
-	
-	/**
-	 * sets the terminated state to the given value
-	 * @param value
-	 * @post	...
-	 * 			| new.isTerminated() == value
-	 */
-	private void setTerminated(boolean value) {
-		this.terminated = value;
-	}
-	
-	private boolean terminated;
-	
-	private boolean isInMagma() {
-		int x = (int) getLocationX();
-		int y = (int) getLocationY();
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
-	}
-	
-	/**
-	 * @return the magmaTimer
-	 */
-	private double getMagmaTimer() {
-		return magmaTimer;
-	}
-
-
-	/**
-	 * @param magmaTimer
-	 */
-	private void setMagmaTimer(double magmaTimer) {
-		this.magmaTimer = magmaTimer;
-	}
-	
-	private double magmaTimer;
-	
-	private boolean isInWater() {
-		int x = (int) getLocationX();
-		int y = (int) getLocationY();
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 2);
-	}
-	
-	/**
-	 * @return the waterTimer
-	 */
-	private double getWaterTimer() {
-		return waterTimer;
-	}
-
-
-	/**
-	 * @param waterTimer the waterTimer to set
-	 */
-	private void setWaterTimer(double waterTimer) {
-		this.waterTimer = waterTimer;
-	}
-	
-	private double waterTimer;
-	
-	boolean isDead() {
-		return isDead;
-	}
-
-	private void setDead(boolean isDead) {
-		this.isDead = isDead;
-	}
-	
-	private boolean isDead;
-
-	private double getTimeDead() {
-		return timeDead;
-	}
-
-	private void setTimeDeath(double timeDead) {
-		this.timeDead = timeDead;
-	}
-	private double timeDead;
 
 	public void hadCollisionShark() {
 		setHitPoints(getHitPoints()-50);		
+	}
+
+	@Override
+	int getMaxHitPoints() {
+		return Integer.MAX_VALUE;
 	}
 }

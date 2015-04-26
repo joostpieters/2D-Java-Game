@@ -1,6 +1,8 @@
 package jumpingalien.model;
 
+import java.security.GeneralSecurityException;
 import java.util.Collection;
+
 
 
 
@@ -20,7 +22,7 @@ import jumpingalien.util.Util;
  * @invar	the Mazub's hitpoints are always between 0 and 500
  * 			| (0 <= getHitPoints()) && (getHitPoints() <= 500)
  */
-public class Mazub implements CollisionDetect {
+public class Mazub extends GameObjects {
 
 	/**
 	 * 
@@ -65,42 +67,6 @@ public class Mazub implements CollisionDetect {
 	}
 	
 	
-	/**
-	 * Return locationX of this Mazub
-	 * 	locationX expresses the current X coordinate of this Mazub
-	 */
-	@Basic
-	public double getLocationX() {
-		return this.locationX;
-	}
-
-	
-	/**
-	 * Set locationX of this Mazub to a given value
-	 * 
-	 * @param 	locationX
-	 * 			The new locationX coordinate for this Mazub
-	 * @throws 	IllegalArgumentException
-	 * 			if locationX is less than zero or if locationX is bigger than getWindowWidth() minus one
-	 * 			|(locationX < 0) || (locationX > getWindowWidth()-1)
-	 * @pre		The given locationX needs to be bigger or equal to 0
-	 * 			| locationX >= 0
-	 * @pre		The given LocationX needs to be smaller than the current game window width
-	 * 			| locationX < getWindowWidth()
-	 * @post 	The locationX of this Mazub is equal to the given locationX
-	 * 			| new.getLocationX() == locationX  
-	 */
-	private void setLocationX(double locationX) throws IllegalArgumentException {
-		if ((locationX < 0) || (locationX > getWindowWidth()-1)){
-			throw new IllegalArgumentException("X coordinate is out of window range");
-		}
-		this.locationX = locationX;
-	}
-	
-	/**
-	 * This variable contains the current X coordinate of this Mazub
-	 */	
-	private double locationX;
 	
 	/**
 	 * Return the width of the game window 	
@@ -112,37 +78,6 @@ public class Mazub implements CollisionDetect {
 		return 1024;
 	}
 	
-	/**
-	 * Return locationY of this Mazub
-	 * 	locationY expresses the current Y coordinate of this Mazub
-	 */
-	@Basic
-	public double getLocationY() {
-		return this.locationY;
-	}
-	
-	/**
-	 * Set locationY of this Mazub to a given value
-	 * 
-	 * @param 	locationY
-	 * 			The new locationY for this Mazub
-	 * @throws 	IllegalArgumentException
-	 * 			if locationY is less than zero or if locationY is bigger than getWindowHeight() minus one
-	 * 			|(locationY < 0)||(locationY > getWindowHeight()-1)
-	 * @post 	The locationY of this Mazub is equal to the given LocationY
-	 * 			| new.getLocationY() == locationY  
-	 */
-	private void setLocationY(double locationY) throws IllegalArgumentException {
-		if((locationY < 0)||(locationY > getWindowHeight()-1)){
-			throw new IllegalArgumentException("Y coordinate is out of window range");
-		}
-		this.locationY = locationY;
-	}
-	
-	/**
-	 * This variable contains the current Y coordinate of this Mazub
-	 */
-	private double locationY;
 	
 	/**
 	 * Return the height of the game window 	
@@ -178,14 +113,14 @@ public class Mazub implements CollisionDetect {
 		try {
 			setLocationX(pixelLeftX);
 		} catch (IllegalArgumentException e1) {
-			locationX = calculateValidLocationX(pixelLeftX);
+			double locationX = calculateValidLocationX(pixelLeftX);
 			setLocationX(locationX);
 		}
 		
 		try {
 			setLocationY(pixelBottomY);
 		} catch (IllegalArgumentException e2) {
-			locationY = calculateValidLocationY(pixelBottomY);
+			double locationY = calculateValidLocationY(pixelBottomY);
 			setLocationY(locationY);
 		}
 		
@@ -346,39 +281,6 @@ public class Mazub implements CollisionDetect {
 	private double accelerationY;
 	
 	/**
-	 * Return the sprites of this Mazub
-	 * 	sprites is an array of all possible sprites for movements of this Mazub
-	 */	
-	@Basic
-	private final Sprite[] getSprites() {
-		return sprites;
-	}
-	
-	/**
-	 * Sets the sprites that could be used by this Mazub for movements
-	 * 
-	 * @param 	sprites
-	 * 			the new sprites for this Mazub
-	 * @throws 	IllegalArgumentException
-	 * 			if sprites is not a valid sprite array
-	 * 			| ! isValidSpriteArray(sprites)
-	 * @pre		sprites needs to be a valid sprite array
-	 * 			| isValidSpriteArray(sprites)
-	 * @post 	The sprites of this Mazub is equal to the given sprites
-	 * 			| new.getSprites() == sprites  	
-	 */
-	private void setSprites(Sprite[] sprites) throws IllegalArgumentException {
-		if (! isValidSpriteArray(sprites))
-			throw new IllegalArgumentException();
-		this.sprites = sprites;
-	}
-	
-	/**
-	 * The array of sprites.
-	 */
-	private Sprite[] sprites;
-	
-	/**
 	 * Return if the given sprites array is valid or not
 	 * @param 	sprites
 	 * 			the array of sprites that needs to be checked
@@ -465,7 +367,7 @@ public class Mazub implements CollisionDetect {
 				setSpriteIndex(0);
 		}
 		
-		return sprites[this.getSpriteIndex()];
+		return getSprites()[this.getSpriteIndex()];
 	}
 	
 	/**
@@ -739,7 +641,7 @@ public class Mazub implements CollisionDetect {
 			throw new IllegalArgumentException();
 		}
 		this.addToTimer(this.getTimer() + dt);
-		if(!isDeath()){
+		if(!isDead()){
 			double seconds = dt;
 			if (isImmune() && getImmunityTimer() < 0.6) {
 				setImmunityTimer(getImmunityTimer() + seconds);
@@ -807,9 +709,9 @@ public class Mazub implements CollisionDetect {
 			}
 			//TODO vergelijking met double
 		} else {
-			setTimeDeath(getTimeDeath() + dt);
+			setTimeDead(getTimeDead() + dt);
 			//TODO vergelijking met double
-			if(getTimeDeath() > 0.6){
+			if(getTimeDead() > 0.6){
 				terminate();
 			}
 		}
@@ -1314,42 +1216,6 @@ public class Mazub implements CollisionDetect {
 	private final int amountSpritesForMovement;
 
 	
-	/**
-	 * Returns the hitpoints of this Mazub
-	 */
-	@Basic
-	public int getHitPoints() {
-		return hitPoints;
-	}
-
-
-	/**
-	 * @param hitPoints the hitPoints to set
-	 * @post	if the given hitPoints is less than zero, the hitpoints will be set to zero
-	 * 			| if (hitPoints < 0)
-	 * 			|	then new.getHitPoints() == 0
-	 * @post	if the given hitPoints is greater than 500, the hitpoints will be set to 500
-	 * 			| if (hitPoints > 500)
-	 * 			|	then new.getHitPoints() == 500
-	 * @post 	if the given hitPoints are between 0 and 500, the hitpoints will be set to the given hitPoints
-	 * 			| if ((hitPoints >= 0) && (hitPoints <= 500))
-	 * 			|	then new.getHitPoints() == hitPoints
-	 */
-	private void setHitPoints(int hitPoints) {
-		if (hitPoints <= 0) {
-			this.hitPoints = 0;
-			setDeath(true);
-		} else if (hitPoints > 500) {
-			this.hitPoints = 500;
-		} else {
-			this.hitPoints = hitPoints;
-		}
-	}
-	
-	/**
-	 * This variable contains the hitpoints of this Mazub
-	 */
-	private int hitPoints;
 
 	/**
 	 * Sets the immunity of this Mazub to the given status
@@ -1391,59 +1257,7 @@ public class Mazub implements CollisionDetect {
 	 */
 	private boolean isOnSolidGround(){
 		return hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1);
-	}
-	
-	private boolean isInWater() {
-		int x = (int) getLocationX();
-		int y = (int) getLocationY();
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 2);
-	}
-	
-	/**
-	 * @return the waterTimer
-	 */
-	private double getWaterTimer() {
-		return waterTimer;
-	}
-
-
-	/**
-	 * @param waterTimer the waterTimer to set
-	 */
-	private void setWaterTimer(double waterTimer) {
-		this.waterTimer = waterTimer;
-	}
-	
-	private double waterTimer;	
-
-
-	private boolean isInMagma() {
-		int x = (int) getLocationX();
-		int y = (int) getLocationY();
-		int endX = x + getCurrentSprite().getWidth();
-		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
-	}
-	
-	/**
-	 * @return the magmaTimer
-	 */
-	private double getMagmaTimer() {
-		return magmaTimer;
-	}
-
-
-	/**
-	 * @param magmaTimer the magmaTimer to set
-	 */
-	private void setMagmaTimer(double magmaTimer) {
-		this.magmaTimer = magmaTimer;
-	}
-	
-	private double magmaTimer;
-	
+	}	
 	
 	//TODO un-duck blokkeren als er niet ge-un-duckt kan worden
 	private boolean canStopDucking() {
@@ -1585,45 +1399,19 @@ public class Mazub implements CollisionDetect {
 			}
 		}
 	}
-	private boolean isDeath() {
-		return isDeath;
-	}
-
-	private void setDeath(boolean isDeath) {
-		this.isDeath = isDeath;
-	}
 	
-	private boolean isDeath;
-
-	private double getTimeDeath() {
-		return timeDeath;
+	public int getHitPoints(){
+		return super.getHitPoints();
 	}
-
-	private void setTimeDeath(double timeDeath) {
-		this.timeDeath = timeDeath;
-	}
-	private double timeDeath;
 	
 	private void terminate(){
 		removeWorld();
 		setTerminated(true);
 	}
 
-	boolean isTerminated() {
-		return isTerminated;
-	}
-
-
-	private void setTerminated(boolean isTerminated) {
-		this.isTerminated = isTerminated;
-	}
-	
-	private boolean isTerminated;
-
-	//TODO verwijderen
 	@Override
-	public int[] getLocation() {
-		return null;
+	int getMaxHitPoints() {
+		return 500;
 	}
 }
 
