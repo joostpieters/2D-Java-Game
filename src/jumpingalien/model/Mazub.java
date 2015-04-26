@@ -1,14 +1,9 @@
 package jumpingalien.model;
 
 import java.util.Collection;
-
-
-
-
 import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
-import jumpingalien.util.Util;
 
 /**
  * 
@@ -53,16 +48,13 @@ public class Mazub extends GameObject {
 	 */
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws IllegalArgumentException{
 		this.setLocation(pixelLeftX, pixelBottomY);
-		try{
-			this.setSprites(sprites);		
-		} catch(IllegalArgumentException e){
-			throw new IllegalArgumentException();
-		}
+		this.setSprites(sprites);		
 		this.setSpriteIndex(0);
 		this.setSpriteTimer(0);
 		this.amountSpritesForMovement = (sprites.length - 10) / 2;
 		this.setHitPoints(100);
 		this.setInMagmaTimer(0.2);
+		this.setInWaterTimer(-1);
 	}
 	
 	
@@ -647,38 +639,10 @@ public class Mazub extends GameObject {
 				setImmunity(false);
 				setImmunityTimer(0);
 			}
-			if (isInMagma()) {
-				setInMagmaTimer(getInMagmaTimer() + dt);
-			} else {
-				// immediately lose points when in magma
-				setInMagmaTimer(0.2);
-			}
-			if (isInWater()) {
-				setInWaterTimer(getInWaterTimer() + dt);
-			} else {
-				setInWaterTimer(0);
-			}
 			updateLocationAndVelocity(dt);			
 			if (getWantToStopDucking() && isDucking() && canStopDucking()) {
 				setDucking(false);
 				setWantToStopDucking(false);
-			}
-			if (isInWater()) {
-				if (Util.fuzzyGreaterThanOrEqualTo(getInWaterTimer(), 0.2)) {
-					setHitPoints(getHitPoints()-2);
-					setInWaterTimer(getInWaterTimer()-0.2);
-				}
-			} else {
-				setInWaterTimer(0);
-			}
-			if (isInMagma()) {
-				if (Util.fuzzyGreaterThanOrEqualTo(getInMagmaTimer(), 0.2)) {
-					setInMagmaTimer(getInMagmaTimer()-0.2);
-					setHitPoints(getHitPoints()-50);
-				}
-			} else {
-				// immediately lose points when in magma
-				setInMagmaTimer(0.2);
 			}
 			//TODO vergelijking met double
 		} else {
@@ -714,22 +678,19 @@ public class Mazub extends GameObject {
 	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
-	public void advanceTimeCollisionDetect(double dt){
+	protected void advanceTimeCollisionDetect(double dt){
 		double accelerationX = getAccelerationX(); 
 		if (this.isMovingLeft())
 			accelerationX *= -1;
 		
-		updateLocation(dt, accelerationX);
-				
+		updateLocation(dt, accelerationX);		
 		updateVelocityX(dt, accelerationX);
-		
 		updateVelocityYAndAccelerationY(dt);
-		
 		handleCollisionPlant();
-	
 		handleCollisionSlime();
-		
 		handleCollisionShark();
+		handleMagma(dt);
+		handleWater(dt);
 		
 	}
 
@@ -839,40 +800,10 @@ public class Mazub extends GameObject {
 				locationX = getLocationX();
 			}
 		}
-		boolean hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
-		if(hasCollisionSlime){
-			hasCollisionSlime = getWorld().collisionSlimes((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
-			if(!hasCollisionSlime){
-				locationX = getLocationX();				
-			} else {
-				hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
-				if(!hasCollisionSlime){
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				} else {
-					locationX = getLocationX();
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				}
-			}
-		}
-		boolean hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
-		if(hasCollisionShark){
-			hasCollisionShark = getWorld().collisionSharks((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
-			if(!hasCollisionShark){
-				locationX = getLocationX();				
-			} else {
-				hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
-				if(!hasCollisionShark){
-					locationY = getLocationY();	
-					setVelocityYZero(true);
-				} else {
-					locationX = getLocationX();
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				}
-			}
-		}
+		double[] location = new double[] {locationX, locationY};
+		calculateLocationCollisionObjects(location);
+		locationX = location[0];
+		locationY = location[1];
 		try {
 			setLocationX(locationX);
 		} catch (IllegalArgumentException e1){
@@ -887,31 +818,6 @@ public class Mazub extends GameObject {
 			setLocationY(locationY);
 		}
 	}
-	
-	/**
-	 * @return 	if the velocity needs to be set to zero
-	 *			|result == setVelocityYZero
-	 */
-	private boolean isSetVelocityYZero() {
-		return setVelocityYZero;
-	}
-
-
-	/**
-	 * 
-	 * @param setVelocityYZero
-	 * 			this boolean indicades if the velocityY needs to be set to zero or not
-	 * @post 	setVelocityZero of this mazub will equal the given setVelocityYZero
-	 * 			|new.isSetVelocityYZero() == setVelocityYZero
-	 */
-	private void setVelocityYZero(boolean setVelocityYZero) {
-		this.setVelocityYZero = setVelocityYZero;
-	}
-	
-	/**
-	 * This boolean indicades if mazub's vertical velocity needs to be set to zero
-	 */
-	private boolean setVelocityYZero;
 
 	/**
 	 * @param 	locationX

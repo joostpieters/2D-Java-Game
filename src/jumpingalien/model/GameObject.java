@@ -5,7 +5,7 @@ import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 
 public abstract class GameObject implements CollisionDetect {
-	
+		
 	/**
 	 * @return will return terminated
 	 * 			|result == this.terminated
@@ -302,7 +302,102 @@ public abstract class GameObject implements CollisionDetect {
 	 */
 	private World world;
 	
+	/**
+	 * @return 	if the velocity needs to be set to zero
+	 *			|result == setVelocityYZero
+	 */
+	protected boolean isSetVelocityYZero() {
+		return setVelocityYZero;
+	}
+
+
+	/**
+	 * 
+	 * @param setVelocityYZero
+	 * 			this boolean indicades if the velocityY needs to be set to zero or not
+	 * @post 	setVelocityZero of this Game Object will equal the given setVelocityYZero
+	 * 			|new.isSetVelocityYZero() == setVelocityYZero
+	 */
+	protected void setVelocityYZero(boolean setVelocityYZero) {
+		this.setVelocityYZero = setVelocityYZero;
+	}
+	
+	/**
+	 * This boolean indicades if this Game Object's vertical velocity needs to be set to zero
+	 */
+	private boolean setVelocityYZero;
+	
 	// TODO commentaar
+	
+	private void calculateLocationCollisionShark(double[] location) {
+		boolean hasCollisionShark = getWorld().collisionSharks((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0;
+		if(hasCollisionShark){
+			hasCollisionShark = getWorld().collisionSharks((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0;
+			if(!hasCollisionShark){
+				location[0] = getLocationX();				
+			} else {
+				hasCollisionShark = getWorld().collisionSharks((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
+				if(!hasCollisionShark){
+					location[1] = getLocationY();	
+					setVelocityYZero(true);
+				} else {
+					location[0] = getLocationX();
+					location[1] = getLocationY();
+					setVelocityYZero(true);
+				}
+			}
+		}
+	}
+	
+	private void calculateLocationCollisionMazub(double[] location) {
+		boolean hasCollisionMazub = getWorld().collisionMazub((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight());
+		if(hasCollisionMazub){
+			hasCollisionMazub = getWorld().collisionMazub((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight());
+			if(!hasCollisionMazub){
+				location[0] = getLocationX();				
+			} else {
+				hasCollisionMazub = getWorld().collisionMazub((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight());
+				if(!hasCollisionMazub){
+					location[1] = getLocationY();	
+					setVelocityYZero(true);
+				} else {
+					location[0] = getLocationX();
+					location[1] = getLocationY();
+					setVelocityYZero(true);
+				}
+			}
+		}
+	}
+	
+	private void calculateLocationCollisionSlime(double[] location) {
+		boolean hasCollisionSlime = getWorld().collisionSlimes((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0;
+		if(hasCollisionSlime){
+			hasCollisionSlime = getWorld().collisionSlimes((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0;
+			if(!hasCollisionSlime){
+				location[0] = getLocationX();				
+			} else {
+				hasCollisionSlime = getWorld().collisionSlimes((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
+				if(!hasCollisionSlime){
+					location[1] = getLocationY();
+					setVelocityYZero(true);
+				} else {
+					location[0] = getLocationX();
+					location[1] = getLocationY();
+					setVelocityYZero(true);
+				}
+			}
+		}
+	}
+	
+	protected void calculateLocationCollisionObjects(double[] location){
+		if (!(this instanceof Slime))
+			calculateLocationCollisionSlime(location);
+		if (!(this instanceof Mazub))
+			calculateLocationCollisionMazub(location);
+		if (!(this instanceof Shark))
+			calculateLocationCollisionShark(location);
+	}
+	
 	public double timeOnePixelMovement(double seconds) {
 		double dt1 = 0.2;
 		double dt2 = 0.2;
@@ -324,7 +419,7 @@ public abstract class GameObject implements CollisionDetect {
 		return seconds;
 	}
 	
-	public double updateLocationAndVelocity(double seconds) {
+	protected double updateLocationAndVelocity(double seconds) {
 		while(seconds > 0){
 			double advanceTime = timeOnePixelMovement(seconds);
 			advanceTimeCollisionDetect(advanceTime);
@@ -336,7 +431,7 @@ public abstract class GameObject implements CollisionDetect {
 	/**
 	 * @param dt
 	 */
-	public void handleMagma(double dt) {
+	protected void handleMagma(double dt) {
 		if(isInMagma()){
 			if(Util.fuzzyGreaterThanOrEqualTo(getInMagmaTimer(), 0.2)){
 				lowerHitPoints(50);
@@ -348,6 +443,24 @@ public abstract class GameObject implements CollisionDetect {
 			setInMagmaTimer(0.2);
 		}
 	}
+	
+	protected void handleWater(double dt){
+		if(isInWater()){
+			if(Util.fuzzyEquals(getInWaterTimer(), -1)){
+				setInWaterTimer(0);
+			} else {
+				setInWaterTimer(getInWaterTimer()+dt);
+				if(Util.fuzzyGreaterThanOrEqualTo(getInWaterTimer(), 0.2)){
+					setInWaterTimer(getInWaterTimer()-0.2);
+					setHitPoints(getHitPoints()-2);
+				}
+			}
+		} else {
+			setInWaterTimer(-1);
+		}
+	}
+	
+	
 
 	protected abstract void advanceTimeCollisionDetect(double advanceTime);
 

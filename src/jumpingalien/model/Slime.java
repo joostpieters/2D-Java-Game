@@ -3,7 +3,6 @@ package jumpingalien.model;
 import java.util.Collection;
 
 import jumpingalien.util.Sprite;
-import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.*;
 
 public class Slime extends GameObject {
@@ -38,7 +37,9 @@ public class Slime extends GameObject {
 	 * @effect	...
 	 * 			| newMovement()
 	 * @effect	...
-	 * 			| setMagmaTimer(0.2)
+	 * 			| setInMagmaTimer(0.2)
+	 * @effect	...
+	 * 			| setInWaterTimer(-1) 
 	 */
 	public Slime (int x, int y, Sprite[] sprites, School school) throws IllegalArgumentException{
 		if(sprites.length != 2){
@@ -60,6 +61,7 @@ public class Slime extends GameObject {
 		setAccelerationY(0);
 		newMovement();
 		setInMagmaTimer(0.2);
+		setInWaterTimer(-1);
 	}
 	
 	/**
@@ -315,57 +317,11 @@ public class Slime extends GameObject {
 				locationX = getLocationX();
 			}
 		}
-		boolean hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight(), this).size() > 0;
-		if(hasCollisionSlime){
-			hasCollisionSlime = getWorld().collisionSlimes((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight(), this).size() > 0;
-			if(!hasCollisionSlime){
-				locationX = getLocationX();				
-			} else {
-				hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
-				if(!hasCollisionSlime){
-					locationY = getLocationY();	
-					setVelocityYZero(true);
-				} else {
-					locationX = getLocationX();
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				}
-			}
-		}
-		boolean hasCollisionMazub = getWorld().collisionMazub((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight());
-		if(hasCollisionMazub){
-			hasCollisionMazub = getWorld().collisionMazub((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight());
-			if(!hasCollisionMazub){
-				locationX = getLocationX();				
-			} else {
-				hasCollisionMazub = getWorld().collisionMazub((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight());
-				if(!hasCollisionMazub){
-					locationY = getLocationY();	
-					setVelocityYZero(true);
-				} else {
-					locationX = getLocationX();
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				}
-			}
-		}
-		boolean hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
-		if(hasCollisionShark){
-			hasCollisionShark = getWorld().collisionSharks((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
-			if(!hasCollisionShark){
-				locationX = getLocationX();				
-			} else {
-				hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
-				if(!hasCollisionShark){
-					locationY = getLocationY();	
-					setVelocityYZero(true);
-				} else {
-					locationX = getLocationX();
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				}
-			}
-		}
+		double[] location = new double[] {locationX, locationY};
+		calculateLocationCollisionObjects(location);
+		calculateLocationCollisionSlime(location);
+		locationX = location[0];
+		locationY = location[1];
 		try {
 			setLocationX(locationX);
 		} catch (IllegalArgumentException e1){
@@ -380,31 +336,29 @@ public class Slime extends GameObject {
 			setLocationY(locationY);
 		}
 	}
-	
-	/**
-	 * @return 	if the velocity needs to be set to zero
-	 *			|result == setVelocityYZero
-	 */
-	private boolean isSetVelocityYZero() {
-		return setVelocityYZero;
-	}
-
 
 	/**
-	 * 
-	 * @param setVelocityYZero
-	 * 			this boolean indicades if the velocityY needs to be set to zero or not
-	 * @post 	setVelocityZero of this slime will equal the given setVelocityYZero
-	 * 			|new.isSetVelocityYZero() == setVelocityYZero
+	 * @param location
 	 */
-	private void setVelocityYZero(boolean setVelocityYZero) {
-		this.setVelocityYZero = setVelocityYZero;
+	public void calculateLocationCollisionSlime(double[] location) {
+		boolean hasCollisionSlime = getWorld().collisionSlimes((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight(), this).size() > 0;
+		if(hasCollisionSlime){
+			hasCollisionSlime = getWorld().collisionSlimes((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight(), this).size() > 0;
+			if(!hasCollisionSlime){
+				location[0] = getLocationX();				
+			} else {
+				hasCollisionSlime = getWorld().collisionSlimes((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
+				if(!hasCollisionSlime){
+					location[1] = getLocationY();	
+					setVelocityYZero(true);
+				} else {
+					location[0] = getLocationX();
+					location[1] = getLocationY();
+					setVelocityYZero(true);
+				}
+			}
+		}
 	}
-	
-	/**
-	 * This boolean indicades if this slime's vertical velocity needs to be set to zero
-	 */
-	private boolean setVelocityYZero;
 
 	/**
 	 * 
@@ -496,19 +450,7 @@ public class Slime extends GameObject {
 			double seconds = dt;
 			if (seconds < 0 || seconds >= 0.2) 
 				throw new IllegalArgumentException();
-			if (isInWater()) {
-				setInWaterTimer(getInWaterTimer() + dt);
-			} else {
-				setInWaterTimer(0);
-			}
-			while(seconds > 0){
-				if (! isOnSolidGround()) {
-					setAccelerationY(-10);
-				}
-				double timeOnePixel = timeOnePixelMovement(dt);
-				seconds -= timeOnePixel;
-				advanceTimeCollisionDetect(timeOnePixel);
-			}
+			updateLocationAndVelocity(dt);
 			if (isInWater()) {
 				if (getInWaterTimer() >= 0.2) {
 					setHitPoints(getHitPoints()-2);
@@ -526,6 +468,9 @@ public class Slime extends GameObject {
 	}
 	
 	protected void advanceTimeCollisionDetect(double dt){
+		if (! isOnSolidGround()) {
+			setAccelerationY(-10);
+		}
 		setMovementTime(getMovementTime()-dt);
 		if(getMovementTime() <= 0){
 			newMovement();
@@ -536,6 +481,7 @@ public class Slime extends GameObject {
 		handleCollisionMazub();
 		handleCollisionShark();		
 		handleCollisionSlime();
+		handleWater(dt);
 	}
 	
 	private void updateVelocity(double dt){
@@ -662,7 +608,7 @@ public class Slime extends GameObject {
 		Collection<Slime> collection = getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime: collection) {
 			//TODO soms NullPointerException?
-			if (!(this.getSchool().equals(slime.getSchool())) && (slime.getSchool().getAmountSlimes() > this.getSchool().getAmountSlimes())) {
+			if (!(this.getSchool() == slime.getSchool()) && (slime.getSchool().getAmountSlimes() > this.getSchool().getAmountSlimes())) {
 				this.changeSchool(slime.getSchool());
 			}
 		}

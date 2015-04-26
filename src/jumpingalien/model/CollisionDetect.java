@@ -84,7 +84,6 @@ import jumpingalien.util.Sprite;
 		int endY = y + getCurrentSprite().getHeight();
 		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
 	}
-	
 
 	abstract int[] getLocation();
 	

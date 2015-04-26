@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
-import jumpingalien.util.Util;
 
 public class Shark extends GameObject {
 	/**
@@ -143,32 +142,19 @@ public class Shark extends GameObject {
 	private double accelerationY;
 	
 	void advanceTime(double dt) throws IllegalArgumentException {
+		//TODO aangepast voorwaarde
+		if (dt < 0 || dt > 0.2) 
+			throw new IllegalArgumentException();
 		if(!isDead()){
-			if (dt < 0 || dt >= 0.2) 
-				throw new IllegalArgumentException();
 			if(!isInWater()){
 				setNotInWaterTimer(getNotInWaterTimer() + dt);
 			} else {
 				setNotInWaterTimer(0);
 			}
-			if (isInMagma()) {
-				setInMagmaTimer(getInMagmaTimer() + dt);
-				// immediately lose points when in magma
-				setInMagmaTimer(0.2);
-			}
 			updateLocationAndVelocity(dt);
 			if(getNotInWaterTimer() >= 0.2){
 				setNotInWaterTimer(getNotInWaterTimer() - 0.2);
 				setHitPoints(getHitPoints() - 1);
-			}
-			if (isInMagma()) {
-				if (getInMagmaTimer() >= 0.2) {
-					setInMagmaTimer(getInMagmaTimer()-0.2);
-					setHitPoints(getHitPoints()-50);
-				}
-			} else {
-				// immediately lose points when in magma
-				setInMagmaTimer(0.2);
 			}
 		} else {
 			setTimeDead(getTimeDead() + dt);
@@ -205,6 +191,7 @@ public class Shark extends GameObject {
 		updateVelocity(dt);
 		handleCollisionMazub();
 		handleCollisionSlime();
+		handleMagma(dt);
 	}
 	
 	private void updateLocation(Double dt){
@@ -225,85 +212,38 @@ public class Shark extends GameObject {
 				locationX = getLocationX();
 			}
 		}
-		boolean hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight(), this).size() > 0;
-		if(hasCollisionShark){
-			hasCollisionShark = getWorld().collisionSharks((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight(), this).size() > 0;
-			if(!hasCollisionShark){
-				locationX = getLocationX();				
-			} else {
-				hasCollisionShark = getWorld().collisionSharks((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
-				if(!hasCollisionShark){
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				} else {
-					locationX = getLocationX();
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				}
-			}
-		}
-		boolean hasCollisionMazub = getWorld().collisionMazub((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight());
-		if(hasCollisionMazub){
-			hasCollisionMazub = getWorld().collisionMazub((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight());
-			if(!hasCollisionMazub){
-				locationX = getLocationX();				
-			} else {
-				hasCollisionMazub = getWorld().collisionMazub((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight());
-				if(!hasCollisionMazub){
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				} else {
-					locationX = getLocationX();
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				}
-			}
-		}
-		boolean hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)locationY, (int) locationX + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
-		if(hasCollisionSlime){
-			hasCollisionSlime = getWorld().collisionSlimes((int)getLocationX(), (int)locationY, (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) locationY + this.getCurrentSprite().getHeight()).size() > 0;
-			if(!hasCollisionSlime){
-				locationX = getLocationX();				
-			} else {
-				hasCollisionSlime = getWorld().collisionSlimes((int)locationX, (int)getLocationY(), (int) locationX + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
-				if(!hasCollisionSlime){
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				} else {
-					locationX = getLocationX();
-					locationY = getLocationY();
-					setVelocityYZero(true);
-				}
-			}
-		}
+		double[] location = new double[] {locationX, locationY};
+		calculateLocationCollisionObjects(location);
+		calculateLocationCollisionShark(location);
+		locationX = location[0];
+		locationY = location[1];
 		setLocationX(locationX);
 		setLocationY(locationY);
 	}
-	
-	/**
-	 * @return 	if the velocity needs to be set to zero
-	 *			|result == setVelocityYZero
-	 */
-	private boolean isSetVelocityYZero() {
-		return setVelocityYZero;
-	}
-
 
 	/**
-	 * 
-	 * @param setVelocityYZero
-	 * 			this boolean indicades if the velocityY needs to be set to zero or not
-	 * @post 	setVelocityZero of this shark will equal the given setVelocityYZero
-	 * 			|new.isSetVelocityYZero() == setVelocityYZero
+	 * @param location
 	 */
-	private void setVelocityYZero(boolean setVelocityYZero) {
-		this.setVelocityYZero = setVelocityYZero;
+	protected void calculateLocationCollisionShark(double[] location) {
+		boolean hasCollisionShark = getWorld().collisionSharks((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight(), this).size() > 0;
+		if(hasCollisionShark){
+			hasCollisionShark = getWorld().collisionSharks((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight(), this).size() > 0;
+			if(!hasCollisionShark){
+				location[0] = getLocationX();				
+			} else {
+				hasCollisionShark = getWorld().collisionSharks((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
+				if(!hasCollisionShark){
+					location[1] = getLocationY();
+					setVelocityYZero(true);
+				} else {
+					location[0] = getLocationX();
+					location[1] = getLocationY();
+					setVelocityYZero(true);
+				}
+			}
+		}
 	}
-	
-	/**
-	 * This boolean indicades if this sharks vertical velocity needs to be set to zero
-	 */
-	private boolean setVelocityYZero;
+
 	
 	private void updateVelocity(double dt){
 		double accelerationX = getAccelerationX();
