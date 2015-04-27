@@ -2,11 +2,14 @@ package jumpingalien.model;
 
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
 
 /**
  * 
  * @author Stijn Caerts en Pieter-Jan Coenen
  * @invar de lengte van de spirtes is gelijk aan 2
+ * @invar	...
+ * 			| getWorld() != null
  *
  */
 public class Plant extends GameObject {
@@ -26,6 +29,7 @@ public class Plant extends GameObject {
 	 * @throws IllegalArgumentException
 	 *             ... | sprites.length != 2
 	 */
+	@Raw
 	public Plant(int x, int y, Sprite[] sprites)
 			throws IllegalArgumentException {
 		if (sprites.length != 2) {

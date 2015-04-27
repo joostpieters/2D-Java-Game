@@ -6,6 +6,11 @@ import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 
+/**
+ * 
+ * @invar	...
+ * 			| getWorld() != null
+ */
 public class Shark extends GameObject {
 	/**
 	 * @param x

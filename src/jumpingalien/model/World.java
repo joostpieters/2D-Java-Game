@@ -3,7 +3,9 @@ package jumpingalien.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
 
 /**
  * 
@@ -552,8 +554,7 @@ public class World  {
 	 * 			|	updateWindow()
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
-		//TODO nakijken + double vergelijking
-		if (dt < 0 || dt > 0.2){
+		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2)){
 			throw new IllegalArgumentException();
 		}
 		if(getMazub() != null){
@@ -673,7 +674,7 @@ public class World  {
 	 * 			...
 	 * 			|isGameStarted() 
 	 */
-	public void addPlant(Plant plant) throws IllegalArgumentException, IllegalStateException{
+	public void addPlant(@Raw Plant plant) throws IllegalArgumentException, IllegalStateException{
 		if(isGameStarted()){
 			throw new IllegalStateException();
 		} else if (!canHaveAsPlant(plant)){
@@ -689,7 +690,7 @@ public class World  {
 	 * @return	...
 	 * 			|return ((plant != null) && (!plant.hasAWorld()))
 	 */
-	private boolean canHaveAsPlant(Plant plant){
+	private boolean canHaveAsPlant(@Raw Plant plant){
 		return ((plant != null) && (!plant.hasAWorld()));
 	}
 	
@@ -699,7 +700,7 @@ public class World  {
 	 * @return 	...
 	 * 			|return getPlants().contains(plant);
 	 */
-	boolean hasAsPlant(Plant plant){
+	boolean hasAsPlant(@Raw Plant plant){
 		return plants.contains(plant);
 	}
 	
@@ -723,7 +724,7 @@ public class World  {
 	 * 			...
 	 * 			|isGameStarted()
 	 */
-	public void addShark(Shark shark) throws IllegalArgumentException, IllegalStateException{
+	public void addShark(@Raw Shark shark) throws IllegalArgumentException, IllegalStateException{
 		if(isGameStarted()){
 			throw new IllegalStateException();
 		} else if (!canHaveAsShark(shark)){
@@ -739,7 +740,7 @@ public class World  {
 	 * @return	...
 	 * 			|return ((shark != null) && (!shark.hasAWorld()))
 	 */
-	private boolean canHaveAsShark(Shark shark){
+	private boolean canHaveAsShark(@Raw Shark shark){
 		return ((shark != null) && (!shark.hasAWorld()));
 	}
 	
@@ -749,7 +750,7 @@ public class World  {
 	 * @return 	...
 	 * 			|return getSharks().contains(shark);
 	 */
-	boolean hasAsShark(Shark shark){
+	boolean hasAsShark(@Raw Shark shark){
 		return sharks.contains(shark);
 	}
 	
@@ -777,7 +778,7 @@ public class World  {
 	 * 			...
 	 * 			|isGameStarted()
 	 */
-	public void addSlime(Slime slime)throws IllegalArgumentException, IllegalStateException{
+	public void addSlime(@Raw Slime slime)throws IllegalArgumentException, IllegalStateException{
 		if(isGameStarted()){
 			throw new IllegalStateException();
 		} else if (!canHaveAsSlime(slime)){
@@ -793,7 +794,7 @@ public class World  {
 	 * @return	...
 	 * 			|return ((slime != null) && (!slime.hasAWorld()))
 	 */
-	private boolean canHaveAsSlime(Slime slime){
+	private boolean canHaveAsSlime(@Raw Slime slime){
 		return ((slime != null) && (!slime.hasAWorld()));
 	}
 	
@@ -803,7 +804,7 @@ public class World  {
 	 * @return 	...
 	 * 			|return getSlimes().contains(slime);
 	 */
-	boolean hasAsSlime(Slime slime){
+	boolean hasAsSlime(@Raw Slime slime){
 		return slimes.contains(slime);
 	}
 	
@@ -824,7 +825,7 @@ public class World  {
 	 * @effect	...
 	 * 			| sharks.remove(shark)
 	 */
-	void removeShark(Shark shark){
+	void removeShark(@Raw Shark shark){
 		assert(shark != null);
 		sharks.remove(shark);
 	}
@@ -1309,7 +1310,7 @@ public class World  {
 	 * @post	...
 	 * 			| !new.getPlants.contains(plant)
 	 */
-	void removePlant(Plant plant) {
+	void removePlant(@Raw Plant plant) {
 		assert (plant != null);
 		plants.remove(plant);
 	}
@@ -1322,7 +1323,7 @@ public class World  {
 	 * @post	...
 	 * 			| !new.getSlimes.contains(slime)
 	 */
-	void removeSlime(Slime slime) {
+	void removeSlime(@Raw Slime slime) {
 		assert (slime != null);
 		slimes.remove(slime);
 	}

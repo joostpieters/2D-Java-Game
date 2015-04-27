@@ -3,6 +3,7 @@ package jumpingalien.model;
 import java.util.ArrayList;
 
 import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
 
 /**
  * 
@@ -22,7 +23,7 @@ public class School {
 	 * @post 	...
 	 * 			|new.slimes.contains(slime)
 	 */
-	void addSlime(Slime slime) throws IllegalArgumentException{
+	void addSlime(@Raw Slime slime) throws IllegalArgumentException{
 		if(!canHaveAsSlime(slime)){
 			throw new IllegalArgumentException();
 		}
@@ -45,7 +46,7 @@ public class School {
 	 * 			| if (new.getAmountSlimes() == 0) then
 	 * 			|	this.terminate()
 	 */
-	void removeSlime(Slime slime) {
+	void removeSlime(@Raw Slime slime) {
 		assert (slime != null);
 		slimes.remove(slime);
 		for (Slime otherSlime : slimes) {
@@ -73,7 +74,7 @@ public class School {
 	 * @effect	...
 	 * 			| addSlime(slime)
 	 */
-	void addNewSchoolMember(Slime slime) throws IllegalAccessException {
+	void addNewSchoolMember(@Raw Slime slime) throws IllegalAccessException {
 		assert (canHaveAsSlime(slime));
 		for (Slime otherSlime : slimes) {
 			if (!otherSlime.isDead()) {
