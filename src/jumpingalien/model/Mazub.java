@@ -1,9 +1,11 @@
 package jumpingalien.model;
 
 import java.util.Collection;
+
 import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 
 /**
  * 
@@ -372,6 +374,12 @@ public class Mazub extends GameObject {
 	 * 			the direction in which this Mazub needs to start moving
 	 * @pre		The given direction needs to be RIGHT or LEFT
 	 * 			|direction == Direction.RIGHT || direction == Direction.LEFT
+	 * @pre		If the direction is RIGHT, the rightkey can not be pressed already
+	 * 			|if (direction == Direction.RIGHT) then
+	 * 			|	!isRightKeyPressed()
+	 * @pre		If the direction is LEFT, the leftkey can not be pressed already
+	 * 			|if (direction == Direction.LEFT) then
+	 * 			|	!isLeftKeyPressed() 
 	 * @effect 	if the given direction is RIGHT, the horizontal velocity will be set to the 
 	 * 				initial horizontal velocity
 	 * 				and the acceleration will be equal to the initial horizontal acceleration
@@ -389,9 +397,11 @@ public class Mazub extends GameObject {
 		assert(direction == Direction.RIGHT || direction == Direction.LEFT);
 		if (direction == Direction.RIGHT) {
 			assert(!isRightKeyPressed());
+			setRightKeyPressed(true);
 			setVelocityX(getInitialHorizontalVelocity());
 			setAccelerationX(getInitialHorizontalAcceleration());
 		} else if (direction == Direction.LEFT){
+			setLeftKeyPressed(true);
 			assert(!isLeftKeyPressed());
 			setVelocityX(getInitialHorizontalVelocity()*-1);
 			setAccelerationX(getInitialHorizontalAcceleration());
@@ -401,18 +411,25 @@ public class Mazub extends GameObject {
 
 	/**
 	 * Let this Mazub jump
+	 * 	@throws IllegalStateException
+	 * 			if the up key is already pressed
+	 * 			|isUpKeyPressed()
+	 *  @pre 	the up key can not be pressed already
+	 *  		|!isUpKeyPressed()
 	 *  @effect	the vertical velocity will be set to 8 
 	 *  			and the vertical acceleration will be set to minus ten
-	 * 			|	setVelocityY(8)
-	 * 			| 	setAccelerationY(-10) 
+	 * 			|setVelocityY(8)
+	 * 			|setAccelerationY(-10) 
 	 */
-	
-	// TODO jump on game object
-	public void startJump() {
+	public void startJump() throws IllegalStateException {
+		if (isUpKeyPressed()){
+			throw new IllegalStateException();
+		}
 		if(isOnSolidGround() || isOnGameObject()){
 			setVelocityY(8);
 			setAccelerationY(-10);
 		}
+		setUpKeyPressed(true);		
 	}
 	
 	/**
@@ -428,6 +445,12 @@ public class Mazub extends GameObject {
 	 * 			the direction in which mazub needs to be stop moving
 	 * @pre		if the given direction is needs to be Direction.LEFT or Direction.RIGHT
 	 * 			|((direction == Direction.RIGHT) || (direction == Direction.LEFT))
+	 * @pre		if the stop direction equals RIGHT, the right key needs to be pressed
+	 * 			|if ( direction == Direction.RIGHT ) then
+	 * 			|	isRightKeyPressed()
+	 * @pre		if the stop direction equals LEFT, the left key needs to be pressed
+	 * 			|if ( direction == Direction.LEFT ) then
+	 * 			|	isLeftKeyPressed() 
 	 * @effect	if the last movement was to the right and this Mazub is not ducking, 
 	 * 				then the lastMoveDirection is set to Direction.RIGHT
 	 * 			| if isMovingRight() then
@@ -463,6 +486,7 @@ public class Mazub extends GameObject {
 		assert ((direction == Direction.RIGHT) || (direction == Direction.LEFT));
 		if ( direction == Direction.RIGHT ){
 			assert(isRightKeyPressed());
+			setRightKeyPressed(false);
 			if (isMovingRight()){
 				if (isDucking())
 					this.setLastMoveDirection(Direction.RIGHT_AND_DUCKING);
@@ -555,59 +579,63 @@ public class Mazub extends GameObject {
 	private double lastMoveTimer;
 
 	/**
-	 * End this Mazub's jump
+	 * Ends this Mazub's jump
+	 * @throws 	IllegalStateException
+	 * 				if the up key was not pressed
+	 * 			| !isUpKeyPressed()
 	 * @post	if velocityY is greater than 0, velocityY will be zero
 	 * 			| if getVelocityY() > 0 then
 	 * 			|	new.getVelocityY == 0
 	 */
-	public void endJump() {
+	public void endJump() throws IllegalStateException {
+		if(!isUpKeyPressed()){
+			throw new IllegalStateException();
+		}
 		if (this.getVelocityY() > 0) {
 			this.setVelocityY(0);
 		}
+		setUpKeyPressed(false);
 	}
 	
-	//TODO tekst bij laatste @effect + ontbreekt nog hoop shit
 	/**
 	 * Given a time this methode will update the location, velocity and acceleration of this Mazub	 * 
-	 * @param 	seconds
+	 * @param 	dt
 	 * 			the elapsed time in seconds
 	 * @throws 	IllegalArgumentException
 	 * 			if seconds is less than zero or if seconds is equal or bigger than 0.2
 	 * 			| (seconds < 0 || seconds >= 0.2)
-	 * @effect	the timer will be added with the given seconds using setTimer() 
-	 * 				and the given seconds as parameter
-	 * 			| setTimer(getTimer() + seconds)
-	 * @effect 	while(seconds > 0)
-	 * 				if((getVelocityX() != 0) || (getAccelerationX() != 0)) then
-	 * 					if((getVelocityY() != 0) || (getAccelerationY() != 0)) then
-	 * 						if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) >= seconds && (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds) >= seconds) then
-	 * 							AdvanceTimeCollisionDetect(seconds);
-	 *							seconds = 0;
-	 * 						else if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) < (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds)) then
-	 * 							AdvanceTimeCollisionDetect(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds));
-	 *							seconds -= Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
-	 *						else if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) > (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds)) then
-	 *							AdvanceTimeCollisionDetect((0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds));
-	 *							seconds -= (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
-	 *					else if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) >= seconds) then
-	 *						 AdvanceTimeCollisionDetect(seconds);
-	 *						 seconds = 0;
-	 *					else then
-	 *						AdvanceTimeCollisionDetect((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds));
-	 *						seconds -= (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds);
-	 *				else if((getVelocityY() != 0) || (getAccelerationY() != 0)) then
-	 *					if ((0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds) > seconds) then
-	 *						AdvanceTimeCollisionDetect(seconds);
-	 *						seconds = 0;
-	 *					else then
-	 *						AdvanceTimeCollisionDetect((0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds));
-	 *						seconds -= (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds);
-	 *				else then
-	 *					seconds = 0				
+	 * @effect	the timer will be added with the given dt using addToTimer() 
+	 * 				and the given dt as parameter
+	 * 			| addToTimer(dt)
+	 * @effect 	if mazub is not dead the velocity and location will be updated
+	 * 			|if(!isDead()) then
+	 * 			|	updateLocationAndVelocity(dt)
+	 * @effect	if mazub is not death and this mazub is immune for less than 0.6 seconds
+	 * 				then the immunity timer will be add with dt
+	 * 			|if(!isDead() && isImmune() && getImmunityTimer() < 0.6) then
+	 * 			|	setImmunityTimer(getImmunityTimer() + dt)
+	 * @effect	if mazub is not dead and this mazub is immune for 0.6 or more seconds
+	 * 				then the immunity timer will be set to zero and this mazub 
+	 * 					will not be immune any more
+	 * 			|if(!isDead() && isImmune() && getImmunityTimer() >= 0.6) then
+	 * 			|	setImmunity(false)
+	 * 			|	setImmunityTimer(0) 
+	 * @effect	if mazub is not dead and is ducking and wants to stop ducking 
+	 * 				and can stop ducking
+	 * 				then he stops ducking and he wants to stop ducking
+	 * 			|if(!isDead() && getWantToStopDucking() && isDucking() && canStopDucking()) then
+	 * 			|	setDucking(false)
+	 * 			|	setWantToStopDucking(false)
+	 * @effect	if mazub is dead then dt will be add to the deadtimer
+	 * 			|if(isDead()) then
+	 * 			|	setTimeDead(getTimeDead() + dt)
+	 * @effect	if mazub is dead for 0.6 seconds or more than he will be terminated
+	 * 			|if(isDead() && getTimeDead() >= 0.6) then
+	 * 			|	terminate()
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException {
 		//TODO dt check aangepast
-		if (dt < 0 || dt > 0.2){
+		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2)){
 			throw new IllegalArgumentException();
 		}
 		this.addToTimer(dt);
@@ -623,10 +651,9 @@ public class Mazub extends GameObject {
 				setDucking(false);
 				setWantToStopDucking(false);
 			}
-			//TODO vergelijking met double
 		} else {
 			setTimeDead(getTimeDead() + dt);
-			if(getTimeDead() > 0.6){
+			if(Util.fuzzyGreaterThanOrEqualTo(getTimeDead(), 0.6)){
 				terminate();
 			}
 		}
@@ -890,29 +917,31 @@ public class Mazub extends GameObject {
 	/**
 	 * this methode will start this Mazub with ducking
 	 * @throws	IllegalStateException
-	 * 			if the this Mazub is already ducking while startDucking is involved
-	 * 			| isDucking()
+	 * 			if the down key was already pushed
+	 * 			| isDownKeyPressed()
 	 * @effect 	the ducking state of this Mazub will be set to true
 	 * 			|setDucking(true);
 	 */
 	public void startDucking() throws IllegalStateException {
-		if (isDucking())
+		if (isDownKeyPressed())
 			throw new IllegalStateException();
 		setDucking(true);
+		setDownKeyPressed(true);
 	}
 
 	/**
 	 * this methode will stop this Mazub with ducking
 	 * @throws	IllegalStateException
-	 * 			if the this Mazub is not ducking while stopDucking is involved
-	 * 			| !isDucking()
+	 * 			if the down key is already pushed
+	 * 			| !isDownKeyPressed()
 	 * @effect 	sets that this Mazub wants to stop ducking
 	 * 			| setWantToStopDucking(true)
 	 */
 	public void endDucking() throws IllegalStateException{
-		if (!isDucking())
+		if (!isDownKeyPressed())
 			throw new IllegalStateException();
-		setWantToStopDucking(true);		
+		setWantToStopDucking(true);	
+		setDownKeyPressed(false);
 	}
 	
 	/**
@@ -1239,6 +1268,50 @@ public class Mazub extends GameObject {
 	 * This variable contains the current pressed status of the left key
 	 */
 	private boolean isLeftKeyPressed;
+	
+	/**
+	 * Returns whether the up key is pressed or not
+	 */
+	private boolean isUpKeyPressed() {
+		return isUpKeyPressed;
+	}
+
+	/**
+	 * @param isUpKeyPressed
+	 * 			the current pressed status of the up key
+	 * @post 	isUpKeyPressed will equal the given value
+	 * 			|new.isUpKeyPressed() == isUpKeyPressed
+	 */
+	private void setUpKeyPressed(boolean isUpKeyPressed) {
+		this.isUpKeyPressed = isUpKeyPressed;
+	}
+
+	/**
+	 * This variable contains the current pressed status of the up key
+	 */
+	private boolean isUpKeyPressed;
+	
+	/**
+	 * Returns whether the down key is pressed or not
+	 */
+	private boolean isDownKeyPressed() {
+		return isDownKeyPressed;
+	}
+
+	/**
+	 * @param isDownKeyPressed
+	 * 			the current pressed status of the down key
+	 * @post 	isDownKeyPressed will equal the given value
+	 * 			|new.isDownKeyPressed() == isDownKeyPressed
+	 */
+	private void setDownKeyPressed(boolean isDownKeyPressed) {
+		this.isDownKeyPressed = isDownKeyPressed;
+	}
+
+	/**
+	 * This variable contains the current pressed status of the down key
+	 */
+	private boolean isDownKeyPressed;
 	
 	/**
 	 * Returns the amount of hitpoints of this Mazub

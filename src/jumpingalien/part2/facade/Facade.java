@@ -61,12 +61,20 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void startJump(Mazub alien) {
-		alien.startJump();
+		try {
+			alien.startJump();
+		} catch(IllegalStateException e){
+			throw new ModelException("Up key was already pressed");
+		}
 	}
 
 	@Override
-	public void endJump(Mazub alien) {
-		alien.endJump();
+	public void endJump(Mazub alien)throws ModelException {
+		try {
+			alien.endJump();
+		} catch (IllegalStateException e){
+			throw new ModelException("The Up key was not pressed");
+		}
 	}
 
 	@Override
@@ -94,7 +102,7 @@ public class Facade implements IFacadePart2 {
 		try{
 			alien.startDucking();
 		} catch (IllegalStateException e){
-			throw new ModelException("Mazub is already ducking");
+			throw new ModelException("The down key is already pressed");
 		}
 	}
 
@@ -103,7 +111,7 @@ public class Facade implements IFacadePart2 {
 		try{
 			alien.endDucking();
 		} catch (IllegalStateException e){
-			throw new ModelException("Mazub is not ducking");
+			throw new ModelException("The Down key was not pressed");
 		}	
 	}
 

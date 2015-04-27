@@ -382,7 +382,7 @@ public class Slime extends GameObject {
 	 * @effect 	...
 	 * 			| if (isDead()) then
 	 * 			|	setTimeDead(getTimeDead() + dt)
-	 * 			|		if (getTimeDead() > 0.6) then
+	 * 			|		if (getTimeDead() >= 0.6) then
 	 * 			|			terminate()
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException {
@@ -392,7 +392,7 @@ public class Slime extends GameObject {
 			updateLocationAndVelocity(dt);
 		} else {
 			setTimeDead(getTimeDead() + dt);
-			if(getTimeDead() > 0.6){
+			if(Util.fuzzyGreaterThanOrEqualTo(getTimeDead(), 0.6)){
 				terminate();
 			}
 		}

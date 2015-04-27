@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 
 public class Shark extends GameObject {
 	/**
@@ -158,10 +159,37 @@ public class Shark extends GameObject {
 	 */
 	private double accelerationY;
 	
+	/**
+	 * 
+	 * @param dt
+	 * @throws IllegalArgumentException
+	 * 			...
+	 * 			|(dt < 0 || dt >= 0.2)
+	 * @effect ...
+	 * 			|if(!isDead() && !isInWater()) then
+	 * 			|	setNotInWaterTimer(getNotInWaterTimer() + dt)
+	 * @effect	...
+	 * 			|if(!isDead() && isInWater()) then
+	 * 			|	setNotInWaterTimer(0)
+	 * @effect	...
+	 * 			|if(!isDead()) then
+	 * 			|	updateLocationAndVelocity(dt)
+	 * @effect 	...
+	 * 			|if(!isDead() && getNotInWaterTimer() >= 0.2) then
+	 * 			|	setNotInWaterTimer(getNotInWaterTimer() - 0.2)
+	 * 			|	setHitPoints(getHitPoints() - 1)
+	 * @effect	...
+	 * 			|if(isDead()) then
+	 * 			|	setTimeDead(getTimeDead() + dt)
+	 * @effect	...
+	 * 			|if(isDead() && getTimeDead() >= 0.6) then
+	 * 			|	terminate() 	
+	 */
 	void advanceTime(double dt) throws IllegalArgumentException {
 		//TODO aangepast voorwaarde
-		if (dt < 0 || dt > 0.2) 
+		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2)){
 			throw new IllegalArgumentException();
+		}
 		if(!isDead()){
 			if(!isInWater()){
 				setNotInWaterTimer(getNotInWaterTimer() + dt);
@@ -176,7 +204,7 @@ public class Shark extends GameObject {
 		} else {
 			setTimeDead(getTimeDead() + dt);
 			//TODO vergelijking met double
-			if(getTimeDead() > 0.6){
+			if(Util.fuzzyGreaterThanOrEqualTo(getTimeDead(), 0.6)){
 				terminate();
 			}
 		}
