@@ -650,7 +650,9 @@ public class Shark extends GameObject {
 		setHitPoints(getHitPoints()-50);
 	}
 	
-	//TODO hier zat ik
+	/**
+	 * 
+	 */
 	private void handleCollisionSlime() {
 	Collection<Slime> collection = getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime : collection) {
@@ -670,10 +672,13 @@ public class Shark extends GameObject {
 		setHitPoints(getHitPoints()-50);		
 	}
 
-	//TODO nog niet klaar
+	/**
+	 * @return 	...
+	 * 			| result == (world != null && world.hasAsShark(this))
+	 */
 	@Override
 	protected boolean isValidWorld(World world) {
-		return world != null;
+		return world != null && world.hasAsShark(this);
 	}
 
 	
