@@ -494,7 +494,22 @@ public class Slime extends GameObject {
 		}
 	}
 	
-	
+	/**
+	 * @effect	...
+	 * 			| switch ((int)(Math.random()*2)) {
+	 * 			| 	case 0:	setMovementDirection(Direction.LEFT)
+	 * 			|			setCurrentSpriteIndex(0)
+	 * 			|			break
+	 * 			|	case 1: setMovementDirection(Direction.RIGHT)
+	 * 			|			setCurrentSpriteIndex(1)
+	 * 			|			break
+	 * @effect	...
+	 * 			| setVelocityX(0)
+	 * @effect	...
+	 * 			| setAccelerationX(getInitialAccelerationX())
+	 * @effect	...
+	 * 			| setMovementTime(2 + (int) (Math.random()*5))
+	 */
 	private void newMovement(){
 		int random = (int)(Math.random()*2);
 		switch (random){
@@ -566,9 +581,15 @@ public class Slime extends GameObject {
 		getSchool().reducePoint(this);
 	}
 	
+	/**
+	 * @effect	...
+	 * 			| if (!getWorld().getMazub().isImmune() && getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight()) then
+	 * 			|	getWorld().getMazub().hadCollisionSlime()
+	 * 			|	hadCollisionMazub()
+	 */
 	private void handleCollisionMazub(){
 		if(!getWorld().getMazub().isImmune() && getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
-			getWorld().getMazub().hadCollissionSlime();
+			getWorld().getMazub().hadCollisionSlime();
 			hadCollisionMazub();
 		}
 	}
@@ -629,7 +650,7 @@ public class Slime extends GameObject {
 	@Override
 	protected boolean isValidWorld(World world) {
 		// TODO niet volledig
-		return world != null;
+		return (world != null) && (world.hasAsSlime(this));
 	}
 
 	@Override

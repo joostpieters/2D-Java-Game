@@ -1059,7 +1059,7 @@ public class Mazub extends GameObject {
 		Collection<Slime> collection = getWorld().collisionSlimesInPerimeterExceptBottom((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		if (!isImmune()) {
 			for (Slime slime : collection) {
-				hadCollissionSlime();				
+				hadCollisionSlime();				
 				slime.hadCollisionMazub();
 				if(slime.isTerminated()){
 					getWorld().removeSlime(slime);				
@@ -1077,7 +1077,7 @@ public class Mazub extends GameObject {
 		}
 	}
 	
-	void hadCollissionSlime(){
+	void hadCollisionSlime(){
 		setHitPoints(getHitPoints() - 50);
 		setImmunity(true);	
 	}
