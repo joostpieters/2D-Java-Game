@@ -38,7 +38,5 @@ public class Tests {
 	public void testEndDucking() {
 		creatAlien().endDucking();;
 	}	
-	
-	facade
 
 }

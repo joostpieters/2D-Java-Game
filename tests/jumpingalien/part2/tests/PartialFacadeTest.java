@@ -157,7 +157,6 @@ public class PartialFacadeTest {
 		IFacadePart2 facade = new Facade();
 		World world = facade.createWorld(500, 1, 1, 1, 1, 1, 1);
 		facade.startGame(world);
-		Plant plant(0,0,6)
 	}
 	
 
