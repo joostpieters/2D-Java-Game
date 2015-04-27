@@ -388,9 +388,11 @@ public class Mazub extends GameObject {
 	public void startMove(Direction direction) {
 		assert(direction == Direction.RIGHT || direction == Direction.LEFT);
 		if (direction == Direction.RIGHT) {
+			assert(!isRightKeyPressed());
 			setVelocityX(getInitialHorizontalVelocity());
 			setAccelerationX(getInitialHorizontalAcceleration());
 		} else if (direction == Direction.LEFT){
+			assert(!isLeftKeyPressed());
 			setVelocityX(getInitialHorizontalVelocity()*-1);
 			setAccelerationX(getInitialHorizontalAcceleration());
 		}
@@ -460,6 +462,7 @@ public class Mazub extends GameObject {
 	public void endMove(Direction direction){
 		assert ((direction == Direction.RIGHT) || (direction == Direction.LEFT));
 		if ( direction == Direction.RIGHT ){
+			assert(isRightKeyPressed());
 			if (isMovingRight()){
 				if (isDucking())
 					this.setLastMoveDirection(Direction.RIGHT_AND_DUCKING);
@@ -471,6 +474,7 @@ public class Mazub extends GameObject {
 			}
 		}
 		if ( direction == Direction.LEFT ){
+			assert(isLeftKeyPressed());
 			if (isMovingLeft()){
 				if (isDucking())
 					this.setLastMoveDirection(Direction.LEFT_AND_DUCKING);
@@ -912,6 +916,9 @@ public class Mazub extends GameObject {
 		this.wantToStopDucking = value;
 	}
 	
+	/**
+	 *	Returns if this mazub wants to stop ducking or not
+	 */
 	@Basic
 	private boolean getWantToStopDucking() {
 		return this.wantToStopDucking;
@@ -1000,15 +1007,26 @@ public class Mazub extends GameObject {
 	 */
 	private boolean immunity;
 	
-	//TODO documentatie
+	/**
+	 * Returns the value of the immunty timer for this Mazub
+	 */
 	private double getImmunityTimer() {
 		return this.immunityTimer;
 	}
 	
+	/**
+	 * @param value
+	 * 			the new time for this immunty timer
+	 * @post 	the new immunty timer will equal the given immunity time
+	 * 			|new.getImmunityTimer() = value
+	 */
 	private void setImmunityTimer(double value) {
 		this.immunityTimer = value;
 	}
 	
+	/**
+	 * This variable contains the immunty timer for this mazub
+	 */
 	private double immunityTimer;
 	
 	/**
@@ -1050,6 +1068,13 @@ public class Mazub extends GameObject {
 		}
 	}
 	
+	/**
+	 * @effect 	adds the hitpoints with 50 and delets the plant if the current 
+	 * 				amount of hitpoints is lower then 500
+	 * 			|if (getHitPoints() < 500 && !plant.isTerminated()) then
+	 * 			|	setHitPoints(getHitPoints() + 50)
+	 * 			|	plant.hadCollisionMazub()
+	 */
 	void handleCollisionPlant(Plant plant) {
 		if (getHitPoints() < 500 && !plant.isTerminated()) {
 			setHitPoints(getHitPoints() + 50);
@@ -1080,11 +1105,23 @@ public class Mazub extends GameObject {
 		}
 	}
 	
+	/**
+	 * @effect 	lowers the hitpoints of this mazub with 50 points
+	 * 			|setHitPoints(getHitPoints() - 50)
+	 * @effect 	sets the immunty for this mazub on
+	 * 			|setImmunity(true)
+	 */
 	void hadCollisionSlime(){
 		setHitPoints(getHitPoints() - 50);
 		setImmunity(true);	
 	}
 	
+	/**
+	 * @effect 	lowers the hitpoints of this mazub with 50 points
+	 * 			|setHitPoints(getHitPoints() - 50)
+	 * @effect 	sets the immunty for this mazub on
+	 * 			|setImmunity(true)
+	 */
 	void hadCollissionShark(){
 		setHitPoints(getHitPoints() - 50);
 		setImmunity(true);
@@ -1110,16 +1147,23 @@ public class Mazub extends GameObject {
 		}
 	}
 	
-	public int getHitPoints(){
-		return super.getHitPoints();
-	}
-	
+	/**
+	 * @effect 	removes the world for this mazub
+	 * 			|removeWorld()
+	 * @effect 	sets this mazub terminated
+	 * 			|setTerminated(true)
+	 */
 	@Override
 	void terminate(){
 		removeWorld();
 		setTerminated(true);
 	}
 
+	/**
+	 * Returns the max hitpoints for this Mazub
+	 * @result 	Returns the max hitpoints for this Mazub
+	 * 			|result == 500
+	 */
 	@Override
 	int getMaxHitPoints() {
 		return 500;
@@ -1127,11 +1171,71 @@ public class Mazub extends GameObject {
 
 
 
+	/**
+	 * Returns the actual acceleration
+	 * @return 	...
+	 * 			|if (!isMovingLeft()) then
+	 * 			|	result == getAccelerationX() * -1;
+	 * @return 	...
+	 * 			|if (!isMovingLeft()) then
+	 * 			|	result ==  getAccelerationX()
+	 */
 	@Override
 	double getActualAccelerationX() {
 		if (this.isMovingLeft())
 			return getAccelerationX() * -1;
 		return  getAccelerationX();
+	}
+	
+	/**
+	 * Returns whether the right key is pressed or not
+	 */
+	private boolean isRightKeyPressed() {
+		return isRightKeyPressed;
+	}
+
+	/**
+	 * @param isRightKeyPressed
+	 * 			the current pressed status of the right key
+	 * @post 	isRightKeyPressed will equal the given value
+	 * 			|new.isRightKeyPressed() == isRightKeyPressed
+	 */
+	private void setRightKeyPressed(boolean isRightKeyPressed) {
+		this.isRightKeyPressed = isRightKeyPressed;
+	}
+
+	/**
+	 * This variable contains the current pressed status of the right key
+	 */
+	private boolean isRightKeyPressed;
+
+	/**
+	 * Returns whether the left key is pressed or not
+	 */
+	private boolean isLeftKeyPressed() {
+		return isLeftKeyPressed;
+	}
+
+	/**
+	 * @param isLeftKeyPressed
+	 * 			the current pressed status of the left key
+	 * @post 	isLeftKeyPressed will equal the given value
+	 * 			|new.isLeftKeyPressed() == isLeftKeyPressed
+	 */
+	private void setLeftKeyPressed(boolean isLeftKeyPressed) {
+		this.isLeftKeyPressed = isLeftKeyPressed;
+	}
+
+	/**
+	 * This variable contains the current pressed status of the left key
+	 */
+	private boolean isLeftKeyPressed;
+	
+	/**
+	 * Returns the amount of hitpoints of this Mazub
+	 */
+	public int getHitpoints(){
+		return super.getHitPoints();
 	}
 
 }

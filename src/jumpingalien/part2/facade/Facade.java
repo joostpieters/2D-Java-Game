@@ -118,7 +118,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int getNbHitPoints(Mazub alien) {
-		return alien.getHitPoints();
+		return alien.getHitpoints();
 	}
 
 	@Override
