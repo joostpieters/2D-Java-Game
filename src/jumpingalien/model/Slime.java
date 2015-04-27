@@ -613,6 +613,12 @@ public class Slime extends GameObject {
 		}
 	}
 	
+	/**
+	 * @effect	...
+	 * 			| for each slime in getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight())
+	 * 			|	if ((this.getSchool() != null) && (slime.getSchool() != null) && !(this.getSchool() == slime.getSchool() && (slime.getSchool().getAmountSlimes() > this.getSchool().getAmountSlimes())) then
+	 * 			|		this.changeSchool(slime.getSchool())
+	 */
 	private void handleCollisionSlime() {
 		Collection<Slime> collection = getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime: collection) {
@@ -622,6 +628,18 @@ public class Slime extends GameObject {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param newSchool
+	 * @pre	...
+	 * 		| isValidNewSchool(newSchool)
+	 * @effect	...
+	 * 			| school.removeSlime(this)
+	 * @effect	...
+	 * 			| setNewSchool(newSchool)
+	 * @effect	...
+	 * 			| newSchool.addNewSchoolMember(this)
+	 */
 	private void changeSchool(School newSchool) {
 		assert (isValidNewSchool(newSchool));
 		school.removeSlime(this);
@@ -646,21 +664,37 @@ public class Slime extends GameObject {
 		setTerminated(true);
 	}
 
+	/**
+	 * @effect	...
+	 * 			| setHitPoints(getHitPoints() - 50)
+	 */
 	public void hadCollisionShark() {
 		setHitPoints(getHitPoints()-50);		
 	}
 
+	/**
+	 * @return	...
+	 * 			| result == Integer.MAX_VALUE
+	 */
 	@Override
 	int getMaxHitPoints() {
 		return Integer.MAX_VALUE;
 	}
 
+	/**
+	 * @return	...
+	 * 			| result == ((world != null) && (world.hasAsSlime(this)))
+	 */
 	@Override
 	protected boolean isValidWorld(World world) {
 		// TODO niet volledig
 		return (world != null) && (world.hasAsSlime(this));
 	}
 
+	/**
+	 * @return	...
+	 * 			| result == 0
+	 */
 	@Override
 	double getActualAccelerationX() {
 		// TODO Auto-generated method stub
