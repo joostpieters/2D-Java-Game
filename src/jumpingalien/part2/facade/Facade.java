@@ -2,7 +2,7 @@ package jumpingalien.part2.facade;
 
 import java.util.Collection;
 
-import jumpingalien.model.Direction;
+import jumpingalien.model.Motion;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
 import jumpingalien.model.School;
@@ -79,22 +79,22 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void startMoveLeft(Mazub alien) {
-		alien.startMove(Direction.LEFT);
+		alien.startMove(Motion.LEFT);
 	}
 
 	@Override
 	public void endMoveLeft(Mazub alien) {
-		alien.endMove(Direction.LEFT);
+		alien.endMove(Motion.LEFT);
 	}
 
 	@Override
 	public void startMoveRight(Mazub alien) {
-		alien.startMove(Direction.RIGHT);
+		alien.startMove(Motion.RIGHT);
 	}
 
 	@Override
 	public void endMoveRight(Mazub alien) {
-		alien.endMove(Direction.RIGHT);
+		alien.endMove(Motion.RIGHT);
 	}
 
 	@Override

@@ -275,11 +275,11 @@ public class Mazub extends GameObject {
 		
 		// if the character is Ducking
 		else if(this.isDucking()){
-			if ((this.lastMoveDirection == Direction.RIGHT_AND_DUCKING) 
+			if ((this.lastMoveDirection == Motion.RIGHT_AND_DUCKING) 
 					&&(getSpriteTimer() - this.lastMoveTimer < 1)) {
 				setSpriteIndex(6);
 			}
-			else if ((this.lastMoveDirection == Direction.LEFT_AND_DUCKING) 
+			else if ((this.lastMoveDirection == Motion.LEFT_AND_DUCKING) 
 					&&(getSpriteTimer() - this.lastMoveTimer < 1)) {
 				setSpriteIndex(7);
 			}
@@ -290,12 +290,12 @@ public class Mazub extends GameObject {
 				
 		// if the character is not moving
 		else {
-			if (((this.lastMoveDirection == Direction.RIGHT) || 
-					(this.lastMoveDirection == Direction.RIGHT_AND_DUCKING)) 
+			if (((this.lastMoveDirection == Motion.RIGHT) || 
+					(this.lastMoveDirection == Motion.RIGHT_AND_DUCKING)) 
 					&&(getSpriteTimer() - this.lastMoveTimer < 1))
 				setSpriteIndex(2);
-			else if (((this.lastMoveDirection == Direction.LEFT)|| 
-					(this.lastMoveDirection == Direction.LEFT_AND_DUCKING)) 
+			else if (((this.lastMoveDirection == Motion.LEFT)|| 
+					(this.lastMoveDirection == Motion.LEFT_AND_DUCKING)) 
 					&& (getSpriteTimer() - this.lastMoveTimer < 1))
 				setSpriteIndex(3);
 			else
@@ -371,14 +371,14 @@ public class Mazub extends GameObject {
 	 * 			|	setVelocityX(getInitialHorizontalVelocity()*(-1))
 	 * 			|	setAccelerationX(getInitialHorizontalAcceleration())				
 	 */
-	public void startMove(Direction direction) {
-		assert(direction == Direction.RIGHT || direction == Direction.LEFT);
-		if (direction == Direction.RIGHT) {
+	public void startMove(Motion direction) {
+		assert(direction == Motion.RIGHT || direction == Motion.LEFT);
+		if (direction == Motion.RIGHT) {
 			assert(!isRightKeyPressed());
 			setRightKeyPressed(true);
 			setVelocityX(getInitialHorizontalVelocity());
 			setAccelerationX(getInitialHorizontalAcceleration());
-		} else if (direction == Direction.LEFT){
+		} else if (direction == Motion.LEFT){
 			setLeftKeyPressed(true);
 			assert(!isLeftKeyPressed());
 			setVelocityX(getInitialHorizontalVelocity()*-1);
@@ -460,16 +460,16 @@ public class Mazub extends GameObject {
 	 * 			| new.getLastMoveTimer() == getTimer() && new.getVelocityX() == 0 &&
 	 * 			| 	new.getAccelerationX() == 0
 	 */
-	public void endMove(Direction direction){
-		assert ((direction == Direction.RIGHT) || (direction == Direction.LEFT));
-		if ( direction == Direction.RIGHT ){
+	public void endMove(Motion direction){
+		assert ((direction == Motion.RIGHT) || (direction == Motion.LEFT));
+		if ( direction == Motion.RIGHT ){
 			assert(isRightKeyPressed());
 			setRightKeyPressed(false);
 			if (isMovingRight()){
 				if (isDucking())
-					this.setLastMoveDirection(Direction.RIGHT_AND_DUCKING);
+					this.setLastMoveDirection(Motion.RIGHT_AND_DUCKING);
 				else
-					this.setLastMoveDirection(Direction.RIGHT);	
+					this.setLastMoveDirection(Motion.RIGHT);	
 				setVelocityX(0);
 				setAccelerationX(0);
 				this.setLastMoveTimer(getSpriteTimer());
@@ -479,14 +479,14 @@ public class Mazub extends GameObject {
 				}
 			}
 		}
-		if ( direction == Direction.LEFT ){
+		if ( direction == Motion.LEFT ){
 			assert(isLeftKeyPressed());
 			setLeftKeyPressed(false);
 			if (isMovingLeft()){
 				if (isDucking())
-					this.setLastMoveDirection(Direction.LEFT_AND_DUCKING);
+					this.setLastMoveDirection(Motion.LEFT_AND_DUCKING);
 				else
-					this.setLastMoveDirection(Direction.LEFT);
+					this.setLastMoveDirection(Motion.LEFT);
 				setVelocityX(0);
 				setAccelerationX(0);
 				this.setLastMoveTimer(getSpriteTimer());
@@ -503,7 +503,7 @@ public class Mazub extends GameObject {
 	 * 		lastMoveDirection indicates the direction of the last move of this Mazub
 	 */
 	@Basic
-	private Direction getLastMoveDirection() {
+	private Motion getLastMoveDirection() {
 		return lastMoveDirection;
 	}
 
@@ -517,17 +517,17 @@ public class Mazub extends GameObject {
 	 * @post 	the new lastMoveDirection of this Mazub will equal to lastMoveDirection
 	 * 			| new.getLastMoveDirection() = lastMoveDirection
 	 */
-	private void setLastMoveDirection(Direction lastMoveDirection) {
-		assert((lastMoveDirection == Direction.RIGHT) || (lastMoveDirection == Direction.LEFT) 
-				|| (lastMoveDirection == Direction.RIGHT_AND_DUCKING) 
-				|| (lastMoveDirection == Direction.LEFT_AND_DUCKING) );
+	private void setLastMoveDirection(Motion lastMoveDirection) {
+		assert((lastMoveDirection == Motion.RIGHT) || (lastMoveDirection == Motion.LEFT) 
+				|| (lastMoveDirection == Motion.RIGHT_AND_DUCKING) 
+				|| (lastMoveDirection == Motion.LEFT_AND_DUCKING) );
 		this.lastMoveDirection = lastMoveDirection;
 	}
 	
 	/**
 	 * This variable contains the last direction in which this Mazub has moved
 	 */
-	private Direction lastMoveDirection;
+	private Motion lastMoveDirection;
 
 	/**
 	 * Return the value of timer

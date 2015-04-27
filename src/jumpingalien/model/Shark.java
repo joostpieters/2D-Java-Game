@@ -283,7 +283,7 @@ public class Shark extends GameObject {
 	 */
 	@Override
 	double getActualAccelerationX(){
-		if(getMovement() == Direction.LEFT){
+		if(getMovement() == Motion.LEFT){
 			return getAccelerationX() * -1;
 		}
 		return getAccelerationX();
@@ -450,9 +450,9 @@ public class Shark extends GameObject {
 		if(isInWater() || isJumping()){
 			random = (int)(Math.random()*2);
 			switch (random){
-				case 0: setMovement(Direction.RIGHT);
+				case 0: setMovement(Motion.RIGHT);
 							break;
-				case 1: setMovement(Direction.LEFT);
+				case 1: setMovement(Motion.LEFT);
 							break;
 			}
 		}
@@ -532,7 +532,7 @@ public class Shark extends GameObject {
 	 * @return 	...
 	 * 			|result == this.movement
 	 */
-	private Direction getMovement() {
+	private Motion getMovement() {
 		return movement;
 	}
 
@@ -544,14 +544,14 @@ public class Shark extends GameObject {
 	 * 			| new.getMovement() = movement
 	 */
 	@Basic
-	private void setMovement(Direction movement) {
+	private void setMovement(Motion movement) {
 		this.movement = movement;
 	} 
 	
 	/**
 	 * This variable contains the current movement for this shark
 	 */
-	private Direction movement;
+	private Motion movement;
 	
 	/**
 	 * 
