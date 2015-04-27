@@ -52,6 +52,7 @@ public class Shark extends GameObject {
 	 * @return 	...
 	 * 			|result == this.velocityX
 	 */
+	@Override
 	protected double getVelocityX() {
 		return velocityX;
 	}
@@ -90,6 +91,7 @@ public class Shark extends GameObject {
 	 * @return	...
 	 * 			| result == this.velocityX
 	 */
+	@Override
 	protected double getVelocityY() {
 		return velocityY;
 	}
@@ -651,7 +653,13 @@ public class Shark extends GameObject {
 	}
 	
 	/**
-	 * 
+	 * @effect 	...
+	 * 			|foreach(slime in getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), 
+	 * 			|			(int) getLocationY()+getCurrentSprite().getHeight())
+	 * 			|				hadCollisionSlime()
+	 * 			|				slime.hadCollisionShark()
+	 * 			|				if(slime.isTerminated()) then
+	 * 			|					getWorld().removeSlime(slime)
 	 */
 	private void handleCollisionSlime() {
 	Collection<Slime> collection = getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
