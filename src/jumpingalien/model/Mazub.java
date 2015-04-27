@@ -471,10 +471,15 @@ public class Mazub extends GameObject {
 				setVelocityX(0);
 				setAccelerationX(0);
 				this.setLastMoveTimer(getSpriteTimer());
+				if(isLeftKeyPressed()){
+					setVelocityX(getInitialHorizontalVelocity()*-1);
+					setAccelerationX(getInitialHorizontalAcceleration());
+				}
 			}
 		}
 		if ( direction == Direction.LEFT ){
 			assert(isLeftKeyPressed());
+			setLeftKeyPressed(false);
 			if (isMovingLeft()){
 				if (isDucking())
 					this.setLastMoveDirection(Direction.LEFT_AND_DUCKING);
@@ -483,6 +488,10 @@ public class Mazub extends GameObject {
 				setVelocityX(0);
 				setAccelerationX(0);
 				this.setLastMoveTimer(getSpriteTimer());
+				if(isRightKeyPressed()){
+					setVelocityX(getInitialHorizontalVelocity());
+					setAccelerationX(getInitialHorizontalAcceleration());
+				}
 			}
 		}
 	}

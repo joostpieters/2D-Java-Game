@@ -131,8 +131,10 @@ public class Plant extends GameObject {
 	 * 			
 	 */
 	public void advanceTime(double dt) {
-		setTimer(getTimer() + dt);
-		updateLocationAndVelocity(dt);
+		if(!isTerminated()){
+			setTimer(getTimer() + dt);
+			updateLocationAndVelocity(dt);
+		}
 	}
 
 	/**
