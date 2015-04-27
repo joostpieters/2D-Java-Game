@@ -131,8 +131,10 @@ public class Plant extends GameObject {
 	 * 			
 	 */
 	public void advanceTime(double dt) {
-		setTimer(getTimer() + dt);
-		updateLocationAndVelocity(dt);
+		if(!isTerminated()){
+			setTimer(getTimer() + dt);
+			updateLocationAndVelocity(dt);
+		}
 	}
 
 	/**
@@ -201,8 +203,7 @@ public class Plant extends GameObject {
 	 */
 	@Override
 	void terminate(){
-		this.setWorld(null);
-		// set boolean
+		removeWorld();
 		setTerminated(true);
 	}
 
