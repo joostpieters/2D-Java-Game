@@ -368,9 +368,33 @@ public class Shark extends GameObject {
 	 * 			| 		if(2 == (int)(Math.random()*2)) then
 	 * 			|			setVelocityY(2)
 	 * 			|			setMovementCounter(-1)
+	 * 			|			setJumping(true)
 	 * @effect 	...
 	 * 			|setJumping(false)
-	 * 
+	 * @effect 	...
+	 * 			|if(isInWater() || isJumping()) then
+	 * 			|	switch((int)(Math.random()*2)){
+	 * 			|		case 0: setMovement(Direction.RIGHT)
+	 * 			|				break
+	 * 			|		case 1: setMovement(Direction.LEFT)
+	 * 			|				break
+	 * 			|	}
+	 * @effect 	...
+	 * 			|if(!isJumping() && isInWater()) then
+	 * 			|	switch((int)(Math.random()*2)){
+	 * 			|		case 0: setAccelerationY(0)
+	 * 			|				break
+	 * 			|		case 1: setAccelerationY(0.1)
+	 * 			|				break
+	 * 			|		case 2: setAccelerationY(0.2)
+	 * 			|				break
+	 * 			|	}
+	 * 			|	if(1 == (int)(Math.random()*1)) then
+	 * 			|		setAccelerationY(getAccelerationY()*-1)	
+	 * @effect 	...
+	 * 			|setMovementTime(1 + (int)(Math.random()*4))
+	 * @effect 	...
+	 * 			|addToMovementCounter(1)
 	 */
 	private void newMovement(){
 		setJumping(false);
@@ -421,8 +445,7 @@ public class Shark extends GameObject {
 		
 		double time = 1 + (int)(Math.random()*4);
 		setMovementTime(time);
-		addToMovementCounter(1);
-		
+		addToMovementCounter(1);		
 	}
 
 	/**
@@ -443,7 +466,7 @@ public class Shark extends GameObject {
 	}
 	
 	/**
-	 * 
+	 * This variable indicates if this shark is jumping or not
 	 */
 	private boolean isJumping;
 
@@ -541,6 +564,13 @@ public class Shark extends GameObject {
 	 */
 	private int movementCounter;
 	
+	/**
+	 * 
+	 * @return	...
+	 * 			|result == getWorld().detectGeologicalFeature((int) getLocationX()+1, 
+	 * 			|			(int) getLocationY(), (int) getLocationX() + getCurrentSprite().getWidth()-2, 
+	 * 			|				(int) getLocationY(), 1)
+	 */
 	private boolean isBottomPerimeterInSolidGround(){
 		int x = (int) getLocationX();
 		int y = (int) getLocationY();
@@ -593,8 +623,20 @@ public class Shark extends GameObject {
 		setTerminated(true);
 	}
 	
+	/**
+	 * @effect 	...
+	 *			|if(!getWorld().getMazub().isImmune() && getWorld().collisionMazubInPerimeters(
+	 *			|	(int)getLocationX(), (int)getLocationY(), 
+	 *			|	(int)getLocationX()+getCurrentSprite().getWidth(), 
+	 *			|	(int)getLocationY()+getCurrentSprite().getHeight())) then
+	 *			|		getWorld().getMazub().hadCollissionShark()
+	 *			|		hadCollisionMazub()
+	 */
 	private void handleCollisionMazub(){
-		if(!getWorld().getMazub().isImmune() && getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
+		if(!getWorld().getMazub().isImmune() && getWorld().collisionMazubInPerimeters(
+				(int)getLocationX(), (int)getLocationY(), 
+				(int)getLocationX()+getCurrentSprite().getWidth(), 
+				(int)getLocationY()+getCurrentSprite().getHeight())){
 			getWorld().getMazub().hadCollissionShark();
 			hadCollisionMazub();
 		}
@@ -608,6 +650,7 @@ public class Shark extends GameObject {
 		setHitPoints(getHitPoints()-50);
 	}
 	
+	//TODO hier zat ik
 	private void handleCollisionSlime() {
 	Collection<Slime> collection = getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime : collection) {
