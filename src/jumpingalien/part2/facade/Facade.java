@@ -268,8 +268,13 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void addShark(World world, Shark shark) {
-		world.addShark(shark);
-		
+		try{
+			world.addShark(shark);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("The given shark is not valid");
+		} catch (IllegalStateException e){
+			throw new ModelException("The game is already started");
+		}		
 	}
 
 	@Override
@@ -307,6 +312,8 @@ public class Facade implements IFacadePart2 {
 			world.addSlime(slime);
 		} catch (IllegalArgumentException e){
 			throw new ModelException("Invalid argument for addSlime()");
+		} catch (IllegalStateException e){
+			throw new ModelException("The game is already started");
 		}
 		
 	}

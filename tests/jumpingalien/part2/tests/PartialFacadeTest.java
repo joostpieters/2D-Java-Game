@@ -6,6 +6,7 @@ import static jumpingalien.tests.util.TestUtils.spriteArrayForSize;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import jumpingalien.model.Mazub;
+import jumpingalien.model.Plant;
 import jumpingalien.model.World;
 import jumpingalien.part2.facade.Facade;
 import jumpingalien.part2.facade.IFacadePart2;
@@ -151,5 +152,13 @@ public class PartialFacadeTest {
 		IFacadePart2 facade = new Facade();
 		World world = facade.createWorld(500, 1, -2, 1, 1, 1, 1);
 	}
+	@Test(expected = ModelException.class)
+	public void testIllegalAddObjectGameStarted() {
+		IFacadePart2 facade = new Facade();
+		World world = facade.createWorld(500, 1, 1, 1, 1, 1, 1);
+		facade.startGame(world);
+		Plant plant(0,0,6)
+	}
+	
 
 }
