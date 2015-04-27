@@ -486,17 +486,36 @@ public abstract class GameObject implements CollisionDetect {
 		return seconds;
 	}
 	
-	protected double updateLocationAndVelocity(double seconds) {
-		while(seconds > 0){
+	/**
+	 * 
+	 * @param seconds
+	 * @effect	...
+	 * 			| while (seconds > 0 && !isTerminated()) 
+	 * 			|		advanceTimeCollisionDetect(timeOnePixelMovement(seconds))
+	 * 			|		seconds -= advanceTime
+	 */
+	protected void updateLocationAndVelocity(double seconds) {
+		while(seconds > 0 && !isTerminated()){
 			double advanceTime = timeOnePixelMovement(seconds);
 			advanceTimeCollisionDetect(advanceTime);
 			seconds -= advanceTime;				
 		}
-		return seconds;
 	}
 	
 	/**
 	 * @param dt
+	 * @effect	...
+	 * 			| if (isInMagma()) then
+	 * 			|	if (Util.fuzzyGreaterThanOrEqualTo(getInMagmaTimer(), 0.2)) then
+	 * 			|		lowerHitPoints(50)
+	 * 			|		setInMagmaTimer(0)
+	 * @effect	...
+	 * 			| if (isInMagma()) then
+	 * 			|	if (!Util.fuzzyGreaterThanOrEqualTo(getInMagmaTimer(), 0.2)) then
+	 * 			|		setInMagmaTimer(getInMagmaTimer() + dt)
+	 * @effect	...
+	 * 			| if (!isInMagma()) then
+	 * 			| 	setInMagmaTimer(0.2)
 	 */
 	protected void handleMagma(double dt) {
 		if(isInMagma()){
