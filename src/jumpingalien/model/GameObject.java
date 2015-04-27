@@ -511,6 +511,24 @@ public abstract class GameObject implements CollisionDetect {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param dt
+	 * @effect	If the Game Object is in water and the water timer is set to -1, set the water timer to 0
+	 * 			| if (isInWater()) then
+	 * 			|	if(Util.fuzzyEquals(getInWaterTimer(), -1)) then
+	 *			| 		setInWaterTimer(0)
+	 * @effect 	If the Game Object is in water but the water timer is not set to -1, add dt to the water timer and if the water timer is greater to or equals 0.2, lower the water timer with 0.2 and lower the hitpoints with 2
+	 * 			| if (isInWater()) then
+	 * 			|	if( ! Util.fuzzyEquals(getInWaterTimer(), -1)) then
+	 * 			|		setInWaterTimer(getInWaterTimer()+dt)
+	 * 			|		if (Util.fuzzyGreaterThanOrEqualTo(getInWaterTimer(), 0.2)) then
+	 * 			|			setInWaterTimer(getInWaterTimer() - 0.2)
+	 * 			|			setHitPoints(getHitPoints() - 2)
+	 * @effect	If the Game Object is not in water, set the water timer to -1
+	 * 			| if (!isInWater()) then
+	 * 			|	setInWaterTimer(-1)
+	 */
 	protected void handleWater(double dt){
 		if(isInWater()){
 			if(Util.fuzzyEquals(getInWaterTimer(), -1)){

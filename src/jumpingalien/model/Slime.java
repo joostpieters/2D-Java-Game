@@ -91,7 +91,7 @@ public class Slime extends GameObject {
 	/**
 	 * Returns the current sprite of this Slime
 	 */
-	@Basic
+	@Basic @Override
 	public Sprite getCurrentSprite() {
 		return getSprites()[getCurrentSpriteIndex()];
 	}
@@ -174,7 +174,7 @@ public class Slime extends GameObject {
 	private School school;
 	
 	
-	@Basic
+	@Basic @Override
 	protected double getVelocityX() {
 		return this.velocityX;
 	}
@@ -194,7 +194,7 @@ public class Slime extends GameObject {
 	 */
 	private double velocityX;
 	
-	@Basic
+	@Basic @Override
 	protected double getVelocityY() {
 		return this.velocityY;
 	}
@@ -214,7 +214,7 @@ public class Slime extends GameObject {
 	 */
 	private double velocityY;
 	
-	@Basic
+	@Basic @Override
 	protected double getAccelerationX() {
 		return accelerationX;
 	}
@@ -243,7 +243,7 @@ public class Slime extends GameObject {
 		return 0.7;
 	}
 	
-	@Basic
+	@Basic @Override
 	protected double getAccelerationY() {
 		return accelerationY;
 	}
@@ -662,7 +662,6 @@ public class Slime extends GameObject {
 	@Override
 	void terminate() {
 		// remove world
-		getWorld().removeSlime(this);
 		this.removeWorld();
 		getSchool().removeSlime(this);
 		removeSchool();
