@@ -46,14 +46,10 @@ public abstract class GameObject implements CollisionDetect {
 	 * 			|new.getLocationX() == x
 	 */
 	protected void setLocationX(double x) {
-		if(hasAWorld() && (x < 0 || Util.fuzzyGreaterThanOrEqualTo(x, getWorld().getWorldSizeInPixels()[0]))){
-			setdead(true);
-			terminate();
-		} else {
 			this.locationX = x;
-		}
 	}
 
+	
 	abstract void terminate();
 
 	/**
@@ -141,7 +137,7 @@ public abstract class GameObject implements CollisionDetect {
 	protected void setHitPoints(int hitPoints) {
  		if(hitPoints <= 0){
 			this.hitPoints = 0;
- 			setdead(true);
+ 			setDead(true);
  		} else if(
  			hitPoints > getMaxHitPoints()) {
 			this.hitPoints = getMaxHitPoints();
@@ -179,7 +175,7 @@ public abstract class GameObject implements CollisionDetect {
 	 * @post 	the new dead state for this object will equal the given boolean
 	 * 			|new.isDead() == isDead
 	 */
-	void setdead(boolean isDead) {
+	void setDead(boolean isDead) {
 		this.isDead = isDead;
 	}
 	
@@ -272,12 +268,45 @@ public abstract class GameObject implements CollisionDetect {
 	 * @post 	the the world of this game object will equal the given world if it is valid
 	 * 			|if(isValidWorld(world)) then
 	 *			|	new.getWorld() == world;
+	 * @effect 	checks if the current position of this game object is valid in this world
+	 * 			| detectLocationValidInWorld()
 	 */
 	protected void setWorld(World world) {
 		if(isValidWorld(world))
 			this.world = world;
+		detectLocationValidInWorld();
 	}
 	
+	/**
+	 * Detects if the current position is valid in this world
+	 * @effect Terminates the object if it is out of the bounderies of this world
+	 * 			| if(isValidLocation((int)getLocationX(),(int)getLocationY()) ) then
+	 *			|	setDead(true);
+	 *			|		terminate();
+	 */
+	private void detectLocationValidInWorld() {
+		if(!isValidLocation((int)getLocationX(),(int)getLocationY()) ){
+			setDead(true);
+			terminate();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param locationX
+	 * 			the X coordinate that needs to be checked
+	 * @param locationY
+	 * 			the Y coordinate that needs to be checked
+	 * @return	returns true if the given position in the bounderies of this world, 
+	 * 				else returns false
+	 * 			|result ==  (locationX < 0 || locationX > getWorld().getWorldSizeInPixels()[0]-1 
+				|	|| locationY < 0 || locationY > getWorld().getWorldSizeInPixels()[1]-1)
+	 */
+	protected boolean isValidLocation(int locationX, int locationY){
+		return !(locationX < 0 || locationX > getWorld().getWorldSizeInPixels()[0]-1 
+				|| locationY < 0 || locationY > getWorld().getWorldSizeInPixels()[1]-1);
+	}
+
 	/**
 	 * Checks wheter the given world if valid for this Game Object or not
 	 * @param 	world

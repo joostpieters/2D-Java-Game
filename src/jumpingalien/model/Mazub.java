@@ -789,32 +789,34 @@ public class Mazub extends GameObject {
 		assert (seconds >= 0);
 		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
 		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
-		if(hasCollisionX((int)locationX,(int) locationY)){
-			locationX = getLocationX();
-		}
-		if(hasCollisionY((int)locationX,(int) locationY)){
-			locationY = getLocationY();
-			locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
+		if((isValidLocation((int)locationX, (int)locationY)) && (isValidLocation((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY)))){	
 			if(hasCollisionX((int)locationX,(int) locationY)){
 				locationX = getLocationX();
 			}
-		}
-		double[] location = new double[] {locationX, locationY};
-		calculateLocationCollisionObjects(location);
-		locationX = location[0];
-		locationY = location[1];
-		try {
-			setLocationX(locationX);
-		} catch (IllegalArgumentException e1){
-			locationX = calculateValidLocationX(locationX);
-			setLocationX(locationX);
-		}
-		
-		try {
-			setLocationY(locationY);
-		} catch (IllegalArgumentException e2){
-			locationY = calculateValidLocationY(locationY);
-			setLocationY(locationY);
+			if(hasCollisionY((int)locationX,(int) locationY)){
+				locationY = getLocationY();
+				locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
+				if(hasCollisionX((int)locationX,(int) locationY)){
+					locationX = getLocationX();
+				}
+			}
+			double[] location = new double[] {locationX, locationY};
+			calculateLocationCollisionObjects(location);
+			locationX = location[0];
+			locationY = location[1];
+			try {
+				setLocationX(locationX);
+			} catch (IllegalArgumentException e1){
+				locationX = calculateValidLocationX(locationX);
+				setLocationX(locationX);
+			}
+			
+			try {
+				setLocationY(locationY);
+			} catch (IllegalArgumentException e2){
+				locationY = calculateValidLocationY(locationY);
+				setLocationY(locationY);
+			}
 		}
 	}
 
