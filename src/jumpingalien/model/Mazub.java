@@ -1184,7 +1184,9 @@ public class Mazub extends GameObject {
 		}
 		collection = getWorld().collisionSlimesInBottomPerimeter((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime : collection) {
-			slime.hadCollisionMazub();
+			if (!slime.isDead()) {
+				slime.hadCollisionMazub();
+			}
 			if(slime.isTerminated()){
 				getWorld().removeSlime(slime);
 			}

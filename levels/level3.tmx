@@ -5344,7 +5344,7 @@
     <property name="school" value="3"/>
    </properties>
   </object>
-  <object id="63" gid="244" x="358" y="1573">
+  <object id="63" gid="244" x="389" y="1585">
    <properties>
     <property name="school" value="2"/>
    </properties>
@@ -5354,7 +5354,7 @@
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="65" gid="244" x="278" y="1668">
+  <object id="65" gid="244" x="327" y="1687">
    <properties>
     <property name="school" value="2"/>
    </properties>
@@ -5379,12 +5379,12 @@
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="70" gid="244" x="152" y="1461">
+  <object id="70" gid="244" x="339" y="1809">
    <properties>
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="71" gid="244" x="226" y="1545">
+  <object id="71" gid="244" x="356" y="1528">
    <properties>
     <property name="school" value="2"/>
    </properties>
@@ -5394,12 +5394,12 @@
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="73" gid="244" x="269" y="1347">
+  <object id="73" gid="244" x="355" y="1358">
    <properties>
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="74" gid="244" x="260" y="1742">
+  <object id="74" gid="244" x="388" y="1750">
    <properties>
     <property name="school" value="2"/>
    </properties>

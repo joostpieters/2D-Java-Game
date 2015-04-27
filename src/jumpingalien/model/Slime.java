@@ -607,8 +607,7 @@ public class Slime extends GameObject {
 	private void handleCollisionSlime() {
 		Collection<Slime> collection = getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime: collection) {
-			//TODO soms NullPointerException?
-			if (!(this.getSchool() == slime.getSchool()) && (slime.getSchool().getAmountSlimes() > this.getSchool().getAmountSlimes())) {
+			if ((this.getSchool() != null) && (slime.getSchool() != null) && !(this.getSchool() == slime.getSchool()) && (slime.getSchool().getAmountSlimes() > this.getSchool().getAmountSlimes())) {
 				this.changeSchool(slime.getSchool());
 			}
 		}
