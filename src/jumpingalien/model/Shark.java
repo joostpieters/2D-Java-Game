@@ -20,6 +20,8 @@ public class Shark extends GameObject {
 	 * 			| setHitPoints(100)
 	 * @effect	...
 	 * 			| setMagmaTimer(0.2)
+	 * * @effect	...
+	 * 			| setMovementCounter(4)
 	 */
 	public Shark (int x, int y, Sprite[] sprites){
 		setLocationX(x);
@@ -30,6 +32,14 @@ public class Shark extends GameObject {
 		setInMagmaTimer(0.2);
 	}
 	
+	/**
+	 * @return 	...
+	 * 			|if(getVelocityX() > 0) then
+	 *			|	result == getSprites()[1]
+	 * @return 	...
+	 * 			|if !(getVelocityX() > 0) then
+	 * 			|	result == getSprites()[0]
+	 */
 	@Basic
 	public Sprite getCurrentSprite() {
 		if(getVelocityX() > 0)
@@ -61,6 +71,11 @@ public class Shark extends GameObject {
 			this.velocityX = velocityX;
 	}
 	
+	/**
+	 * 
+	 * @return 	...
+	 * 			| result == 4
+	 */
 	private static double getMaximumVelocityX(){
 		return 4;
 	}
@@ -165,6 +180,39 @@ public class Shark extends GameObject {
 		}
 	}
 
+	/**
+	 * @effect 	...
+	 * 			|updateLocation(dt);
+	 * @effect 	...
+	 * 			|updateVelocity(dt);
+	 * @effect 	...
+	 * 			|handleCollisionMazub();
+	 * @effect 	...
+	 * 			|handleCollisionSlime();
+	 * @effect	...
+	 * 			|handleMagma(dt);
+	 * @effect 	....
+	 * 			|setMovementTime(getMovementTime()-dt);
+	 * @effect 	...
+	 * 			|if(!isInWater()) then
+	 * 			| 	setAccelerationY(-10)
+	 * @effect 	...
+	 * 			|if(isBottomPerimeterInSolidGround() && !isInWater()) then
+	 * 			|	setAccelerationY(0)
+	 * 			|	setVelocityY(0)
+	 * 			|	setVelocityX(0)
+	 * 			|	setMovement(null)
+	 * @effect	...
+	 * 			|if(getMovementTime() <= 0) then
+	 * 			|	newMovement()
+	 * @effect 	....
+	 * 			|if(!isInWater())then
+	 * 			| 	setAccelerationY(-10)
+	 * @effect 	...
+	 * 			|if(isTopPerimeterInWater() && getAccelerationY()<-9) then
+	 * 			| 	setAccelerationY(0);
+	 * 			| 	setVelocityY(0)
+	 */
 	protected void advanceTimeCollisionDetect(double dt){
 		if(!isInWater()){
 			setAccelerationY(-10);
@@ -194,31 +242,37 @@ public class Shark extends GameObject {
 		handleMagma(dt);
 	}
 	
-	private void updateLocation(Double dt){
-		setIsOnGameObject(false);
-		double accelerationX = getAccelerationX();
+	/**
+	 * 
+	 * @return ...
+	 * 			|if(getMovement() == Direction.LEFT) then
+	 * 			| 	result == getAccelerationX() * -1
+	 * @return ...
+	 * 			|if(getMovement() != Direction.LEFT) then
+	 * 			|  result == getAccelerationX()
+	 */
+	double getActualAccelerationX(){
 		if(getMovement() == Direction.LEFT){
-			accelerationX *= -1;
+			return getAccelerationX() * -1;
 		}
-		double locationX = getLocationX() + (getVelocityX()*dt + accelerationX*dt*dt/2)*100;
-		double locationY = getLocationY() + (getVelocityY()*dt + getAccelerationY()*dt*dt/2)*100;
-		if(hasCollisionX((int)locationX,(int) locationY)){
-			locationX = getLocationX();
+		return getAccelerationX();
+	}
+	
+	/**
+	 * 
+	 * @param dt
+	 * @effect ...
+	 * 			|
+	 */
+	private void updateLocation(double dt){
+		setIsOnGameObject(false);
+		double[] location = calculateLocation(dt);
+		if(locationIsValidInWorld((int)location[0], (int)location[1])){
+			calculateLocationCollisionTerrain(dt, location);
+			calculateLocationCollisionObjects(location);
+			calculateLocationCollisionShark(location);
+			setLocation(location);			
 		}
-		if(hasCollisionY((int)locationX,(int) locationY)){
-			locationY = getLocationY();
-			locationX = getLocationX() + (getVelocityX()*dt + accelerationX*dt*dt/2)*100;
-			if(hasCollisionX((int)locationX,(int) locationY)){
-				locationX = getLocationX();
-			}
-		}
-		double[] location = new double[] {locationX, locationY};
-		calculateLocationCollisionObjects(location);
-		calculateLocationCollisionShark(location);
-		locationX = location[0];
-		locationY = location[1];
-		setLocationX(locationX);
-		setLocationY(locationY);
 	}
 
 	/**

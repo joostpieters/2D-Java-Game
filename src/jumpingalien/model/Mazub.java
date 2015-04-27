@@ -679,13 +679,9 @@ public class Mazub extends GameObject {
 	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
-	protected void advanceTimeCollisionDetect(double dt){
-		double accelerationX = getAccelerationX(); 
-		if (this.isMovingLeft())
-			accelerationX *= -1;
-		
-		updateLocation(dt, accelerationX);		
-		updateVelocityX(dt, accelerationX);
+	protected void advanceTimeCollisionDetect(double dt){	
+		updateLocation(dt);		
+		updateVelocityX(dt);
 		updateVelocityYAndAccelerationY(dt);
 		handleCollisionPlant();
 		handleCollisionSlime();
@@ -753,9 +749,9 @@ public class Mazub extends GameObject {
 	 * 			| else then
 	 * 			|	setVelocityX(getMaximumHorizontalVelocity())
 	 */
-	private void updateVelocityX(double seconds, double accelerationX) {
+	private void updateVelocityX(double seconds) {
 		assert(seconds >= 0);
-		double velocityX = getVelocityX() + accelerationX*seconds;
+		double velocityX = getVelocityX() + getActualAccelerationX()*seconds;
 		if (velocityX < getMaximumHorizontalVelocity()){
 			if (velocityX < -getMaximumHorizontalVelocity()){
 				setVelocityX(-getMaximumHorizontalVelocity());
@@ -786,26 +782,15 @@ public class Mazub extends GameObject {
 	 * 
 	 */
 	// TODO onbreekt commentaar
-	private void updateLocation(double seconds, double accelerationX) {
+	private void updateLocation(double seconds) {
 		setIsOnGameObject(false);
 		assert (seconds >= 0);
-		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
-		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
-		if((isValidLocation((int)locationX, (int)locationY)) && (isValidLocation((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY)))){	
-			if(hasCollisionX((int)locationX,(int) locationY)){
-				locationX = getLocationX();
-			}
-			if(hasCollisionY((int)locationX,(int) locationY)){
-				locationY = getLocationY();
-				locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
-				if(hasCollisionX((int)locationX,(int) locationY)){
-					locationX = getLocationX();
-				}
-			}
-			double[] location = new double[] {locationX, locationY};
+		double[] location = calculateLocation(seconds);	
+		if(locationIsValidInWorld((int)location[0], (int)location[1])){
+			calculateLocationCollisionTerrain(seconds, location);
 			calculateLocationCollisionObjects(location);
-			locationX = location[0];
-			locationY = location[1];
+			double locationX = location[0];
+			double locationY = location[1];
 			try {
 				setLocationX(locationX);
 			} catch (IllegalArgumentException e1){
@@ -822,59 +807,7 @@ public class Mazub extends GameObject {
 		}
 	}
 
-	/**
-	 * @param 	locationX
-	 * 			the X coordinate wich needs to be corrected
-	 * 
-	 * Return locationX if the given locationX is valid, 
-	 * 		returns the corrected locationX is if is unvalid
-	 * @return	if locationX is lower than the window width and greater or equal to zero
-	 * 				locationX will be returned
-	 * 			| if ((locationX < getWindowWidth()) && (locationX >= 0)) then
-	 * 			| 	return locationX
-	 * @return 	if locationX is greater than the window width minus one,
-	 * 				the window width minus one will be returned
-	 * 			| if (locationX > getWindowWidth()-1) then
-	 * 			| 	return getWindowWidth()-1
-	 * @return 	if locationX is less than zero, zero will be returned
-	 * 			| if (locationX < 0) then
-	 * 			| 	return 0
-	 */
-	private double calculateValidLocationX(double locationX) {
-		if (locationX > getWindowWidth() - 1){
-			locationX = getWindowWidth() - 1;
-		} else if (locationX < 0){
-			locationX = 0;
-		}
-		return locationX;
-	}
 	
-	/**
-	 * @param 	locationY
-	 * 			the Y coordinate wich needs to be corrected
-	 * 
-	 * Return locationY if the given locationY is valid, 
-	 * 		returns the corrected locationY if it is unvalid
-	 * @return	if locationY is lower than the window height and greater or equal than zero
-	 * 				locationY will be returned
-	 * 			| if ((locationY < getWindowHeight()) && (locationY >= 0)) then
-	 * 			| 	return locationY
-	 * @return 	if locationY is greater than the window height minus one,
-	 * 				the window height minus one will be returned
-	 * 			| if (locationY > getWindowHeight()-1) then
-	 * 			| 	return getWindowHeight()-1
-	 * @return 	if locationY is less than zero, zero will be returned
-	 * 			| if (locationY < 0) then
-	 * 			| 	return 0
-	 */
-	private double calculateValidLocationY(double locationY) {
-		if (locationY > getWindowHeight()-1){
-			locationY = getWindowHeight()-1;
-		} else if (locationY < 0){
-			locationY = 0;
-		}
-		return locationY;
-	}
 	
 	/**
 	 * Return the size of the current sprite
@@ -1240,6 +1173,15 @@ public class Mazub extends GameObject {
 	@Override
 	int getMaxHitPoints() {
 		return 500;
+	}
+
+
+
+	@Override
+	double getActualAccelerationX() {
+		if (this.isMovingLeft())
+			return getAccelerationX() * -1;
+		return  getAccelerationX();
 	}
 
 }

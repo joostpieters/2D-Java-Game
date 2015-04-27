@@ -301,39 +301,12 @@ public class Slime extends GameObject {
 	private void updateLocation(double seconds) {
 		assert (seconds >= 0);
 		setIsOnGameObject(false);
-		double accelerationX = getAccelerationX();
-		if (isMovingLeft()) {
-			accelerationX *= -1;
-		}
-		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
-		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
-		if(hasCollisionX((int)locationX,(int) locationY)){
-			locationX = getLocationX();
-		}
-		if(hasCollisionY((int)locationX,(int) locationY)){
-			locationY = getLocationY();
-			locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
-			if(hasCollisionX((int)locationX,(int) locationY)){
-				locationX = getLocationX();
-			}
-		}
-		double[] location = new double[] {locationX, locationY};
-		calculateLocationCollisionObjects(location);
-		calculateLocationCollisionSlime(location);
-		locationX = location[0];
-		locationY = location[1];
-		try {
-			setLocationX(locationX);
-		} catch (IllegalArgumentException e1){
-			locationX = calculateValidLocationX(locationX);
-			setLocationX(locationX);
-		}
-		
-		try {
-			setLocationY(locationY);
-		} catch (IllegalArgumentException e2){
-			locationY = calculateValidLocationY(locationY);
-			setLocationY(locationY);
+		double[] location = calculateLocation(seconds);
+		if(locationIsValidInWorld((int)location[0],(int) location[1])){
+			calculateLocationCollisionTerrain(seconds, location);
+			calculateLocationCollisionObjects(location);
+			calculateLocationCollisionSlime(location);
+			setLocation(location);
 		}
 	}
 
@@ -358,79 +331,6 @@ public class Slime extends GameObject {
 				}
 			}
 		}
-	}
-
-	/**
-	 * 
-	 * @return	...
-	 * 			| getWorld().getWorldSizeInPixels[0]
-	 */
-	private int getWindowWidth() {
-		return getWorld().getWorldSizeInPixels()[0];
-	}
-	
-	/**
-	 * 
-	 * @return	...
-	 * 			| getWorld().getWorldSizeInPixels[1]
-	 */
-	private int getWindowHeight() {
-		return getWorld().getWorldSizeInPixels()[1];
-	}
-	
-	
-	/**
-	 * @param 	locationX
-	 * 			the X coordinate wich needs to be corrected
-	 * 
-	 * Return locationX if the given locationX is valid, 
-	 * 		returns the corrected locationX is if is unvalid
-	 * @return	if locationX is lower than the window width and greater or equal to zero
-	 * 				locationX will be returned
-	 * 			| if ((locationX < getWindowWidth()) && (locationX >= 0)) then
-	 * 			| 	return locationX
-	 * @return 	if locationX is greater than the window width minus one,
-	 * 				the window width minus one will be returned
-	 * 			| if (locationX > getWindowWidth()-1) then
-	 * 			| 	return getWindowWidth()-1
-	 * @return 	if locationX is less than zero, zero will be returned
-	 * 			| if (locationX < 0) then
-	 * 			| 	return 0
-	 */
-	private double calculateValidLocationX(double locationX) {
-		if (locationX > getWindowWidth() - 1){
-			locationX = getWindowWidth() - 1;
-		} else if (locationX < 0){
-			locationX = 0;
-		}
-		return locationX;
-	}
-	
-	/**
-	 * @param 	locationY
-	 * 			the Y coordinate wich needs to be corrected
-	 * 
-	 * Return locationY if the given locationY is valid, 
-	 * 		returns the corrected locationY if it is unvalid
-	 * @return	if locationY is lower than the window height and greater or equal than zero
-	 * 				locationY will be returned
-	 * 			| if ((locationY < getWindowHeight()) && (locationY >= 0)) then
-	 * 			| 	return locationY
-	 * @return 	if locationY is greater than the window height minus one,
-	 * 				the window height minus one will be returned
-	 * 			| if (locationY > getWindowHeight()-1) then
-	 * 			| 	return getWindowHeight()-1
-	 * @return 	if locationY is less than zero, zero will be returned
-	 * 			| if (locationY < 0) then
-	 * 			| 	return 0
-	 */
-	private double calculateValidLocationY(double locationY) {
-		if (locationY > getWindowHeight()-1){
-			locationY = getWindowHeight()-1;
-		} else if (locationY < 0){
-			locationY = 0;
-		}
-		return locationY;
 	}
 
 	private double getMaximumHorizontalVelocity() {
@@ -650,5 +550,11 @@ public class Slime extends GameObject {
 	protected boolean isValidWorld(World world) {
 		// TODO niet volledig
 		return world != null;
+	}
+
+	@Override
+	double getActualAccelerationX() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

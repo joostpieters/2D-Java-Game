@@ -273,4 +273,9 @@ public class Plant extends GameObject {
 		return 0;
 	}
 
+	@Override
+	double getActualAccelerationX() {
+		return 0;
+	}
+
 }
