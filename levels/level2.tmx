@@ -1275,13 +1275,8 @@
   <object id="9" gid="238" x="770" y="450"/>
   <object id="10" gid="238" x="840" y="450"/>
   <object id="11" gid="238" x="910" y="450"/>
-  <object id="13" gid="186" x="721" y="542">
-   <properties>
-    <property name="school" value="0"/>
-   </properties>
-  </object>
   <object id="14" gid="177" x="1179" y="463"/>
-  <object id="15" gid="177" x="720" y="382"/>
+  <object id="15" gid="177" x="708" y="375"/>
   <object id="23" gid="177" x="745" y="716"/>
   <object id="24" gid="177" x="649" y="738"/>
  </objectgroup>

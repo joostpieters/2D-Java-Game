@@ -647,7 +647,6 @@ public class Mazub extends GameObject {
 			//TODO vergelijking met double
 		} else {
 			setTimeDead(getTimeDead() + dt);
-			//TODO vergelijking met double
 			if(getTimeDead() > 0.6){
 				terminate();
 			}
@@ -1126,11 +1125,12 @@ public class Mazub extends GameObject {
 	private double immunityTimer;
 	
 	/**
-	 * This function returns whether this Mazub is on Solid ground or not
-	 * @return
+	 * This function returns whether this Mazub is on Solid ground or not and has no positive vertical velocity
+	 * @return true if mazub is on solidground and has no positive vertical velocity, else false will be returned
+	 * 			| result == (hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1) && !(getVelocityY() > 0))
 	 */
 	private boolean isOnSolidGround(){
-		return hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1);
+		return (hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1) && !(getVelocityY() > 0));
 	}	
 	
 	//TODO un-duck blokkeren als er niet ge-un-duckt kan worden
