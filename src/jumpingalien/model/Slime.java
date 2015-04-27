@@ -300,7 +300,7 @@ public class Slime extends GameObject {
 	 */
 	private void updateLocation(double seconds) {
 		assert (seconds >= 0);
-		setVelocityYZero(false);
+		setIsOnGameObject(false);
 		double accelerationX = getAccelerationX();
 		if (isMovingLeft()) {
 			accelerationX *= -1;
@@ -350,11 +350,11 @@ public class Slime extends GameObject {
 				hasCollisionSlime = getWorld().collisionSlimes((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
 				if(!hasCollisionSlime){
 					location[1] = getLocationY();	
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				} else {
 					location[0] = getLocationX();
 					location[1] = getLocationY();
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				}
 			}
 		}
@@ -506,7 +506,7 @@ public class Slime extends GameObject {
 		if (isOnSolidGround()) {
 			setVelocityY(0);
 			setAccelerationY(0);
-		} else if(isSetVelocityYZero()){
+		} else if(isOnGameObject()){
 			setVelocityY(0);
 		} else {
 			setVelocityY(getVelocityY() + getAccelerationY()*dt);

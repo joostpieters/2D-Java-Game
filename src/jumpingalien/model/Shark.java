@@ -195,7 +195,7 @@ public class Shark extends GameObject {
 	}
 	
 	private void updateLocation(Double dt){
-		setVelocityYZero(false);
+		setIsOnGameObject(false);
 		double accelerationX = getAccelerationX();
 		if(getMovement() == Direction.LEFT){
 			accelerationX *= -1;
@@ -234,11 +234,11 @@ public class Shark extends GameObject {
 				hasCollisionShark = getWorld().collisionSharks((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
 				if(!hasCollisionShark){
 					location[1] = getLocationY();
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				} else {
 					location[0] = getLocationX();
 					location[1] = getLocationY();
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				}
 			}
 		}
@@ -252,7 +252,7 @@ public class Shark extends GameObject {
 		}
 		setVelocityX(getVelocityX() + accelerationX*dt);
 		setVelocityY(getVelocityY() + getAccelerationY()*dt);
-		if(isSetVelocityYZero())
+		if(isOnGameObject())
 			setVelocityY(0);
 	}
 	

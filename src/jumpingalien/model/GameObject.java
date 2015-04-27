@@ -340,28 +340,28 @@ public abstract class GameObject implements CollisionDetect {
 	
 	/**
 	 * @return 	if the velocity needs to be set to zero
-	 *			|result == setVelocityYZero
+	 *			|result == onGameObject
 	 */
-	protected boolean isSetVelocityYZero() {
-		return setVelocityYZero;
+	protected boolean isOnGameObject() {
+		return onGameObject;
 	}
 
 
 	/**
 	 * 
-	 * @param setVelocityYZero
-	 * 			this boolean indicades if the velocityY needs to be set to zero or not
-	 * @post 	setVelocityZero of this Game Object will equal the given setVelocityYZero
-	 * 			|new.isSetVelocityYZero() == setVelocityYZero
+	 * @param value
+	 * 			this boolean indicades if the velocityY needs to be set to zero because Game Object is on a game object or not
+	 * @post 	onGameObject of this Game Object will equal the given value
+	 * 			|new.isOnGameObject() == value
 	 */
-	protected void setVelocityYZero(boolean setVelocityYZero) {
-		this.setVelocityYZero = setVelocityYZero;
+	protected void setIsOnGameObject(boolean value) {
+		this.onGameObject = value;
 	}
 	
 	/**
-	 * This boolean indicades if this Game Object's vertical velocity needs to be set to zero
+	 * This boolean indicades if this GameObject is on another Game Object
 	 */
-	private boolean setVelocityYZero;
+	private boolean onGameObject;
 	
 	// TODO commentaar
 	
@@ -375,11 +375,11 @@ public abstract class GameObject implements CollisionDetect {
 				hasCollisionShark = getWorld().collisionSharks((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
 				if(!hasCollisionShark){
 					location[1] = getLocationY();	
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				} else {
 					location[0] = getLocationX();
 					location[1] = getLocationY();
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				}
 			}
 		}
@@ -395,11 +395,11 @@ public abstract class GameObject implements CollisionDetect {
 				hasCollisionMazub = getWorld().collisionMazub((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight());
 				if(!hasCollisionMazub){
 					location[1] = getLocationY();	
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				} else {
 					location[0] = getLocationX();
 					location[1] = getLocationY();
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				}
 			}
 		}
@@ -415,11 +415,11 @@ public abstract class GameObject implements CollisionDetect {
 				hasCollisionSlime = getWorld().collisionSlimes((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0;
 				if(!hasCollisionSlime){
 					location[1] = getLocationY();
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				} else {
 					location[0] = getLocationX();
 					location[1] = getLocationY();
-					setVelocityYZero(true);
+					setIsOnGameObject(true);
 				}
 			}
 		}

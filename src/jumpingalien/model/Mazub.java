@@ -440,8 +440,10 @@ public class Mazub extends GameObject {
 	 * 			|	setVelocityY(8)
 	 * 			| 	setAccelerationY(-10) 
 	 */
+	
+	// TODO jump on game object
 	public void startJump() {
-		if(isOnSolidGround()){
+		if(isOnSolidGround() || isOnGameObject()){
 			setVelocityY(8);
 			setAccelerationY(-10);
 		}
@@ -719,7 +721,7 @@ public class Mazub extends GameObject {
 		if (isOnSolidGround()) {
 			setVelocityY(0);
 			setAccelerationY(0);
-		} else if(isSetVelocityYZero()){
+		} else if(isOnGameObject()){
 			setVelocityY(0);
 		} else {
 			double velocityY = getVelocityY() + getAccelerationY()*seconds;
@@ -785,7 +787,7 @@ public class Mazub extends GameObject {
 	 */
 	// TODO onbreekt commentaar
 	private void updateLocation(double seconds, double accelerationX) {
-		setVelocityYZero(false);
+		setIsOnGameObject(false);
 		assert (seconds >= 0);
 		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
 		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
