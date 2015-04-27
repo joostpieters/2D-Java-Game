@@ -640,11 +640,14 @@ public class Slime extends GameObject {
 	 * @effect	...
 	 * 			| newSchool.addNewSchoolMember(this)
 	 */
-	private void changeSchool(School newSchool) {
-		assert (isValidNewSchool(newSchool));
-		school.removeSlime(this);
-		setNewSchool(newSchool);
-		newSchool.addNewSchoolMember(this);
+	private void changeSchool(School newSchool){
+		getSchool().removeSlime(this);
+		setNewSchool(newSchool);	
+		try {
+			newSchool.addNewSchoolMember(this);
+		} catch (IllegalAccessException e) {
+			assert(false);
+		}
 	}
 	
 	/**

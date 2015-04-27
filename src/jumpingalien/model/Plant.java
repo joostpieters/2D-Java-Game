@@ -243,7 +243,7 @@ public class Plant extends GameObject {
 	 */
 	@Override
 	protected boolean isValidWorld(World world) {
-		return (world != null && getWorld().hasAsPlant(this));
+		return (world != null);
 	}
 
 	/**

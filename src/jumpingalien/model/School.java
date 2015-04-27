@@ -12,13 +12,6 @@ import be.kuleuven.cs.som.annotate.Basic;
  *
  */
 public class School {
-	/**
-	 * @effect 	...
-	 * 			|setAmountSlimes(0)
-	 */
-	public School(){
-		
-	}
 
 	/**
 	 * 
@@ -28,8 +21,6 @@ public class School {
 	 * 			| !canHaveAsSlime(slime)
 	 * @post 	...
 	 * 			|new.slimes.contains(slime)
-	 * @effect 	...
-	 * 			| setAmountSlimes(getAmountSlimes() + 1)
 	 */
 	void addSlime(Slime slime) throws IllegalArgumentException{
 		if(!canHaveAsSlime(slime)){
@@ -39,14 +30,14 @@ public class School {
 	}
 	
 	/**
-	 * @pre	...
-	 * 		| slime != null
+	 * @pre		...
+	 * 			| slime != null
 	 * @param slime
 	 * 			the Slime to remove from this School
 	 * @effect 	...
 	 * 			| slimes.remove(slime)
 	 * @effect	...
-	 * 			| for (Slime otherSlime : slimes)
+	 * 			| foreach (otherSlime in slimes)
 	 * 			|	if not slime.isDead() then
 	 * 			|		slime.setHitpoints(slime.getHitPoints() - 1)
 	 * 			|		otherSlime.setHitPoints(otherSlime.getHitpoints() + 1)
@@ -71,18 +62,18 @@ public class School {
 	}
 	
 	/**
-	 * @pre	...
-	 * 		| canHaveAsSlime(slime)
+	 * @pre		...
+	 * 			| canHaveAsSlime(slime)
 	 * @param slime
 	 * @effect	...
-	 * 			| for (Slime otherSlime : slimes) 
-	 * 			| 	if (not otherSlime.isDead()) then
+	 * 			| foreach (otherSlime : slimes) 
+	 * 			| 	if (!otherSlime.isDead()) then
 	 * 			|		otherSlime.setHitPoints(otherSlime.getHitPoints() - 1)
 	 * 			|		slime.setHitPoints(slime.getHitPoints() + 1)
 	 * @effect	...
 	 * 			| addSlime(slime)
 	 */
-	void addNewSchoolMember(Slime slime) {
+	void addNewSchoolMember(Slime slime) throws IllegalAccessException {
 		assert (canHaveAsSlime(slime));
 		for (Slime otherSlime : slimes) {
 			if (!otherSlime.isDead()) {
@@ -142,6 +133,11 @@ public class School {
 		setTerminated(true);
 	}
 	
+	/**
+	 * 
+	 * @return 	...
+	 * 			|result == terminated
+	 */
 	@Basic
 	boolean isTerminated() {
 		return this.terminated;
@@ -157,5 +153,8 @@ public class School {
 		this.terminated = value;
 	}
 	
+	/**
+	 * This variable contains if this school is terminated or not
+	 */
 	private boolean terminated;
 }
