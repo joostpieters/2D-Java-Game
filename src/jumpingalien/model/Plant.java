@@ -239,12 +239,11 @@ public class Plant extends GameObject {
 	/**
 	 * @param	world
 	 * @return 	...
-	 * 			| world != null
+	 * 			| result == (world != null && getWorld().hasAsPlant(this))
 	 */
 	@Override
 	protected boolean isValidWorld(World world) {
-		// TODO nog niet klaar
-		return world != null;
+		return (world != null);
 	}
 
 	/**
@@ -274,6 +273,10 @@ public class Plant extends GameObject {
 		return 0;
 	}
 
+	/**
+	 * @return ...
+	 * 			|result == 0
+	 */
 	@Override
 	double getActualAccelerationX() {
 		return 0;

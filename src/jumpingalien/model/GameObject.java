@@ -89,6 +89,7 @@ public abstract class GameObject implements CollisionDetect {
 	 *         location, the second element is the y location 
 	 *         | result == {(int) getLocationX(), (int) getLocationY()}
 	 */
+	@Override
 	public int[] getLocation() {
 		int[] location = new int[2];
 		location[0] = (int) getLocationX();
@@ -257,6 +258,7 @@ public abstract class GameObject implements CollisionDetect {
 	/**
 	 * Returns the current world where this game object is in
 	 */
+	@Override
 	public World getWorld() {
 		return world;
 	}
@@ -424,6 +426,9 @@ public abstract class GameObject implements CollisionDetect {
 		setLocationY(location[1]);
 	}
 	
+	/**
+	 * Returns the actual acceleration for this Game Object
+	 */
 	abstract double getActualAccelerationX();
 
 	/**
@@ -559,8 +564,26 @@ public abstract class GameObject implements CollisionDetect {
 	/**
 	 * 
 	 * @param seconds
-	 * @return	...
-	 * 			|
+	 * @return		Returns the time needed for a one pixel movement
+	 * 					returns seconds if a one pixel moment takes longer than the calculated
+	 * 						time
+	 * 				|if((getVelocityX() != 0) || (getAccelerationX() != 0)) then
+	 * 				|	if((getVelocityY() != 0) || (getAccelerationY() != 0)) then
+	 * 				|		if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) >= seconds && (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds) >= seconds) then
+	 * 				|			result == seconds
+	 * 				|		else if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) < (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds)) then
+	 * 				|			result == Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds));
+	 *				|		else if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) > (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds)) then
+	 *				|			result == (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds)
+	 *				|	else if((0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds) >= seconds) then
+	 *				|		 result == seconds
+	 *				|	else then
+	 *				|		result == (0.01)/(Math.abs(getVelocityX())+Math.abs(getAccelerationX())*seconds));
+	 *				|else if((getVelocityY() != 0) || (getAccelerationY() != 0)) then
+	 *				|	if ((0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds) > seconds) then
+	 *				|		result == seconds
+	 *				|	else then
+	 *				|		result == (0.01)/(Math.abs(getVelocityY())+Math.abs(getAccelerationY())*seconds));
 	 */
 	public double timeOnePixelMovement(double seconds) {
 		double dt1 = 0.2;
@@ -665,11 +688,23 @@ public abstract class GameObject implements CollisionDetect {
 
 	protected abstract void advanceTimeCollisionDetect(double advanceTime);
 
+	/**
+	 * @return The vertical acceleration for this game object
+	 */
 	protected abstract double getAccelerationY();
 
+	/**
+	 * @return The vertical velocity for this game object
+	 */
 	protected abstract double getVelocityY();
 
+	/**
+	 * @return The horizontal acceleration for this game object
+	 */
 	protected abstract double getAccelerationX();
 
+	/**
+	 * @return The horizontal velocity for this game object
+	 */
 	protected abstract double getVelocityX();
 }

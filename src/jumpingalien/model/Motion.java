@@ -1,6 +1,6 @@
 package jumpingalien.model;
 
-public enum Direction {
+public enum Motion {
 
 	LEFT,
 	RIGHT,

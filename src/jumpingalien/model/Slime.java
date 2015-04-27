@@ -26,7 +26,9 @@ public class Slime extends GameObject {
 	 * @effect	...
 	 * 			| setSchool(school)
 	 * @effect	...
-	 * 			| setHitPoints(50)
+	 * 			| school.addSlime(this)
+	 * @effect	...
+	 * 			| setHitPoints(100)
 	 * @effect	...
 	 * 			| setVelocityX(0)
 	 * @effect	...
@@ -273,7 +275,7 @@ public class Slime extends GameObject {
 	 * 			| 	return false
 	 */
 	private boolean isMovingLeft() {
-		if (this.getMovementDirection() == Direction.LEFT) {
+		if (this.getMovementDirection() == Motion.LEFT) {
 			return true;
 		} else {
 			return false;
@@ -513,10 +515,10 @@ public class Slime extends GameObject {
 	private void newMovement(){
 		int random = (int)(Math.random()*2);
 		switch (random){
-			case 0: setMovementDirection(Direction.LEFT);
+			case 0: setMovementDirection(Motion.LEFT);
 					setCurrentSpriteIndex(0);
 					break;
-			case 1: setMovementDirection(Direction.RIGHT);
+			case 1: setMovementDirection(Motion.RIGHT);
 					setCurrentSpriteIndex(1);
 					break;
 		}
@@ -529,7 +531,7 @@ public class Slime extends GameObject {
 	}
 	
 	@Basic
-	private Direction getMovementDirection() {
+	private Motion getMovementDirection() {
 		return this.movementDirection;
 	}
 	
@@ -539,11 +541,14 @@ public class Slime extends GameObject {
 	 * @post	...
 	 * 			| new.getMovementDirection() == direction
 	 */
-	private void setMovementDirection(Direction direction) {
+	private void setMovementDirection(Motion direction) {
 		this.movementDirection = direction;
 	}
 	
-	private Direction movementDirection;
+	/**
+	 * This variable contains the current movement Direction for this slime
+	 */
+	private Motion movementDirection;
 		
 	/**
 	 * 
@@ -640,11 +645,14 @@ public class Slime extends GameObject {
 	 * @effect	...
 	 * 			| newSchool.addNewSchoolMember(this)
 	 */
-	private void changeSchool(School newSchool) {
-		assert (isValidNewSchool(newSchool));
-		school.removeSlime(this);
-		setNewSchool(newSchool);
-		newSchool.addNewSchoolMember(this);
+	private void changeSchool(School newSchool){
+		getSchool().removeSlime(this);
+		setNewSchool(newSchool);	
+		try {
+			newSchool.addNewSchoolMember(this);
+		} catch (IllegalAccessException e) {
+			assert(false);
+		}
 	}
 	
 	/**
@@ -704,7 +712,7 @@ public class Slime extends GameObject {
 	 */
 	@Override
 	double getActualAccelerationX() {
-		if (getMovementDirection() == Direction.LEFT) {
+		if (getMovementDirection() == Motion.LEFT) {
 			return getAccelerationX()*(-1);
 		} else {
 			return getAccelerationX();
