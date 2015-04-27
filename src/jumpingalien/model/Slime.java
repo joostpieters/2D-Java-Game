@@ -421,7 +421,7 @@ public class Slime extends GameObject {
 	 * @effect	...
 	 * 			| handleCollisionSlime()
 	 * @effect	...
-	 * 			| handleWater()
+	 * 			| handleWater(dt)
 	 */
 	@Override
 	protected void advanceTimeCollisionDetect(double dt){
@@ -643,20 +643,26 @@ public class Slime extends GameObject {
 	private void changeSchool(School newSchool) {
 		assert (isValidNewSchool(newSchool));
 		school.removeSlime(this);
-		// TODO
 		setNewSchool(newSchool);
 		newSchool.addNewSchoolMember(this);
 	}
 	
 	/**
 	 * @effect	...
-	 * 			| setWorld(null)
+	 * 			| getWorld().removeSlime(this)
+	 * @effect	...
+	 * 			| removeWorld()
+	 * @effect	...
+	 * 			| getSchool().removeSlime(this)
+	 * @effect	...
+	 * 			| removeSchool()
 	 * @effect	...
 	 * 			| setTerminated(true)
 	 */
 	@Override
 	void terminate() {
 		// remove world
+		getWorld().removeSlime(this);
 		this.removeWorld();
 		getSchool().removeSlime(this);
 		removeSchool();
@@ -687,17 +693,22 @@ public class Slime extends GameObject {
 	 */
 	@Override
 	protected boolean isValidWorld(World world) {
-		// TODO niet volledig
 		return (world != null) && (world.hasAsSlime(this));
 	}
 
 	/**
 	 * @return	...
-	 * 			| result == 0
+	 * 			| if (getMovementDirection() == Direction.LEFT) then
+	 * 			|	result == getAccelerationX()*(-1)
+	 * 			| else then
+	 * 			| 	result == getAccelerationX()
 	 */
 	@Override
 	double getActualAccelerationX() {
-		// TODO Auto-generated method stub
-		return 0;
+		if (getMovementDirection() == Direction.LEFT) {
+			return getAccelerationX()*(-1);
+		} else {
+			return getAccelerationX();
+		}
 	}
 }
