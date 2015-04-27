@@ -7,6 +7,9 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
+import jumpingalien.model.School;
+import jumpingalien.model.Shark;
+import jumpingalien.model.Slime;
 import jumpingalien.model.World;
 import jumpingalien.part2.facade.Facade;
 import jumpingalien.part2.facade.IFacadePart2;
@@ -155,9 +158,31 @@ public class PartialFacadeTest {
 	@Test(expected = ModelException.class)
 	public void testIllegalAddObjectGameStarted() {
 		IFacadePart2 facade = new Facade();
-		World world = facade.createWorld(500, 1, 1, 1, 1, 1, 1);
+		World world = facade.createWorld(500, 1, 2, 1, 1, 1, 1);
 		facade.startGame(world);
+		Plant plant = new Plant(0, 499, spriteArrayForSize(3, 3));
+		facade.addPlant(world, plant);
 	}
+	
+	@Test(expected = ModelException.class)
+	public void testIllegalAddSharkGameStarted() {
+		IFacadePart2 facade = new Facade();
+		World world = facade.createWorld(500, 1, 2, 1, 1, 1, 1);
+		facade.startGame(world);
+		Shark shark = new Shark(0, 499, spriteArrayForSize(3, 3));
+		facade.addShark(world, shark);
+	}
+	
+	@Test(expected = ModelException.class)
+	public void testIllegalAddSlimeGameStarted() {
+		IFacadePart2 facade = new Facade();
+		World world = facade.createWorld(500, 1, 2, 1, 1, 1, 1);
+		facade.startGame(world);
+		School school = facade.createSchool();
+		Slime slime = new Slime(0, 499, spriteArrayForSize(3, 3), school);
+		facade.addSlime(world, slime);
+	}
+	
 	
 
 }
