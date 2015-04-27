@@ -674,10 +674,10 @@ public class World  {
 	 * 			|isGameStarted() 
 	 */
 	public void addPlant(Plant plant) throws IllegalArgumentException, IllegalStateException{
-		if (!canHaveAsPlant(plant)){
-			throw new IllegalArgumentException();
-		} else if(isGameStarted()){
+		if(isGameStarted()){
 			throw new IllegalStateException();
+		} else if (!canHaveAsPlant(plant)){
+			throw new IllegalArgumentException();
 		}
 		this.plants.add(plant);
 		plant.setWorld(this);
@@ -726,8 +726,7 @@ public class World  {
 	public void addShark(Shark shark) throws IllegalArgumentException, IllegalStateException{
 		if(isGameStarted()){
 			throw new IllegalStateException();
-		}
-		if (!canHaveAsShark(shark)){
+		} else if (!canHaveAsShark(shark)){
 			throw new IllegalArgumentException();
 		}
 		this.sharks.add(shark);
@@ -781,8 +780,7 @@ public class World  {
 	public void addSlime(Slime slime)throws IllegalArgumentException, IllegalStateException{
 		if(isGameStarted()){
 			throw new IllegalStateException();
-		}
-		if (!canHaveAsSlime(slime)){
+		} else if (!canHaveAsSlime(slime)){
 			throw new IllegalArgumentException();
 		}
 		this.slimes.add(slime);
