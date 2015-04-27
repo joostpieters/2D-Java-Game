@@ -261,8 +261,9 @@ public class Shark extends GameObject {
 	/**
 	 * 
 	 * @param dt
-	 * @effect ...
-	 * 			|
+	 * @effect 	 ...
+	 * 			|setIsOnGameObject(false)
+	 * @effect
 	 */
 	private void updateLocation(double dt){
 		setIsOnGameObject(false);
@@ -279,14 +280,14 @@ public class Shark extends GameObject {
 	 * @param location
 	 */
 	protected void calculateLocationCollisionShark(double[] location) {
-		boolean hasCollisionShark = getWorld().collisionSharks((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight(), this).size() > 0;
-		if(hasCollisionShark){
-			hasCollisionShark = getWorld().collisionSharks((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight(), this).size() > 0;
-			if(!hasCollisionShark){
+		if(hasCollisionShark((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(),
+				(int) location[1] + this.getCurrentSprite().getHeight())){
+			if(!hasCollisionShark((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(),
+					(int) location[1] + this.getCurrentSprite().getHeight())){
 				location[0] = getLocationX();				
 			} else {
-				hasCollisionShark = getWorld().collisionSharks((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
-				if(!hasCollisionShark){
+				if(!hasCollisionShark((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), 
+						(int) getLocationY() + this.getCurrentSprite().getHeight())){
 					location[1] = getLocationY();
 					setIsOnGameObject(true);
 				} else {
@@ -296,6 +297,10 @@ public class Shark extends GameObject {
 				}
 			}
 		}
+	}
+	
+	private boolean hasCollisionShark(int startX, int startY, int endX, int endY){
+		return getWorld().collisionSharks(startX, startY, endX, endY, this).size() > 0;
 	}
 
 	

@@ -360,7 +360,7 @@ public abstract class GameObject implements CollisionDetect {
 	/**
 	 * This boolean indicades if this GameObject is on another Game Object
 	 */
-	private boolean onGameObject;
+	private boolean onGameObject;	
 	
 	protected double[] calculateLocation(double dt){
 		double[] location = new double[2];
