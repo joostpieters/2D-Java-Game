@@ -91,7 +91,7 @@ public class Slime extends GameObject {
 	/**
 	 * Returns the current sprite of this Slime
 	 */
-	@Override
+	@Basic
 	public Sprite getCurrentSprite() {
 		return getSprites()[getCurrentSpriteIndex()];
 	}
@@ -174,7 +174,7 @@ public class Slime extends GameObject {
 	private School school;
 	
 	
-	@Basic @Override
+	@Basic
 	protected double getVelocityX() {
 		return this.velocityX;
 	}
@@ -194,7 +194,7 @@ public class Slime extends GameObject {
 	 */
 	private double velocityX;
 	
-	@Basic @Override
+	@Basic
 	protected double getVelocityY() {
 		return this.velocityY;
 	}
@@ -214,7 +214,7 @@ public class Slime extends GameObject {
 	 */
 	private double velocityY;
 	
-	@Basic @Override
+	@Basic
 	protected double getAccelerationX() {
 		return accelerationX;
 	}
@@ -243,7 +243,7 @@ public class Slime extends GameObject {
 		return 0.7;
 	}
 	
-	@Basic @Override
+	@Basic
 	protected double getAccelerationY() {
 		return accelerationY;
 	}
@@ -596,24 +596,23 @@ public class Slime extends GameObject {
 	
 	/**
 	 * @effect	...
-	 * 			| for each shark in getWorld().collisionSharksInPerimeters((int) getLovationX(), (int) getLocationY(), (int) getLocationX() + getCurrentSprite().getWidth(), (int) getLocationY() + getCurrentSprite().getHeight())
+	 * 			| for each shark in getWorld().collisionSharksInPerimeters((int) getLovationX(), (int) getLocationY(), (int) getLocationX() + getCurrentSprite().getWidth(), (int) getLocationY() + getCurrentSprite().getHeight()
 	 * 			| 	hadCollisionShark()
 	 * 			|	shark.hadCollisionSlime()
+	 * 			|	if (shark.isTerminated()) then
+	 * 			| 		getWorld.removeShark(shark)
 	 */
 	private void handleCollisionShark() {
 		Collection<Shark> collection = getWorld().collisionSharksInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Shark shark : collection) {
 			hadCollisionShark();
 			shark.hadCollisionSlime();
+			if(shark.isTerminated()){
+				getWorld().removeShark(shark);				
+			}
 		}
 	}
 	
-	/**
-	 * @effect	...
-	 * 			| for each slime in getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight())
-	 * 			|	if ((this.getSchool() != null) && (slime.getSchool() != null) && !(this.getSchool() == slime.getSchool() && (slime.getSchool().getAmountSlimes() > this.getSchool().getAmountSlimes())) then
-	 * 			|		this.changeSchool(slime.getSchool())
-	 */
 	private void handleCollisionSlime() {
 		Collection<Slime> collection = getWorld().collisionSlimesInPerimeters((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Slime slime: collection) {
@@ -623,41 +622,23 @@ public class Slime extends GameObject {
 		}
 	}
 	
-	/**
-	 * 
-	 * @param newSchool
-	 * @pre	...
-	 * 		| isValidNewSchool(newSchool)
-	 * @effect	...
-	 * 			| school.removeSlime(this)
-	 * @effect	...
-	 * 			| setNewSchool(newSchool)
-	 * @effect	...
-	 * 			| newSchool.addNewSchoolMember(this)
-	 */
 	private void changeSchool(School newSchool) {
 		assert (isValidNewSchool(newSchool));
 		school.removeSlime(this);
+		// TODO
 		setNewSchool(newSchool);
 		newSchool.addNewSchoolMember(this);
 	}
 	
 	/**
 	 * @effect	...
-	 * 			| getWorld().removeSlime(this)
-	 * @effect	...
-	 * 			| removeWorld()
-	 * @effect	...
-	 * 			| getSchool().removeSlime(this)
-	 * @effect	...
-	 * 			| removeSchool()
+	 * 			| setWorld(null)
 	 * @effect	...
 	 * 			| setTerminated(true)
 	 */
 	@Override
 	void terminate() {
 		// remove world
-		getWorld().removeSlime(this);
 		this.removeWorld();
 		getSchool().removeSlime(this);
 		removeSchool();
@@ -665,38 +646,24 @@ public class Slime extends GameObject {
 		setTerminated(true);
 	}
 
-	/**
-	 * @effect	...
-	 * 			| setHitPoints(getHitPoints() - 50)
-	 */
 	public void hadCollisionShark() {
 		setHitPoints(getHitPoints()-50);		
 	}
 
-	/**
-	 * @return	...
-	 * 			| result == Integer.MAX_VALUE
-	 */
 	@Override
 	int getMaxHitPoints() {
 		return Integer.MAX_VALUE;
 	}
 
-	/**
-	 * @return	...
-	 * 			| result == ((world != null) && (world.hasAsSlime(this)))
-	 */
 	@Override
 	protected boolean isValidWorld(World world) {
+		// TODO niet volledig
 		return (world != null) && (world.hasAsSlime(this));
 	}
 
-	/**
-	 * @return	...
-	 * 			| result == 0
-	 */
 	@Override
 	double getActualAccelerationX() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 }

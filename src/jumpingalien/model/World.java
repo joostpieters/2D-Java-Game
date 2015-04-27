@@ -492,18 +492,30 @@ public class World  {
 			removeMazub();
 		}
 		if(getMazub() != null){
-			for (Plant plant : getPlants()) {
+			ArrayList<Plant> plantsToRemove = new ArrayList<Plant>();
+			for (Plant plant : plants) {
 				plant.advanceTime(dt);
 				if(plant.isTerminated()){
-					plants.remove(plant);
+					plantsToRemove.add(plant);
 				}
 			}
-			for (Slime slime : getSlimes()) {
+			plants.removeAll(plantsToRemove);
+			ArrayList<Slime> slimesToRemove = new ArrayList<Slime>();
+			for (Slime slime : slimes) {
 				slime.advanceTime(dt);
+				if(slime.isTerminated()){
+					slimesToRemove.add(slime);
+				}
 			}
-			for (Shark shark : getSharks()) {
+			slimes.removeAll(slimesToRemove);
+			ArrayList<Shark> sharksToRemove = new ArrayList<Shark>();
+			for (Shark shark : sharks) {
 				shark.advanceTime(dt);
+				if(shark.isTerminated()){
+					sharksToRemove.add(shark);
+				}
 			}
+			sharks.removeAll(sharksToRemove);
 			if (alienIsAtTargetTile()) {
 				setReachedEnd(true);
 			}

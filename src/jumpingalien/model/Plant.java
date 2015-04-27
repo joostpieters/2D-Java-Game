@@ -201,8 +201,7 @@ public class Plant extends GameObject {
 	 */
 	@Override
 	void terminate(){
-		getWorld().removePlant(this);
-		removeWorld();
+		this.setWorld(null);
 		// set boolean
 		setTerminated(true);
 	}
