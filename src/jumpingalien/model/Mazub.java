@@ -47,7 +47,8 @@ public class Mazub extends GameObject {
 	 * 			| setMagmaTimer(0.2)
 	 */
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws IllegalArgumentException{
-		this.setLocation(pixelLeftX, pixelBottomY);
+		this.setLocationX(pixelLeftX);
+		this.setLocationY(pixelBottomY);
 		this.setSprites(sprites);		
 		this.setSpriteIndex(0);
 		this.setSpriteTimer(0);
@@ -78,43 +79,6 @@ public class Mazub extends GameObject {
 			return getWorld().getWorldSizeInPixels()[1];
 		}
 		return 768;
-	}
-	
-	/**
-	 * Set locationX and locationY of this Mazub to a given value
-	 * 
-	 * @param 	pixelLeftX
-	 * 			The new locationX for this Mazub
-	 * @param 	pixelBottomY
-	 * 			The new locationY for this Mazub
-	 * @pre		The given pixelLeftX needs to be bigger or equal to 0
-	 * 			| pixelLeftX >= 0
-	 * @pre		The given pixelLeftX needs to smaller than current game window width
-	 * 			| pixelLeftX < getWindowWidth()
-	 * @pre		The given pixelBottomY needs to be bigger or equal to 0
-	 * 			| pixelBottomY >= 0
-	 * @pre		The given pixelBottomY needs to smaller than game widow height
-	 * 			| pixelBottomY < getWindowHeight()
-	 * @post 	The LocationX of this Mazub is equal to the given pixelLeftX
-	 * 			| new.getLocationX() == pixelLeftX
-	 * @post 	The LocationY of this Mazub is equal to the given pixelBottomY
-	 * 			| new.getLocationY() == pixelBottomY  
-	 */
-	private void setLocation(int pixelLeftX, int pixelBottomY) {
-		try {
-			setLocationX(pixelLeftX);
-		} catch (IllegalArgumentException e1) {
-			double locationX = calculateValidLocationX(pixelLeftX);
-			setLocationX(locationX);
-		}
-		
-		try {
-			setLocationY(pixelBottomY);
-		} catch (IllegalArgumentException e2) {
-			double locationY = calculateValidLocationY(pixelBottomY);
-			setLocationY(locationY);
-		}
-		
 	}
 	
 	/**
@@ -789,21 +753,7 @@ public class Mazub extends GameObject {
 		if(locationIsValidInWorld((int)location[0], (int)location[1])){
 			calculateLocationCollisionTerrain(seconds, location);
 			calculateLocationCollisionObjects(location);
-			double locationX = location[0];
-			double locationY = location[1];
-			try {
-				setLocationX(locationX);
-			} catch (IllegalArgumentException e1){
-				locationX = calculateValidLocationX(locationX);
-				setLocationX(locationX);
-			}
-			
-			try {
-				setLocationY(locationY);
-			} catch (IllegalArgumentException e2){
-				locationY = calculateValidLocationY(locationY);
-				setLocationY(locationY);
-			}
+			setLocation(location);
 		}
 	}
 

@@ -45,8 +45,8 @@ public abstract class GameObject implements CollisionDetect {
 	 * @post 	the x location of this Game Object is equal to the given x 
 	 * 			|new.getLocationX() == x
 	 */
-	protected void setLocationX(double x) {
-			this.locationX = x;
+	protected void setLocationX(double x) throws IllegalArgumentException {
+		this.locationX = x;
 	}
 
 	
@@ -346,7 +346,6 @@ public abstract class GameObject implements CollisionDetect {
 		return onGameObject;
 	}
 
-
 	/**
 	 * 
 	 * @param value
@@ -388,74 +387,9 @@ public abstract class GameObject implements CollisionDetect {
 		return ((isValidLocation((int)locationX, (int)locationY)) && (isValidLocation((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY))));
 	}
 	
-	/**
-	 * @param 	locationY
-	 * 			the Y coordinate wich needs to be corrected
-	 * 
-	 * Return locationY if the given locationY is valid, 
-	 * 		returns the corrected locationY if it is unvalid
-	 * @return	if locationY is lower than the window height and greater or equal than zero
-	 * 				locationY will be returned
-	 * 			| if ((locationY < getWindowHeight()) && (locationY >= 0)) then
-	 * 			| 	return locationY
-	 * @return 	if locationY is greater than the window height minus one,
-	 * 				the window height minus one will be returned
-	 * 			| if (locationY > getWindowHeight()-1) then
-	 * 			| 	return getWindowHeight()-1
-	 * @return 	if locationY is less than zero, zero will be returned
-	 * 			| if (locationY < 0) then
-	 * 			| 	return 0
-	 */
-	protected double calculateValidLocationY(double locationY) {
-		/*if (locationY > getWorld.getWindowHeight()-1){
-			locationY = getWindowHeight()-1;
-		} else if (locationY < 0){
-			locationY = 0;
-		}*/
-		return locationY;
-	}
-	
-	/**
-	 * @param 	locationX
-	 * 			the X coordinate wich needs to be corrected
-	 * 
-	 * Return locationX if the given locationX is valid, 
-	 * 		returns the corrected locationX is if is unvalid
-	 * @return	if locationX is lower than the window width and greater or equal to zero
-	 * 				locationX will be returned
-	 * 			| if ((locationX < getWindowWidth()) && (locationX >= 0)) then
-	 * 			| 	return locationX
-	 * @return 	if locationX is greater than the window width minus one,
-	 * 				the window width minus one will be returned
-	 * 			| if (locationX > getWindowWidth()-1) then
-	 * 			| 	return getWindowWidth()-1
-	 * @return 	if locationX is less than zero, zero will be returned
-	 * 			| if (locationX < 0) then
-	 * 			| 	return 0
-	 */
-	protected double calculateValidLocationX(double locationX) {
-		/*if (locationX > getWindowWidth() - 1){
-			locationX = getWindowWidth() - 1;
-		} else if (locationX < 0){
-			locationX = 0;
-		}*/
-		return locationX;
-	}
-	
 	protected void setLocation(double[] location){
-		try {
-			setLocationX(location[0]);
-		} catch (IllegalArgumentException e1){
-			location[0] = calculateValidLocationX(location[0]);
-			setLocationX(location[0]);
-		}
-		
-		try {
-			setLocationY(location[1]);
-		} catch (IllegalArgumentException e2){
-			location[1] = calculateValidLocationY(location[1]);
-			setLocationY(location[1]);
-		}
+		setLocationX(location[0]);
+		setLocationY(location[1]);
 	}
 	
 	// TODO commentaar
