@@ -1227,7 +1227,8 @@ public class Mazub extends GameObject {
 		return super.getHitPoints();
 	}
 	
-	private void terminate(){
+	@Override
+	void terminate(){
 		removeWorld();
 		setTerminated(true);
 	}

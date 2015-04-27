@@ -450,7 +450,8 @@ public class Shark extends GameObject {
 	 * @effect	...
 	 * 			|setTerminated(true)
 	 */
-	private void terminate() {
+	@Override
+	void terminate() {
 		removeWorld();
 		setTerminated(true);
 	}

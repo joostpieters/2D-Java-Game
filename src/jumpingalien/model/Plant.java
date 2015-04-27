@@ -189,8 +189,8 @@ public class Plant extends GameObject {
 			setLocationX(locationX);
 		}
 	}
-	
-	private void teminate(){
+	@Override
+	void terminate(){
 		this.setWorld(null);
 		// set boolean
 		setTerminated(true);
@@ -201,7 +201,7 @@ public class Plant extends GameObject {
 	 * 			| terminate()
 	 */
 	void hadCollisionMazub() {
-		teminate();		
+		terminate();		
 	}
 	
 	private void handleCollisionMazub(){
@@ -235,4 +235,5 @@ public class Plant extends GameObject {
 	protected double getAccelerationX() {
 		return 0;
 	}
+
 }

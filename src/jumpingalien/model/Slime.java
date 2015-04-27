@@ -627,6 +627,7 @@ public class Slime extends GameObject {
 	 * @effect	...
 	 * 			| setTerminated(true)
 	 */
+	@Override
 	void terminate() {
 		// remove world
 		this.removeWorld();

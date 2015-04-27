@@ -46,8 +46,15 @@ public abstract class GameObject implements CollisionDetect {
 	 * 			|new.getLocationX() == x
 	 */
 	protected void setLocationX(double x) {
-		this.locationX = x;
+		if(hasAWorld() && (x < 0 || Util.fuzzyGreaterThanOrEqualTo(x, getWorld().getWorldSizeInPixels()[0]))){
+			setdead(true);
+			terminate();
+		} else {
+			this.locationX = x;
+		}
 	}
+
+	abstract void terminate();
 
 	/**
 	 * This variable contains the x location of this Game Object.
