@@ -21,7 +21,7 @@ public class Shark extends GameObject {
 	 * 			| setHitPoints(100)
 	 * @effect	...
 	 * 			| setMagmaTimer(0.2)
-	 * * @effect	...
+	 * @effect	...
 	 * 			| setMovementCounter(4)
 	 */
 	public Shark (int x, int y, Sprite[] sprites){
@@ -41,7 +41,7 @@ public class Shark extends GameObject {
 	 * 			|if !(getVelocityX() > 0) then
 	 * 			|	result == getSprites()[0]
 	 */
-	@Basic
+	@Basic @Override
 	public Sprite getCurrentSprite() {
 		if(getVelocityX() > 0)
 			return getSprites()[1];
@@ -118,6 +118,7 @@ public class Shark extends GameObject {
 	 * @return	...
 	 * 			| result == getInitialHorizontalAcceleration()
 	 */
+	@Override
 	protected double getAccelerationX() {
 		if(getMovement() != null)
 			return getInitialHorizontalAcceleration();
@@ -139,6 +140,7 @@ public class Shark extends GameObject {
 	 * @return	...
 	 * 			| result == this.accelerationY;
 	 */
+	@Override
 	protected double getAccelerationY() {
 		return accelerationY;
 	}
@@ -241,6 +243,7 @@ public class Shark extends GameObject {
 	 * 			| 	setAccelerationY(0);
 	 * 			| 	setVelocityY(0)
 	 */
+	@Override
 	protected void advanceTimeCollisionDetect(double dt){
 		if(!isInWater()){
 			setAccelerationY(-10);
@@ -278,6 +281,7 @@ public class Shark extends GameObject {
 	 * 			|if(getMovement() != Direction.LEFT) then
 	 * 			|  result == getAccelerationX()
 	 */
+	@Override
 	double getActualAccelerationX(){
 		if(getMovement() == Direction.LEFT){
 			return getAccelerationX() * -1;
@@ -634,6 +638,7 @@ public class Shark extends GameObject {
 	 * @return 	...
 	 * 			| result == 100
 	 */
+	@Override
 	int getMaxHitPoints(){
 		return 100;
 	}
