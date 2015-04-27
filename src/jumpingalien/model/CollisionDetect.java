@@ -6,12 +6,12 @@ import jumpingalien.util.Sprite;
 	default boolean hasCollisionTop(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
 		int endY = y + getCurrentSprite().getHeight();
-		return getWorld().detectGeologicalFeature(x+1, endY-2, endX-2, endY-2, 1);
+		return getWorld().detectGeologicalFeature(x+2, endY-2, endX-3, endY-2, 1);
 	}
 
 	default boolean hasCollisionBottom(int x, int y){
 		int endX = x + getCurrentSprite().getWidth();
-		return getWorld().detectGeologicalFeature(x+1, y+1, endX-2, y+1, 1);
+		return getWorld().detectGeologicalFeature(x+2, y+1, endX-3, y+1, 1);
 	}
 	
 	 default boolean hasCollisionRight(int x, int y){
