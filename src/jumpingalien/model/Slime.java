@@ -6,6 +6,17 @@ import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.*;
 
+/**
+ * 
+ * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
+ * @invar 	...
+ * 			|getHitPoints() >= 0
+ * @invar	...
+ * 			| getSchool() != null
+ * @invar	...
+ * 			| getWorld() != null
+ *
+ */
 public class Slime extends GameObject {
 	/**
 	 * @param x
