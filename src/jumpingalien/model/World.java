@@ -360,14 +360,7 @@ public class World  {
 	@Basic
 	public int getGeologicalFeatureOfTile(int tileX, int tileY){
 		assert(isValidTileCoordinate(tileX, tileY));
-		try {
-			return geologicalFeatureOfTiles[tileX][tileY];
-		} catch (ArrayIndexOutOfBoundsException e){
-			System.out.println(tileX + " " + tileY);
-			System.out.println(getNbTilesX() + " " + getNbTilesY());
-			System.out.println(geologicalFeatureOfTiles.length + " " + geologicalFeatureOfTiles[0].length);
-		}
-		return 0;
+		return geologicalFeatureOfTiles[tileX][tileY];
 	}
 	
 	/**
