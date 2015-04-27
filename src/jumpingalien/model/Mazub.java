@@ -379,8 +379,8 @@ public class Mazub extends GameObject {
 			setVelocityX(getInitialHorizontalVelocity());
 			setAccelerationX(getInitialHorizontalAcceleration());
 		} else if (direction == Motion.LEFT){
-			setLeftKeyPressed(true);
 			assert(!isLeftKeyPressed());
+			setLeftKeyPressed(true);
 			setVelocityX(getInitialHorizontalVelocity()*-1);
 			setAccelerationX(getInitialHorizontalAcceleration());
 		}
