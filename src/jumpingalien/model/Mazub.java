@@ -1044,9 +1044,6 @@ public class Mazub extends GameObject {
 		Collection<Plant> collection = getWorld().collisionPlants((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Plant plant : collection) {
 			handleCollisionPlant(plant);
-			if(plant.isTerminated()){
-				getWorld().removePlant(plant);
-			}
 		}
 	}
 	
@@ -1133,6 +1130,38 @@ public class Mazub extends GameObject {
 			return getAccelerationX() * -1;
 		return  getAccelerationX();
 	}
+	
+	/**
+	 * Returns whether the right key is pressed or not
+	 */
+	private boolean isRightKeyIsPressed() {
+		return rightKeyIsPressed;
+	}
+
+	/**
+	 * 
+	 * @param rightKeyIsPressed
+	 * 			the current press status for the right key
+	 * @post 	...
+	 * 			|
+	 */
+	private void setRightKeyIsPressed(boolean rightKeyIsPressed) {
+		this.rightKeyIsPressed = rightKeyIsPressed;
+	}
+	
+	private boolean rightKeyIsPressed;
+
+	private boolean isLeftKeyIsPressed() {
+		return leftKeyIsPressed;
+	}
+
+
+
+	private void setLeftKeyIsPressed(boolean leftKeyIsPressed) {
+		this.leftKeyIsPressed = leftKeyIsPressed;
+	}
+
+	private boolean leftKeyIsPressed;
 
 }
 
