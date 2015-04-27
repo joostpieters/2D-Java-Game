@@ -237,7 +237,6 @@ public class Slime extends GameObject {
 	 * 
 	 * @return	...
 	 * 			| result == 0.7
-	 * 			
 	 */
 	private static double getInitialAccelerationX() {
 		return 0.7;
@@ -266,8 +265,8 @@ public class Slime extends GameObject {
 	
 	/**
 	 * Returns whether this Slime is moving left or not.
-	 * @return 	true when the horizontal velocity is less than zero, false otherwise.
-	 * 			| if getVelocityX() < 0 then
+	 * @return 	true when the movement direction is LEFT
+	 * 			| if getMovementDirection() == Direction.LEFT then
 	 * 			|	return true
 	 * 			| else then
 	 * 			| 	return false
@@ -281,22 +280,20 @@ public class Slime extends GameObject {
 	}
 	
 	/**
-	 * Updates the location of this Slime given a certain amount of seconds and a horizontal acceleration.
+	 * Updates the location of this Slime given a certain amount of seconds
 	 * @param 	seconds
 	 * 			The seconds to compute the new position.
-	 * @param 	accelerationX
-	 * 			The horizontal acceleration.
 	 * @pre		seconds needs to be positive.
 	 * 			| seconds >= 0
-	 * @effect 	Calculates the new horizontal position, using the given seconds and acceleration.
-	 * 			If the calculated position isn't valid, the position will be adjusted.
-	 * 			|new.getLocationX() ==  calculateValidLocationX(getLocationX() + 
-	 * 				(getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100);
-	 * @effect 	Calculates the new vertical position, using the given seconds and acceleration.
-	 * 			If the calculated position isn't valid, the position will be adjusted.
-	 * 			|new.getLocationY() ==  calculateValidLocationY(getLocationY() + 
-	 * 				(getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100);
-	 * 
+	 * @effect	...
+	 * 			| setIsOnGameObject(false)
+	 * @effect	...
+	 * 			| double[] location = calculateLocation(seconds)
+	 * 			| if (locationIsValidInWorld((int) location[0], (int) location[1]) then
+	 * 			|	calculateLocationCollisionTerrain(seconds, location)
+	 * 			|	calculateLocationCollisionObjects(location)
+	 * 			| 	calculateLocationCollisionSlime(location)
+	 * 			|	setLocation(location)
 	 */
 	private void updateLocation(double seconds) {
 		assert (seconds >= 0);
