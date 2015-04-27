@@ -186,7 +186,6 @@ public class Shark extends GameObject {
 	 * 			|	terminate() 	
 	 */
 	void advanceTime(double dt) throws IllegalArgumentException {
-		//TODO aangepast voorwaarde
 		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2)){
 			throw new IllegalArgumentException();
 		}
@@ -203,7 +202,6 @@ public class Shark extends GameObject {
 			}
 		} else {
 			setTimeDead(getTimeDead() + dt);
-			//TODO vergelijking met double
 			if(Util.fuzzyGreaterThanOrEqualTo(getTimeDead(), 0.6)){
 				terminate();
 			}
@@ -248,7 +246,6 @@ public class Shark extends GameObject {
 			setAccelerationY(-10);
 		}
 		setMovementTime(getMovementTime()-dt);
-		//TODO vergelijking van doubles
 		if(isBottomPerimeterInSolidGround() && !isInWater()){
 			setAccelerationY(0);
 			setVelocityY(0);
