@@ -160,7 +160,7 @@ public class PartialFacadeTest {
 		IFacadePart2 facade = new Facade();
 		World world = facade.createWorld(500, 1, 2, 1, 1, 1, 1);
 		facade.startGame(world);
-		Plant plant = new Plant(0, 499, spriteArrayForSize(3, 3));
+		Plant plant = new Plant(0, 499, spriteArrayForSize(2, 2, 2));
 		facade.addPlant(world, plant);
 	}
 	
@@ -169,7 +169,7 @@ public class PartialFacadeTest {
 		IFacadePart2 facade = new Facade();
 		World world = facade.createWorld(500, 1, 2, 1, 1, 1, 1);
 		facade.startGame(world);
-		Shark shark = new Shark(0, 499, spriteArrayForSize(3, 3));
+		Shark shark = new Shark(0, 499, spriteArrayForSize(3, 3, 2));
 		facade.addShark(world, shark);
 	}
 	
@@ -179,7 +179,7 @@ public class PartialFacadeTest {
 		World world = facade.createWorld(500, 1, 2, 1, 1, 1, 1);
 		facade.startGame(world);
 		School school = facade.createSchool();
-		Slime slime = new Slime(0, 499, spriteArrayForSize(3, 3), school);
+		Slime slime = new Slime(0, 499, spriteArrayForSize(3, 3, 2), school);
 		facade.addSlime(world, slime);
 	}
 	
