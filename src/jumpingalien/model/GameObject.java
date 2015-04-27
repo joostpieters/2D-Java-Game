@@ -362,6 +362,12 @@ public abstract class GameObject implements CollisionDetect {
 	 */
 	private boolean onGameObject;	
 	
+	/**
+	 * 
+	 * @param dt
+	 * @return	...
+	 * 			| result == {getLocationX() + (getVelocityX()*dt + getActualAccelerationX()*dt*dt/2)*100, getLocationY() + (getVelocityY()*dt + getAccelerationY()*dt*dt/2)*100}
+	 */
 	protected double[] calculateLocation(double dt){
 		double[] location = new double[2];
 		location[0] = getLocationX() + (getVelocityX()*dt + getActualAccelerationX()*dt*dt/2)*100;
@@ -369,7 +375,20 @@ public abstract class GameObject implements CollisionDetect {
 		return location;
 	}
 	
-	
+	/**
+	 * 
+	 * @param dt
+	 * @param location
+	 * @effect	...
+	 * 			| if (hasCollisionX((int) location[0], (int) location[1]) then
+	 * 			|	location[0] = getLocationX()
+	 * @effect	...
+	 * 			| if (hasCollisionY((int)location[0], (int)location[1])) then
+	 * 			|	location[1] = getLocationY()
+	 * 			|	location[0] = getLocationX() + (getVelocityX()*dt + getActualAccelerationX()*dt*dt/2)*100
+	 * 			|	if (hasCollisionX((int)location[0], (int)location[1])) then
+	 * 			|		location[0] = getLocationX()
+	 */
 	protected void calculateLocationCollisionTerrain(double dt,double[] location) {
 		if(hasCollisionX((int)location[0],(int) location[1])){
 			location[0] = getLocationX();
@@ -383,19 +402,46 @@ public abstract class GameObject implements CollisionDetect {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param locationX
+	 * @param locationY
+	 * @return	...
+	 * 			| result == (isValidLocation((int)locationX, (int)locationY)) && (isValidLocation((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY)))
+	 */
 	protected boolean locationIsValidInWorld(int locationX, int locationY){
 		return ((isValidLocation((int)locationX, (int)locationY)) && (isValidLocation((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY))));
 	}
 	
+	/**
+	 * 
+	 * @param location
+	 * @post	...
+	 * 			| new.getLocation()[0] == location[0] && new.getLocaion()[1] == location[1]
+	 */
 	protected void setLocation(double[] location){
 		setLocationX(location[0]);
 		setLocationY(location[1]);
 	}
 	
-	// TODO commentaar
-	
 	abstract double getActualAccelerationX();
 
+	/**
+	 * 
+	 * @param location
+	 * @effect	...
+	 * 			| if (getWorld().collisionSharks((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0) then
+	 * 			|	if (!(getWorld().collisionSharks((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0)) then
+	 * 			|		location[0] = getLocationX()
+	 * 			|	else then
+	 * 			|		if (!(getWorld().collisionSharks((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0)) then
+	 * 			|			location[1] = getLocationY()
+	 * 			|			setIsOnGameObject(true)
+	 * 			|		else then
+	 * 			|			location[0] = getLocationX()
+	 * 			|			location[1] = getLocationY()
+	 * 			|			setIsOnGameObject(true)
+	 */
 	private void calculateLocationCollisionShark(double[] location) {
 		boolean hasCollisionShark = getWorld().collisionSharks((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0;
 		if(hasCollisionShark){
@@ -416,6 +462,22 @@ public abstract class GameObject implements CollisionDetect {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param location
+	 * @effect	...
+	 * 			| if (getWorld().collisionMazub((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight())) then
+	 * 			|	if (!(getWorld().collisionMazub((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()))) then
+	 * 			| 		location[0] = getLocationX()
+	 * 			|	else then
+	 * 			|		if (!(getWorld().collisionMazub((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()))) then
+	 * 			|			location[1] = getLocatinoY()
+	 * 			|			setIsOnGameObject(true)
+	 * 			|		else then
+	 * 			|			location[0] = getLocationX()
+	 * 			|			location[1] = getLocationY()
+	 * 			|			setIsOnGameObject(true)
+	 */
 	private void calculateLocationCollisionMazub(double[] location) {
 		boolean hasCollisionMazub = getWorld().collisionMazub((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight());
 		if(hasCollisionMazub){
@@ -436,6 +498,22 @@ public abstract class GameObject implements CollisionDetect {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param location
+	 * @effect	...
+	 * 			| if (getWorld().collisionSlimes((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0) then
+	 * 			|	if (!(getWorld().collisionSlimes((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0)) then
+	 * 			|		location[0] = getLocationX()
+	 * 			|	else then
+	 * 			|		if (!(getWorld().collisionSlimes((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight()).size() > 0)) then
+	 * 			|			location[1] = getLocationY()
+	 * 			|			setIsOnGameObject(true)
+	 * 			|		else then
+	 * 			|			location[0] = getLocationX()
+	 * 			|			location[1] = getLocationY()
+	 * 			|			setIsOnGameObject(true)
+	 */
 	private void calculateLocationCollisionSlime(double[] location) {
 		boolean hasCollisionSlime = getWorld().collisionSlimes((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight()).size() > 0;
 		if(hasCollisionSlime){
@@ -456,6 +534,19 @@ public abstract class GameObject implements CollisionDetect {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param location
+	 * @effect	...
+	 * 			| if (!(this instanceof Slime)) then
+	 * 			|	calculateLocationCollisionSlime(location)
+	 * @effect	...
+	 * 			| if (!(this instanceof Mazub)) then
+	 * 			|	calculateLocationCollisionMazub(location)
+	 * @effect	...
+	 * 			| if (!(this instanceof Shark)) then
+	 * 			|	calculateLocationCollisionShark(location)
+	 */
 	protected void calculateLocationCollisionObjects(double[] location){
 		if (!(this instanceof Slime))
 			calculateLocationCollisionSlime(location);
@@ -465,6 +556,12 @@ public abstract class GameObject implements CollisionDetect {
 			calculateLocationCollisionShark(location);
 	}
 	
+	/**
+	 * 
+	 * @param seconds
+	 * @return	...
+	 * 			|
+	 */
 	public double timeOnePixelMovement(double seconds) {
 		double dt1 = 0.2;
 		double dt2 = 0.2;
