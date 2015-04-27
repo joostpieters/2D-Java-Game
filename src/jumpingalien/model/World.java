@@ -17,7 +17,6 @@ import be.kuleuven.cs.som.annotate.Basic;
  * 			| getNbTilesY > 0;
  */
 public class World  {
-	//TODO effect!
 	/**
 	 * @param tileSize
 	 *            Length (in pixels) of a side of each square tile in the world
@@ -36,6 +35,24 @@ public class World  {
 	 * @throws	IllegalArgumentException
 	 * 			the given tileSize, nbTilesX or nbTilesY is smaller or equal to zero
 	 * 			| (tileSize <= 0) || (nbTilesX <= 0) || (nbTilesY <= 0)
+	 * @post	...
+	 * 			| new.getTileSize() == tileSize
+	 * @post	...
+	 * 			| new.getNbTilesX() = nbTilesX
+	 * @post	...
+	 * 			| new.getNbTilesY() = nbTilesY
+	 * @post	...
+	 * 			| new.getGeologicalFeatureOfTiles() == new int[nbTilesX][nbTilesY]
+	 * @post	...
+	 * 			| new.getVisibleWindowHeight() == visibleWindowHeight
+	 * @post	...
+	 * 			| new.getVisibleWindowWidth() == visibleWindowWidth
+	 * @post	...
+	 * 			| new.getTargetTileX() == targetTileX
+	 * @post	...
+	 * 			| new.getTargetTileY() == targetTileY
+	 * @post	...
+	 * 			| new.getVisibleWindow() == {0, 0, visibleWindowWidth, visibleWindowHeight}
 	 */
 	public World (int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight, int targetTileX,
@@ -167,7 +184,9 @@ public class World  {
 		this.windowTop = top;
 	}
 	
-	// TODO documentatie
+	/**
+	 * Updates the window position, so that there are always 200px between the side of the screen and Mazub, when possible.
+	 */
 	private void updateWindow() {
 		int x = (int) getMazub().getLocationX();
 		int y = (int) getMazub().getLocationY();
@@ -265,6 +284,10 @@ public class World  {
 	 * @throws	IllegalArgumentException
 	 * 			...
 	 * 			|!isValidMazub(alien)
+	 * @post	...
+	 * 			| new.getMazub() == alien
+	 * @post	...
+	 * 			| new.alien.getWorld() == this 
 	 */
 	public void setMazub(Mazub alien) throws IllegalArgumentException {
 		if(!isValidMazub(alien)){
@@ -277,16 +300,17 @@ public class World  {
 	
 	/**
 	 * @post 	...
-	 * 			|new.getMazub() == null
+	 * 			| new.getMazub() == null
 	 */
 	private void removeMazub(){
 		this.alien = null;
 	}
+	
 	/**
 	 * 
 	 * @param alien
 	 * @return	...
-	 * 			| return ((alien != null) && (!alien.hasAWorld()));
+	 * 			| return ((alien != null) && (!alien.hasAWorld() && !alien.isTerminated()));
 	 */
 	private boolean isValidMazub(Mazub alien){
 		return ((alien != null) && (!alien.hasAWorld() && !alien.isTerminated()));
@@ -298,11 +322,10 @@ public class World  {
 	private Mazub alien;
 	
 	
-	//TODO tekst fout
 	/**
 	 * Returns whether the game is over.
 	 * @return	...
-	 * 			| result == getMazub().isDead()
+	 * 			| (getMazub() == null || hasReachedEnd())
 	 */
 	public boolean isGameOver() {
 		return (getMazub() == null || hasReachedEnd());
@@ -325,6 +348,14 @@ public class World  {
 	
 	private boolean reachedEnd;
 	
+	/**
+	 * 
+	 * @return	...
+	 * 			| for each tile in getTilePositionsIn((int) alien.getLocationX(), (int) alien.getLocationY(), (int) (alien.getLocationX() + alien.getCurrentSprite().getWidth() - 1), (int) (alien.getLocationY() + alien.getCurrentSprite().getHeight() - 1)) 
+	 * 			|	if (tile[0] == getTargetTileX() && tile[1] == getTargetTileY()) then
+	 * 			|		result == true
+	 * 			| result == false
+	 */
 	private boolean alienIsAtTargetTile() {
 		Mazub alien = getMazub();
 		int x = (int) alien.getLocationX();
@@ -389,6 +420,19 @@ public class World  {
 		this.geologicalFeatureOfTiles[tileX][tileY] = tileType;
 	}
 	
+	/**
+	 * 
+	 * @param xMin
+	 * @param yMin
+	 * @param xMax
+	 * @param yMax
+	 * @param geologicalFeature
+	 * @return	...
+	 * 			| for each tile in getTilePositionsIn(xMin, yMin, xMax, yMax)
+	 * 			|	if (getGeologicalFeatureOfTile(tile[0], tile[1]) == geologicalFeature) then
+	 * 			|		result == true
+	 * 			| result == false
+	 */
 	boolean detectGeologicalFeature(int xMin, int yMin, int xMax, int yMax, int geologicalFeature) {
 		int[][] tiles = 
 				this.getTilePositionsIn(xMin, yMin, xMax, yMax);
@@ -445,10 +489,7 @@ public class World  {
 	 *         	The returned array is ordered from left to right,
 	 *         	bottom to top: all positions of the bottom row (ordered from
 	 *         	small to large x_T) precede the positions of the row above that.
-	 * 			|
 	 */
-	
-	//TODO commentaar
 	public int[][] getTilePositionsIn(int pixelLeft, int pixelBottom, int pixelRight, int pixelTop){
 		int[] rightTop = pixelInWhichTile(pixelRight, pixelTop);
 		int[] leftBottom = pixelInWhichTile(pixelLeft, pixelBottom);
@@ -476,9 +517,39 @@ public class World  {
 	 * 			if dt is less than zero or if seconds is equal or bigger than 0.2
 	 * 			| (dt < 0 || dt >= 0.2)
 	 * @effect	...
-	 * 			|getMazub().advanceTime(dt)
+	 * 			| if (getMazub() != null) then
+	 * 			| 	getMazub().advanceTime(dt)
 	 * @effect	...
-	 * 			| updateWindow()
+	 * 			| if (getMazub().isTerminated()) then
+	 * 			|	removeMazub()
+	 * @effect	...
+	 * 			| if (getMazub() != null) then
+	 * 			| 	for each plant in plants
+	 * 			| 		plant.advanceTime(dt)
+	 * 			|		if (plant.isTerminated()) then
+	 * 			|			plantsToRemove.add(plant)
+	 * 			|	plants.removeAll(plantsToRemove)
+	 * @effect	...
+	 * 			| if (getMazub() != null) then
+	 * 			| 	for each slime in slimes
+	 * 			| 		slime.advanceTime(dt)
+	 * 			|		if (slime.isTerminated()) then
+	 * 			|			slimesToRemove.add(slime)
+	 * 			|	slimes.removeAll(slimesToRemove)
+	 * @effect	...
+	 * 			| if (getMazub() != null) then
+	 * 			| 	for each shark in sharks
+	 * 			| 		shark.advanceTime(dt)
+	 * 			|		if (shark.isTerminated()) then
+	 * 			|			sharksToRemove.add(shark)
+	 * 			|	sharks.removeAll(sharksToRemove)
+	 * @effect	...
+	 * 			| if (getMazub() != null) then
+	 * 			|	if (alienIsAtTargetTile()) then
+	 * 			|		setReachedEnd(true)
+	 * @effect	...
+	 * 			| if (getMazub() != null) then 
+	 * 			|	updateWindow()
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
 		//TODO nakijken + double vergelijking
@@ -569,6 +640,11 @@ public class World  {
 	 */
 	public boolean isValidTileCoordinate(int xT, int yT){
 		return ((xT >= 0) && (xT < getNbTilesX()) && (yT >= 0) && (yT < getNbTilesY()));
+	}
+	
+	@Basic
+	private int[][] getGeologicalFeatureOfTiles() {
+		return geologicalFeatureOfTiles.clone();
 	}
 	
 	/**
@@ -727,11 +803,32 @@ public class World  {
 	
 	private ArrayList<Slime> slimes = new ArrayList<Slime>();
 	
+	/**
+	 * 
+	 * @param shark
+	 * @pre	...
+	 * 		| shark != null
+	 * @effect	...
+	 * 			| sharks.remove(shark)
+	 */
 	void removeShark(Shark shark){
 		assert(shark != null);
 		sharks.remove(shark);
 	}
 	
+	/**
+	 * 
+	 * @param startX1
+	 * @param startY1
+	 * @param endX1
+	 * @param endY1
+	 * @param startX2
+	 * @param startY2
+	 * @param endX2
+	 * @param endY2
+	 * @return	...
+	 * 			| result == hasOverlap(startX1+1, startY1+1, endX1-2, endY1-2, startX2+1, startY2+1, endX2-2, endY2-2)
+	 */
 	private boolean hasCollision(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
 		startX1 += 1;
 		startX2 += 1;
@@ -745,6 +842,19 @@ public class World  {
 				endX2, endY2);
 	}
 	
+	/**
+	 * 
+	 * @param startX1
+	 * @param startY1
+	 * @param endX1
+	 * @param endY1
+	 * @param startX2
+	 * @param startY2
+	 * @param endX2
+	 * @param endY2
+	 * @return 	...
+	 * 			| result == hasOverlap(startX1+1, startY1, endX1-2, startY1, startX2+1, startY2, endX2-2, endY2-1)
+	 */
 	private boolean hasCollisionInBottomPerimeter(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
 		startX1 += 1;
 		endX1 -= 2;
@@ -756,6 +866,26 @@ public class World  {
 				endX2, endY2);
 	}
 	
+	/**
+	 * 
+	 * @param startX1
+	 * @param startY1
+	 * @param endX1
+	 * @param endY1
+	 * @param startX2
+	 * @param startY2
+	 * @param endX2
+	 * @param endY2
+	 * @return	...
+	 * 			| if (hasOverlap(startX1, startY1+2, startX1, endY1-2, startX2, startY2, endX2-1, endY2-1) then
+	 * 			| 	result == true
+	 * 			| else if (hasOverlap(startX1+1, endY1-1, endX1-2, endY1-1, startX2, startY2, endX2-1, endY2-1) then
+	 * 			|	result == true
+	 * 			| else if (hasOverlap(endX1-1, startY1+2, endX1-1, endY1-2, startX2, startY2, endX2-1, endY2-1)) then
+	 * 			|	result == true
+	 * 			| else then
+	 * 			| 	result == false
+	 */
 	private boolean hasCollisionInPerimetersExceptBottom(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
 		startY1 += 2;
 		endX2 -= 1;
@@ -780,12 +910,25 @@ public class World  {
 		startY1 += 2;
 		endX1 -= 1;
 		endY1 -= 2;
-		if(hasOverlap(endX1, startY1, endX1, endY1, startX2, startY2,endX2, endY2)){
+		if(hasOverlap(endX1, startY1, endX1, endY1, startX2, startY2, endX2, endY2)){
 			return true;
 		}
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param startX1
+	 * @param startY1
+	 * @param endX1
+	 * @param endY1
+	 * @param startX2
+	 * @param startY2
+	 * @param endX2
+	 * @param endY2
+	 * @return	...
+	 * 			| result == hasCollisionInBottomPerimeter(startX1, startY1, endX1, endY1, startX2, startY2, endX2, endY2) || hasCollisionInPerimetersExceptBottom(startX1, startY1, endX1, endY1, startX2, startY2, endX2, endY2)
+	 */
 	private boolean hasCollisionInPerimeters(int startX1, int startY1, int endX1, int endY1, int startX2, int startY2, int endX2, int endY2){
 		return hasCollisionInBottomPerimeter(startX1, startY1, endX1, endY1, startX2, startY2, endX2, endY2)
 				|| hasCollisionInPerimetersExceptBottom(startX1, startY1, endX1, endY1, startX2, startY2, endX2, endY2);
@@ -800,7 +943,12 @@ public class World  {
 	 * @param startY2
 	 * @param endX2
 	 * @param endY2
-	 * @return
+	 * @return 	...
+	 * 			| if ((startX2 <= endX1 && startX2 >= startX1) || (startX1 <= endX2 && startX1 >= startX2)) then
+	 *			|	if ((startY2 <= endY1 && startY2 >= startY1) || (startY1 <= endY2 && startY1 >= startY2)) then
+	 *			|		result == true
+	 *			| else then
+	 *			| 	result == false
 	 */
 	public boolean hasOverlap(int startX1, int startY1, int endX1, int endY1,
 			int startX2, int startY2, int endX2, int endY2) {
@@ -812,7 +960,14 @@ public class World  {
 		return false;
 	}
 	
-	
+	/**
+	 * Returns a collection of slimes with which a collision has occured at the given perimeters.
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return
+	 */
 	Collection<Slime> collisionSlimes(int startX, int startY, int endX, int endY) {
 		ArrayList<Slime> list = new ArrayList<Slime>();
 		int slimeStartX;
@@ -831,6 +986,14 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * Returns a collection of slimes with which a collision has occured at the given perimeters, except for the bottom perimeter
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return
+	 */
 	Collection<Slime> collisionSlimesInPerimeterExceptBottom(int startX, int startY, int endX, int endY) {
 		ArrayList<Slime> list = new ArrayList<Slime>();
 		int slimeStartX;
@@ -849,6 +1012,14 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * Returns a collection of slimes with which a collision has occured at the given bottom perimeter
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return
+	 */
 	Collection<Slime> collisionSlimesInBottomPerimeter(int startX, int startY, int endX, int endY) {
 		ArrayList<Slime> list = new ArrayList<Slime>();
 		int slimeStartX;
@@ -867,6 +1038,15 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * Returns a collection of slimes, with which the original slime has a collision
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @param slimeOriginal
+	 * @return
+	 */
 	Collection<Slime> collisionSlimes(int startX, int startY, int endX, int endY, Slime slimeOriginal) {
 		ArrayList<Slime> list = new ArrayList<Slime>();
 		int slimeStartX;
@@ -887,6 +1067,14 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * Returns a collection of slimes, with which a collision has occured in the given perimeters
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return
+	 */
 	Collection<Slime> collisionSlimesInPerimeters(int startX, int startY, int endX, int endY) {
 		ArrayList<Slime> list = new ArrayList<Slime>();
 		int slimeStartX;
@@ -905,6 +1093,15 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * 
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return	...
+	 * 			| hasCollision(startX, startY, endX, endY, (int) getMazub().getLocationX(), (int) getMazub().getLocationY(), (int) getMazub().getLocationX()+getMazub.getCurrentSprite().getWidth(), (int) getMazub().getLocationY()+getMazub.getCurrentSprite().getHeight())
+	 */
 	boolean collisionMazub(int startX, int startY, int endX, int endY) {
 		Mazub mazub = getMazub();
 		int mazubStartX = (int) mazub.getLocationX();
@@ -914,6 +1111,15 @@ public class World  {
 		return hasCollision(startX, startY, endX, endY, mazubStartX, mazubStartY, mazubEndX, mazubEndY);
 	}
 
+	/**
+	 * 
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return	...
+	 * 			| hasCollisionInPerimeters(startX, startY, endX, endY, (int) getMazub().getLocationX(), (int) getMazub().getLocationY(), (int) getMazub().getLocationX()+getMazub().getCurrentSprite().getWidth(), (int) getMazub().getLocationY()+getMazub().getCurrentSprite().getHeight())
+	 */
 	boolean collisionMazubInPerimeters(int startX, int startY, int endX, int endY) {
 		Mazub mazub = getMazub();
 		int mazubStartX = (int) mazub.getLocationX();
@@ -922,6 +1128,15 @@ public class World  {
 		int mazubEndY = mazubStartY + mazub.getCurrentSprite().getHeight();
 		return hasCollisionInPerimeters(startX, startY, endX, endY, mazubStartX, mazubStartY, mazubEndX, mazubEndY);
 	}
+	
+	/**
+	 * Returns a collection of plants with which a collision is detected in the given area
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return
+	 */
 	Collection<Plant> collisionPlants(int startX, int startY, int endX, int endY) {
 		ArrayList<Plant> list = new ArrayList<Plant>();
 		int plantStartX;
@@ -940,6 +1155,14 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * Returns a collection of sharks with which a collision is detected in the given area
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return
+	 */
 	Collection<Shark> collisionSharks(int startX, int startY, int endX, int endY) {
 		ArrayList<Shark> list = new ArrayList<Shark>();
 		int sharkStartX;
@@ -958,6 +1181,15 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * Returns a collection of sharks with which the given shark collides at the given position
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @param sharkOriginal
+	 * @return
+	 */
 	Collection<Shark> collisionSharks(int startX, int startY, int endX, int endY, Shark sharkOriginal) {
 		ArrayList<Shark> list = new ArrayList<Shark>();
 		int sharkStartX;
@@ -978,6 +1210,14 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * Returns a collection of sharks with which a collision is detected in the given perimeters
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return
+	 */
 	Collection<Shark> collisionSharksInPerimeters(int startX, int startY, int endX, int endY) {
 		ArrayList<Shark> list = new ArrayList<Shark>();
 		int sharkStartX;
@@ -996,6 +1236,14 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * Returns a collection of sharks with which a collision is detected in the given perimeters, except the bottom perimeter
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return
+	 */
 	Collection<Shark> collisionSharksInPerimetersExceptBottom(int startX, int startY, int endX, int endY) {
 		ArrayList<Shark> list = new ArrayList<Shark>();
 		int sharkStartX;
@@ -1014,6 +1262,14 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * Returns a collection of sharks with which a collision is detected in the given bottom perimeter
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return
+	 */
 	Collection<Shark> collisionSharksInBottomPerimeter(int startX, int startY, int endX, int endY) {
 		ArrayList<Shark> list = new ArrayList<Shark>();
 		int sharkStartX;
@@ -1032,22 +1288,47 @@ public class World  {
 		return list;
 	}
 	
+	/**
+	 * 
+	 * @param plant
+	 * @pre	...
+	 * 		| plant != null
+	 * @post	...
+	 * 			| !new.getPlants.contains(plant)
+	 */
 	void removePlant(Plant plant) {
 		assert (plant != null);
 		plants.remove(plant);
 	}
 	
+	/**
+	 * 
+	 * @param slime
+	 * @pre	...
+	 * 		| slime != null
+	 * @post	...
+	 * 			| !new.getSlimes.contains(slime)
+	 */
 	void removeSlime(Slime slime) {
 		assert (slime != null);
 		slimes.remove(slime);
 	}
 
+	@Basic
 	private boolean isGameStarted() {
 		return gameStarted;
 	}
 
+	/**
+	 * 
+	 * @param gameStarted
+	 * @throws IllegalArgumentException
+	 * 			| !isGameStarted()
+	 * @post	...
+	 * 			| new.isGameStarted() == gameStarted
+	 */
 	public void setGameStarted(boolean gameStarted) throws IllegalArgumentException {
-		if(!gameStarted){
+		if(!isGameStarted()){
 			throw new IllegalArgumentException();
 		}
 		this.gameStarted = gameStarted;
