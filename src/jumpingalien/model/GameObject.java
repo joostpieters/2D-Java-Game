@@ -362,6 +362,12 @@ public abstract class GameObject implements CollisionDetect {
 	 */
 	private boolean onGameObject;	
 	
+	/**
+	 * 
+	 * @param dt
+	 * @return	...
+	 * 			| result == {getLocationX() + (getVelocityX()*dt + getActualAccelerationX()*dt*dt/2)*100, getLocationY() + (getVelocityY()*dt + getAccelerationY()*dt*dt/2)*100}
+	 */
 	protected double[] calculateLocation(double dt){
 		double[] location = new double[2];
 		location[0] = getLocationX() + (getVelocityX()*dt + getActualAccelerationX()*dt*dt/2)*100;
@@ -369,7 +375,20 @@ public abstract class GameObject implements CollisionDetect {
 		return location;
 	}
 	
-	
+	/**
+	 * 
+	 * @param dt
+	 * @param location
+	 * @effect	...
+	 * 			| if (hasCollisionX((int) location[0], (int) location[1]) then
+	 * 			|	location[0] = getLocationX()
+	 * @effect	...
+	 * 			| if (hasCollisionY((int)location[0], (int)location[1])) then
+	 * 			|	location[1] = getLocationY()
+	 * 			|	location[0] = getLocationX() + (getVelocityX()*dt + getActualAccelerationX()*dt*dt/2)*100
+	 * 			|	if (hasCollisionX((int)location[0], (int)location[1])) then
+	 * 			|		location[0] = getLocationX()
+	 */
 	protected void calculateLocationCollisionTerrain(double dt,double[] location) {
 		if(hasCollisionX((int)location[0],(int) location[1])){
 			location[0] = getLocationX();
@@ -383,10 +402,23 @@ public abstract class GameObject implements CollisionDetect {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param locationX
+	 * @param locationY
+	 * @return	...
+	 * 			| result == (isValidLocation((int)locationX, (int)locationY)) && (isValidLocation((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY)))
+	 */
 	protected boolean locationIsValidInWorld(int locationX, int locationY){
 		return ((isValidLocation((int)locationX, (int)locationY)) && (isValidLocation((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY))));
 	}
 	
+	/**
+	 * 
+	 * @param location
+	 * @post	...
+	 * 			| new.getLocation()[0] == location[0] && new.getLocaion()[1] == location[1]
+	 */
 	protected void setLocation(double[] location){
 		setLocationX(location[0]);
 		setLocationY(location[1]);
@@ -456,6 +488,19 @@ public abstract class GameObject implements CollisionDetect {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param location
+	 * @effect	...
+	 * 			| if (!(this instanceof Slime)) then
+	 * 			|	calculateLocationCollisionSlime(location)
+	 * @effect	...
+	 * 			| if (!(this instanceof Mazub)) then
+	 * 			|	calculateLocationCollisionMazub(location)
+	 * @effect	...
+	 * 			| if (!(this instanceof Shark)) then
+	 * 			|	calculateLocationCollisionShark(location)
+	 */
 	protected void calculateLocationCollisionObjects(double[] location){
 		if (!(this instanceof Slime))
 			calculateLocationCollisionSlime(location);
@@ -465,6 +510,7 @@ public abstract class GameObject implements CollisionDetect {
 			calculateLocationCollisionShark(location);
 	}
 	
+	// TODO Documentatie
 	public double timeOnePixelMovement(double seconds) {
 		double dt1 = 0.2;
 		double dt2 = 0.2;
