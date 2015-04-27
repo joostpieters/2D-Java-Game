@@ -170,6 +170,9 @@ public class Plant extends GameObject {
 	/**
 	 * 
 	 * @param dt
+	 * @effect	...
+	 * 			| if(hasCollisionX((int)locationX, (int)getLocationY())) then
+	 * 			|	setLocationX(getLocationX())
 	 * @effect ... | if(locationX >= getWorld().getWorldSizeInPixels()[0]) then
 	 *         | setLocationX(getWorld().getWorldSizeInPixels()[0] - 1)
 	 * @effect ... | if(locationX < 0) then | setLocationX(0)
@@ -189,6 +192,13 @@ public class Plant extends GameObject {
 			setLocationX(locationX);
 		}
 	}
+	
+	/**
+	 * @effect	...
+	 * 			| this.setWorld(null)
+	 * @effect	...
+	 * 			| setTerminated(true)
+	 */
 	@Override
 	void terminate(){
 		this.setWorld(null);
@@ -204,33 +214,60 @@ public class Plant extends GameObject {
 		terminate();		
 	}
 	
+	/**
+	 * @effect	...
+	 * 			| if (getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), 
+	 * 			|	(int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())) then
+	 * 			|		getWorld().getMazub().handleCollisionPlant(this)
+	 */
 	private void handleCollisionMazub(){
 		if(getWorld().collisionMazubInPerimeters((int)getLocationX(), (int)getLocationY(), (int)getLocationX()+getCurrentSprite().getWidth(), (int)getLocationY()+getCurrentSprite().getHeight())){
 			getWorld().getMazub().handleCollisionPlant(this);
 		}
 	}
 
+	/**
+	 * @return	...
+	 * 			| result == 0
+	 */
 	@Override
 	int getMaxHitPoints() {
 		return 0;
 	}
 
+	/**
+	 * @param	world
+	 * @return 	...
+	 * 			| world != null
+	 */
 	@Override
 	protected boolean isValidWorld(World world) {
 		// TODO nog niet klaar
 		return world != null;
 	}
 
+	/**
+	 * @return	...
+	 * 			| result == 0
+	 */
 	@Override
 	protected double getAccelerationY() {
 		return 0;
 	}
 
+	/**
+	 * @return	...
+	 * 			| result == 0
+	 */
 	@Override
 	protected double getVelocityY() {
 		return 0;
 	}
 
+	/**
+	 * @return 	...
+	 * 			| result == 0
+	 */
 	@Override
 	protected double getAccelerationX() {
 		return 0;
