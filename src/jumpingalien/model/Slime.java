@@ -309,16 +309,25 @@ public class Slime extends GameObject {
 
 	/**
 	 * @param location
+	 * @effect	...
+	 * 			| if(hasCollisionSlime(location[0], location[1], location[0] + this.getCurrentSprite().getWidth(), location[1] + this.getCurrentSprite().getHeight())) then
+	 *			|	if(!hasCollisionSlime(getLocationX(), location[1], getLocationX() + this.getCurrentSprite().getWidth(), location[1] + this.getCurrentSprite().getHeight())) then
+	 *			|		location[0] = getLocationX()
+	 *			|	else then
+	 *			|		if(!hasCollisionSlime(location[0], getLocationY(), location[0] + this.getCurrentSprite().getWidth(), getLocationY() + this.getCurrentSprite().getHeight())) then
+	 *			|			location[1] = getLocationY();	
+	 *			|			setIsOnGameObject(true);
+	 *			|		else then
+	 *			|			location[0] = getLocationX();
+	 *			|			location[1] = getLocationY();
+	 *			|			setIsOnGameObject(true);
 	 */
 	public void calculateLocationCollisionSlime(double[] location) {
-		boolean hasCollisionSlime = getWorld().collisionSlimes((int)location[0], (int)location[1], (int) location[0] + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight(), this).size() > 0;
-		if(hasCollisionSlime){
-			hasCollisionSlime = getWorld().collisionSlimes((int)getLocationX(), (int)location[1], (int) getLocationX() + this.getCurrentSprite().getWidth(), (int) location[1] + this.getCurrentSprite().getHeight(), this).size() > 0;
-			if(!hasCollisionSlime){
+		if(hasCollisionSlime(location[0], location[1], location[0] + this.getCurrentSprite().getWidth(), location[1] + this.getCurrentSprite().getHeight())){
+			if(!hasCollisionSlime(getLocationX(), location[1], getLocationX() + this.getCurrentSprite().getWidth(), location[1] + this.getCurrentSprite().getHeight())){
 				location[0] = getLocationX();				
 			} else {
-				hasCollisionSlime = getWorld().collisionSlimes((int)location[0], (int)getLocationY(), (int) location[0] + this.getCurrentSprite().getWidth(), (int) getLocationY() + this.getCurrentSprite().getHeight(), this).size() > 0;
-				if(!hasCollisionSlime){
+				if(!hasCollisionSlime(location[0], getLocationY(), location[0] + this.getCurrentSprite().getWidth(), getLocationY() + this.getCurrentSprite().getHeight())){
 					location[1] = getLocationY();	
 					setIsOnGameObject(true);
 				} else {
@@ -330,6 +339,10 @@ public class Slime extends GameObject {
 		}
 	}
 
+	private boolean hasCollisionSlime(double startX, double startY, double endX, double endY) {
+		return getWorld().collisionSlimes((int)startX, (int)startY, (int)endX, (int)endY, this).size() > 0;
+	}
+	
 	private double getMaximumHorizontalVelocity() {
 		return 2.5;
 	}
