@@ -157,9 +157,18 @@ import jumpingalien.util.Sprite;
 		return getWorld().detectGeologicalFeature(x, y, endX-1, endY-1, 3);
 	}
 
+	/**
+	 * @return an array containing the location, with first the x value than the y value
+	 */
 	abstract int[] getLocation();
 	
+	/**
+	 * @return the current world of this object
+	 */
 	abstract World getWorld();
 
+	/**
+	 * @return the current sprite of this object
+	 */
 	abstract Sprite getCurrentSprite();
 }
