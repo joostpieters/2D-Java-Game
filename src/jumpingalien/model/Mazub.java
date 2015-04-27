@@ -388,9 +388,11 @@ public class Mazub extends GameObject {
 	public void startMove(Direction direction) {
 		assert(direction == Direction.RIGHT || direction == Direction.LEFT);
 		if (direction == Direction.RIGHT) {
+			assert(!isRightKeyPressed());
 			setVelocityX(getInitialHorizontalVelocity());
 			setAccelerationX(getInitialHorizontalAcceleration());
 		} else if (direction == Direction.LEFT){
+			assert(!isLeftKeyPressed());
 			setVelocityX(getInitialHorizontalVelocity()*-1);
 			setAccelerationX(getInitialHorizontalAcceleration());
 		}
@@ -1093,17 +1095,11 @@ public class Mazub extends GameObject {
 			for (Shark shark : collection) {
 				hadCollissionShark();
 				shark.hadCollisionMazub();
-				if(shark.isTerminated()){
-					getWorld().removeShark(shark);				
-				}
 			}
 		}
 		collection = getWorld().collisionSharksInBottomPerimeter((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Shark shark : collection) {
 			shark.hadCollisionMazub();
-			if(shark.isTerminated()){
-				getWorld().removeShark(shark);
-			}
 		}
 	}
 	
@@ -1134,34 +1130,46 @@ public class Mazub extends GameObject {
 	/**
 	 * Returns whether the right key is pressed or not
 	 */
-	private boolean isRightKeyIsPressed() {
-		return rightKeyIsPressed;
+	private boolean isRightKeyPressed() {
+		return isRightKeyPressed;
 	}
 
 	/**
-	 * 
-	 * @param rightKeyIsPressed
-	 * 			the current press status for the right key
-	 * @post 	...
-	 * 			|
+	 * @param isRightKeyPressed
+	 * 			the current pressed status of the right key
+	 * @post 	isRightKeyPressed will equal the given value
+	 * 			|new.isRightKeyPressed() == isRightKeyPressed
 	 */
-	private void setRightKeyIsPressed(boolean rightKeyIsPressed) {
-		this.rightKeyIsPressed = rightKeyIsPressed;
-	}
-	
-	private boolean rightKeyIsPressed;
-
-	private boolean isLeftKeyIsPressed() {
-		return leftKeyIsPressed;
+	private void setRightKeyPressed(boolean isRightKeyPressed) {
+		this.isRightKeyPressed = isRightKeyPressed;
 	}
 
+	/**
+	 * This variable contains the current pressed status of the right key
+	 */
+	private boolean isRightKeyPressed;
 
-
-	private void setLeftKeyIsPressed(boolean leftKeyIsPressed) {
-		this.leftKeyIsPressed = leftKeyIsPressed;
+	/**
+	 * Returns whether the left key is pressed or not
+	 */
+	private boolean isLeftKeyPressed() {
+		return isLeftKeyPressed;
 	}
 
-	private boolean leftKeyIsPressed;
+	/**
+	 * @param isLeftKeyPressed
+	 * 			the current pressed status of the left key
+	 * @post 	isLeftKeyPressed will equal the given value
+	 * 			|new.isLeftKeyPressed() == isLeftKeyPressed
+	 */
+	private void setLeftKeyPressed(boolean isLeftKeyPressed) {
+		this.isLeftKeyPressed = isLeftKeyPressed;
+	}
+
+	/**
+	 * This variable contains the current pressed status of the left key
+	 */
+	private boolean isLeftKeyPressed;
 
 }
 

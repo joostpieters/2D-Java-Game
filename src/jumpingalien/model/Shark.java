@@ -40,7 +40,6 @@ public class Shark extends GameObject {
 	 * 			|if !(getVelocityX() > 0) then
 	 * 			|	result == getSprites()[0]
 	 */
-	@Basic
 	@Override
 	public Sprite getCurrentSprite() {
 		if(getVelocityX() > 0)
@@ -627,8 +626,8 @@ public class Shark extends GameObject {
 	 */
 	@Override
 	void terminate() {
-		removeWorld();
 		getWorld().removeShark(this);
+		removeWorld();
 		setTerminated(true);
 	}
 	

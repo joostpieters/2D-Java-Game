@@ -498,15 +498,10 @@ public class World  {
 					plants.remove(plant);
 				}
 			}
-			ArrayList<Slime> slimesToRemove = new ArrayList<Slime>();
-			for (Slime slime : slimes) {
+			for (Slime slime : getSlimes()) {
 				slime.advanceTime(dt);
-				if(slime.isTerminated()){
-					slimesToRemove.add(slime);
-				}
 			}
-			slimes.removeAll(slimesToRemove);
-			for (Shark shark : sharks) {
+			for (Shark shark : getSharks()) {
 				shark.advanceTime(dt);
 			}
 			if (alienIsAtTargetTile()) {
