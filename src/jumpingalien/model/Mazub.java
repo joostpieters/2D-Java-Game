@@ -60,34 +60,11 @@ public class Mazub extends GameObject {
 		this.setInWaterTimer(-1);
 	}
 	
-	
-	
-	/**
-	 * Return the width of the game window 	
-	 */
-	public final int getWindowWidth() {
-		if (getWorld() != null) {
-			return getWorld().getWorldSizeInPixels()[0];
-		}
-		return 1024;
-	}
-	
-	
-	/**
-	 * Return the height of the game window 	
-	 */
-	public final int getWindowHeight() {
-		if (getWorld() != null) {
-			return getWorld().getWorldSizeInPixels()[1];
-		}
-		return 768;
-	}
-	
 	/**
 	 * Return velocityX of this Mazub
 	 * 	velocityX expresses the current horizontal velocity of this Mazub
 	 */
-	@Basic
+	@Basic @Override
 	public double getVelocityX() {
 		return this.velocityX;
 	}
@@ -157,7 +134,7 @@ public class Mazub extends GameObject {
 	 * Return accelerationX of this Mazub
 	 * 	accelerationX expresses the current horizontal acceleration of this Mazub
 	 */
-	@Basic
+	@Basic @Override
 	public double getAccelerationX() {
 		return accelerationX;
 	}
@@ -191,7 +168,7 @@ public class Mazub extends GameObject {
 	 * Return velocityY of this Mazub
 	 * 	velocityY expresses the current vertical velocity of this Mazub
 	 */
-	@Basic
+	@Basic @Override
 	public double getVelocityY() {
 		return this.velocityY;
 	}
@@ -216,7 +193,7 @@ public class Mazub extends GameObject {
 	 * Return accelerationY of this Mazub
 	 * 	accelerationY expresses the current vertical acceleration of this Mazub
 	 */
-	@Basic
+	@Basic @Override
 	public double getAccelerationY() {
 		return accelerationY;
 	}
@@ -265,6 +242,7 @@ public class Mazub extends GameObject {
 	/**
 	 * Returns the right sprite for the current movements
 	 */
+	@Override
 	public Sprite getCurrentSprite() {
 		
 		// for all moves to the right
@@ -634,7 +612,6 @@ public class Mazub extends GameObject {
 	 * 			|	terminate()
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException {
-		//TODO dt check aangepast
 		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2)){
 			throw new IllegalArgumentException();
 		}
@@ -683,6 +660,7 @@ public class Mazub extends GameObject {
 	 * 				updateVelocityYandAcceleration() with the given seconds as parameter
 	 * 			| updateVelocityYAndAccelerationY(seconds);
 	 */
+	@Override
 	protected void advanceTimeCollisionDetect(double dt){	
 		updateLocation(dt);		
 		updateVelocityX(dt);
@@ -775,20 +753,21 @@ public class Mazub extends GameObject {
 	 * 			The horizontal acceleration.
 	 * @pre		seconds needs to be positive.
 	 * 			| seconds >= 0
-	 * @effect 	Calculates the new horizontal position, using the given seconds and acceleration.
-	 * 			If the calculated position isn't valid, the position will be adjusted.
-	 * 			|new.getLocationX() ==  calculateValidLocationX(getLocationX() + 
-	 * 				(getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100);
-	 * @effect 	Calculates the new vertical position, using the given seconds and acceleration.
-	 * 			If the calculated position isn't valid, the position will be adjusted.
-	 * 			|new.getLocationY() ==  calculateValidLocationY(getLocationY() + 
-	 * 				(getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100);
+	 * @effect	sets isOnGameObject to false
+	 * 			|setIsOnGameObject(false)
+	 * @effect if the new calculated location is valid in the world, 
+	 * 				there will be checked if there are no collisions with terrain or 
+	 * 				other objects and the new location will be saved
+	 * 			|location = calculateLocation(seconds);	
+	 *			|if(locationIsValidInWorld((int)location[0], (int)location[1])){
+	 *			|		calculateLocationCollisionTerrain(seconds, location);
+	 *			|		calculateLocationCollisionObjects(location);
+	 *			|		setLocation(location);
 	 * 
 	 */
-	// TODO onbreekt commentaar
 	private void updateLocation(double seconds) {
-		setIsOnGameObject(false);
 		assert (seconds >= 0);
+		setIsOnGameObject(false);
 		double[] location = calculateLocation(seconds);	
 		if(locationIsValidInWorld((int)location[0], (int)location[1])){
 			calculateLocationCollisionTerrain(seconds, location);
@@ -1076,7 +1055,13 @@ public class Mazub extends GameObject {
 		return (hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1) && !(getVelocityY() > 0));
 	}	
 	
-	//TODO un-duck blokkeren als er niet ge-un-duckt kan worden
+	/**
+	 * @return Returns if this mazub can stop ducking or not
+	 * 			| result == !(getWorld().detectGeologicalFeature((int) getLocationX()+1, 
+	 * 			|				(int) getLocationY()+2, (int) getLocationY() + 
+	 * 			|				getSprites()[0].getWidth()-2, (int) getLocationY() +
+	 * 			|				getSprites()[0].getHeight()-2, 1))
+	 */	
 	private boolean canStopDucking() {
 		int newEndY = (int) getLocationY() + getSprites()[0].getHeight();
 		int newEndX = (int) getLocationX() + getSprites()[0].getWidth();
