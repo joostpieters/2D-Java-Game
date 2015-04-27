@@ -3,6 +3,7 @@ package jumpingalien.model;
 import java.util.Collection;
 
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.*;
 
 public class Slime extends GameObject {
@@ -339,36 +340,56 @@ public class Slime extends GameObject {
 		}
 	}
 
+	/**
+	 * 
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return	...
+	 * 			| result == getWorld().collisionSlimes((int)startX, (int)startY, (int)endX, (int)endY, this).size() > 0
+	 */
 	private boolean hasCollisionSlime(double startX, double startY, double endX, double endY) {
 		return getWorld().collisionSlimes((int)startX, (int)startY, (int)endX, (int)endY, this).size() > 0;
 	}
 	
+	/**
+	 * 
+	 * @return 	...
+	 * 			| result == 2.5
+	 */
 	private double getMaximumHorizontalVelocity() {
 		return 2.5;
 	}
 	
 	/**
 	 * This function returns whether this Slime is on Solid ground or not
-	 * @return
+	 * @return	...
+	 * 			| hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1)
 	 */
 	private boolean isOnSolidGround(){
 		return hasCollisionBottom((int)getLocationX(), (int)getLocationY()-1);
 	}
 	
+	/**
+	 * 
+	 * @param dt
+	 * @throws IllegalArgumentException
+	 * 			| (dt < 0 || dt >= 0.2)
+	 * @effect	...
+	 * 			| if (not isDead()) then
+	 * 			|	updateLocationAndVelocity(dt)
+	 * @effect 	...
+	 * 			| if (isDead()) then
+	 * 			|	setTimeDead(getTimeDead() + dt)
+	 * 			|		if (getTimeDead() > 0.6) then
+	 * 			|			terminate()
+	 */
 	public void advanceTime(double dt) throws IllegalArgumentException {
+		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2)) 
+			throw new IllegalArgumentException();
 		if(!isDead()){
-			double seconds = dt;
-			if (seconds < 0 || seconds >= 0.2) 
-				throw new IllegalArgumentException();
 			updateLocationAndVelocity(dt);
-			if (isInWater()) {
-				if (getInWaterTimer() >= 0.2) {
-					setHitPoints(getHitPoints()-2);
-					setInWaterTimer(getInWaterTimer()-0.2);
-				}
-			} else {
-				setInWaterTimer(0);
-			}
 		} else {
 			setTimeDead(getTimeDead() + dt);
 			if(getTimeDead() > 0.6){
@@ -377,6 +398,32 @@ public class Slime extends GameObject {
 		}
 	}
 	
+	/**
+	 * @param dt
+	 * @effect 	...
+	 * 			| if (! isOnSolidGround()) then
+	 * 			|	setAccelerationY(-10)
+	 * @effect	...
+	 * 			| setMovementTime(getMovementTime() - dt)
+	 * @effect	...
+	 * 			| if (getMovementTime() <= 0) then
+	 * 			|	newMovement()
+	 * @effect	...
+	 * 			| updateVelocity(dt)
+	 * @effect	...
+	 * 			| updateLocation(dt)
+	 * @effect	...
+	 * 			| handleMagma(dt)
+	 * @effect	...
+	 * 			| handleCollisionMazub()
+	 * @effect	...
+	 * 			| handleCollisionShark()
+	 * @effect	...
+	 * 			| handleCollisionSlime()
+	 * @effect	...
+	 * 			| handleWater()
+	 */
+	@Override
 	protected void advanceTimeCollisionDetect(double dt){
 		if (! isOnSolidGround()) {
 			setAccelerationY(-10);
