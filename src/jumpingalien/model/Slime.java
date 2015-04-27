@@ -26,7 +26,9 @@ public class Slime extends GameObject {
 	 * @effect	...
 	 * 			| setSchool(school)
 	 * @effect	...
-	 * 			| setHitPoints(50)
+	 * 			| school.addSlime(this)
+	 * @effect	...
+	 * 			| setHitPoints(100)
 	 * @effect	...
 	 * 			| setVelocityX(0)
 	 * @effect	...
@@ -543,6 +545,9 @@ public class Slime extends GameObject {
 		this.movementDirection = direction;
 	}
 	
+	/**
+	 * This variable contains the current movement Direction for this slime
+	 */
 	private Direction movementDirection;
 		
 	/**
