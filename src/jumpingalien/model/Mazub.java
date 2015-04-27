@@ -1091,11 +1091,21 @@ public class Mazub extends GameObject {
 	 * @return	true if the given mazub is no null pointer and if the mazub of that world is this mazub
 	 * 			| result == ((world != null) && (world.getMazub()==this));
 	 */
+	@Override
 	protected boolean isValidWorld(World world){
 		return (world != null) && (world.getMazub()==this);
 	}
 
-	
+	/**
+	 * @effect if this mazub had a collision with a plant, this collision will be handled
+	 * 			|foreach (plant in getWorld().collisionPlants((int) getLocationX(), 
+	 * 			|	(int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(),
+	 * 			|	(int) getLocationY()+getCurrentSprite().getHeight()))
+	 * 			|		handleCollisionPlant(plant)
+	 * 			|		if(plant.isTerminated()) then
+	 * 			|			getWorld().removePlant(plant)
+	 * 			
+	 */
 	private void handleCollisionPlant() {
 		Collection<Plant> collection = getWorld().collisionPlants((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		for (Plant plant : collection) {
@@ -1121,6 +1131,29 @@ public class Mazub extends GameObject {
 		}
 	}
 	
+	/**
+	 * @effect 	if this mazub is not immune and there are collisions with slimes in the left,
+	 * 				 right or up perimeter these collisions will be handeld
+	 * 			|if (!isImmune()) then
+	 * 			|	foreach(slime in getWorld().collisionSlimesInPerimeterExceptBottom(
+	 * 			|		(int) getLocationX(), (int) getLocationY(), 
+	 * 			|		(int) getLocationX()+getCurrentSprite().getWidth(), 
+	 * 			|		(int) getLocationY()+getCurrentSprite().getHeight())) then
+	 * 			|			hadCollisionSlime()
+	 * 			|			slime.hadCollisionMazub()
+	 * 			|			if(slime.isTerminated()) then
+	 * 			|				getWorld().removeSlime(slime)
+	 * @effect if this mazub had collisions with slimes in the bottom perimeter, 
+	 * 			these will be handled
+	 * 			|	foreach(slime in getWorld().collisionSlimesInBottomPerimeter(
+	 * 			|		(int) getLocationX(), (int) getLocationY(), 
+	 * 			|		(int) getLocationX()+getCurrentSprite().getWidth(), 
+	 * 			|		(int) getLocationY()+getCurrentSprite().getHeight()))
+	 * 			|			if (!slime.isDead()) then
+	 * 			|				slime.hadCollisionMazub()
+	 * 			|			if(slime.isTerminated()) then
+	 * 			|				getWorld().removeSlime(slime)
+	 */
 	private void handleCollisionSlime() {
 		Collection<Slime> collection = getWorld().collisionSlimesInPerimeterExceptBottom((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		if (!isImmune()) {
@@ -1165,6 +1198,28 @@ public class Mazub extends GameObject {
 		setImmunity(true);
 	}
 	
+	/**
+	 * @effect 	if this mazub is not immune and there are collisions with sharks in the left,
+	 * 				 right or up perimeter these collisions will be handeld
+	 * 			|if (!isImmune()) then
+	 * 			|	foreach(shark in getWorld().collisionSharksInPerimeterExceptBottom(
+	 * 			|		(int) getLocationX(), (int) getLocationY(), 
+	 * 			|		(int) getLocationX()+getCurrentSprite().getWidth(), 
+	 * 			|		(int) getLocationY()+getCurrentSprite().getHeight())) then
+	 * 			|			hadCollisionShark()
+	 * 			|			shark.hadCollisionMazub()
+	 * 			|			if(shark.isTerminated()) then
+	 * 			|				getWorld().removeShark(shark)
+	 * @effect if this mazub had collisions with sharks in the bottom perimeter, 
+	 * 			these will be handled
+	 * 			|	foreach(shark in getWorld().collisionSharksInBottomPerimeter(
+	 * 			|		(int) getLocationX(), (int) getLocationY(), 
+	 * 			|		(int) getLocationX()+getCurrentSprite().getWidth(), 
+	 * 			|		(int) getLocationY()+getCurrentSprite().getHeight()))
+	 * 			|			shark.hadCollisionMazub()
+	 * 			|			if(shark.isTerminated()) then
+	 * 			|				getWorld().removeShark(shark)
+	 */
 	private void handleCollisionShark() {
 		Collection<Shark> collection = getWorld().collisionSharksInPerimetersExceptBottom((int) getLocationX(), (int) getLocationY(), (int) getLocationX()+getCurrentSprite().getWidth(), (int) getLocationY()+getCurrentSprite().getHeight());
 		if (!isImmune()) {
