@@ -441,6 +441,30 @@ public class Slime extends GameObject {
 		handleWater(dt);
 	}
 	
+	/**
+	 * 
+	 * @param dt
+	 * @effect	...
+	 * 			| if (isMovingLeft()) then
+	 * 			|	if (getVelocityX() + getAccelerationX()*(-1)*dt < -getMaximumHorizontalVelocity()) then
+	 * 			|		setVelocityX(-getMaximumHorizontalVelocity())
+	 * 			|	else then
+	 * 			|		setVelocityX(getVelocityX() + getAccelerationX()*(-1)*dt)
+	 * @effect	...
+	 * 			| if (!isMovingLef()) then
+	 * 			|	if (getVelocityX() + getAccelerationX()*dt > getMaximumHorizontalVelocity()) then
+	 * 			|		setVelocityX(getMaximumHorizontalVelocity())
+	 * 			|	else then
+	 * 			|		setVelocityX(getVelocityX + getAccelerationX()*dt)
+	 * @effect	...
+	 * 			| if (isOnSolidGround()) then
+	 * 			|	setVelocityY(0)
+	 * 			|	setAccelerationY(0)
+	 * 			| else if (isOnGameObject()) then
+	 * 			|	setVelocityY(0)
+	 * 			| else then
+	 * 			|	setVelocityY(getVelocityY() + getAccelerationY()*dt)
+	 */
 	private void updateVelocity(double dt){
 		double accelerationX = getAccelerationX();
 		double velocityX;
@@ -487,7 +511,6 @@ public class Slime extends GameObject {
 		setAccelerationX(getInitialAccelerationX());
 		
 		setMovementTime(time);
-		
 	}
 	
 	@Basic
