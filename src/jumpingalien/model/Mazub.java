@@ -444,6 +444,7 @@ public class Mazub extends GameObject {
 		if(isOnSolidGround()){
 			setVelocityY(8);
 			setAccelerationY(-10);
+			System.out.println("op nu gezet");
 		}
 	}
 	
@@ -790,13 +791,15 @@ public class Mazub extends GameObject {
 		assert (seconds >= 0);
 		double locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
 		double locationY = getLocationY() + (getVelocityY()*seconds + getAccelerationY()*seconds*seconds/2)*100;
-		if(hasCollisionX((int)locationX,(int) locationY)){
-			locationX = getLocationX();
-		}
-		if(hasCollisionY((int)locationX,(int) locationY)){
-			locationY = getLocationY();
-			locationX = getLocationX() + (getVelocityX()*seconds + accelerationX*seconds*seconds/2)*100;
-			if(hasCollisionX((int)locationX,(int) locationY)){
+		if(hasCollision((int)locationX, (int)locationY)){
+			if(hasCollision((int)getLocationX(), (int)locationY)){
+				if(hasCollision((int)locationX, (int)getLocationY())){
+					locationX = getLocationX();
+					locationY = getLocationY();
+				} else {
+					locationY = getLocationY();
+				}
+			} else {
 				locationX = getLocationX();
 			}
 		}

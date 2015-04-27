@@ -33,6 +33,10 @@ import jumpingalien.util.Sprite;
 		return hasCollisionTop(x, y) || hasCollisionBottom(x, y);
 	}
 	
+	default boolean hasCollision(int x, int y){
+		return hasCollisionX(x,y) || hasCollisionY(x,y);
+	}
+	
 	default boolean isTopPerimeterInWater(){
 		int[] position = getLocation();
 		int x = position[0];
