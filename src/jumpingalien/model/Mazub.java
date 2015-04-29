@@ -43,8 +43,8 @@ public class Mazub extends GameObject {
 	 * 			| setTimer(0)
 	 * @post	calculate the number of sprites used to alternate when moving
 	 * 			| new.getAmountSpritesForMovement() = (sprites.length - 8) / 2 - 1
-	 * @effect	set hitpoints to 100
-	 * 			| setHitPoints(100)
+	 * @effect	set hitpoints to startHitpoints()
+	 * 			| setHitPoints(startHitpoints())
 	 * @effect 	set the magma timer to 0.2
 	 * 			| setMagmaTimer(0.2)
 	 */
@@ -55,9 +55,18 @@ public class Mazub extends GameObject {
 		this.setSpriteIndex(0);
 		this.setSpriteTimer(0);
 		this.amountSpritesForMovement = (sprites.length - 10) / 2;
-		this.setHitPoints(100);
+		this.setHitPoints(startHitpoints());
 		this.setInMagmaTimer(0.2);
 		this.setInWaterTimer(-1);
+	}
+	
+	/**
+	 * This methode return the amount of hitpoints where this Mazub starts with
+	 * @return 	Returns 100
+	 * 			| result == 100
+	 */
+	protected int startHitpoints(){
+		return 100;
 	}
 	
 	/**
