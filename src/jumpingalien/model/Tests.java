@@ -1,18 +1,10 @@
 package jumpingalien.model;
 
-import static jumpingalien.tests.util.TestUtils.doubleArray;
-import static jumpingalien.tests.util.TestUtils.intArray;
 import static jumpingalien.tests.util.TestUtils.spriteArrayForSize;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.World;
 import jumpingalien.part2.facade.Facade;
 import jumpingalien.part2.facade.IFacadePart2;
-import jumpingalien.util.ModelException;
-import jumpingalien.util.Sprite;
-import jumpingalien.util.Util;
-
 import org.junit.Test;
 
 public class Tests {
