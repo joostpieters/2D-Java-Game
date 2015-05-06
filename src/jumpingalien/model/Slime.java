@@ -67,6 +67,55 @@ public class Slime extends GameObject {
 	}
 	
 	/**
+	 * @param x
+	 * @param y
+	 * @param sprites
+	 * @param program
+	 * @throws 	IllegalArgumentException()
+	 * 			...	
+	 * 			| (!isValidSchool())
+	 * @effect	calls the constructor of the superclass
+	 * 			| super(x, y, sprites, program)
+	 * @effect	...
+	 * 			| setSchool(school)
+	 * @effect	...
+	 * 			| school.addSlime(this)
+	 * @effect	...
+	 * 			| setHitPoints(100)
+	 * @effect	...
+	 * 			| setVelocityX(0)
+	 * @effect	...
+	 * 			| setVelocityY(0)
+	 * @effect	...
+	 * 			| setAccelerationX(0)
+	 * @effect	...
+	 * 			| setAccelerationY(0)
+	 * @effect	...
+	 * 			| newMovement()
+	 * @effect	...
+	 * 			| setInMagmaTimer(0.2)
+	 * @effect	...
+	 * 			| setInWaterTimer(-1) 
+	 */
+	public Slime (int x, int y, Sprite[] sprites, School school, Program program) throws IllegalArgumentException{
+		super(x, y, sprites, program);
+		if (!isValidSchool(school)) {
+			throw new IllegalArgumentException();
+		}
+		setCurrentSpriteIndex(0);
+		setSchool(school);
+		school.addSlime(this);
+		setHitPoints(100);
+		setVelocityX(0);
+		setVelocityY(0);
+		setAccelerationX(0);
+		setAccelerationY(0);
+		newMovement();
+		setInMagmaTimer(0.2);
+		setInWaterTimer(-1);
+	}
+	
+	/**
 	 * Returns the current sprite index of this slime
 	 */
 	@Basic

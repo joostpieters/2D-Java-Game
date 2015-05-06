@@ -13,8 +13,8 @@ import be.kuleuven.cs.som.annotate.Raw;
  *
  */
 public class Plant extends GameObject {
+	
 	/**
-	 * 
 	 * @param x
 	 *            the x location of this Plant
 	 * @param y
@@ -31,6 +31,29 @@ public class Plant extends GameObject {
 	@Raw
 	public Plant(int x, int y, Sprite[] sprites) throws IllegalArgumentException {
 		super(x, y, sprites);
+		setCurrentSpriteIndex(0);
+		setVelocityX(-0.5);
+	}
+	
+	/**
+	 * @param 	x
+	 *            the x location of this Plant
+	 * @param 	y
+	 *            the y location of this Plant
+	 * @param 	sprites
+	 *            the sprites for this Plant
+	 * @param 	program
+	 * 				the program for this plant 
+	 * @effect	call the constructor of the superclass
+	 * 			| super(x, y, sprites)
+	 * @effect 	... 
+	 * 			| setCurrentSprite(getSprites()[0])
+	 * @effect 	... 
+	 * 			| setHorizontalVelocity(-0.5)
+	 */
+	@Raw
+	public Plant(int x, int y, Sprite[] sprites, Program program) throws IllegalArgumentException {
+		super(x, y, sprites, program);
 		setCurrentSpriteIndex(0);
 		setVelocityX(-0.5);
 	}

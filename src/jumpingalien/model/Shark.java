@@ -32,6 +32,27 @@ public class Shark extends GameObject {
 		setInMagmaTimer(0.2);
 	}
 	
+	/** 
+	 * @param x
+	 * @param y
+	 * @param sprites
+	 * @param program
+	 * @effect	call the constructor of the superclass
+	 * 			| super(x, y, sprites, program)
+	 * @effect	...
+	 * 			| setHitPoints(100)
+	 * @effect	...
+	 * 			| setMagmaTimer(0.2)
+	 * @effect	...
+	 * 			| setMovementCounter(4)
+	 */
+	public Shark (int x, int y, Sprite[] sprites, Program program) throws IllegalArgumentException {
+		super(x, y, sprites, program);
+		setHitPoints(100);
+		setMovementCounter(4);
+		setInMagmaTimer(0.2);
+	}
+	
 	/**
 	 * @return 	...
 	 * 			|if(getVelocityX() > 0) then

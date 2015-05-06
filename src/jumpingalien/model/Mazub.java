@@ -52,6 +52,39 @@ public class Mazub extends GameObject {
 	}
 	
 	/**
+	 * 
+	 * @param 	pixelLeftX
+	 * 			The horizontal pixel from the bottom left corner where Mazub will spawn.
+	 * @param 	pixelBottomY
+	 * 			The vertical pixel from the bottom left corner where Mazub will spawn.
+	 * @param 	sprites
+	 * 			The sprites for this Mazub.
+	 * @param	program
+	 * 			The program for this Mazub
+	 * @effect	call the constructor of the superclass
+	 * 			| super(pixelLeftX, pixelBottomY, sprites)
+	 * @effect	sets the initial spriteIndex to 0
+	 * 			| setSpriteIndex(0)
+	 * @effect 	set the timer to zero
+	 * 			| setTimer(0)
+	 * @post	calculate the number of sprites used to alternate when moving
+	 * 			| new.getAmountSpritesForMovement() = (sprites.length - 8) / 2 - 1
+	 * @effect	set hitpoints to startHitpoints()
+	 * 			| setHitPoints(startHitpoints())
+	 * @effect 	set the magma timer to 0.2
+	 * 			| setMagmaTimer(0.2)
+	 */
+	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites, Program program) throws IllegalArgumentException {
+		super(pixelLeftX, pixelBottomY, sprites, program);	
+		this.setSpriteIndex(0);
+		this.setSpriteTimer(0);
+		this.amountSpritesForMovement = (sprites.length - 10) / 2;
+		this.setHitPoints(startHitpoints());
+		this.setInMagmaTimer(0.2);
+		this.setInWaterTimer(-1);
+	}
+	
+	/**
 	 * @return 	...
 	 * 			| result == 10
 	 */
