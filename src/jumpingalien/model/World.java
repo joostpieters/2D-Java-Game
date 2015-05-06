@@ -323,6 +323,38 @@ public class World  {
 	 */
 	private Mazub alien;
 	
+	/**
+	 * Returns the Buzam of this World
+	 */
+	public Buzam getBuzam() {
+		return this.buzam;
+	}
+	
+	/**
+	 * @param buzam
+	 *
+	 * @throws	IllegalArgumentException
+	 * 			...
+	 * 			|!isValidMazub(buzam)
+	 * @post	...
+	 * 			| new.getBuzam() == buzam
+	 * @post	...
+	 * 			| new.buzam.getWorld() == this 
+	 */
+	public void setBuzam(Buzam buzam) throws IllegalArgumentException {
+		if(!isValidMazub(buzam)){
+			throw new IllegalArgumentException();
+		} else {
+			this.buzam = buzam;
+			buzam.setWorld(this);
+		}
+	}
+	
+	/**
+	 * This variable contains the current Buzam for this World.
+	 */
+	private Buzam buzam;
+	
 	
 	/**
 	 * Returns whether the game is over.
