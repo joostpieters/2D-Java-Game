@@ -28,15 +28,8 @@ public class Mazub extends GameObject {
 	 * 			The vertical pixel from the bottom left corner where Mazub will spawn.
 	 * @param 	sprites
 	 * 			The sprites for this Mazub.
-	 * @throws	IllegalArgumentException
-	 * 			if sprites is not a valid sprite array
-	 * 			| !isValidSpriteArray(Sprites)
-	 * @pre		the array of sprites must contain at least 10 sprites and cannot contain null pointers
-	 * 			| sprites.length >= 10 && sprites[0...n] != null
-	 * @effect	sets the location to pixelLeftX, pixelBottomY
-	 * 			| setLocation(pixelLeftX, pixelBottomY)
-	 * @effect	sets the sprites to the given array of sprites
-	 * 			| setSprites(sprites)
+	 * @effect	call the constructor of the superclass
+	 * 			| super(pixelLeftX, pixelBottomY, sprites)
 	 * @effect	sets the initial spriteIndex to 0
 	 * 			| setSpriteIndex(0)
 	 * @effect 	set the timer to zero
@@ -48,15 +41,52 @@ public class Mazub extends GameObject {
 	 * @effect 	set the magma timer to 0.2
 	 * 			| setMagmaTimer(0.2)
 	 */
-	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws IllegalArgumentException{
-		super(pixelLeftX, pixelBottomY);
-		this.setSprites(sprites);		
+	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws IllegalArgumentException {
+		super(pixelLeftX, pixelBottomY, sprites);	
 		this.setSpriteIndex(0);
 		this.setSpriteTimer(0);
 		this.amountSpritesForMovement = (sprites.length - 10) / 2;
 		this.setHitPoints(startHitpoints());
 		this.setInMagmaTimer(0.2);
 		this.setInWaterTimer(-1);
+	}
+	
+	/**
+	 * @return 	...
+	 * 			| result == 10
+	 */
+	@Override
+	int getRequiredLengthSpriteArray() {
+		return 10;
+	}
+	
+	/**
+	 * Checks if the given sprites array is valid or not
+	 * @param sprites
+	 * 			the sprite array to check
+	 * @return	false if the length of the sprite array is less than the required length
+	 * 			| if (sprites.length < getRequiredLengthSpriteArray()) then
+	 * 			|	result == false
+	 * @return	if the length of the sprite array is greater or equalt to the required length and 
+	 * 				if the sprite array contains a null pointer, return false, otherwise return true	 
+	 * 			| if (sprites.length >= getRequiredLengthSpriteArray()) then
+	 * 			|	foreach (sprite in sprites) 
+	 * 			|		if (sprite == null) then
+	 * 			|			result == false
+	 * 			|	result == true
+	 */
+	@Override
+	protected boolean isValidSpriteArray(Sprite[] sprites) {
+		if (sprites.length < getRequiredLengthSpriteArray()) {
+			return false;
+		} else {
+			for (Sprite sprite : sprites) {
+				if (sprite == null) {
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 	
 	/**
@@ -221,31 +251,6 @@ public class Mazub extends GameObject {
 	 * this variable contains the current vertical acceleration for this Mazub
 	 */
 	private double accelerationY;
-	
-	/**
-	 * Return if the given sprites array is valid or not
-	 * @param 	sprites
-	 * 			the array of sprites that needs to be checked
-	 * @return	false if the length of the sprite array is less than 10
-	 * 			|if (sprites.length < 10)
-	 * 			|	return false;
-	 * @return	false if one of the elements of the array is a null pointer
-	 * 			|for (i = 0; i < sprites.length; i++)
-	 * 			|	if sprites[0] == null then
-	 * 			|		return false
-	 * @return	true if the array contains at least 10 elements and none of them is a null pointer
-	 * 			|if sprites[0....n] != null && n >= 10 then
-	 * 			|		return true
-	 */
-	public boolean isValidSpriteArray(Sprite[] sprites){
-		if (sprites.length < 10)
-			return false;
-		for (int i = 0; i < sprites.length; i++){
-			if (sprites[i] == null)
-				return false;			
-		}
-		return true;
-	}
 	
 	/**
 	 * Returns the right sprite for the current movements

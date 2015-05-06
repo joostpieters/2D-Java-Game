@@ -2,6 +2,8 @@ package jumpingalien.part3.facade;
 
 import java.util.Collection;
 
+import org.antlr.v4.parse.ANTLRParser.throwsSpec_return;
+
 import jumpingalien.model.Buzam;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Motion;
@@ -123,8 +125,12 @@ public class Facade implements IFacadePart3 {
 	}
 
 	@Override
-	public Plant createPlant(int x, int y, Sprite[] sprites) {
-		return new Plant(x, y, sprites);
+	public Plant createPlant(int x, int y, Sprite[] sprites) throws ModelException {
+		try {
+			return new Plant(x, y, sprites);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("Invalid Argument");
+		}
 	}
 
 	@Override
@@ -154,8 +160,12 @@ public class Facade implements IFacadePart3 {
 	}
 
 	@Override
-	public Shark createShark(int x, int y, Sprite[] sprites) {
-		return new Shark(x, y, sprites);
+	public Shark createShark(int x, int y, Sprite[] sprites) throws ModelException {
+		try {
+			return new Shark(x, y, sprites);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("Illegal Argument");
+		}
 	}
 
 	@Override
@@ -231,7 +241,7 @@ public class Facade implements IFacadePart3 {
 	}
 
 	@Override
-	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
+	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws ModelException {
 		try{
 			Mazub alien = new Mazub(pixelLeftX, pixelBottomY, sprites);
 			return alien;

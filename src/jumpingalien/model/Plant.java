@@ -21,22 +21,16 @@ public class Plant extends GameObject {
 	 *            the y location of this Plant
 	 * @param sprites
 	 *            the sprites for this Plant
-	 * @effect ... | setLocationX(x)
-	 * @effect ... | setLocationY(y)
-	 * @effect ... | setSprites(sprites)
-	 * @effect ... | setCurrentSprite(getSprites()[0])
-	 * @effect ... | setHorizontalVelocity(-0.5)
-	 * @throws IllegalArgumentException
-	 *             ... | sprites.length != 2
+	 * @effect	call the constructor of the superclass
+	 * 			| super(x, y, sprites)
+	 * @effect 	... 
+	 * 			| setCurrentSprite(getSprites()[0])
+	 * @effect 	... 
+	 * 			| setHorizontalVelocity(-0.5)
 	 */
 	@Raw
-	public Plant(int x, int y, Sprite[] sprites)
-			throws IllegalArgumentException {
-		super(x, y);
-		if (sprites.length != 2) {
-			throw new IllegalArgumentException();
-		}
-		setSprites(sprites);
+	public Plant(int x, int y, Sprite[] sprites) throws IllegalArgumentException {
+		super(x, y, sprites);
 		setCurrentSpriteIndex(0);
 		setVelocityX(-0.5);
 	}
@@ -68,6 +62,15 @@ public class Plant extends GameObject {
 	 * This variable contains the index of the current sprite
 	 */
 	private int currentSpriteIndex;
+	
+	/**
+	 * @return 	...
+	 * 			| result == 2
+	 */
+	@Override
+	int getRequiredLengthSpriteArray() {
+		return 2;
+	}
 
 	/**
 	 * @return the horizontalVelocity

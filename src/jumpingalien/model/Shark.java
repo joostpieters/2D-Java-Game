@@ -16,12 +16,8 @@ public class Shark extends GameObject {
 	 * @param x
 	 * @param y
 	 * @param sprites
-	 * @effect 	...
-	 * 			| setLocationX(x)
-	 * @effect 	...
-	 * 			| setLocationY(y)
-	 * @effect 	...
-	 * 			| setSprites(sprites)
+	 * @effect	call the constructor of the superclass
+	 * 			| super(x, y, sprites)
 	 * @effect	...
 	 * 			| setHitPoints(100)
 	 * @effect	...
@@ -29,9 +25,8 @@ public class Shark extends GameObject {
 	 * @effect	...
 	 * 			| setMovementCounter(4)
 	 */
-	public Shark (int x, int y, Sprite[] sprites){
-		super(x, y);
-		setSprites(sprites);
+	public Shark (int x, int y, Sprite[] sprites) throws IllegalArgumentException {
+		super(x, y, sprites);
 		setHitPoints(100);
 		setMovementCounter(4);
 		setInMagmaTimer(0.2);
@@ -51,6 +46,15 @@ public class Shark extends GameObject {
 			return getSprites()[1];
 		else
 			return getSprites()[0];
+	}
+	
+	/**
+	 * @return 	...
+	 * 			| result == 2
+	 */
+	@Override
+	int getRequiredLengthSpriteArray() {
+		return 2;
 	}
 	
 	/**

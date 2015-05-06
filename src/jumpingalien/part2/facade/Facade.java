@@ -231,8 +231,12 @@ public class Facade implements IFacadePart2 {
 	}
 
 	@Override
-	public Plant createPlant(int x, int y, Sprite[] sprites) {
-		return new Plant(x, y, sprites);
+	public Plant createPlant(int x, int y, Sprite[] sprites) throws ModelException {
+		try {
+			return new Plant(x, y, sprites);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("Invalid Argument");
+		}
 	}
 
 	@Override

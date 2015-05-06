@@ -6,15 +6,17 @@ import be.kuleuven.cs.som.annotate.Basic;
 
 public abstract class GameObject implements CollisionDetect {
 	
-	protected GameObject(int x, int y) {
+	protected GameObject(int x, int y, Sprite[] sprites) {
 		setLocationX(x);
 		setLocationY(y);
+		setSprites(sprites);
 		program = null;
 	}
 	
-	protected GameObject(int x, int y, Program program) {
+	protected GameObject(int x, int y, Sprite[] sprites, Program program) {
 		setLocationX(x);
 		setLocationY(y);
+		setSprites(sprites);
 		this.program = program;
 	}
 	
@@ -110,6 +112,39 @@ public abstract class GameObject implements CollisionDetect {
 	}
 	
 	/**
+	 * Returns the required length of the sprite array for this Game Object
+	 */
+	abstract int getRequiredLengthSpriteArray();
+	
+	/**
+	 * Checks if the given sprites array is valid or not
+	 * @param sprites
+	 * 			the sprite array to check
+	 * @return	false if the length of the sprite array not is equal to the required length
+	 * 			| if (sprites.length != getRequiredLengthSpriteArray()) then
+	 * 			|	result == false
+	 * @return	if the length of the sprite array is equal to the required length and 
+	 * 				if the sprite array contains a null pointer, return false, otherwise return true	 
+	 * 			| if (sprites.length == getRequiredLengthSpriteArray()) then
+	 * 			|	foreach (sprite in sprites) 
+	 * 			|		if (sprite == null) then
+	 * 			|			result == false
+	 * 			|	result == true
+	 */
+	protected boolean isValidSpriteArray(Sprite[] sprites) {
+		if (sprites.length != getRequiredLengthSpriteArray()) {
+			return false;
+		} else {
+			for (Sprite sprite : sprites) {
+				if (sprite == null) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+	
+	/**
 	 * Return the sprites of this Game Object
 	 */
 	@Basic
@@ -122,10 +157,16 @@ public abstract class GameObject implements CollisionDetect {
 	 * 
 	 * @param 	sprites
 	 *          the new sprites for this Game Object
+	 * @throws 	IllegalArgumentException
+	 * 			if the given sprite array is not valid, an exception will be thrown
+	 * 			| !isValidSpriteArray(sprites)
 	 * @post 	the sprites of this Game Object is equal to the given sprites
 	 *       	|new.getSprites() == sprites
 	 */
-	protected void setSprites(Sprite[] sprites) {
+	protected void setSprites(Sprite[] sprites) throws IllegalArgumentException {
+		if (!isValidSpriteArray(sprites)) {
+			throw new IllegalArgumentException();
+		}
 		this.sprites = sprites;
 	}
 

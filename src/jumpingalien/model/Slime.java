@@ -22,18 +22,11 @@ public class Slime extends GameObject {
 	 * @param x
 	 * @param y
 	 * @param sprites
-	 * @throws	IllegalArgumentException()
-	 * 			...
-	 * 			|((sprites.length != 2) || (!school.canHaveAsSlime(this)))
 	 * @throws 	IllegalArgumentException()
 	 * 			...	
 	 * 			| (!isValidSchool())
-	 * @effect 	...
-	 * 			| setLocationX(x)
-	 * @effect 	...
-	 * 			| setLocationY(y)
-	 * @effect 	...
-	 * 			| setSprites(sprites)
+	 * @effect	call the constructor of the superclass
+	 * 			| super(x, y, sprites)
 	 * @effect	...
 	 * 			| setSchool(school)
 	 * @effect	...
@@ -56,14 +49,10 @@ public class Slime extends GameObject {
 	 * 			| setInWaterTimer(-1) 
 	 */
 	public Slime (int x, int y, Sprite[] sprites, School school) throws IllegalArgumentException{
-		super(x, y);
-		if(sprites.length != 2){
-			throw new IllegalArgumentException();
-		}
+		super(x, y, sprites);
 		if (!isValidSchool(school)) {
 			throw new IllegalArgumentException();
 		}
-		setSprites(sprites);
 		setCurrentSpriteIndex(0);
 		setSchool(school);
 		school.addSlime(this);
@@ -99,6 +88,15 @@ public class Slime extends GameObject {
 	 * Contains the index of the current sprite of this Slime
 	 */
 	private int currentSpriteIndex;
+	
+	/**
+	 * @return 	...
+	 * 			| result == 2
+	 */
+	@Override
+	int getRequiredLengthSpriteArray() {
+		return 2;
+	}
 	
 	/**
 	 * Returns the current sprite of this Slime
