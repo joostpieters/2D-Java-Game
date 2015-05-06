@@ -49,8 +49,7 @@ public class Mazub extends GameObject {
 	 * 			| setMagmaTimer(0.2)
 	 */
 	public Mazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws IllegalArgumentException{
-		this.setLocationX(pixelLeftX);
-		this.setLocationY(pixelBottomY);
+		super(pixelLeftX, pixelBottomY);
 		this.setSprites(sprites);		
 		this.setSpriteIndex(0);
 		this.setSpriteTimer(0);

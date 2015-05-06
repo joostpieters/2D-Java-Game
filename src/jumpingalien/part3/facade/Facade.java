@@ -383,14 +383,19 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public boolean isWellFormed(Program program) {
-		// TODO Auto-generated method stub
-		return false;
+		if (program == null) {
+			throw new ModelException("The program cannot be null");
+		}
+		return program.isWellFormed();
 	}
 
 	@Override
-	public void addBuzam(World world, Buzam buzam) {
-		// TODO Auto-generated method stub
-		
+	public void addBuzam(World world, Buzam buzam) throws ModelException {
+		try{
+			world.setBuzam(buzam);	
+		} catch(IllegalArgumentException e){
+			throw new ModelException("Invalid Buzam");
+		}
 	}
 
 	@Override

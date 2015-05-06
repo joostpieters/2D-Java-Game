@@ -56,14 +56,13 @@ public class Slime extends GameObject {
 	 * 			| setInWaterTimer(-1) 
 	 */
 	public Slime (int x, int y, Sprite[] sprites, School school) throws IllegalArgumentException{
+		super(x, y);
 		if(sprites.length != 2){
 			throw new IllegalArgumentException();
 		}
 		if (!isValidSchool(school)) {
 			throw new IllegalArgumentException();
 		}
-		setLocationX(x);
-		setLocationY(y);
 		setSprites(sprites);
 		setCurrentSpriteIndex(0);
 		setSchool(school);

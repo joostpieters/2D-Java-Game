@@ -5,7 +5,19 @@ import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 
 public abstract class GameObject implements CollisionDetect {
-		
+	
+	protected GameObject(int x, int y) {
+		setLocationX(x);
+		setLocationY(y);
+		program = null;
+	}
+	
+	protected GameObject(int x, int y, Program program) {
+		setLocationX(x);
+		setLocationY(y);
+		this.program = program;
+	}
+	
 	/**
 	 * @return will return terminated
 	 * 			|result == this.terminated
@@ -684,6 +696,18 @@ public abstract class GameObject implements CollisionDetect {
 		}
 	}
 	
+	/**
+	 * Returns the program of this Game Object
+	 */
+	@Basic
+	protected Program getProgram() {
+		return this.program;
+	}
+	
+	/**
+	 * This variable holds the program of this Game Object
+	 */
+	private final Program program;
 	
 
 	protected abstract void advanceTimeCollisionDetect(double advanceTime);

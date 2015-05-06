@@ -30,8 +30,7 @@ public class Shark extends GameObject {
 	 * 			| setMovementCounter(4)
 	 */
 	public Shark (int x, int y, Sprite[] sprites){
-		setLocationX(x);
-		setLocationY(y);
+		super(x, y);
 		setSprites(sprites);
 		setHitPoints(100);
 		setMovementCounter(4);

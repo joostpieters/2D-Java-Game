@@ -32,11 +32,10 @@ public class Plant extends GameObject {
 	@Raw
 	public Plant(int x, int y, Sprite[] sprites)
 			throws IllegalArgumentException {
+		super(x, y);
 		if (sprites.length != 2) {
 			throw new IllegalArgumentException();
 		}
-		setLocationX(x);
-		setLocationY(y);
 		setSprites(sprites);
 		setCurrentSpriteIndex(0);
 		setVelocityX(-0.5);
