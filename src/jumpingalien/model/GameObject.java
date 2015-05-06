@@ -14,6 +14,9 @@ public abstract class GameObject implements CollisionDetect {
 	}
 	
 	protected GameObject(int x, int y, Sprite[] sprites, Program program) {
+		if(program == null){
+			throw new IllegalArgumentException();
+		}
 		setLocationX(x);
 		setLocationY(y);
 		setSprites(sprites);
