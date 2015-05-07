@@ -5,21 +5,9 @@ import jumpingalien.part3.programs.SourceLocation;
 
 public class Negation extends UnaryOperator {
 
-	public Negation(SourceLocation sourceLocation) {
-		super(sourceLocation);
+	public Negation(Expression operand, SourceLocation sourceLocation) {
+		super(operand, sourceLocation);
 		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public Expression getOperandAt(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getNbOperands() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override

@@ -11,21 +11,6 @@ public abstract class BinaryOperator extends Operator {
 		this.rightOperand = rightOperand;
 	}
 	
-	@Override
-	public final int getNbOperands() {
-		return 2;
-	}
-	
-	@Override
-	public Expression getOperandAt(int index) throws IndexOutOfBoundsException {
-		if (index == 0) 
-			return this.getLeftOperand();
-		else if (index == 1)
-			return this.getRightOperand();
-		else
-			throw new IndexOutOfBoundsException();
-	}
-	
 	private final Expression leftOperand;
 	
 	public Expression getLeftOperand() {
