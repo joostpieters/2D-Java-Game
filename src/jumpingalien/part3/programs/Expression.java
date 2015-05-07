@@ -9,7 +9,7 @@ public abstract class Expression extends ProgramCode {
 		return this == expression;
 	}
 
-	public abstract getValue();
+	public abstract Object getValue();
 	
 	private SourceLocation sourceLocation;
 }
