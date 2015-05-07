@@ -1,5 +1,5 @@
 package jumpingalien.part3.programs.expressions;
 
-public class Substraction {
+public class Substraction extends BinaryOperator {
 
 }

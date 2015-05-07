@@ -1,5 +1,5 @@
 package jumpingalien.part3.programs.expressions;
 
-public class Conjunction {
+public class Conjunction extends BinaryOperator {
 
 }
