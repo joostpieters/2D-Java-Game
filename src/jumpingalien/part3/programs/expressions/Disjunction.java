@@ -5,7 +5,7 @@ import jumpingalien.part3.programs.SourceLocation;
 
 public class Disjunction extends BinaryOperator {
 
-	protected Disjunction(Expression leftOperand, Expression rightOperand, SourceLocation sourceLocation) {
+	public Disjunction(Expression leftOperand, Expression rightOperand, SourceLocation sourceLocation) {
 		super(leftOperand, rightOperand, sourceLocation);
 		// TODO Auto-generated constructor stub
 	}

@@ -7,11 +7,21 @@ import java.util.Random;
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.expressions.Addition;
 import jumpingalien.part3.programs.expressions.Bool;
+import jumpingalien.part3.programs.expressions.Conjunction;
+import jumpingalien.part3.programs.expressions.Disjunction;
 import jumpingalien.part3.programs.expressions.Division;
 import jumpingalien.part3.programs.expressions.Direction;
 import jumpingalien.part3.programs.expressions.Double;
+import jumpingalien.part3.programs.expressions.Equals;
+import jumpingalien.part3.programs.expressions.GreaterThan;
+import jumpingalien.part3.programs.expressions.GreaterThanOrEqual;
+import jumpingalien.part3.programs.expressions.LessThan;
+import jumpingalien.part3.programs.expressions.LessThanOrEqual;
 import jumpingalien.part3.programs.expressions.Multiplication;
+import jumpingalien.part3.programs.expressions.Negation;
+import jumpingalien.part3.programs.expressions.NotEquals;
 import jumpingalien.part3.programs.expressions.Object;
+import jumpingalien.part3.programs.expressions.RandomDouble;
 import jumpingalien.part3.programs.expressions.SquareRoot;
 import jumpingalien.part3.programs.expressions.Substraction;
 import jumpingalien.part3.programs.expressions.Variable;
@@ -84,77 +94,66 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Expression createSqrt(Expression expr, SourceLocation sourceLocation) {
-		//return new SquareRoot(expr, sourceLocation);
-		return null;
+		return new SquareRoot(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createRandom(Expression maxValue,
 			SourceLocation sourceLocation) {
-		//TODO
-		return null;
+		return new RandomDouble(maxValue, sourceLocation);
 	}
 
 	@Override
 	public Expression createAnd(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Conjunction(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createOr(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Disjunction(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createNot(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Negation(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createLessThan(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new LessThan(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createLessThanOrEqualTo(Expression left,
 			Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new LessThanOrEqual(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createGreaterThan(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GreaterThan(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createGreaterThanOrEqualTo(Expression left,
 			Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GreaterThanOrEqual(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createEquals(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Equals(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createNotEquals(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new NotEquals(left, right, sourceLocation);
 	}
 
 	@Override
