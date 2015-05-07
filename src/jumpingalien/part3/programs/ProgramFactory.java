@@ -2,41 +2,47 @@ package jumpingalien.part3.programs;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import jumpingalien.model.Program;
+import jumpingalien.part3.programs.expressions.Addition;
+import jumpingalien.part3.programs.expressions.Bool;
+import jumpingalien.part3.programs.expressions.Division;
+import jumpingalien.part3.programs.expressions.Direction;
+import jumpingalien.part3.programs.expressions.Double;
+import jumpingalien.part3.programs.expressions.Multiplication;
+import jumpingalien.part3.programs.expressions.Object;
+import jumpingalien.part3.programs.expressions.SquareRoot;
+import jumpingalien.part3.programs.expressions.Substraction;
+import jumpingalien.part3.programs.expressions.Variable;
 
 public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
 
 	@Override
 	public Expression createReadVariable(String variableName,
 			Type variableType, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Variable(variableName, variableType, sourceLocation);
 	}
 
 	@Override
 	public Expression createDoubleConstant(double value,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Double(value, sourceLocation);
 	}
 
 	@Override
 	public Expression createTrue(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Bool(true, sourceLocation);
 	}
 
 	@Override
 	public Expression createFalse(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Bool(false, sourceLocation);
 	}
 
 	@Override
 	public Expression createNull(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object(null, sourceLocation);
 	}
 
 	@Override
@@ -49,48 +55,43 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	public Expression createDirectionConstant(
 			jumpingalien.part3.programs.IProgramFactory.Direction value,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new jumpingalien.part3.programs.expressions.Direction(value, sourceLocation);
 	}
 
 	@Override
 	public Expression createAddition(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Addition(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createSubtraction(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Substraction(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createMultiplication(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Multiplication(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createDivision(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Division(left, right, sourceLocation);
 	}
 
 	@Override
 	public Expression createSqrt(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
+		//return new SquareRoot(expr, sourceLocation);
 		return null;
 	}
 
 	@Override
 	public Expression createRandom(Expression maxValue,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
+		//TODO
 		return null;
 	}
 

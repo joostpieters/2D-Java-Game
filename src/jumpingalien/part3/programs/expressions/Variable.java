@@ -12,4 +12,10 @@ public class Variable extends Literal {
 	
 	private String name;
 	private Type type;
+	
+	@Override
+	public java.lang.Object getValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

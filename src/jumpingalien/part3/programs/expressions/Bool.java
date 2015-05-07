@@ -9,4 +9,10 @@ public class Bool extends Literal {
 	}
 	
 	private boolean value;
+
+	@Override
+	public java.lang.Object getValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

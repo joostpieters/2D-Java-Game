@@ -1,10 +1,12 @@
 package jumpingalien.part3.programs.expressions;
 
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.SourceLocation;
 
 public abstract class BinaryOperator extends Operator {
 	
-	protected BinaryOperator(Expression leftOperand, Expression rightOperand) {
+	protected BinaryOperator(Expression leftOperand, Expression rightOperand, SourceLocation sourceLocation) {
+		super(sourceLocation);
 		this.leftOperand = leftOperand;
 		this.rightOperand = rightOperand;
 	}

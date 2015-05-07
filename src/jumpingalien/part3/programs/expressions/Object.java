@@ -9,4 +9,10 @@ public class Object extends Literal {
 	}
 	
 	private Object object;
+
+	@Override
+	public java.lang.Object getValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -4,9 +4,9 @@ import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 
 public abstract class Literal extends Expression {
-	Literal(SourceLocation sourceLocation) {
-		this.sourceLocation = sourceLocation;
+
+	public Literal(SourceLocation sourceLocation) {
+		super(sourceLocation);
+		// TODO Auto-generated constructor stub
 	}
-	
-	private SourceLocation sourceLocation;
 }

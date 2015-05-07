@@ -9,4 +9,9 @@ public class Double extends Literal {
 	}
 	
 	private double value;
+
+	@Override
+	public java.lang.Double getValue() {
+		return this.value;
+	}
 }

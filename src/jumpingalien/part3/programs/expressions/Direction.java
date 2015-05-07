@@ -9,4 +9,10 @@ public class Direction extends Literal {
 	}
 	
 	private jumpingalien.part3.programs.IProgramFactory.Direction direction;
+
+	@Override
+	public java.lang.Object getValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
