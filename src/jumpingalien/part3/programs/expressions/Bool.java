@@ -17,7 +17,6 @@ public class Bool extends Literal {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		// TODO Auto-generated method stub
 		return getValue();
 	}
 }
