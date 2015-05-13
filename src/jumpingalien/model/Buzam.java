@@ -28,4 +28,10 @@ public class Buzam extends Mazub {
 		return 500;
 	}
 	
+	@Override
+	public void advanceTime(double dt){
+		Program program = this.getProgram();
+		program.run(3);
+	}
+	
 }

@@ -397,14 +397,12 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Type getDoubleType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new jumpingalien.part3.programs.types.Double();
 	}
 
 	@Override
 	public Type getBoolType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new jumpingalien.part3.programs.types.Boolean();
 	}
 
 	@Override
