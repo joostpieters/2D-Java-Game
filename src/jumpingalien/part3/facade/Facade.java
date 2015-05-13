@@ -350,7 +350,6 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public void advanceTime(Mazub alien, double dt) {
-		// TODO Auto-generated method stub
 		// Nothing needs to happen		
 	}
 
@@ -367,29 +366,25 @@ public class Facade implements IFacadePart3 {
 	@Override
 	public Buzam createBuzamWithProgram(int pixelLeftX, int pixelBottomY,
 			Sprite[] sprites, Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Buzam(pixelLeftX, pixelBottomY, sprites, program);
 	}
 
 	@Override
 	public Plant createPlantWithProgram(int x, int y, Sprite[] sprites,
 			Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Plant(x, y, sprites, program);
 	}
 
 	@Override
 	public Shark createSharkWithProgram(int x, int y, Sprite[] sprites,
 			Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Shark(x, y, sprites, program);
 	}
 
 	@Override
 	public Slime createSlimeWithProgram(int x, int y, Sprite[] sprites,
 			School school, Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Slime(x, y, sprites, school, program);
 	}
 
 	@Override
