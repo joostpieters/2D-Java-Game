@@ -27,6 +27,7 @@ import jumpingalien.part3.programs.expressions.Substraction;
 import jumpingalien.part3.programs.expressions.Variable;
 import jumpingalien.part3.programs.statements.Break;
 import jumpingalien.part3.programs.statements.Print;
+import jumpingalien.part3.programs.statements.Sequence;
 import jumpingalien.part3.programs.statements.While;
 
 public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
@@ -391,8 +392,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Statement createSequence(List<Statement> statements,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Sequence(statements, sourceLocation);
 	}
 
 	@Override
