@@ -10,6 +10,7 @@ public class Addition extends BinaryOperator {
 		super(leftOperand, rightOperand, sourceLocation);
 	}
 	
+	@Override
 	public java.lang.Double getValue(Program program) {
 		double left = (double) getLeftOperand().getValue(program);
 		double right = (double) getRightOperand().getValue(program);

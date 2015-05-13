@@ -11,9 +11,9 @@ public class SquareRoot extends UnaryOperator {
 	}
 
 	@Override
-	public java.lang.Object getValue(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+	public java.lang.Double getValue(Program program) {
+		double operand = (double) getOperand().getValue(program);
+		return new java.lang.Double(Math.sqrt(operand));
 	}
 
 }

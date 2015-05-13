@@ -8,13 +8,13 @@ public class Multiplication extends BinaryOperator {
 
 	public Multiplication(Expression leftOperand, Expression rightOperand, SourceLocation sourceLocation) {
 		super(leftOperand, rightOperand, sourceLocation);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public java.lang.Object getValue(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+	public java.lang.Double getValue(Program program) {
+		double left = (double) getLeftOperand().getValue(program);
+		double right = (double) getRightOperand().getValue(program);
+		return new java.lang.Double(left*right);
 	}
 
 

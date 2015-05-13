@@ -10,5 +10,9 @@ public abstract class UnaryOperator extends Operator {
 		this.operand = operand;
 	}
 
-	private Expression operand; 
+	private final Expression operand;
+	
+	public Expression getOperand() {
+		return operand;
+	}
 }
