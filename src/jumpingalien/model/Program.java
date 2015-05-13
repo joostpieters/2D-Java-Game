@@ -12,6 +12,13 @@ public class Program {
 	public Program(Statement mainStatement, Map<String, Type> globalVariables) {
 		this.mainStatement = mainStatement;
 		this.globalVariables = globalVariables;
+		for(Map.Entry<String, Type> entry : globalVariables.entrySet()){
+			if(entry.getValue() instanceof jumpingalien.part3.programs.types.Boolean){
+				declarationVariables.put(entry.getKey(), false);	
+			} else if(entry.getValue() instanceof jumpingalien.part3.programs.types.Double){
+				declarationVariables.put(entry.getKey(), 0);	
+			}		
+		}
 		this.currentline = 0;
 	}
 	
