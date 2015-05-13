@@ -17,8 +17,7 @@ public class Variable extends Literal {
 	
 	@Override
 	public java.lang.Object getValue(Program program) {
-		Expression value = program.getDeclarationVariables().get(name);
-		return value.getValue(program);
+		return program.getDeclarationVariables().get(name);
 	}
 	
 

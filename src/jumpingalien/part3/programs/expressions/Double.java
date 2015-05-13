@@ -12,9 +12,8 @@ public class Double extends Literal {
 	private double value;
 
 	@Override
-	public java.lang.Object getValue(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+	public java.lang.Double getValue(Program program) {
+		return value;
 	}
 
 

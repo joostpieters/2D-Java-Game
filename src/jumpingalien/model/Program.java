@@ -17,7 +17,7 @@ public class Program {
 	
 	private Statement mainStatement;
 	private Map<String, Type> globalVariables;
-	private Map<String, Expression> declarationVariables = new HashMap<>();
+	private Map<String, Object> declarationVariables = new HashMap<>();
 	private int currentline;
 	
 	public boolean isWellFormed() {
@@ -29,12 +29,12 @@ public class Program {
 		mainStatement.run(this);
 	}
 
-	public Map<String, Expression> getDeclarationVariables() {
+	public Map<String, Object> getDeclarationVariables() {
 		return declarationVariables;
 	}
 
 	protected void setDeclarationVariables(
-			Map<String, Expression> declarationVariables) {
+			Map<String, Object> declarationVariables) {
 		this.declarationVariables = declarationVariables;
 	}
 
