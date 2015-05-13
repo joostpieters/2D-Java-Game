@@ -27,6 +27,7 @@ import jumpingalien.part3.programs.expressions.Substraction;
 import jumpingalien.part3.programs.expressions.Variable;
 import jumpingalien.part3.programs.statements.Assignment;
 import jumpingalien.part3.programs.statements.Break;
+import jumpingalien.part3.programs.statements.IfThenElse;
 import jumpingalien.part3.programs.statements.Print;
 import jumpingalien.part3.programs.statements.Sequence;
 import jumpingalien.part3.programs.statements.While;
@@ -327,10 +328,8 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	}
 
 	@Override
-	public Statement createIf(Expression condition, Statement ifBody,
-			Statement elseBody, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Statement createIf(Expression condition, Statement ifBody, Statement elseBody, SourceLocation sourceLocation) {
+		return new IfThenElse(condition, ifBody, elseBody, sourceLocation);
 	}
 
 	@Override

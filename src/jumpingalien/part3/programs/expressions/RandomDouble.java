@@ -1,4 +1,6 @@
 package jumpingalien.part3.programs.expressions;
+import java.util.Random;
+
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
@@ -15,9 +17,9 @@ public class RandomDouble extends Literal {
 	private Expression expression;
 
 	@Override
-	public java.lang.Object getValue(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+	public java.lang.Double getValue(Program program) {
+		Random r = new Random();
+		return new java.lang.Double((double)expression.getValue(program) * r.nextDouble());
 	}
 
 	

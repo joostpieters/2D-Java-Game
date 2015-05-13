@@ -15,9 +15,12 @@ public class While extends Statement {
 	
 	private Expression condition;
 	private Statement body;
+	
 	@Override
 	public void run(Program program) {
-		// TODO Auto-generated method stub
+		while((boolean) condition.getValue(program)){
+			body.run(program);
+		}
 		
 	}
 
