@@ -17,7 +17,7 @@ public class Program {
 	
 	public boolean isWellFormed() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

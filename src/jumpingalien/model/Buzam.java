@@ -11,6 +11,18 @@ public class Buzam extends Mazub {
 		super(pixelLeftX, pixelBottomY, sprites, program);
 	}
 	
+	/**
+	 * Checks wether the given world is valid or not
+	 * @param 	world
+	 * 			the world which needs to be checked
+	 * @return	true if the given mazub is no null pointer and if the mazub of that world is this mazub
+	 * 			| result == ((world != null) && (world.getBuzam()==this));
+	 */
+	@Override
+	protected boolean isValidWorld(World world){
+		return (world != null) && (world.getBuzam()==this);
+	}
+	
 	@Override
 	protected int startHitpoints() {
 		return 500;
