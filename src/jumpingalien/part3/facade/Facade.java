@@ -1,6 +1,7 @@
 package jumpingalien.part3.facade;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.antlr.v4.parse.ANTLRParser.throwsSpec_return;
 
@@ -13,7 +14,13 @@ import jumpingalien.model.School;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Slime;
 import jumpingalien.model.World;
+import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.ParseOutcome;
+import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.ProgramParser;
+import jumpingalien.part3.programs.Type;
+import jumpingalien.part3.programs.Statement;
+import jumpingalien.part3.programs.ProgramFactory;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 
@@ -387,8 +394,14 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public ParseOutcome<?> parse(String text) {
-		// TODO Auto-generated method stub
-		return null;
+		IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
+		ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
+		Optional<Program> parseResult = parser.parseString(text);
+		if(parseResult.isPresent()){
+			return ParseOutcome.success(parseResult.get());
+		} else {
+			return ParseOutcome.failure(parser.getErrors());
+		}
 	}
 
 	@Override
