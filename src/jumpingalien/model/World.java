@@ -502,13 +502,45 @@ public class World  {
 	 * 			...
 	 * 			|(!isValidBottomLeftTilePixel(pixelX, pixelY))
 	 */
-	public int getGeologicalFeatureByPixel(int pixelX, int pixelY) throws IllegalArgumentException{
+	public int getGeologicalFeatureByBottomLeftPixel(int pixelX, int pixelY) throws IllegalArgumentException{
 		if(!isValidBottomLeftTilePixel(pixelX, pixelY)){
 			throw new IllegalArgumentException();
 		}
 		int[] tile = pixelInWhichTile(pixelX, pixelY);
 		return getGeologicalFeatureOfTile(tile[0], tile[1]);	
 		
+	}
+	
+	/**
+	 * 
+	 * @param 	pixelX
+	 * 			The X coordinate of the pixel
+	 * @param 	pixelY
+	 * 			The Y coordinate of the pixel
+	 * @return	...
+	 * 			|getGeologicalFeatureOfTile(pixelInWhichTile(pixelX, pixelY)[0], pixelInWhichTile(pixelX, pixelY)[1])
+	 * @throws 	IllegalArgumentException
+	 * 			...
+	 * 			|!isValidPixel(pixelX, pixelY)
+	 */
+	public int getGeologicalFeatureByPixel(int pixelX, int pixelY) throws IllegalArgumentException{
+		if(!isValidPixel(pixelX, pixelY)){
+			throw new IllegalArgumentException();
+		}
+		int[] tile = pixelInWhichTile(pixelX, pixelY);
+		return getGeologicalFeatureOfTile(tile[0], tile[1]);	
+		
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return 	...
+	 * 			|result == (x <= getWorldSizeInPixels()[0]) && (y <= getWorldSizeInPixels()[1] && x > 0 && y > 0)
+	 */
+	private boolean isValidPixel(int x, int y){
+		return (x <= getWorldSizeInPixels()[0]) && (y <= getWorldSizeInPixels()[1] && x > 0 && y > 0);
 	}
 	
 	/**
@@ -649,11 +681,11 @@ public class World  {
 	 * @param 	pixelY
 	 * 			The Y coordinate of the pixel
 	 * @pre		the pixel needs to be in the game World
-	 * 			|((pixelX <= getWorldSizeInPixels()[0]) && (pixelY <= getWorldSizeInPixels()[1]))
+	 * 			|isValidPixel(pixelX, pixelY)
 	 * @return	{pixelX / getTileSize(), pixelY / getTileSize()}
 	 */
 	private int[] pixelInWhichTile(int pixelX, int pixelY){
-		assert((pixelX <= getWorldSizeInPixels()[0]) && (pixelY <= getWorldSizeInPixels()[1]));
+		assert(isValidPixel(pixelX, pixelY));
 		int[] result = new int[2];
 		result[0] = pixelX / getTileSize();
 		result[1] = pixelY / getTileSize();

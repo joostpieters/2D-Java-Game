@@ -13,6 +13,12 @@ import jumpingalien.part3.programs.expressions.Division;
 import jumpingalien.part3.programs.expressions.Direction;
 import jumpingalien.part3.programs.expressions.Double;
 import jumpingalien.part3.programs.expressions.Equals;
+import jumpingalien.part3.programs.expressions.GetHeight;
+import jumpingalien.part3.programs.expressions.GetHitPoints;
+import jumpingalien.part3.programs.expressions.GetTile;
+import jumpingalien.part3.programs.expressions.GetWidth;
+import jumpingalien.part3.programs.expressions.GetX;
+import jumpingalien.part3.programs.expressions.GetY;
 import jumpingalien.part3.programs.expressions.GreaterThan;
 import jumpingalien.part3.programs.expressions.GreaterThanOrEqual;
 import jumpingalien.part3.programs.expressions.LessThan;
@@ -30,6 +36,7 @@ import jumpingalien.part3.programs.statements.Break;
 import jumpingalien.part3.programs.statements.IfThenElse;
 import jumpingalien.part3.programs.statements.Print;
 import jumpingalien.part3.programs.statements.Sequence;
+import jumpingalien.part3.programs.statements.StartRun;
 import jumpingalien.part3.programs.statements.While;
 
 public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
@@ -163,42 +170,35 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Expression createGetX(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetX(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createGetY(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetY(expr, sourceLocation);
 	}
 
 	@Override
-	public Expression createGetWidth(Expression expr,
-			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression createGetWidth(Expression expr, SourceLocation sourceLocation) {
+		return new GetWidth(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createGetHeight(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetHeight(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createGetHitPoints(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetHitPoints(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createGetTile(Expression x, Expression y,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetTile(x, y, sourceLocation);
 	}
 
 	@Override
@@ -338,10 +338,8 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	}
 
 	@Override
-	public Statement createStartRun(Expression direction,
-			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Statement createStartRun(Expression direction, SourceLocation sourceLocation) {
+		return new StartRun(direction, sourceLocation);
 	}
 
 	@Override

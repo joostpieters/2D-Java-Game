@@ -203,7 +203,7 @@ public class Facade implements IFacadePart2 {
 	public int getGeologicalFeature(World world, int pixelX, int pixelY)
 			throws ModelException {
 		try{
-			return world.getGeologicalFeatureByPixel(pixelX, pixelY);
+			return world.getGeologicalFeatureByBottomLeftPixel(pixelX, pixelY);
 		}
 		catch(IllegalArgumentException e){
 			throw new ModelException("The given pixels are no left bottom pixels off a tile");

@@ -20,8 +20,11 @@ public class Object extends Literal {
 
 	@Override
 	public java.lang.Object getValue(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		if(self){
+			return program.getObject();
+		} else {
+			return object;
+		}
 	}
 
 

@@ -104,7 +104,7 @@ public class Facade implements IFacadePart3 {
 	public int getGeologicalFeature(World world, int pixelX, int pixelY)
 			throws ModelException {
 		try{
-			return world.getGeologicalFeatureByPixel(pixelX, pixelY);
+			return world.getGeologicalFeatureByBottomLeftPixel(pixelX, pixelY);
 		}
 		catch(IllegalArgumentException e){
 			throw new ModelException("The given pixels are no left bottom pixels off a tile");
@@ -389,7 +389,7 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public ParseOutcome<?> parse(String text) {
-		text = "double a := 10; double b := 21; if (a < 11) then print b; fi";
+		text = "double a := 1; double b := 1; double c; c := gettile (a,b); print c;";
 		IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
 		ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
 		Optional<Program> parseResult = parser.parseString(text);

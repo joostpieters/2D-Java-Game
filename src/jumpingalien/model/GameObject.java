@@ -21,6 +21,7 @@ public abstract class GameObject implements CollisionDetect {
 		setLocationY(y);
 		setSprites(sprites);
 		this.program = program;
+		program.setObject(this);
 	}
 	
 	/**
@@ -181,7 +182,7 @@ public abstract class GameObject implements CollisionDetect {
 	/**
 	 * Returns the hitPoints of this game object
 	 */
-	protected int getHitPoints() {
+	public int getHitPoints() {
 		return hitPoints;
 	}
 

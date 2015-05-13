@@ -19,9 +19,10 @@ public class Program {
 				declarationVariables.put(entry.getKey(), 0);	
 			}		
 		}
-		this.currentline = 0;
+		this.currentline = 0;		
 	}
 	
+	private Object object;
 	private Statement mainStatement;
 	private Map<String, Type> globalVariables;
 	private Map<String, Object> declarationVariables = new HashMap<>();
@@ -43,6 +44,14 @@ public class Program {
 	protected void setDeclarationVariables(
 			Map<String, Object> declarationVariables) {
 		this.declarationVariables = declarationVariables;
+	}
+
+	public Object getObject() {
+		return object;
+	}
+
+	void setObject(Object object) {
+		this.object = object;
 	}
 
 }
