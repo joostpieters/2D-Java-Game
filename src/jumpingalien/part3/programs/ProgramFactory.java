@@ -25,6 +25,7 @@ import jumpingalien.part3.programs.expressions.RandomDouble;
 import jumpingalien.part3.programs.expressions.SquareRoot;
 import jumpingalien.part3.programs.expressions.Substraction;
 import jumpingalien.part3.programs.expressions.Variable;
+import jumpingalien.part3.programs.statements.Assignment;
 import jumpingalien.part3.programs.statements.Break;
 import jumpingalien.part3.programs.statements.Print;
 import jumpingalien.part3.programs.statements.Sequence;
@@ -299,8 +300,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Statement createAssignment(String variableName, Type variableType,
 			Expression value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Assignment(variableName, variableType, value, sourceLocation);
 	}
 
 	@Override
