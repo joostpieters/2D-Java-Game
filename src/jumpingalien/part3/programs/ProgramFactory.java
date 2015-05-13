@@ -25,6 +25,9 @@ import jumpingalien.part3.programs.expressions.RandomDouble;
 import jumpingalien.part3.programs.expressions.SquareRoot;
 import jumpingalien.part3.programs.expressions.Substraction;
 import jumpingalien.part3.programs.expressions.Variable;
+import jumpingalien.part3.programs.statements.Break;
+import jumpingalien.part3.programs.statements.Print;
+import jumpingalien.part3.programs.statements.While;
 
 public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
 
@@ -57,8 +60,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Expression createSelf(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object(null, true, sourceLocation);
 	}
 
 	@Override
@@ -303,8 +305,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Statement createWhile(Expression condition, Statement body,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new While(condition, body, sourceLocation);
 	}
 
 	@Override
@@ -321,8 +322,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Statement createBreak(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Break(sourceLocation);
 	}
 
 	@Override
@@ -334,8 +334,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Statement createPrint(Expression value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Print(value, sourceLocation);
 	}
 
 	@Override
@@ -423,8 +422,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Program createProgram(Statement mainStatement,
 			Map<String, Type> globalVariables) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Program(mainStatement, globalVariables);
 	}
 
 }

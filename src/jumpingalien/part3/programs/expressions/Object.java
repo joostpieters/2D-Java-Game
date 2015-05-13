@@ -8,7 +8,14 @@ public class Object extends Literal {
 		this.object = object;
 	}
 	
+	public Object(Object object, boolean self, SourceLocation sourceLocation) {
+		this(object, sourceLocation);
+		this.self = self;
+	}
+	
 	private Object object;
+	
+	private boolean self;
 
 	@Override
 	public java.lang.Object getValue() {
