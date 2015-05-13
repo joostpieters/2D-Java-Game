@@ -26,7 +26,16 @@ public class Program {
 	}
 
 	public void run(int i) {
-		mainStatement.run(declarationVariables);
+		mainStatement.run(this);
+	}
+
+	public Map<String, Expression> getDeclarationVariables() {
+		return declarationVariables;
+	}
+
+	protected void setDeclarationVariables(
+			Map<String, Expression> declarationVariables) {
+		this.declarationVariables = declarationVariables;
 	}
 
 }

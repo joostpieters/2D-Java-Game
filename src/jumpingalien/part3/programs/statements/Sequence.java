@@ -3,6 +3,7 @@ package jumpingalien.part3.programs.statements;
 import java.util.List;
 import java.util.Map;
 
+import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
@@ -18,10 +19,11 @@ public class Sequence extends Statement {
 	private List<Statement> statements;
 
 	@Override
-	public void run(Map<String, Expression> variables) {
-		for (Statement statement : statements) {
-			statement.run(variables);
+	public void run(Program program) {
+		for(Statement statement : statements){
+			statement.run(program);
 		}
 	}
+
 
 }

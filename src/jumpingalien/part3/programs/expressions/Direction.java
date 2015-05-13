@@ -1,5 +1,6 @@
 package jumpingalien.part3.programs.expressions;
 
+import jumpingalien.model.Program;
 import jumpingalien.part3.programs.SourceLocation;
 
 public class Direction extends Literal {
@@ -11,8 +12,9 @@ public class Direction extends Literal {
 	private jumpingalien.part3.programs.IProgramFactory.Direction direction;
 
 	@Override
-	public java.lang.Object getValue() {
+	public java.lang.Object getValue(Program program) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

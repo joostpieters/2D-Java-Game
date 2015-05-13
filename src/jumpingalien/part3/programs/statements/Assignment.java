@@ -2,6 +2,7 @@ package jumpingalien.part3.programs.statements;
 
 import java.util.Map;
 
+import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
@@ -21,7 +22,7 @@ public class Assignment extends Statement {
 	private Expression value;
 
 	@Override
-	public void run(Map<String, Expression> variables) {
-		variables.put(variableName, value);
+	public void run(Program program) {
+		program.getDeclarationVariables().put(variableName, value);
 	}
 }

@@ -1,5 +1,6 @@
 package jumpingalien.part3.programs.expressions;
 
+import jumpingalien.model.Program;
 import jumpingalien.part3.programs.SourceLocation;
 
 public class Bool extends Literal {
@@ -11,7 +12,7 @@ public class Bool extends Literal {
 	private boolean value;
 
 	@Override
-	public java.lang.Object getValue() {
+	public java.lang.Object getValue(Program program) {
 		// TODO Auto-generated method stub
 		return null;
 	}

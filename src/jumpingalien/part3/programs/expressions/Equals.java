@@ -1,5 +1,6 @@
 package jumpingalien.part3.programs.expressions;
 
+import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.expressions.Comparison;
@@ -13,9 +14,11 @@ public class Equals extends Comparison {
 	}
 
 	@Override
-	public java.lang.Object getValue() {
+	public java.lang.Object getValue(Program program) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

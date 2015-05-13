@@ -2,6 +2,7 @@ package jumpingalien.part3.programs.statements;
 
 import java.util.Map;
 
+import jumpingalien.model.Program;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.Type;
@@ -14,9 +15,8 @@ public class ForEach extends Statement {
 	}
 
 	@Override
-	public void run(Map<String, Type> variables) {
+	public void run(Program program) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

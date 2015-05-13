@@ -1,5 +1,6 @@
 package jumpingalien.part3.programs.expressions;
 
+import jumpingalien.model.Program;
 import jumpingalien.part3.programs.SourceLocation;
 
 public class Double extends Literal {
@@ -11,7 +12,10 @@ public class Double extends Literal {
 	private double value;
 
 	@Override
-	public java.lang.Double getValue() {
-		return this.value;
+	public java.lang.Object getValue(Program program) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
 }

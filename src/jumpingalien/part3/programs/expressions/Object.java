@@ -1,5 +1,6 @@
 package jumpingalien.part3.programs.expressions;
 
+import jumpingalien.model.Program;
 import jumpingalien.part3.programs.SourceLocation;
 
 public class Object extends Literal {
@@ -18,8 +19,10 @@ public class Object extends Literal {
 	private boolean self;
 
 	@Override
-	public java.lang.Object getValue() {
+	public java.lang.Object getValue(Program program) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 }

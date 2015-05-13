@@ -2,6 +2,7 @@ package jumpingalien.part3.programs.statements;
 
 import java.util.Map;
 
+import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
@@ -17,7 +18,8 @@ public class Print extends Statement {
 	private Expression value;
 
 	@Override
-	public void run(Map<String, Expression> variables) {
-		System.out.println(value.getValue());
+	public void run(Program program) {
+		System.out.println(value.getValue(program));
 	}
+
 }

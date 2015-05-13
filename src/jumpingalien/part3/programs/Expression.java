@@ -1,5 +1,7 @@
 package jumpingalien.part3.programs;
 
+import jumpingalien.model.Program;
+
 public abstract class Expression extends ProgramCode {
 	public Expression(SourceLocation sourceLocation) {
 		super(sourceLocation);
@@ -9,7 +11,7 @@ public abstract class Expression extends ProgramCode {
 		return this == expression;
 	}
 
-	public abstract Object getValue();
+	public abstract Object getValue(Program program);
 	
 	private SourceLocation sourceLocation;
 }
