@@ -19,8 +19,9 @@ public class Sequence extends Statement {
 
 	@Override
 	public void run(Map<String, Expression> variables) {
-		// TODO Auto-generated method stub
-
+		for (Statement statement : statements) {
+			statement.run(variables);
+		}
 	}
 
 }
