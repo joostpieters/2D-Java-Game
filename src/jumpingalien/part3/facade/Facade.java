@@ -1,6 +1,7 @@
 package jumpingalien.part3.facade;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.antlr.v4.parse.ANTLRParser.throwsSpec_return;
 
@@ -13,7 +14,13 @@ import jumpingalien.model.School;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Slime;
 import jumpingalien.model.World;
+import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.ParseOutcome;
+import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.ProgramParser;
+import jumpingalien.part3.programs.Type;
+import jumpingalien.part3.programs.Statement;
+import jumpingalien.part3.programs.ProgramFactory;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 
@@ -343,7 +350,6 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public void advanceTime(Mazub alien, double dt) {
-		// TODO Auto-generated method stub
 		// Nothing needs to happen		
 	}
 
@@ -360,35 +366,38 @@ public class Facade implements IFacadePart3 {
 	@Override
 	public Buzam createBuzamWithProgram(int pixelLeftX, int pixelBottomY,
 			Sprite[] sprites, Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Buzam(pixelLeftX, pixelBottomY, sprites, program);
 	}
 
 	@Override
 	public Plant createPlantWithProgram(int x, int y, Sprite[] sprites,
 			Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Plant(x, y, sprites, program);
 	}
 
 	@Override
 	public Shark createSharkWithProgram(int x, int y, Sprite[] sprites,
 			Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Shark(x, y, sprites, program);
 	}
 
 	@Override
 	public Slime createSlimeWithProgram(int x, int y, Sprite[] sprites,
 			School school, Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Slime(x, y, sprites, school, program);
 	}
 
 	@Override
 	public ParseOutcome<?> parse(String text) {
-		// TODO Auto-generated method stub
-		return null;
+		text = "double d := 1.0; d := d + 1; print d; done";
+		IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
+		ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
+		Optional<Program> parseResult = parser.parseString(text);
+		if(parseResult.isPresent()){
+			return ParseOutcome.success(parseResult.get());
+		} else {
+			return ParseOutcome.failure(parser.getErrors());
+		}
 	}
 
 	@Override
