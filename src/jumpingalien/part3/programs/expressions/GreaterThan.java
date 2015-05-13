@@ -10,13 +10,13 @@ public class GreaterThan extends Comparison {
 	public GreaterThan(Expression leftOperand, Expression rightOperand,
 			SourceLocation sourceLocation) {
 		super(leftOperand, rightOperand, sourceLocation);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public java.lang.Object getValue(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+	public java.lang.Boolean getValue(Program program) {
+		double left = (double) getLeftOperand().getValue(program);
+		double right = (double) getRightOperand().getValue(program);
+		return new java.lang.Boolean(left > right);
 	}
 
 }

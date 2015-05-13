@@ -10,10 +10,14 @@ public class Bool extends Literal {
 	}
 	
 	private boolean value;
+	
+	private boolean getValue() {
+		return value;
+	}
 
 	@Override
-	public java.lang.Object getValue(Program program) {
+	public java.lang.Boolean getValue(Program program) {
 		// TODO Auto-generated method stub
-		return null;
+		return getValue();
 	}
 }

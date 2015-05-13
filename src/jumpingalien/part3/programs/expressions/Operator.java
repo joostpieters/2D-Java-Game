@@ -7,6 +7,5 @@ public abstract class Operator extends Expression {
 
 	public Operator(SourceLocation sourceLocation) {
 		super(sourceLocation);
-		// TODO Auto-generated constructor stub
 	}
 }

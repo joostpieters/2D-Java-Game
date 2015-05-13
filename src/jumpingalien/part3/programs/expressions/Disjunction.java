@@ -8,13 +8,13 @@ public class Disjunction extends BinaryOperator {
 
 	public Disjunction(Expression leftOperand, Expression rightOperand, SourceLocation sourceLocation) {
 		super(leftOperand, rightOperand, sourceLocation);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public java.lang.Object getValue(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		boolean left = (boolean) getLeftOperand().getValue(program);
+		boolean right = (boolean) getRightOperand().getValue(program);
+		return new java.lang.Boolean(left || right);
 	}
 
 
