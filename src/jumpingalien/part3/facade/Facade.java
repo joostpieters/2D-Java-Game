@@ -389,7 +389,7 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public ParseOutcome<?> parse(String text) {
-		text = "start_run right;";
+		text = "double a:= 3; double b:= 5; object c := self; a := a + b; b := a * getx c;";
 		IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
 		ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
 		Optional<Program> parseResult = parser.parseString(text);

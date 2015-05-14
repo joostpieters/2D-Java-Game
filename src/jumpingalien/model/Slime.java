@@ -34,14 +34,6 @@ public class Slime extends GameObject {
 	 * @effect	...
 	 * 			| setHitPoints(100)
 	 * @effect	...
-	 * 			| setVelocityX(0)
-	 * @effect	...
-	 * 			| setVelocityY(0)
-	 * @effect	...
-	 * 			| setAccelerationX(0)
-	 * @effect	...
-	 * 			| setAccelerationY(0)
-	 * @effect	...
 	 * 			| newMovement()
 	 * @effect	...
 	 * 			| setInMagmaTimer(0.2)
@@ -57,11 +49,9 @@ public class Slime extends GameObject {
 		setSchool(school);
 		school.addSlime(this);
 		setHitPoints(100);
-		setVelocityX(0);
-		setVelocityY(0);
-		setAccelerationX(0);
-		setAccelerationY(0);
-		newMovement();
+		if(!hasAProgram()){
+			newMovement();
+		}
 		setInMagmaTimer(0.2);
 		setInWaterTimer(-1);
 	}
@@ -152,7 +142,11 @@ public class Slime extends GameObject {
 	 */
 	@Basic @Override
 	public Sprite getCurrentSprite() {
-		return getSprites()[getCurrentSpriteIndex()];
+		if(getMovement() == Motion.LEFT){
+			return getSprites()[0];
+		} else {
+			return getSprites()[1];
+		}
 	}
 	
 	/**
@@ -398,6 +392,11 @@ public class Slime extends GameObject {
 		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2)) 
 			throw new IllegalArgumentException();
 		if(!isDead()){
+			if(hasAProgram()){
+				double amountStatements = dt/0.001;
+				amountStatements = Math.ceil(amountStatements);
+				getProgram().run((int)amountStatements);
+			}
 			updateLocationAndVelocity(dt);
 		} else {
 			setTimeDead(getTimeDead() + dt);
@@ -437,9 +436,11 @@ public class Slime extends GameObject {
 		if (! isOnSolidGround()) {
 			setAccelerationY(-10);
 		}
-		setMovementTime(getMovementTime()-dt);
-		if(getMovementTime() <= 0){
-			newMovement();
+		if(!hasAProgram()){
+			setMovementTime(getMovementTime()-dt);
+			if(getMovementTime() <= 0){
+				newMovement();
+			}
 		}
 		updateVelocity(dt);
 		updateLocation(dt);	

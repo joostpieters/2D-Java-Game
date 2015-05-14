@@ -788,13 +788,13 @@ public abstract class GameObject implements CollisionDetect {
 			setRightKeyPressed(true);
 			setVelocityX(getInitialHorizontalVelocity());
 			setAccelerationX(getInitialHorizontalAcceleration());
-			setMovement(direction);
 		} else if (direction == Motion.LEFT){
 			assert(!isLeftKeyPressed());
 			setLeftKeyPressed(true);
 			setVelocityX(getInitialHorizontalVelocity()*-1);
 			setAccelerationX(getInitialHorizontalAcceleration());
 		}
+		setMovement(direction);
 	}
 	
 	/**
@@ -853,9 +853,11 @@ public abstract class GameObject implements CollisionDetect {
 				setVelocityX(0);
 				setAccelerationX(0);
 				this.setLastMoveTimer(getSpriteTimer());
+				setMovement(null);
 				if(isLeftKeyPressed()){
 					setVelocityX(getInitialHorizontalVelocity()*-1);
 					setAccelerationX(getInitialHorizontalAcceleration());
+					setMovement(Motion.LEFT);
 				}
 			}
 		}
@@ -870,9 +872,11 @@ public abstract class GameObject implements CollisionDetect {
 				setVelocityX(0);
 				setAccelerationX(0);
 				this.setLastMoveTimer(getSpriteTimer());
+				setMovement(null);
 				if(isRightKeyPressed()){
 					setVelocityX(getInitialHorizontalVelocity());
 					setAccelerationX(getInitialHorizontalAcceleration());
+					setMovement(Motion.RIGHT);
 				}
 			}
 		}

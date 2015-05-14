@@ -8,17 +8,17 @@ import jumpingalien.part3.programs.IProgramFactory.Direction;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 
-public class StartRun extends Statement {
+public class StopRun extends Statement {
 
-	public StartRun(Expression direction, SourceLocation sourceLocation) {
+	public StopRun(Expression direction, SourceLocation sourceLocation) {
 		super(sourceLocation);
 		this.direction = direction;
 	}
-		
+	
 	private Expression getDirection() {
 		return direction;
 	}
-		
+	
 	private final Expression direction;
 
 	@Override
@@ -27,9 +27,9 @@ public class StartRun extends Statement {
 		if(program.getObject() instanceof GameObject && (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT || direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT)){
 			//TODO enkel links en rechts ok ?
 			if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT) {
-				 ((GameObject) program.getObject()).startMove(Motion.LEFT);
+				 ((GameObject) program.getObject()).endMove(Motion.LEFT);
 			} else if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT) {
-				((GameObject) program.getObject()).startMove(Motion.RIGHT);
+				((GameObject) program.getObject()).endMove(Motion.RIGHT);
 			} else {
 				// TODO miss beter acception
 				assert(false);

@@ -14,6 +14,8 @@ import jumpingalien.part3.programs.statements.IfThenElse;
 import jumpingalien.part3.programs.statements.Print;
 import jumpingalien.part3.programs.statements.Sequence;
 import jumpingalien.part3.programs.statements.StartRun;
+import jumpingalien.part3.programs.statements.StopRun;
+import jumpingalien.part3.programs.statements.Wait;
 import jumpingalien.part3.programs.statements.While;
 
 public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
@@ -313,8 +315,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Statement createStopRun(Expression direction,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StopRun(direction, sourceLocation);
 	}
 
 	@Override
@@ -344,8 +345,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Statement createWait(Expression duration,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Wait(duration, sourceLocation);
 	}
 
 	@Override

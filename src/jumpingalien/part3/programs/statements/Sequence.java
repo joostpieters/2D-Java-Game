@@ -21,7 +21,9 @@ public class Sequence extends Statement {
 	@Override
 	public void run(Program program) {
 		for(Statement statement : statements){
-			statement.run(program);
+			if(program.getLinesToRun() > 0) {
+				statement.run(program);
+			}
 		}
 	}
 

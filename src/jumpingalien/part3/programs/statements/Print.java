@@ -19,6 +19,7 @@ public class Print extends Statement {
 
 	@Override
 	public void run(Program program) {
+		program.lowerLinesToRun();
 		System.out.println(value.getValue(program));
 	}
 

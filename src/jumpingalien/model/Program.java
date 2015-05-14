@@ -12,21 +12,27 @@ public class Program {
 	public Program(Statement mainStatement, Map<String, Type> globalVariables) {
 		this.mainStatement = mainStatement;
 		this.globalVariables = globalVariables;
+		initialiseVariables();	
+	}
+
+	private void initialiseVariables() {
+		Map<String, Type> globalVariables = getGlobalVariables();
 		for(Map.Entry<String, Type> entry : globalVariables.entrySet()){
 			if(entry.getValue() instanceof jumpingalien.part3.programs.types.Boolean){
-				declarationVariables.put(entry.getKey(), false);	
+				getDeclarationVariables().put(entry.getKey(), false);	
 			} else if(entry.getValue() instanceof jumpingalien.part3.programs.types.Double){
-				declarationVariables.put(entry.getKey(), 0);	
+				getDeclarationVariables().put(entry.getKey(), 0);	
 			}		
 		}
-		this.currentline = 0;		
 	}
 	
 	private Object object;
-	private Statement mainStatement;
-	private Map<String, Type> globalVariables;
-	private Map<String, Object> declarationVariables = new HashMap<>();
-	private int currentline;
+	
+	private Statement getMainStatement() {
+		return mainStatement;
+	}
+	
+	private final Statement mainStatement;
 	
 	public boolean isWellFormed() {
 		// TODO Auto-generated method stub
@@ -34,16 +40,13 @@ public class Program {
 	}
 
 	public void run(int i) {
-		mainStatement.run(this);
-	}
-
-	public Map<String, Object> getDeclarationVariables() {
-		return declarationVariables;
-	}
-
-	protected void setDeclarationVariables(
-			Map<String, Object> declarationVariables) {
-		this.declarationVariables = declarationVariables;
+		setLinesToRun(i);
+		setLinesToSkip(getCurrentline());
+		getMainStatement().run(this);
+		if(getLinesToRun() > 0){
+			setCurrentline(0);
+			run(getLinesToRun());
+		}
 	}
 
 	public Object getObject() {
@@ -53,5 +56,65 @@ public class Program {
 	void setObject(Object object) {
 		this.object = object;
 	}
+
+	private int getCurrentline() {
+		return currentline;
+	}
+
+	private void setCurrentline(int currentline) {
+		this.currentline = currentline;
+	}
+	
+	private void higherCurrentLine(){
+		setCurrentline(getCurrentline()+1);		
+	}
+	
+	private int currentline;
+
+	public int getLinesToRun() {
+		return linesToRun;
+	}
+
+	public void setLinesToRun(int linesToRun) {
+		this.linesToRun = linesToRun;
+	}
+	
+	public void lowerLinesToRun(){
+		setLinesToRun(getLinesToRun()-1);
+	}
+	
+	private int linesToRun;
+	
+	public void lineRunned(){
+		lowerLinesToRun();
+		higherCurrentLine();
+	}
+	
+
+	public int getLinesToSkip() {
+		return linesToSkip;
+	}
+
+	private void setLinesToSkip(int linesToSkip) {
+		this.linesToSkip = linesToSkip;
+	}
+	
+	public void lowerLinesToSkip(){
+		setLinesToSkip(getLinesToSkip()-1);
+	}
+	
+	private int linesToSkip;
+
+	private Map<String, Type> getGlobalVariables() {
+		return globalVariables;
+	}
+	
+	private final Map<String, Type> globalVariables;
+	
+	public Map<String, Object> getDeclarationVariables() {
+		return declarationVariables;
+	}
+	
+	private final Map<String, Object> declarationVariables = new HashMap<>();
 
 }

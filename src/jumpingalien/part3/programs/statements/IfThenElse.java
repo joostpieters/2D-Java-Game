@@ -20,6 +20,7 @@ public class IfThenElse extends Statement {
 	
 	@Override
 	public void run(Program program) {
+		program.lowerLinesToRun();
 		if((boolean) getCondition().getValue(program)){
 			getIfBody().run(program);
 		} else if(getElseBody() != null) {
