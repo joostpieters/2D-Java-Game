@@ -15,7 +15,7 @@ public class Break extends Statement {
 	}
 
 	@Override
-	public void run(Program program) {
+	public void runStatement(Program program) {
 		// TODO Auto-generated method stub
 
 	}

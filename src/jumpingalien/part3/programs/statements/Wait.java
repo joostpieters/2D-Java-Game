@@ -30,7 +30,7 @@ public class Wait extends Statement {
 	private int timeWait;
 
 	@Override
-	public void run(Program program) {
+	public void runStatement(Program program) {
 		if(getDuration().getValue(program) instanceof Double){
 			if(getTimeWait() == 0){
 				setTimeWait((int) getDuration().getValue(program));
@@ -38,7 +38,10 @@ public class Wait extends Statement {
 			while(getTimeWait() > 0 && program.getLinesToRun() > 0){
 				program.lowerLinesToRun();
 				setTimeWait(getTimeWait()-1);
-			}			
+			}
+			if(program.getLinesToRun() == 0){
+				program.setSourceLocation(getSourceLocation());
+			}
 		} else {
 			assert(false);
 			//TODO error ? expection ?

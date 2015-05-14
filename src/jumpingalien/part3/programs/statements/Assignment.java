@@ -23,7 +23,7 @@ public class Assignment extends Statement {
 	private Expression value;
 
 	@Override
-	public void run(Program program) {
+	public void runStatement(Program program) {
 		program.lowerLinesToRun();
 		program.getDeclarationVariables().put(variableName, value.getValue(program));
 	}

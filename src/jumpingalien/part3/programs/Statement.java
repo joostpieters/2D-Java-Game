@@ -9,5 +9,18 @@ public abstract class Statement extends ProgramCode {
 		super(sourceLocation);
 	}
 	
-	public abstract void run(Program program);
+	protected abstract void runStatement(Program program);
+	
+	public void run(Program program){
+		if(program.getLinesToRun() > 0){
+			if(this.getSourceLocation() == null || this.getSourceLocation() == program.getSourceLocation()){
+				if(this.getSourceLocation() == program.getSourceLocation()){
+					program.setSourceLocation(null);
+				}
+				runStatement(program);
+			}
+		} else if(program.getSourceLocation() == null) {
+			program.setSourceLocation(getSourceLocation());
+		}
+	}
 }

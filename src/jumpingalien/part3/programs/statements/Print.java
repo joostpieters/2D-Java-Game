@@ -18,7 +18,7 @@ public class Print extends Statement {
 	private Expression value;
 
 	@Override
-	public void run(Program program) {
+	public void runStatement(Program program) {
 		program.lowerLinesToRun();
 		System.out.println(value.getValue(program));
 	}

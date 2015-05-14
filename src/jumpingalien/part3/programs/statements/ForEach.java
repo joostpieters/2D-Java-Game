@@ -101,7 +101,7 @@ public class ForEach extends Statement {
 	
 
 	@Override
-	public void run(Program program) {
+	public void runStatement(Program program) {
 		// TODO
 	}
 

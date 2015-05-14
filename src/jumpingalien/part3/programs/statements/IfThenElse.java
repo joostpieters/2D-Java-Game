@@ -14,12 +14,11 @@ public class IfThenElse extends Statement {
 		super(sourceLocation);
 		setCondition(condition);
 		setIfBody(ifBody);
-		setElseBody(elseBody);
-		
+		setElseBody(elseBody);		
 	}
 	
 	@Override
-	public void run(Program program) {
+	public void runStatement(Program program) {
 		program.lowerLinesToRun();
 		if((boolean) getCondition().getValue(program)){
 			getIfBody().run(program);

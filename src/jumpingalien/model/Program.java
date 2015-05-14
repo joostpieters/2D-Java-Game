@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.Type;
 
@@ -41,10 +42,8 @@ public class Program {
 
 	public void run(int i) {
 		setLinesToRun(i);
-		setLinesToSkip(getCurrentline());
 		getMainStatement().run(this);
 		if(getLinesToRun() > 0){
-			setCurrentline(0);
 			run(getLinesToRun());
 		}
 	}
@@ -56,20 +55,6 @@ public class Program {
 	void setObject(Object object) {
 		this.object = object;
 	}
-
-	private int getCurrentline() {
-		return currentline;
-	}
-
-	private void setCurrentline(int currentline) {
-		this.currentline = currentline;
-	}
-	
-	private void higherCurrentLine(){
-		setCurrentline(getCurrentline()+1);		
-	}
-	
-	private int currentline;
 
 	public int getLinesToRun() {
 		return linesToRun;
@@ -83,13 +68,7 @@ public class Program {
 		setLinesToRun(getLinesToRun()-1);
 	}
 	
-	private int linesToRun;
-	
-	public void lineRunned(){
-		lowerLinesToRun();
-		higherCurrentLine();
-	}
-	
+	private int linesToRun;	
 
 	public int getLinesToSkip() {
 		return linesToSkip;
@@ -116,5 +95,15 @@ public class Program {
 	}
 	
 	private final Map<String, Object> declarationVariables = new HashMap<>();
+	
+	public SourceLocation getSourceLocation() {
+		return sourceLocation;
+	}
+
+	public void setSourceLocation(SourceLocation sourceLocation) {
+		this.sourceLocation = sourceLocation;
+	}
+	
+	private SourceLocation sourceLocation;
 
 }

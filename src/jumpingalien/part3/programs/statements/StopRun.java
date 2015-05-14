@@ -22,7 +22,7 @@ public class StopRun extends Statement {
 	private final Expression direction;
 
 	@Override
-	public void run(Program program) {
+	public void runStatement(Program program) {
 		program.lowerLinesToRun();
 		if(program.getObject() instanceof GameObject && (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT || direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT)){
 			//TODO enkel links en rechts ok ?

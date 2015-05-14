@@ -19,7 +19,7 @@ public class Sequence extends Statement {
 	private List<Statement> statements;
 
 	@Override
-	public void run(Program program) {
+	public void runStatement(Program program) {
 		for(Statement statement : statements){
 			if(program.getLinesToRun() > 0) {
 				statement.run(program);

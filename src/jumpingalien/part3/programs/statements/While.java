@@ -17,11 +17,12 @@ public class While extends Statement {
 	private Statement body;
 	
 	@Override
-	public void run(Program program) {
-		while((boolean) condition.getValue(program)){
+	public void runStatement(Program program) {
+		program.lowerLinesToRun();
+		while((boolean) condition.getValue(program) && program.getLinesToRun() > 0){
 			body.run(program);
-		}
-		
+			program.lowerLinesToRun();
+		}		
 	}
 
 
