@@ -281,7 +281,7 @@ public class Slime extends GameObject {
 	 * 			| else then
 	 * 			| 	return false
 	 */
-	private boolean isMovingLeft() {
+	protected boolean isMovingLeft() {
 		if (this.getMovementDirection() == Motion.LEFT) {
 			return true;
 		} else {
@@ -739,5 +739,10 @@ public class Slime extends GameObject {
 	protected double getInitialHorizontalVelocity() {
 		// TODO klopt dit ??
 		return 0;
+	}
+
+	@Override
+	protected boolean isDucking() {
+		return false;
 	}
 }

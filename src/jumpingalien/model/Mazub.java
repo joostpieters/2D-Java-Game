@@ -248,12 +248,12 @@ public class Mazub extends GameObject {
 		
 		// if the character is Ducking
 		else if(this.isDucking()){
-			if ((this.lastMoveDirection == Motion.RIGHT_AND_DUCKING) 
-					&&(getSpriteTimer() - this.lastMoveTimer < 1)) {
+			if ((this.getLastMoveDirection() == Motion.RIGHT_AND_DUCKING) 
+					&&(getSpriteTimer() - this.getLastMoveTimer() < 1)) {
 				setSpriteIndex(6);
 			}
-			else if ((this.lastMoveDirection == Motion.LEFT_AND_DUCKING) 
-					&&(getSpriteTimer() - this.lastMoveTimer < 1)) {
+			else if ((this.getLastMoveDirection() == Motion.LEFT_AND_DUCKING) 
+					&&(getSpriteTimer() - this.getLastMoveTimer() < 1)) {
 				setSpriteIndex(7);
 			}
 			else {
@@ -263,13 +263,13 @@ public class Mazub extends GameObject {
 				
 		// if the character is not moving
 		else {
-			if (((this.lastMoveDirection == Motion.RIGHT) || 
-					(this.lastMoveDirection == Motion.RIGHT_AND_DUCKING)) 
-					&&(getSpriteTimer() - this.lastMoveTimer < 1))
+			if (((this.getLastMoveDirection() == Motion.RIGHT) || 
+					(this.getLastMoveDirection() == Motion.RIGHT_AND_DUCKING)) 
+					&&(getSpriteTimer() - this.getLastMoveTimer() < 1))
 				setSpriteIndex(2);
-			else if (((this.lastMoveDirection == Motion.LEFT)|| 
-					(this.lastMoveDirection == Motion.LEFT_AND_DUCKING)) 
-					&& (getSpriteTimer() - this.lastMoveTimer < 1))
+			else if (((this.getLastMoveDirection() == Motion.LEFT)|| 
+					(this.getLastMoveDirection() == Motion.LEFT_AND_DUCKING)) 
+					&& (getSpriteTimer() - this.getLastMoveTimer() < 1))
 				setSpriteIndex(3);
 			else
 				setSpriteIndex(0);
@@ -348,145 +348,7 @@ public class Mazub extends GameObject {
 	protected final double getInitialHorizontalAcceleration() {
 		return 0.9;
 	}
-	
-	/**
-	 * Stops Mazub's horizontal movement and stores the direction of its last movement
-	 * @param 	direction
-	 * 			the direction in which mazub needs to be stop moving
-	 * @pre		if the given direction is needs to be Direction.LEFT or Direction.RIGHT
-	 * 			|((direction == Direction.RIGHT) || (direction == Direction.LEFT))
-	 * @pre		if the stop direction equals RIGHT, the right key needs to be pressed
-	 * 			|if ( direction == Direction.RIGHT ) then
-	 * 			|	isRightKeyPressed()
-	 * @pre		if the stop direction equals LEFT, the left key needs to be pressed
-	 * 			|if ( direction == Direction.LEFT ) then
-	 * 			|	isLeftKeyPressed() 
-	 * @effect	if the last movement was to the right and this Mazub is not ducking, 
-	 * 				then the lastMoveDirection is set to Direction.RIGHT
-	 * 			| if isMovingRight() then
-	 * 			|	if not isDucking() then
-	 * 			|		setLastMoveDirection(Direction.RIGHT)
-	 * @effect	if the last movement was to the right, and this Mazub is ducking, 
-	 * 				then the lastMoveDirection is set to Direction.RIGHT_AND_DUCKING
-	 * 			| if isMovingRight() then
-	 * 			|	if isDucking() then
-	 * 			|		setLastMoveDirection(Direction.RIGHT_AND_DUCKING)
-	 * @effect	if the last movement was to the left, and this Mazub is not ducking, 
-	 * 				then the lastMoveDirection equals Direction.LEFT
-	 * 			| if isMovingLeft() then
-	 * 			|	if not isDucking() then
-	 * 			|		setLastMoveDirection(Direction.LEFT)
-	 * @effect	if the last movement was to the left, and this Mazub is ducking, 
-	 * 				then the lastMoveDirection is set to Direction.LEFT_AND_DUCKING
-	 * 			| if isMovingLeft() then
-	 * 			|	if isDucking() then
-	 * 			|		setLastMoveDirection(Direction.LEFT_AND_DUCKING)
-	 * @post 	if Mazub stops moving left and is moving to the left at this moment, 
-	 * 				the velocityX equals zero, accelerationX equals zero 
-	 * 				and the lastMoveTimer equals to the current value of timer
-	 * 			| new.getLastMoveTimer() == getTimer() && new.getVelocityX() == 0 &&
-	 * 			| 	new.getAccelerationX() == 0
-	 * @post 	if Mazub stops moving right and is moving to the right at this moment, 
-	 * 				the velocityX equals zero, accelerationX equals zero 
-	 * 				and the lastMoveTimer equals to the current value of timer
-	 * 			| new.getLastMoveTimer() == getTimer() && new.getVelocityX() == 0 &&
-	 * 			| 	new.getAccelerationX() == 0
-	 */
-	public void endMove(Motion direction){
-		assert ((direction == Motion.RIGHT) || (direction == Motion.LEFT));
-		if ( direction == Motion.RIGHT ){
-			assert(isRightKeyPressed());
-			setRightKeyPressed(false);
-			if (isMovingRight()){
-				if (isDucking())
-					this.setLastMoveDirection(Motion.RIGHT_AND_DUCKING);
-				else
-					this.setLastMoveDirection(Motion.RIGHT);	
-				setVelocityX(0);
-				setAccelerationX(0);
-				this.setLastMoveTimer(getSpriteTimer());
-				if(isLeftKeyPressed()){
-					setVelocityX(getInitialHorizontalVelocity()*-1);
-					setAccelerationX(getInitialHorizontalAcceleration());
-				}
-			}
-		}
-		if ( direction == Motion.LEFT ){
-			assert(isLeftKeyPressed());
-			setLeftKeyPressed(false);
-			if (isMovingLeft()){
-				if (isDucking())
-					this.setLastMoveDirection(Motion.LEFT_AND_DUCKING);
-				else
-					this.setLastMoveDirection(Motion.LEFT);
-				setVelocityX(0);
-				setAccelerationX(0);
-				this.setLastMoveTimer(getSpriteTimer());
-				if(isRightKeyPressed()){
-					setVelocityX(getInitialHorizontalVelocity());
-					setAccelerationX(getInitialHorizontalAcceleration());
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Return lastMoveDirection of this Mazub
-	 * 		lastMoveDirection indicates the direction of the last move of this Mazub
-	 */
-	@Basic
-	private Motion getLastMoveDirection() {
-		return lastMoveDirection;
-	}
 
-	/**
-	 * @param 	lastMoveDirection
-	 * 			the new direction in which this Mazub has last moved
-	 * @pre		lastMoveDirection equals Direction.RIGHT or Direction.LEFT or
-	 * 				Direction.RIGHT_AND_DUCKING or Direction.LEFT_AND_DUCKING
-	 * 			| lastMoveDirection == Direction.RIGHT || lastMoveDirection == Direction.LEFT ||
-	 * 			| 	lastMoveDirection == Direction.RIGHT_AND_DUCKING || lastMoveDirection == Direction.LEFT_AND_DUCKING
-	 * @post 	the new lastMoveDirection of this Mazub will equal to lastMoveDirection
-	 * 			| new.getLastMoveDirection() = lastMoveDirection
-	 */
-	private void setLastMoveDirection(Motion lastMoveDirection) {
-		assert((lastMoveDirection == Motion.RIGHT) || (lastMoveDirection == Motion.LEFT) 
-				|| (lastMoveDirection == Motion.RIGHT_AND_DUCKING) 
-				|| (lastMoveDirection == Motion.LEFT_AND_DUCKING) );
-		this.lastMoveDirection = lastMoveDirection;
-	}
-	
-	/**
-	 * This variable contains the last direction in which this Mazub has moved
-	 */
-	private Motion lastMoveDirection;
-
-	/**
-	 * Return the value of timer
-	 */
-	@Basic
-	private double getLastMoveTimer() {
-		return lastMoveTimer;
-	}
-
-	/**
-	 * 
-	 * @param 	time
-	 * 			the new time for this Mazub's lastMoveTimer
-	 * @pre		time is greater or equal to zero
-	 * @post	lastMoveTimer of this Mazub will be equal to the given time
-	 * 			| new.getLastMoveTimer() = time
-	 * 			
-	 */
-	private void setLastMoveTimer(double time) {
-		assert(time >= 0);
-		this.lastMoveTimer = time;
-	}
-	
-	/**
-	 * This variable contains the time since when this Mazub did his last move
-	 */
-	private double lastMoveTimer;
 
 	/**
 	 * Ends this Mazub's jump
@@ -729,38 +591,6 @@ public class Mazub extends GameObject {
 	}
 	
 	/**
-	 * Returns whether Mazub is moving right or not.
-	 * @return 	true when the horizontal velocity is greater than zero, false otherwise.
-	 * 			| if getVelocityX() > 0 then
-	 * 			|	return true
-	 * 			| else then
-	 * 			| 	return false
-	 */
-	private boolean isMovingRight() {
-		if (this.getVelocityX() > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * Returns whether Mazub is moving left or not.
-	 * @return 	true when the horizontal velocity is less than zero, false otherwise.
-	 * 			| if getVelocityX() < 0 then
-	 * 			|	return true
-	 * 			| else then
-	 * 			| 	return false
-	 */
-	private boolean isMovingLeft() {
-		if (this.getVelocityX() < 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	/**
 	 * Returns whether Mazub is jumping.
 	 * @return	true when the vertical acceleration is not zero, false otherwise.
 	 * 			| if getAccelerationY() != 0 then 
@@ -877,45 +707,6 @@ public class Mazub extends GameObject {
 	 * This variable contains whether this Mazub wants to stop ducking.
 	 */
 	private boolean wantToStopDucking;
-	
-	/**
-	 * Returns the current value of the timer.
-	 */
-	@Basic
-	private double getSpriteTimer() {
-		return spriteTimer;
-	}
-
-	/**
-	 * Sets the timer at the given value.
-	 * @param 	time
-	 * 		  	The new time for this timer.
-	 * @post	The timer of this Mazub is equal to the given time.
-	 * 			| new.getTimer() == time
-	 */
-	private void setSpriteTimer(double time) {
-		this.spriteTimer = time;
-	}
-	
-	/**
-	 * Adds the timer with a given value.
-	 * @param 	time
-	 * 		  	the time that needs to be added to the timer
-	 * @post	if the current value of the timer plus time is less or equal to Double.MAX_VALUE
-	 * 				the new timer will equal the current timer plus the given time
-	 * 			| new.getTimer() == this.getTimer() + time
-	 * @post	if the current value of the timer plus time is greater than Double.MAX_VALUE
-	 * 				the new timer will equal zero
-	 * 			| new.getTimer() == 0
-	 */
-	private void addToTimer(double time) {
-		setSpriteTimer(getSpriteTimer()+time);
-	}
-
-	/**
-	 * This variable contains the current time for this Mazub.
-	 */
-	private double spriteTimer;
 		
 	/**
 	 * Return the amount of sprites available for a movement to the left or right

@@ -721,6 +721,11 @@ public class Shark extends GameObject {
 		return 4;
 	}
 
+	@Override
+	protected boolean isDucking() {
+		return false;
+	}
+
 	
 	
 	

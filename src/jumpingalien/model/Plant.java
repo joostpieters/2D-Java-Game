@@ -319,4 +319,9 @@ public class Plant extends GameObject {
 		return 0.5;
 	}
 
+	@Override
+	protected boolean isDucking() {
+		return false;
+	}
+
 }
