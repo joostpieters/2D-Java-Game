@@ -49,7 +49,9 @@ public class Shark extends GameObject {
 	public Shark (int x, int y, Sprite[] sprites, Program program) throws IllegalArgumentException {
 		super(x, y, sprites, program);
 		setHitPoints(100);
-		setMovementCounter(4);
+		if(!hasAProgram()){
+			setMovementCounter(4);
+		}
 		setInMagmaTimer(0.2);
 	}
 	
@@ -239,15 +241,19 @@ public class Shark extends GameObject {
 		if(!isInWater()){
 			setAccelerationY(-10);
 		}
-		setMovementTime(getMovementTime()-dt);
+		if(getProgram() == null){
+			setMovementTime(getMovementTime()-dt);
+		}
 		if(isBottomPerimeterInSolidGround() && !isInWater()){
 			setAccelerationY(0);
 			setVelocityY(0);
 			setVelocityX(0);
 			setMovement(null);
 		}
-		if(getMovementTime() <= 0){
-			newMovement();
+		if(getProgram() == null){
+			if(getMovementTime() <= 0){
+				newMovement();
+			}
 		}
 		if(!isInWater()){
 			setAccelerationY(-10);

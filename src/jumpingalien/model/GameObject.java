@@ -750,6 +750,13 @@ public abstract class GameObject implements CollisionDetect {
 	}
 	
 	/**
+	 * Returns whether this Game Object has a program or not
+	 */
+	protected boolean hasAProgram() {
+		return (getProgram() != null);
+	}
+	
+	/**
 	 * 
 	 * @param 	direction
 	 * 			the direction in which this Mazub needs to start moving

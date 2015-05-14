@@ -1,7 +1,10 @@
 package jumpingalien.part3.programs.statements;
 
+import jumpingalien.model.GameObject;
+import jumpingalien.model.Motion;
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.IProgramFactory.Direction;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 
@@ -24,8 +27,19 @@ public class StartRun extends Statement {
 
 	@Override
 	public void run(Program program) {
-		// TODO Auto-generated method stub
-		
+		if(program.getObject() instanceof GameObject && direction.getValue(program) instanceof jumpingalien.part3.programs.IProgramFactory.Direction){
+			//TODO enkel links en rechts ok ?
+			if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT) {
+				 ((GameObject) program.getObject()).startMove(Motion.LEFT);
+			} else if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT) {
+				((GameObject) program.getObject()).startMove(Motion.RIGHT);
+			} else {
+				// TODO miss beter acception
+				assert(false);
+			}
+		} else {
+			assert(false);
+		}
 	}
 
 }

@@ -8,6 +8,7 @@ import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.Type;
 
+//TODO getters en setters !
 public class Assignment extends Statement {
 
 	public Assignment(String variableName, Type variableType, Expression value, SourceLocation sourceLocation) {
