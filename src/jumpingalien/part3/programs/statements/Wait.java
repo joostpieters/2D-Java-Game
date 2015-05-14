@@ -37,7 +37,7 @@ public class Wait extends Statement {
 			}
 			if(getDuration().getValue(program) instanceof Double){
 				if(getTimeWait() == 0){
-					setTimeWait((int) getDuration().getValue(program));
+					setTimeWait((int)(double) getDuration().getValue(program));
 				}
 				while(getTimeWait() > 0 && program.getLinesToRun() > 0){
 					program.lowerLinesToRun();

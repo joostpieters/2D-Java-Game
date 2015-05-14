@@ -44,6 +44,7 @@ public class Program {
 		setLinesToRun(i);
 		getMainStatement().run(this);
 		if(getLinesToRun() > 0){
+			initialiseVariables();
 			run(getLinesToRun());
 		}
 	}
