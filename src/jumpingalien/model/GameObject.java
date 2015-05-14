@@ -1118,29 +1118,30 @@ public abstract class GameObject implements CollisionDetect {
 	 * 
 	 * @param 	velocityX
 	 * 			The new velocityX for this Mazub
-	 * @pre		 if velocity X is greater than zero, the given velocityX needs to be bigger or equal to 
-	 * 				the initial horizontal velocity and smaller or equal to 
-	 * 				the maximum horizontal velocity of this Mazub
-	 * 			| if velocityX > 0 then
-	 * 			| velocityX >= getInitialHorizontalVelocity() 
-	 * 					&& velocityX <= getMaximumHorizontalVelocity()
-	 * @pre		 if velocity X is less than zero, the given velocityX needs to be smaller or equal to 
-	 * 				the negative of the initial horizontal velocity and bigger or equal to 
-	 * 				the negative of the maximum horizontal velocity of this Mazub
-	 * 			| if velocityX < 0 then
-	 * 				velocityX <= -getInitialHorizontalVelocity() 
-	 * 					&& velocityX >= -getMaximumHorizontalVelocity()
-	 * @pre		if velocityX equals zero, there are no further restrictions
-	 * 			|if velocityX == 0 then
-	 * 			| velocityX == 0
+	 * @pre		the given velocity needs to be valid
+	 * 			| isValidVelocityX(velocityX)
 	 * @post 	The velocityX of this Mazub is equal to the given velocityX
 	 * 			| new.getvelocityX() == velocityX
 	 */
 	protected void setVelocityX(double velocityX) {
-		assert(((velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) 
-				|| (velocityX == 0) || ((velocityX >= -getMaximumHorizontalVelocity()) 
-						&& (velocityX <= -getInitialHorizontalVelocity())));
+		assert(isValidVelocityX(velocityX));
 		this.velocityX = velocityX;
+	}
+	
+	/**
+	 * 
+	 * @param velocityX
+	 * @return	the given velocity needs te be between the maximum horizontal velocity and the initial horizontal velocity, 
+	 * 				or needs to be zero,
+	 * 				or needs to be between minus the maximum horizontal velocity and minus the initial horizontal velocity
+	 * 			| result == ((velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) 
+	 *			|		|| (velocityX == 0) || ((velocityX >= -getMaximumHorizontalVelocity()) 
+	 *			|		&& (velocityX <= -getInitialHorizontalVelocity()))
+	 */
+	protected boolean isValidVelocityX(double velocityX) {
+		return ((velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) 
+		|| (velocityX == 0) || ((velocityX >= -getMaximumHorizontalVelocity()) 
+				&& (velocityX <= -getInitialHorizontalVelocity()));
 	}
 	
 	/**

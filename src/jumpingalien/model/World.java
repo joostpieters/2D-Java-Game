@@ -541,7 +541,7 @@ public class World  {
 	 * 			|result == (x <= getWorldSizeInPixels()[0]) && (y <= getWorldSizeInPixels()[1] && x > 0 && y > 0)
 	 */
 	private boolean isValidPixel(int x, int y){
-		return (x <= getWorldSizeInPixels()[0]) && (y <= getWorldSizeInPixels()[1] && x > 0 && y > 0);
+		return (x >= 0) && (y >= 0) && (x <= getWorldSizeInPixels()[0]) && (y <= getWorldSizeInPixels()[1]);
 	}
 	
 	/**

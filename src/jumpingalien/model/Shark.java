@@ -377,7 +377,13 @@ public class Shark extends GameObject {
 	 * 
 	 */
 	private void updateVelocity(double dt){
-		setVelocityX(getVelocityX() + getActualAccelerationX()*dt);
+		if (getVelocityX() + getActualAccelerationX()*dt < -getMaximumHorizontalVelocity()) {
+			setVelocityX(-getMaximumHorizontalVelocity());
+		} else if (getVelocityX() + getActualAccelerationX()*dt > getMaximumHorizontalVelocity()) {
+			setVelocityX(getMaximumHorizontalVelocity());
+		} else {
+			setVelocityX(getVelocityX() + getActualAccelerationX()*dt);
+		}
 		setVelocityY(getVelocityY() + getAccelerationY()*dt);
 		if(isOnGameObject())
 			setVelocityY(0);
