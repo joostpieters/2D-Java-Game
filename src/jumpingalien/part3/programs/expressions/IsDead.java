@@ -21,7 +21,7 @@ public class IsDead extends Expression {
 	@Override
 	public java.lang.Object getValue(Program program) {
 		if(expression.getValue(program) instanceof GameObject){
-			return ((GameObject) expression.getValue(program)).isDead();
+			return ((GameObject) getExpression().getValue(program)).isDead();
 		}
 		return false;
 	}
