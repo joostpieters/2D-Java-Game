@@ -20,9 +20,20 @@ public class Sequence extends Statement {
 
 	@Override
 	public void runStatement(Program program) {
-		for(Statement statement : statements){
-			if(program.getLinesToRun() > 0) {
-				statement.run(program);
+		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
+			if(program.getSourceLocation() == this.getSourceLocation()){
+				program.setSourceLocation(null);
+			}
+			for(Statement statement : statements){
+				if(program.getLinesToRun() > 0) {
+					statement.run(program);
+				}
+			}
+		} else if(program.getLinesToRun() > 0) {
+			for(Statement statement : statements){
+				if(program.getLinesToRun() > 0) {
+					statement.run(program);
+				}
 			}
 		}
 	}

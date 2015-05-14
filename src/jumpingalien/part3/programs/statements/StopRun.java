@@ -23,19 +23,24 @@ public class StopRun extends Statement {
 
 	@Override
 	public void runStatement(Program program) {
-		program.lowerLinesToRun();
-		if(program.getObject() instanceof GameObject && (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT || direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT)){
-			//TODO enkel links en rechts ok ?
-			if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT) {
-				 ((GameObject) program.getObject()).endMove(Motion.LEFT);
-			} else if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT) {
-				((GameObject) program.getObject()).endMove(Motion.RIGHT);
+		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
+			if(program.getSourceLocation() == this.getSourceLocation()){
+				program.setSourceLocation(null);
+			}
+			program.lowerLinesToRun();
+			if(program.getObject() instanceof GameObject && (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT || direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT)){
+				//TODO enkel links en rechts ok ?
+				if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT) {
+					 ((GameObject) program.getObject()).endMove(Motion.LEFT);
+				} else if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT) {
+					((GameObject) program.getObject()).endMove(Motion.RIGHT);
+				} else {
+					// TODO miss beter acception
+					assert(false);
+				}
 			} else {
-				// TODO miss beter acception
 				assert(false);
 			}
-		} else {
-			assert(false);
 		}
 	}
 

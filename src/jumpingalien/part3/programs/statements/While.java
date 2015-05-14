@@ -18,11 +18,25 @@ public class While extends Statement {
 	
 	@Override
 	public void runStatement(Program program) {
-		program.lowerLinesToRun();
-		while((boolean) condition.getValue(program) && program.getLinesToRun() > 0){
-			body.run(program);
+		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
+			if(program.getSourceLocation() == this.getSourceLocation()){
+				program.setSourceLocation(null);
+			}
 			program.lowerLinesToRun();
-		}		
+			while((boolean) condition.getValue(program) && program.getLinesToRun() > 0){
+				body.run(program);
+				program.lowerLinesToRun();
+			}
+		} else {
+			body.run(program);
+			if(program.getSourceLocation() == null){
+				program.lowerLinesToRun();
+				while((boolean) condition.getValue(program) && program.getLinesToRun() > 0){
+					body.run(program);
+					program.lowerLinesToRun();
+				}
+			}
+		}
 	}
 
 

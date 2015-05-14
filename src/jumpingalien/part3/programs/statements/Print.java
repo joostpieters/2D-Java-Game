@@ -19,8 +19,13 @@ public class Print extends Statement {
 
 	@Override
 	public void runStatement(Program program) {
-		program.lowerLinesToRun();
-		System.out.println(value.getValue(program));
+		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
+			if(program.getSourceLocation() == this.getSourceLocation()){
+				program.setSourceLocation(null);
+			}
+			program.lowerLinesToRun();
+			System.out.println(value.getValue(program));
+		}
 	}
 
 }

@@ -24,7 +24,12 @@ public class Assignment extends Statement {
 
 	@Override
 	public void runStatement(Program program) {
-		program.lowerLinesToRun();
-		program.getDeclarationVariables().put(variableName, value.getValue(program));
+		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
+			if(program.getSourceLocation() == this.getSourceLocation()){
+				program.setSourceLocation(null);
+			}
+			program.lowerLinesToRun();
+			program.getDeclarationVariables().put(variableName, value.getValue(program));
+		}
 	}
 }

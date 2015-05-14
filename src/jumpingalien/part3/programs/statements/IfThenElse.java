@@ -19,11 +19,21 @@ public class IfThenElse extends Statement {
 	
 	@Override
 	public void runStatement(Program program) {
-		program.lowerLinesToRun();
-		if((boolean) getCondition().getValue(program)){
+		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
+			if(program.getSourceLocation() == this.getSourceLocation()){
+				setSourceLocation(null);
+			}
+			program.lowerLinesToRun();
+			if((boolean) getCondition().getValue(program)){
+				getIfBody().run(program);
+			} else if(getElseBody() != null) {
+				getElseBody().run(program);
+			}
+		} else if(program.getLinesToRun() > 0){
 			getIfBody().run(program);
-		} else if(getElseBody() != null) {
-			getElseBody().run(program);
+			if(program.getSourceLocation() != null && program.getLinesToRun() > 0) {
+				getElseBody().run(program);
+			}
 		}
 		
 	}

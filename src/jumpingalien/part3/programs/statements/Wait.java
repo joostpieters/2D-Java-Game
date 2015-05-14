@@ -31,20 +31,25 @@ public class Wait extends Statement {
 
 	@Override
 	public void runStatement(Program program) {
-		if(getDuration().getValue(program) instanceof Double){
-			if(getTimeWait() == 0){
-				setTimeWait((int) getDuration().getValue(program));
+		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
+			if(program.getSourceLocation() == this.getSourceLocation()){
+				program.setSourceLocation(null);
 			}
-			while(getTimeWait() > 0 && program.getLinesToRun() > 0){
-				program.lowerLinesToRun();
-				setTimeWait(getTimeWait()-1);
+			if(getDuration().getValue(program) instanceof Double){
+				if(getTimeWait() == 0){
+					setTimeWait((int) getDuration().getValue(program));
+				}
+				while(getTimeWait() > 0 && program.getLinesToRun() > 0){
+					program.lowerLinesToRun();
+					setTimeWait(getTimeWait()-1);
+				}
+				if(program.getLinesToRun() == 0){
+					program.setSourceLocation(getSourceLocation());
+				}
+			} else {
+				assert(false);
+				//TODO error ? expection ?
 			}
-			if(program.getLinesToRun() == 0){
-				program.setSourceLocation(getSourceLocation());
-			}
-		} else {
-			assert(false);
-			//TODO error ? expection ?
 		}
 	}
 
