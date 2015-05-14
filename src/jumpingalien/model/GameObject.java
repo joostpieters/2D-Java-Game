@@ -788,6 +788,7 @@ public abstract class GameObject implements CollisionDetect {
 			setRightKeyPressed(true);
 			setVelocityX(getInitialHorizontalVelocity());
 			setAccelerationX(getInitialHorizontalAcceleration());
+			setMovement(direction);
 		} else if (direction == Motion.LEFT){
 			assert(!isLeftKeyPressed());
 			setLeftKeyPressed(true);
@@ -1147,6 +1148,32 @@ public abstract class GameObject implements CollisionDetect {
 	 * This variable contains the current horizontal velocity of this Mazub
 	 */
 	private double velocityX;
+	
+	/**
+	 * 
+	 * @return 	...
+	 * 			|result == this.movement
+	 */
+	protected Motion getMovement() {
+		return movement;
+	}
+
+	/**
+	 * 
+	 * @param 	movement
+	 * 			...
+	 * @post 	...
+	 * 			| new.getMovement() = movement
+	 */
+	@Basic
+	protected void setMovement(Motion movement) {
+		this.movement = movement;
+	} 
+	
+	/**
+	 * This variable contains the current movement for this gameObject
+	 */
+	private Motion movement;
 	
 	
 	/**

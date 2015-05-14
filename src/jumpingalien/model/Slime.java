@@ -276,13 +276,13 @@ public class Slime extends GameObject {
 	/**
 	 * Returns whether this Slime is moving left or not.
 	 * @return 	true when the movement direction is LEFT
-	 * 			| if getMovementDirection() == Direction.LEFT then
+	 * 			| if getMovement() == Direction.LEFT then
 	 * 			|	return true
 	 * 			| else then
 	 * 			| 	return false
 	 */
 	protected boolean isMovingLeft() {
-		if (this.getMovementDirection() == Motion.LEFT) {
+		if (this.getMovement() == Motion.LEFT) {
 			return true;
 		} else {
 			return false;
@@ -506,10 +506,10 @@ public class Slime extends GameObject {
 	/**
 	 * @effect	...
 	 * 			| switch ((int)(Math.random()*2)) {
-	 * 			| 	case 0:	setMovementDirection(Direction.LEFT)
+	 * 			| 	case 0:	setMovement(Direction.LEFT)
 	 * 			|			setCurrentSpriteIndex(0)
 	 * 			|			break
-	 * 			|	case 1: setMovementDirection(Direction.RIGHT)
+	 * 			|	case 1: setMovement(Direction.RIGHT)
 	 * 			|			setCurrentSpriteIndex(1)
 	 * 			|			break
 	 * @effect	...
@@ -522,10 +522,10 @@ public class Slime extends GameObject {
 	private void newMovement(){
 		int random = (int)(Math.random()*2);
 		switch (random){
-			case 0: setMovementDirection(Motion.LEFT);
+			case 0: setMovement(Motion.LEFT);
 					setCurrentSpriteIndex(0);
 					break;
-			case 1: setMovementDirection(Motion.RIGHT);
+			case 1: setMovement(Motion.RIGHT);
 					setCurrentSpriteIndex(1);
 					break;
 		}
@@ -536,26 +536,6 @@ public class Slime extends GameObject {
 		
 		setMovementTime(time);
 	}
-	
-	@Basic
-	private Motion getMovementDirection() {
-		return this.movementDirection;
-	}
-	
-	/**
-	 * 
-	 * @param direction
-	 * @post	...
-	 * 			| new.getMovementDirection() == direction
-	 */
-	private void setMovementDirection(Motion direction) {
-		this.movementDirection = direction;
-	}
-	
-	/**
-	 * This variable contains the current movement Direction for this slime
-	 */
-	private Motion movementDirection;
 		
 	/**
 	 * 
@@ -712,14 +692,14 @@ public class Slime extends GameObject {
 
 	/**
 	 * @return	...
-	 * 			| if (getMovementDirection() == Direction.LEFT) then
+	 * 			| if (getMovement() == Direction.LEFT) then
 	 * 			|	result == getAccelerationX()*(-1)
 	 * 			| else then
 	 * 			| 	result == getAccelerationX()
 	 */
 	@Override
 	double getActualAccelerationX() {
-		if (getMovementDirection() == Motion.LEFT) {
+		if (getMovement() == Motion.LEFT) {
 			return getAccelerationX()*(-1);
 		} else {
 			return getAccelerationX();

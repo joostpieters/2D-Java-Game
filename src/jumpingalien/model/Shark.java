@@ -190,6 +190,11 @@ public class Shark extends GameObject {
 			} else {
 				setNotInWaterTimer(0);
 			}
+			if(hasAProgram()){
+				double amountStatements = dt/0.001;
+				amountStatements = Math.ceil(amountStatements);
+				getProgram().run((int)amountStatements);
+			}
 			updateLocationAndVelocity(dt);
 			if(getNotInWaterTimer() >= 0.2){
 				setNotInWaterTimer(getNotInWaterTimer() - 0.2);
@@ -241,7 +246,7 @@ public class Shark extends GameObject {
 		if(!isInWater()){
 			setAccelerationY(-10);
 		}
-		if(getProgram() == null){
+		if(!hasAProgram()){
 			setMovementTime(getMovementTime()-dt);
 		}
 		if(isBottomPerimeterInSolidGround() && !isInWater()){
@@ -250,7 +255,7 @@ public class Shark extends GameObject {
 			setVelocityX(0);
 			setMovement(null);
 		}
-		if(getProgram() == null){
+		if(!hasAProgram()){
 			if(getMovementTime() <= 0){
 				newMovement();
 			}
@@ -521,34 +526,6 @@ public class Shark extends GameObject {
 	 * This variable contains the time that the current movement will last
 	 */
 	private double movementTime;
-		
-	
-
-	/**
-	 * 
-	 * @return 	...
-	 * 			|result == this.movement
-	 */
-	private Motion getMovement() {
-		return movement;
-	}
-
-	/**
-	 * 
-	 * @param 	movement
-	 * 			...
-	 * @post 	...
-	 * 			| new.getMovement() = movement
-	 */
-	@Basic
-	private void setMovement(Motion movement) {
-		this.movement = movement;
-	} 
-	
-	/**
-	 * This variable contains the current movement for this shark
-	 */
-	private Motion movement;
 	
 	/**
 	 * 
