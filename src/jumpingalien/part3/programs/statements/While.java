@@ -36,7 +36,7 @@ public class While extends Statement {
 			}
 		} else {
 			body.run(program);
-			if(program.getSourceLocation() != null && program.getLinesToRun() > 0){
+			if(program.getSourceLocation() == null && program.getLinesToRun() > 0){
 				program.lowerLinesToRun();
 				while((boolean) condition.getValue(program)){
 					body.run(program);
