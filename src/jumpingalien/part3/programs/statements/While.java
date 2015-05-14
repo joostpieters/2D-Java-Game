@@ -25,18 +25,29 @@ public class While extends Statement {
 			program.lowerLinesToRun();
 			while((boolean) condition.getValue(program)){
 				body.run(program);
-				program.lowerLinesToRun();
-			}
-			if (program.getSourceLocation() == null && program.getLinesToRun() == 0)  {
-				setSourceLocation(this.getSourceLocation());
+				if(program.getLinesToRun() > 0){
+					program.lowerLinesToRun();
+				} else if(program.getSourceLocation() == null){
+					program.setSourceLocation(this.getSourceLocation());
+					break;
+				} else {
+					break;
+				}
 			}
 		} else {
 			body.run(program);
-			if(program.getSourceLocation() == null && program.getLinesToRun() > 0){
+			if(program.getSourceLocation() != null && program.getLinesToRun() > 0){
 				program.lowerLinesToRun();
 				while((boolean) condition.getValue(program)){
 					body.run(program);
-					program.lowerLinesToRun();
+					if(program.getLinesToRun() > 0){
+						program.lowerLinesToRun();
+					} else if(program.getSourceLocation() == null){
+						program.setSourceLocation(this.getSourceLocation());
+						break;
+					} else {
+						break;
+					}
 				}
 			} else if (program.getLinesToRun() == 0 && program.getSourceLocation() == null) {
 				setSourceLocation(this.getSourceLocation());
