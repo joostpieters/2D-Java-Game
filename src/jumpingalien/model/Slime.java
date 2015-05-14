@@ -234,7 +234,7 @@ public class Slime extends GameObject {
 	
 	
 	@Basic @Override
-	protected double getVelocityX() {
+	public double getVelocityX() {
 		return this.velocityX;
 	}
 	
@@ -254,7 +254,7 @@ public class Slime extends GameObject {
 	private double velocityX;
 	
 	@Basic @Override
-	protected double getVelocityY() {
+	public double getVelocityY() {
 		return this.velocityY;
 	}
 	

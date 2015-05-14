@@ -83,7 +83,7 @@ public class Shark extends GameObject {
 	 * 			|result == this.velocityX
 	 */
 	@Override
-	protected double getVelocityX() {
+	public double getVelocityX() {
 		return velocityX;
 	}
 
@@ -122,7 +122,7 @@ public class Shark extends GameObject {
 	 * 			| result == this.velocityX
 	 */
 	@Override
-	protected double getVelocityY() {
+	public double getVelocityY() {
 		return velocityY;
 	}
 

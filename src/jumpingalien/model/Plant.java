@@ -99,7 +99,7 @@ public class Plant extends GameObject {
 	 * @return the horizontalVelocity
 	 */
 	@Basic
-	protected double getVelocityX() {
+	public double getVelocityX() {
 		return velocityX;
 	}
 
@@ -289,7 +289,7 @@ public class Plant extends GameObject {
 	 * 			| result == 0
 	 */
 	@Override
-	protected double getVelocityY() {
+	public double getVelocityY() {
 		return 0;
 	}
 
