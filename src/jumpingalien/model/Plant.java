@@ -33,6 +33,7 @@ public class Plant extends GameObject {
 		super(x, y, sprites);
 		setCurrentSpriteIndex(0);
 		setVelocityX(-0.5);
+		setAccelerationX(0);
 	}
 	
 	/**
@@ -108,7 +109,7 @@ public class Plant extends GameObject {
 	 *            the horizontalVelocity to set
 	 * @post ... | new.getHorizontalVelocity() == horizontalVelocity
 	 */
-	private void setVelocityX(double horizontalVelocity) {
+	protected void setVelocityX(double horizontalVelocity) {
 		this.velocityX = horizontalVelocity;
 	}
 
@@ -292,16 +293,7 @@ public class Plant extends GameObject {
 	public double getVelocityY() {
 		return 0;
 	}
-
-	/**
-	 * @return 	...
-	 * 			| result == 0
-	 */
-	@Override
-	protected double getAccelerationX() {
-		return 0;
-	}
-
+	
 	/**
 	 * @return ...
 	 * 			|result == 0
@@ -309,6 +301,22 @@ public class Plant extends GameObject {
 	@Override
 	double getActualAccelerationX() {
 		return 0;
+	}
+
+
+	@Override
+	protected double getInitialHorizontalAcceleration() {
+		return 0;
+	}
+
+	@Override
+	protected double getInitialHorizontalVelocity() {
+		return -0.5;
+	}
+
+	@Override
+	protected double getMaximumHorizontalVelocity() {
+		return 0.5;
 	}
 
 }

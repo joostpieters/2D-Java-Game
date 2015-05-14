@@ -750,6 +750,183 @@ public abstract class GameObject implements CollisionDetect {
 	}
 	
 	/**
+	 * 
+	 * @param 	direction
+	 * 			the direction in which this Mazub needs to start moving
+	 * @pre		The given direction needs to be RIGHT or LEFT
+	 * 			|direction == Direction.RIGHT || direction == Direction.LEFT
+	 * @pre		If the direction is RIGHT, the rightkey can not be pressed already
+	 * 			|if (direction == Direction.RIGHT) then
+	 * 			|	!isRightKeyPressed()
+	 * @pre		If the direction is LEFT, the leftkey can not be pressed already
+	 * 			|if (direction == Direction.LEFT) then
+	 * 			|	!isLeftKeyPressed() 
+	 * @effect 	if the given direction is RIGHT, the horizontal velocity will be set to the 
+	 * 				initial horizontal velocity
+	 * 				and the acceleration will be equal to the initial horizontal acceleration
+	 * 			|if (direction == Direction.RIGHT) then
+	 * 			|	setVelocityX(getInitialHorizontalVelocity())
+				|	setAccelerationX(getInitialHorizontalAcceleration())
+	 * @effect 	if the given direction is LEFT, the horizontal velocity will be set to 
+	 * 				the negative of the initial horizontal velocity
+	 * 				and the acceleration will be set to the initial horizontal acceleration
+	 * 			|if (direction == Direction.LEFT) then
+	 * 			|	setVelocityX(getInitialHorizontalVelocity()*(-1))
+	 * 			|	setAccelerationX(getInitialHorizontalAcceleration())				
+	 */
+	public void startMove(Motion direction) {
+		assert(direction == Motion.RIGHT || direction == Motion.LEFT);
+		if (direction == Motion.RIGHT) {
+			assert(!isRightKeyPressed());
+			setRightKeyPressed(true);
+			setVelocityX(getInitialHorizontalVelocity());
+			setAccelerationX(getInitialHorizontalAcceleration());
+		} else if (direction == Motion.LEFT){
+			assert(!isLeftKeyPressed());
+			setLeftKeyPressed(true);
+			setVelocityX(getInitialHorizontalVelocity()*-1);
+			setAccelerationX(getInitialHorizontalAcceleration());
+		}
+	}
+	
+	/**
+	 * Return accelerationX of this Game Object
+	 * 	accelerationX expresses the current horizontal acceleration of this Mazub
+	 */
+	@Basic
+	public double getAccelerationX() {
+		return accelerationX;
+	}
+
+	/**
+	 * 
+	 * @param 	accelerationX
+	 * 			the new accelerationX for this Game Object
+	 * @post 	if the given accelerationX is bigger or equal to zero, 
+	 * 				the accelerationX of this Game Object is equal to the given accelerationX
+	 * 			|if (accelerationX >= 0)
+	 * 			|	new.getAcceleration() == accelerationX
+	 * @post 	if the given accelerationX is lower than zero, 
+	 * 				the accelerationX of this Mazub is equal to zero
+	 * 			|if (accelerationX < 0)
+	 * 			|	new.getAcceleration() == 0
+	 */
+	protected void setAccelerationX(double accelerationX) {
+		if (accelerationX < 0 )
+				accelerationX = 0;
+		this.accelerationX = accelerationX;
+	}
+	
+	/**
+	 * this variable contains the current horizontal acceleration for this Mazub
+	 */	
+	private double accelerationX;
+
+	/**
+	 * The initial horizontal acceleration for this object
+	 */
+	protected abstract double getInitialHorizontalAcceleration();
+
+	/**
+	 * The initial horizontal velocity for this object
+	 */
+	protected abstract double getInitialHorizontalVelocity();
+
+	/**
+	 * Returns whether the right key is pressed or not
+	 */
+	protected boolean isRightKeyPressed() {
+		return isRightKeyPressed;
+	}
+
+	/**
+	 * @param isRightKeyPressed
+	 * 			the current pressed status of the right key
+	 * @post 	isRightKeyPressed will equal the given value
+	 * 			|new.isRightKeyPressed() == isRightKeyPressed
+	 */
+	protected void setRightKeyPressed(boolean isRightKeyPressed) {
+		this.isRightKeyPressed = isRightKeyPressed;
+	}
+
+	/**
+	 * This variable contains the current pressed status of the right key
+	 */
+	private boolean isRightKeyPressed;
+
+	/**
+	 * Returns whether the left key is pressed or not
+	 */
+	protected boolean isLeftKeyPressed() {
+		return isLeftKeyPressed;
+	}
+
+	/**
+	 * @param isLeftKeyPressed
+	 * 			the current pressed status of the left key
+	 * @post 	isLeftKeyPressed will equal the given value
+	 * 			|new.isLeftKeyPressed() == isLeftKeyPressed
+	 */
+	protected void setLeftKeyPressed(boolean isLeftKeyPressed) {
+		this.isLeftKeyPressed = isLeftKeyPressed;
+	}
+
+	/**
+	 * This variable contains the current pressed status of the left key
+	 */
+	private boolean isLeftKeyPressed;
+	
+	/**
+	 * Return velocityX of this Mazub
+	 * 	velocityX expresses the current horizontal velocity of this Mazub
+	 */
+	@Basic 
+	public double getVelocityX() {
+		return this.velocityX;
+	}
+	
+	/**
+	 * Set velocityX of this Game Object to a given value
+	 * 
+	 * @param 	velocityX
+	 * 			The new velocityX for this Mazub
+	 * @pre		 if velocity X is greater than zero, the given velocityX needs to be bigger or equal to 
+	 * 				the initial horizontal velocity and smaller or equal to 
+	 * 				the maximum horizontal velocity of this Mazub
+	 * 			| if velocityX > 0 then
+	 * 			| velocityX >= getInitialHorizontalVelocity() 
+	 * 					&& velocityX <= getMaximumHorizontalVelocity()
+	 * @pre		 if velocity X is less than zero, the given velocityX needs to be smaller or equal to 
+	 * 				the negative of the initial horizontal velocity and bigger or equal to 
+	 * 				the negative of the maximum horizontal velocity of this Mazub
+	 * 			| if velocityX < 0 then
+	 * 				velocityX <= -getInitialHorizontalVelocity() 
+	 * 					&& velocityX >= -getMaximumHorizontalVelocity()
+	 * @pre		if velocityX equals zero, there are no further restrictions
+	 * 			|if velocityX == 0 then
+	 * 			| velocityX == 0
+	 * @post 	The velocityX of this Mazub is equal to the given velocityX
+	 * 			| new.getvelocityX() == velocityX
+	 */
+	protected void setVelocityX(double velocityX) {
+		assert(((velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) 
+				|| (velocityX == 0) || ((velocityX >= -getMaximumHorizontalVelocity()) 
+						&& (velocityX <= -getInitialHorizontalVelocity())));
+		this.velocityX = velocityX;
+	}
+	
+	/**
+	 * The maximum horizontal velocity for this object
+	 */
+	protected abstract double getMaximumHorizontalVelocity();
+
+	/**
+	 * This variable contains the current horizontal velocity of this Mazub
+	 */
+	private double velocityX;
+	
+	
+	/**
 	 * This variable holds the program of this Game Object
 	 */
 	private final Program program;
@@ -766,14 +943,4 @@ public abstract class GameObject implements CollisionDetect {
 	 * @return The vertical velocity for this game object
 	 */
 	public abstract double getVelocityY();
-
-	/**
-	 * @return The horizontal acceleration for this game object
-	 */
-	protected abstract double getAccelerationX();
-
-	/**
-	 * @return The horizontal velocity for this game object
-	 */
-	public abstract double getVelocityX();
 }

@@ -131,49 +131,7 @@ public class Mazub extends GameObject {
 		return 100;
 	}
 	
-	/**
-	 * Return velocityX of this Mazub
-	 * 	velocityX expresses the current horizontal velocity of this Mazub
-	 */
-	@Basic @Override
-	public double getVelocityX() {
-		return this.velocityX;
-	}
 	
-	/**
-	 * Set velocityX of this Mazub to a given value
-	 * 
-	 * @param 	velocityX
-	 * 			The new velocityX for this Mazub
-	 * @pre		 if velocity X is greater than zero, the given velocityX needs to be bigger or equal to 
-	 * 				the initial horizontal velocity and smaller or equal to 
-	 * 				the maximum horizontal velocity of this Mazub
-	 * 			| if velocityX > 0 then
-	 * 			| velocityX >= getInitialHorizontalVelocity() 
-	 * 					&& velocityX <= getMaximumHorizontalVelocity()
-	 * @pre		 if velocity X is less than zero, the given velocityX needs to be smaller or equal to 
-	 * 				the negative of the initial horizontal velocity and bigger or equal to 
-	 * 				the negative of the maximum horizontal velocity of this Mazub
-	 * 			| if velocityX < 0 then
-	 * 				velocityX <= -getInitialHorizontalVelocity() 
-	 * 					&& velocityX >= -getMaximumHorizontalVelocity()
-	 * @pre		if velocityX equals zero, there are no further restrictions
-	 * 			|if velocityX == 0 then
-	 * 			| velocityX == 0
-	 * @post 	The velocityX of this Mazub is equal to the given velocityX
-	 * 			| new.getvelocityX() == velocityX
-	 */
-	private void setVelocityX(double velocityX) {
-		assert(((velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) 
-				|| (velocityX == 0) || ((velocityX >= -getMaximumHorizontalVelocity()) 
-						&& (velocityX <= -getInitialHorizontalVelocity())));
-		this.velocityX = velocityX;
-	}
-	
-	/**
-	 * This variable contains the current horizontal velocity of this Mazub
-	 */
-	private double velocityX;
 	
 	/**
 	 * Return the maximum Horizontal Velocity of this Mazub
@@ -183,7 +141,7 @@ public class Mazub extends GameObject {
 	 * 			| else then
 	 * 			|	return 3
 	 */
-	private double getMaximumHorizontalVelocity() {
+	protected double getMaximumHorizontalVelocity() {
 		if (this.isDucking()) {
 			return 1;
 		} else {
@@ -197,42 +155,11 @@ public class Mazub extends GameObject {
 	 * @note 	the initial velocity is always bigger or equal to one
 	 * 			| getInitialHorizontalVelocity() >= 1
 	 */
-	private final double getInitialHorizontalVelocity() {
+	protected final double getInitialHorizontalVelocity() {
 		return 1;
 	}
 	
-	/**
-	 * Return accelerationX of this Mazub
-	 * 	accelerationX expresses the current horizontal acceleration of this Mazub
-	 */
-	@Basic @Override
-	public double getAccelerationX() {
-		return accelerationX;
-	}
-
-	/**
-	 * 
-	 * @param 	accelerationX
-	 * 			the new accelerationX for this Mazub
-	 * @post 	if the given accelerationX is bigger or equal to zero, 
-	 * 				the accelerationX of this Mazub is equal to the given accelerationX
-	 * 			|if (accelerationX >= 0)
-	 * 			|	new.getAcceleration() == accelerationX
-	 * @post 	if the given accelerationX is lower than zero, 
-	 * 				the accelerationX of this Mazub is equal to zero
-	 * 			|if (accelerationX < 0)
-	 * 			|	new.getAcceleration() == 0
-	 */
-	private void setAccelerationX(double accelerationX) {
-		if (accelerationX < 0 )
-				accelerationX = 0;
-		this.accelerationX = accelerationX;
-	}
 	
-	/**
-	 * this variable contains the current horizontal acceleration for this Mazub
-	 */	
-	private double accelerationX;
 	
 	
 	/**
@@ -390,48 +317,7 @@ public class Mazub extends GameObject {
 				return this.getSpriteIndex() + 1;
 		}
 		return getSpriteIndex();
-	}	
-	
-	/**
-	 * 
-	 * @param 	direction
-	 * 			the direction in which this Mazub needs to start moving
-	 * @pre		The given direction needs to be RIGHT or LEFT
-	 * 			|direction == Direction.RIGHT || direction == Direction.LEFT
-	 * @pre		If the direction is RIGHT, the rightkey can not be pressed already
-	 * 			|if (direction == Direction.RIGHT) then
-	 * 			|	!isRightKeyPressed()
-	 * @pre		If the direction is LEFT, the leftkey can not be pressed already
-	 * 			|if (direction == Direction.LEFT) then
-	 * 			|	!isLeftKeyPressed() 
-	 * @effect 	if the given direction is RIGHT, the horizontal velocity will be set to the 
-	 * 				initial horizontal velocity
-	 * 				and the acceleration will be equal to the initial horizontal acceleration
-	 * 			|if (direction == Direction.RIGHT) then
-	 * 			|	setVelocityX(getInitialHorizontalVelocity())
-				|	setAccelerationX(getInitialHorizontalAcceleration())
-	 * @effect 	if the given direction is LEFT, the horizontal velocity will be set to 
-	 * 				the negative of the initial horizontal velocity
-	 * 				and the acceleration will be set to the initial horizontal acceleration
-	 * 			|if (direction == Direction.LEFT) then
-	 * 			|	setVelocityX(getInitialHorizontalVelocity()*(-1))
-	 * 			|	setAccelerationX(getInitialHorizontalAcceleration())				
-	 */
-	public void startMove(Motion direction) {
-		assert(direction == Motion.RIGHT || direction == Motion.LEFT);
-		if (direction == Motion.RIGHT) {
-			assert(!isRightKeyPressed());
-			setRightKeyPressed(true);
-			setVelocityX(getInitialHorizontalVelocity());
-			setAccelerationX(getInitialHorizontalAcceleration());
-		} else if (direction == Motion.LEFT){
-			assert(!isLeftKeyPressed());
-			setLeftKeyPressed(true);
-			setVelocityX(getInitialHorizontalVelocity()*-1);
-			setAccelerationX(getInitialHorizontalAcceleration());
-		}
 	}
-
 
 	/**
 	 * Let this Mazub jump
@@ -459,7 +345,7 @@ public class Mazub extends GameObject {
 	/**
 	 * Return the initial Horizontal acceleration of this Mazub
 	 */
-	private final double getInitialHorizontalAcceleration() {
+	protected final double getInitialHorizontalAcceleration() {
 		return 0.9;
 	}
 	
@@ -1310,50 +1196,6 @@ public class Mazub extends GameObject {
 			return getAccelerationX() * -1;
 		return  getAccelerationX();
 	}
-	
-	/**
-	 * Returns whether the right key is pressed or not
-	 */
-	private boolean isRightKeyPressed() {
-		return isRightKeyPressed;
-	}
-
-	/**
-	 * @param isRightKeyPressed
-	 * 			the current pressed status of the right key
-	 * @post 	isRightKeyPressed will equal the given value
-	 * 			|new.isRightKeyPressed() == isRightKeyPressed
-	 */
-	private void setRightKeyPressed(boolean isRightKeyPressed) {
-		this.isRightKeyPressed = isRightKeyPressed;
-	}
-
-	/**
-	 * This variable contains the current pressed status of the right key
-	 */
-	private boolean isRightKeyPressed;
-
-	/**
-	 * Returns whether the left key is pressed or not
-	 */
-	private boolean isLeftKeyPressed() {
-		return isLeftKeyPressed;
-	}
-
-	/**
-	 * @param isLeftKeyPressed
-	 * 			the current pressed status of the left key
-	 * @post 	isLeftKeyPressed will equal the given value
-	 * 			|new.isLeftKeyPressed() == isLeftKeyPressed
-	 */
-	private void setLeftKeyPressed(boolean isLeftKeyPressed) {
-		this.isLeftKeyPressed = isLeftKeyPressed;
-	}
-
-	/**
-	 * This variable contains the current pressed status of the left key
-	 */
-	private boolean isLeftKeyPressed;
 	
 	/**
 	 * Returns whether the up key is pressed or not

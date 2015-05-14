@@ -79,44 +79,6 @@ public class Shark extends GameObject {
 	}
 	
 	/**
-	 * @return 	...
-	 * 			|result == this.velocityX
-	 */
-	@Override
-	public double getVelocityX() {
-		return velocityX;
-	}
-
-	/**
-	 * 
-	 * @param 	velocityX
-	 * @post	...
-	 * 			|new.getVelocityX() == velocityX
-	 */
-	private void setVelocityX(double velocityX) {
-		if(velocityX > getMaximumVelocityX())
-			this.velocityX = getMaximumVelocityX();
-		else if(velocityX < -getMaximumVelocityX())
-			this.velocityX = -getMaximumVelocityX();
-		else
-			this.velocityX = velocityX;
-	}
-	
-	/**
-	 * 
-	 * @return 	...
-	 * 			| result == 4
-	 */
-	private static double getMaximumVelocityX(){
-		return 4;
-	}
-	
-	/**
-	 * This variable contains the horizontal velocity of this shark
-	 */
-	private double velocityX;
-	
-	/**
 	 * 
 	 * @return	...
 	 * 			| result == this.velocityX
@@ -148,7 +110,7 @@ public class Shark extends GameObject {
 	 * 			| result == getInitialHorizontalAcceleration()
 	 */
 	@Override
-	protected double getAccelerationX() {
+	public double getAccelerationX() {
 		if(getMovement() != null)
 			return getInitialHorizontalAcceleration();
 		else
@@ -161,7 +123,7 @@ public class Shark extends GameObject {
 	 * @return	...
 	 * 			| result == 1.5
 	 */
-	private static double getInitialHorizontalAcceleration(){
+	protected double getInitialHorizontalAcceleration(){
 		return 1.5;
 	}
 
@@ -746,6 +708,17 @@ public class Shark extends GameObject {
 	@Override
 	protected boolean isValidWorld(World world) {
 		return world != null && world.hasAsShark(this);
+	}
+
+	@Override
+	protected double getInitialHorizontalVelocity() {
+		// TODO is dit juist ??
+		return 0;
+	}
+
+	@Override
+	protected double getMaximumHorizontalVelocity() {
+		return 4;
 	}
 
 	

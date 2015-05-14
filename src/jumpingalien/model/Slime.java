@@ -232,27 +232,6 @@ public class Slime extends GameObject {
 	 */
 	private School school;
 	
-	
-	@Basic @Override
-	public double getVelocityX() {
-		return this.velocityX;
-	}
-	
-	/**
-	 * 
-	 * @param velocityX
-	 * @post	...
-	 * 			| new.getVelocityX() == velocityX
-	 */
-	private void setVelocityX(double velocityX) {
-		this.velocityX = velocityX;
-	}
-	
-	/**
-	 * This variable contains the current horizontal velocity of this Slime
-	 */
-	private double velocityX;
-	
 	@Basic @Override
 	public double getVelocityY() {
 		return this.velocityY;
@@ -272,35 +251,6 @@ public class Slime extends GameObject {
 	 * This variable contains the current vertical velocity of this Slime
 	 */
 	private double velocityY;
-	
-	@Basic @Override
-	protected double getAccelerationX() {
-		return accelerationX;
-	}
-	
-	/**
-	 * 
-	 * @param accelerationX
-	 * @post	...
-	 * 			| new.getAccelerationX() == accelerationX
-	 */
-	private void setAccelerationX(double accelerationX) {
-		this.accelerationX = accelerationX;
-	}
-	
-	/**
-	 * This variable contains the current horizontal acceleration
-	 */
-	private double accelerationX;
-	
-	/**
-	 * 
-	 * @return	...
-	 * 			| result == 0.7
-	 */
-	private static double getInitialAccelerationX() {
-		return 0.7;
-	}
 	
 	@Basic @Override
 	protected double getAccelerationY() {
@@ -417,7 +367,7 @@ public class Slime extends GameObject {
 	 * @return 	...
 	 * 			| result == 2.5
 	 */
-	private double getMaximumHorizontalVelocity() {
+	protected double getMaximumHorizontalVelocity() {
 		return 2.5;
 	}
 	
@@ -582,7 +532,7 @@ public class Slime extends GameObject {
 		double time = 2 + (int)(Math.random()*5);
 		
 		setVelocityX(0);
-		setAccelerationX(getInitialAccelerationX());
+		setAccelerationX(getInitialHorizontalAcceleration());
 		
 		setMovementTime(time);
 	}
@@ -774,5 +724,20 @@ public class Slime extends GameObject {
 		} else {
 			return getAccelerationX();
 		}
+	}
+
+	/**
+	 * @return 	...
+	 * 			| result == 0.7
+	 */
+	@Override
+	protected double getInitialHorizontalAcceleration() {
+		return 0.7;
+	}
+
+	@Override
+	protected double getInitialHorizontalVelocity() {
+		// TODO klopt dit ??
+		return 0;
 	}
 }
