@@ -25,11 +25,15 @@ public class Sequence extends Statement {
 				program.setSourceLocation(null);
 			}
 			for(Statement statement : statements){
-				statement.run(program);
+				if(!(program.getLinesToRun() == 0 && program.getSourceLocation() != null)){
+					statement.run(program);
+				}
 			}
 		} else if(program.getLinesToRun() > 0) {
 			for(Statement statement : statements){
-				statement.run(program);
+				if(!(program.getLinesToRun() == 0 && program.getSourceLocation() != null)){
+					statement.run(program);
+				}
 			}
 		}
 	}
