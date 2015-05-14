@@ -222,7 +222,7 @@ public abstract class GameObject implements CollisionDetect {
 	/**
 	 * This variable returns whether this Game Object is dead or not
 	 */
-	protected boolean isDead() {
+	public boolean isDead() {
 		return isDead;
 	}
 

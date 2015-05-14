@@ -274,7 +274,8 @@ public class World  {
 	/**
 	 * Returns the mazub of this world
 	 */
-	@Basic 
+	@Basic
+	public 
 	Mazub getMazub() {
 		return this.alien;
 	}

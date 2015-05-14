@@ -5,32 +5,9 @@ import java.util.Map;
 import java.util.Random;
 
 import jumpingalien.model.Program;
-import jumpingalien.part3.programs.expressions.Addition;
-import jumpingalien.part3.programs.expressions.Bool;
-import jumpingalien.part3.programs.expressions.Conjunction;
-import jumpingalien.part3.programs.expressions.Disjunction;
-import jumpingalien.part3.programs.expressions.Division;
-import jumpingalien.part3.programs.expressions.Direction;
+import jumpingalien.part3.programs.expressions.*;
 import jumpingalien.part3.programs.expressions.Double;
-import jumpingalien.part3.programs.expressions.Equals;
-import jumpingalien.part3.programs.expressions.GetHeight;
-import jumpingalien.part3.programs.expressions.GetHitPoints;
-import jumpingalien.part3.programs.expressions.GetTile;
-import jumpingalien.part3.programs.expressions.GetWidth;
-import jumpingalien.part3.programs.expressions.GetX;
-import jumpingalien.part3.programs.expressions.GetY;
-import jumpingalien.part3.programs.expressions.GreaterThan;
-import jumpingalien.part3.programs.expressions.GreaterThanOrEqual;
-import jumpingalien.part3.programs.expressions.LessThan;
-import jumpingalien.part3.programs.expressions.LessThanOrEqual;
-import jumpingalien.part3.programs.expressions.Multiplication;
-import jumpingalien.part3.programs.expressions.Negation;
-import jumpingalien.part3.programs.expressions.NotEquals;
 import jumpingalien.part3.programs.expressions.Object;
-import jumpingalien.part3.programs.expressions.RandomDouble;
-import jumpingalien.part3.programs.expressions.SquareRoot;
-import jumpingalien.part3.programs.expressions.Substraction;
-import jumpingalien.part3.programs.expressions.Variable;
 import jumpingalien.part3.programs.statements.Assignment;
 import jumpingalien.part3.programs.statements.Break;
 import jumpingalien.part3.programs.statements.IfThenElse;
@@ -209,38 +186,32 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	}
 
 	@Override
-	public Expression createIsMazub(Expression expr,
-			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression createIsMazub(Expression expr, SourceLocation sourceLocation) {
+		return new IsMazub(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsShark(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsShark(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsSlime(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsSlime(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsPlant(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsPlant(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsDead(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsDead(expr, sourceLocation);
 	}
 
 	@Override
