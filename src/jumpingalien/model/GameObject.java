@@ -765,7 +765,7 @@ public abstract class GameObject implements CollisionDetect {
 	/**
 	 * @return The vertical velocity for this game object
 	 */
-	protected abstract double getVelocityY();
+	public abstract double getVelocityY();
 
 	/**
 	 * @return The horizontal acceleration for this game object
@@ -775,5 +775,5 @@ public abstract class GameObject implements CollisionDetect {
 	/**
 	 * @return The horizontal velocity for this game object
 	 */
-	protected abstract double getVelocityX();
+	public abstract double getVelocityX();
 }

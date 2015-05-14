@@ -8,13 +8,17 @@ public class Direction extends Literal {
 		super(sourceLocation);
 		this.direction = value;
 	}
+
+	private jumpingalien.part3.programs.IProgramFactory.Direction getDirection() {
+		return direction;
+	}
 	
-	private jumpingalien.part3.programs.IProgramFactory.Direction direction;
+	private final jumpingalien.part3.programs.IProgramFactory.Direction direction;
+
 
 	@Override
-	public java.lang.Object getValue(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+	public jumpingalien.part3.programs.IProgramFactory.Direction getValue(Program program) {
+		return getDirection();
 	}
 
 }

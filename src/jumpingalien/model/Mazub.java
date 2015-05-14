@@ -882,7 +882,7 @@ public class Mazub extends GameObject {
 	 * 			| else then 
 	 * 			|	return false
 	 */
-	private boolean isJumping() {
+	public boolean isJumping() {
 		if (this.getAccelerationY() != 0) {
 			return true;
 		} else {

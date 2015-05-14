@@ -251,22 +251,19 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Expression createIsMoving(Expression expr, Expression direction,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsMoving(expr, direction, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsDucking(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsDucking(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsJumping(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsJumping(expr, sourceLocation);
 	}
 
 	@Override
