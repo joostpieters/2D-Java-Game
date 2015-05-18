@@ -163,6 +163,9 @@ public class Plant extends GameObject {
 	public void advanceTime(double dt) {
 		if(!isTerminated()){
 			setTimer(getTimer() + dt);
+			if(hasAProgram()){
+				getProgram().run((int) Math.ceil(dt/0.001));
+			}
 			updateLocationAndVelocity(dt);
 		}
 	}
@@ -185,7 +188,9 @@ public class Plant extends GameObject {
 	 *         	| setTimer(0);
 	 */
 	protected void advanceTimeCollisionDetect(double dt) {
-		if (getTimer() > 0.5) {
+		if(hasAProgram()){
+						
+		} else if (getTimer() > 0.5) {
 			if (getVelocityX() > 0) {
 				setVelocityX(-0.5);
 				setCurrentSpriteIndex(0);
