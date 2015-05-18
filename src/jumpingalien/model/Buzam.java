@@ -30,7 +30,9 @@ public class Buzam extends Mazub {
 	
 	@Override
 	public void advanceTime(double dt){
-		getProgram().run((int)Math.ceil(dt/0.001));
+		if(hasAProgram()){
+			getProgram().run((int)Math.ceil(dt/0.001));
+		}
 		super.advanceTime(dt);
 	}
 	

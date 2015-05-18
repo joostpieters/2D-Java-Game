@@ -1,5 +1,6 @@
 package jumpingalien.part3.programs.statements;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,27 +17,20 @@ public class Sequence extends Statement {
 		this.statements = statements;
 	}
 	
-	private List<Statement> statements;
+	private List<Statement> getStatements() {
+		return statements;
+	}
+	
+	private final List<Statement> statements;
 
 	@Override
 	public void runStatement(Program program) {
-		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
-			if(program.getSourceLocation() == this.getSourceLocation()){
-				program.setSourceLocation(null);
-			}
-			for(Statement statement : statements){
-				if(!(program.getLinesToRun() == 0 && program.getSourceLocation() != null)){
-					statement.run(program);
-				}
-			}
-		} else if(program.getLinesToRun() > 0) {
-			for(Statement statement : statements){
-				if(!(program.getLinesToRun() == 0 && program.getSourceLocation() != null)){
-					statement.run(program);
-				}
-			}
+		if(program.getSourceLocation() == this.getSourceLocation()){
+			program.setSourceLocation(null);
+		}
+		Iterator<Statement> iterator = getStatements().iterator();
+		while(iterator.hasNext() && (program.getLinesToRun() != 0 || program.getSourceLocation() == null)){
+			iterator.next().run(program);
 		}
 	}
-
-
 }

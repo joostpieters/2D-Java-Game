@@ -37,20 +37,9 @@ public class While extends Statement {
 		} else {
 			body.run(program);
 			if(program.getSourceLocation() == null && program.getLinesToRun() > 0){
-				program.lowerLinesToRun();
-				while((boolean) condition.getValue(program)){
-					body.run(program);
-					if(program.getLinesToRun() > 0){
-						program.lowerLinesToRun();
-					} else if(program.getSourceLocation() == null){
-						program.setSourceLocation(this.getSourceLocation());
-						break;
-					} else {
-						break;
-					}
-				}
+				this.runStatement(program);
 			} else if (program.getLinesToRun() == 0 && program.getSourceLocation() == null) {
-				setSourceLocation(this.getSourceLocation());
+				program.setSourceLocation(this.getSourceLocation());
 			}
 		}
 	}

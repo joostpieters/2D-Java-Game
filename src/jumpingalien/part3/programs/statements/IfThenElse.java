@@ -21,7 +21,7 @@ public class IfThenElse extends Statement {
 	public void runStatement(Program program) {
 		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
 			if(program.getSourceLocation() == this.getSourceLocation()){
-				setSourceLocation(null);
+				program.setSourceLocation(null);
 			}
 			program.lowerLinesToRun();
 			if((boolean) getCondition().getValue(program)){

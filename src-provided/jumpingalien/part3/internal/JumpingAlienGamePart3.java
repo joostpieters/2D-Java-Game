@@ -157,7 +157,8 @@ public class JumpingAlienGamePart3 extends JumpingAlienGame {
 		int buzamX = Integer.parseInt(map.getAttribute(ATTR_BUZAM_INITIAL_X));
 		int buzamY = Integer.parseInt(map.getAttribute(ATTR_BUZAM_INITIAL_Y));
 		Optional<Program> program = parseProgram(Resources.BUZAM_PROGRAM_FILENAME);
-		if (program.isPresent() && random.nextBoolean()) {
+		//TODO false -> random.nextBoolean()
+		if (program.isPresent() && false) {
 			buzam = getFacade().createBuzamWithProgram(buzamX, buzamY,
 					Resources.BUZAM_SPRITESET, program.get());
 		} else {
