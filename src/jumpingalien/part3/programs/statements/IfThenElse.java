@@ -24,14 +24,16 @@ public class IfThenElse extends Statement {
 				program.setSourceLocation(null);
 			}
 			program.lowerLinesToRun();
-			if((boolean) getCondition().getValue(program)){
-				getIfBody().run(program);
-			} else if(getElseBody() != null) {
-				getElseBody().run(program);
+			if(getCondition().getValue(program) instanceof Boolean){
+				if((boolean) getCondition().getValue(program)){
+					getIfBody().run(program);
+				} else if(getElseBody() != null) {
+					getElseBody().run(program);
+				}
 			}
 		} else if(program.getLinesToRun() > 0){
 			getIfBody().run(program);
-			if(program.getSourceLocation() != null && program.getLinesToRun() > 0) {
+			if(getElseBody() != null && program.getSourceLocation() != null && program.getLinesToRun() > 0) {
 				getElseBody().run(program);
 			}
 		}

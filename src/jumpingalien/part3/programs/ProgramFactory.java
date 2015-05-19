@@ -8,15 +8,7 @@ import jumpingalien.model.Program;
 import jumpingalien.part3.programs.expressions.*;
 import jumpingalien.part3.programs.expressions.Double;
 import jumpingalien.part3.programs.expressions.Object;
-import jumpingalien.part3.programs.statements.Assignment;
-import jumpingalien.part3.programs.statements.Break;
-import jumpingalien.part3.programs.statements.IfThenElse;
-import jumpingalien.part3.programs.statements.Print;
-import jumpingalien.part3.programs.statements.Sequence;
-import jumpingalien.part3.programs.statements.StartRun;
-import jumpingalien.part3.programs.statements.StopRun;
-import jumpingalien.part3.programs.statements.Wait;
-import jumpingalien.part3.programs.statements.While;
+import jumpingalien.part3.programs.statements.*;
 
 public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
 
@@ -320,14 +312,12 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Statement createStartJump(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StartJump(sourceLocation);
 	}
 
 	@Override
 	public Statement createStopJump(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StopJump(sourceLocation);
 	}
 
 	@Override

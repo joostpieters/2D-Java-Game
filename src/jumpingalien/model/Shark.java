@@ -683,6 +683,70 @@ public class Shark extends GameObject {
 	}
 	
 	/**
+	 * Let this Shark jump
+	 * 	@throws IllegalStateException
+	 * 			if the up key is already pressed
+	 * 			|isUpKeyPressed()
+	 *  @pre 	the up key can not be pressed already
+	 *  		|!isUpKeyPressed()
+	 *  @effect	the vertical acceleration will be set to 0.2
+	 * 			|setAccelerationX(0.2);
+	 */
+	public void startJump() throws IllegalStateException {
+		if (isUpKeyPressed()){
+			throw new IllegalStateException();
+		}
+		if(isInWater()){
+			setAccelerationY(0.2);
+			System.out.println("Start Jump ontvangen en wordt uitgevoerd");
+			//TODO velocity voor jump van een shark ??
+		}
+		setUpKeyPressed(true);		
+	}
+	//TODO commentaar niet juist
+	/**
+	 * Ends this Shark's jump
+	 * @throws 	IllegalStateException
+	 * 				if the up key was not pressed
+	 * 			| !isUpKeyPressed()
+	 * @post	if velocityY is greater than 0, velocityY will be zero
+	 * 			| if getVelocityY() > 0 then
+	 * 			|	new.getVelocityY == 0
+	 */
+	public void endJump() throws IllegalStateException {
+		if(!isUpKeyPressed()){
+			throw new IllegalStateException();
+		}
+		if (this.getAccelerationY()> 0) {
+			setAccelerationY(0);
+			System.out.println("End Jump ontvangen en uitgevoerd");
+		}
+		setUpKeyPressed(false);
+	}
+	
+	/**
+	 * Returns whether the up key is pressed or not
+	 */
+	private boolean isUpKeyPressed() {
+		return isUpKeyPressed;
+	}
+
+	/**
+	 * @param isUpKeyPressed
+	 * 			the current pressed status of the up key
+	 * @post 	isUpKeyPressed will equal the given value
+	 * 			|new.isUpKeyPressed() == isUpKeyPressed
+	 */
+	private void setUpKeyPressed(boolean isUpKeyPressed) {
+		this.isUpKeyPressed = isUpKeyPressed;
+	}
+
+	/**
+	 * This variable contains the current pressed status of the up key
+	 */
+	private boolean isUpKeyPressed;
+	
+	/**
 	 * @effect 	...
 	 * 			|setHitPoints(getHitPoints()-50)
 	 */

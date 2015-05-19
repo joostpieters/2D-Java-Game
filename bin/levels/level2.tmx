@@ -912,18 +912,18 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="21"/>
-   <tile gid="38"/>
-   <tile gid="38"/>
-   <tile gid="38"/>
-   <tile gid="36"/>
    <tile gid="37"/>
    <tile gid="37"/>
-   <tile gid="38"/>
-   <tile gid="38"/>
-   <tile gid="38"/>
-   <tile gid="38"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
    <tile gid="21"/>
-   <tile gid="21"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -937,11 +937,11 @@
    <tile gid="94"/>
    <tile gid="94"/>
    <tile gid="94"/>
-   <tile gid="21"/>
-   <tile gid="91"/>
-   <tile gid="91"/>
-   <tile gid="91"/>
-   <tile gid="91"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
    <tile gid="21"/>
    <tile gid="21"/>
    <tile gid="0"/>
@@ -957,11 +957,11 @@
    <tile gid="94"/>
    <tile gid="94"/>
    <tile gid="94"/>
-   <tile gid="21"/>
-   <tile gid="91"/>
-   <tile gid="91"/>
-   <tile gid="91"/>
-   <tile gid="91"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
    <tile gid="21"/>
    <tile gid="21"/>
    <tile gid="0"/>
@@ -977,11 +977,11 @@
    <tile gid="94"/>
    <tile gid="94"/>
    <tile gid="94"/>
-   <tile gid="21"/>
-   <tile gid="91"/>
-   <tile gid="91"/>
-   <tile gid="91"/>
-   <tile gid="91"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
    <tile gid="21"/>
    <tile gid="21"/>
    <tile gid="37"/>
@@ -1250,17 +1250,7 @@
   </data>
  </layer>
  <objectgroup name="Objects">
-  <object id="1" gid="177" x="867" y="646"/>
   <object id="2" gid="177" x="899" y="740"/>
-  <object id="3" gid="186" x="208" y="211">
-   <properties>
-    <property name="school" value="3"/>
-   </properties>
-  </object>
   <object id="7" gid="238" x="271" y="547"/>
-  <object id="8" gid="238" x="700" y="450"/>
-  <object id="9" gid="238" x="770" y="450"/>
-  <object id="10" gid="238" x="840" y="450"/>
-  <object id="11" gid="238" x="910" y="450"/>
  </objectgroup>
 </map>
