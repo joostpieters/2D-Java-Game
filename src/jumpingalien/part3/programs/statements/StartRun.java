@@ -28,18 +28,13 @@ public class StartRun extends Statement {
 				program.setSourceLocation(null);
 			}
 			program.lowerLinesToRun();
-			if(program.getObject() instanceof GameObject && (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT || direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT)){
-				//TODO enkel links en rechts ok ?
-				if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT) {
+			if(program.getObject() instanceof GameObject && (getDirection().getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT 
+					|| getDirection().getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT)){
+				if (getDirection().getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT) {
 					 ((GameObject) program.getObject()).startMove(Motion.LEFT);
-				} else if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT) {
+				} else if (getDirection().getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT) {
 					((GameObject) program.getObject()).startMove(Motion.RIGHT);
-				} else {
-					// TODO miss beter acception
-					assert(false);
 				}
-			} else {
-				assert(false);
 			}
 		}
 	}

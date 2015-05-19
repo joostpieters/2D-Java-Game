@@ -16,8 +16,14 @@ public class Break extends Statement {
 
 	@Override
 	public void runStatement(Program program) {
-		// TODO Auto-generated method stub
-
+		if(program.getSourceLocation() == null || program.getSourceLocation() == this.getSourceLocation()){
+			if(program.getSourceLocation() == this.getSourceLocation()){
+				program.setSourceLocation(null);
+			}
+			program.lowerLinesToRun();
+			program.addBreak();
+			//TODO moeten er hier ook een lijn worden verwijderd
+		}
 	}
 
 }

@@ -107,4 +107,26 @@ public class Program {
 	
 	private SourceLocation sourceLocation;
 
+	private int getAmountBreaksSet() {
+		return amountBreaksSet;
+	}
+
+	private void setAmountBreaksSet(int amountBreaksSet) {
+		this.amountBreaksSet = amountBreaksSet;
+	}
+	
+	public void addBreak() {
+		setAmountBreaksSet(getAmountBreaksSet() + 1);	
+	}
+	
+	public boolean deletebreak(){
+		if(getAmountBreaksSet() > 1){
+			setAmountBreaksSet(getAmountBreaksSet()-1);
+			return false;
+		}
+		return true;
+	}
+	
+	private int amountBreaksSet;
+
 }

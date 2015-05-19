@@ -9,6 +9,7 @@ import jumpingalien.part3.programs.expressions.*;
 import jumpingalien.part3.programs.expressions.Double;
 import jumpingalien.part3.programs.expressions.Object;
 import jumpingalien.part3.programs.statements.*;
+import jumpingalien.part3.programs.types.GameObject;
 
 public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
 
@@ -211,35 +212,30 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Expression createIsTerrain(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsTerrain(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsPassable(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsPassable(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsWater(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsWater(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsMagma(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsMagma(expr, sourceLocation);
 	}
 
 	@Override
 	public Expression createIsAir(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsAir(expr, sourceLocation);
 	}
 
 	@Override
@@ -322,14 +318,12 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Statement createStartDuck(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StartDuck(sourceLocation);
 	}
 
 	@Override
 	public Statement createStopDuck(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StopDuck(sourceLocation);
 	}
 
 	@Override
@@ -340,8 +334,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Statement createSkip(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Skip(sourceLocation);
 	}
 
 	@Override
@@ -362,19 +355,18 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Type getGameObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new GameObject();
 	}
 
 	@Override
 	public Type getDirectionType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new jumpingalien.part3.programs.types.Direction();
 	}
 
 	@Override
 	public Program createProgram(Statement mainStatement,
 			Map<String, Type> globalVariables) {
+
 		return new Program(mainStatement, globalVariables);
 	}
 

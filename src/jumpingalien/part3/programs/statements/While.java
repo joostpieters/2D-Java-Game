@@ -23,7 +23,7 @@ public class While extends Statement {
 				program.setSourceLocation(null);
 			}
 			program.lowerLinesToRun();
-			while((boolean) condition.getValue(program)){
+			while((boolean) condition.getValue(program) && program.deletebreak()){
 				body.run(program);
 				if(program.getLinesToRun() > 0){
 					program.lowerLinesToRun();
