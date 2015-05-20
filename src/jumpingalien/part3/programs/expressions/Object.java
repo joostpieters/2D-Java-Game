@@ -1,31 +1,43 @@
 package jumpingalien.part3.programs.expressions;
 
+import jumpingalien.model.GameObject;
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.SourceLocation;
 
 public class Object extends Literal {
-	public Object(Object object, SourceLocation sourceLocation) {
+	public Object(GameObject gameObject, SourceLocation sourceLocation) {
 		super(sourceLocation);
-		this.object = object;
+		object = gameObject;
 	}
 	
-	public Object(Object object, boolean self, SourceLocation sourceLocation) {
-		this(object, sourceLocation);
+	public Object(GameObject gameObject, boolean self, SourceLocation sourceLocation) {
+		this(gameObject, sourceLocation);
 		this.self = self;
 	}
 	
-	private Object object;
+	private GameObject getObject() {
+		return object;
+	}
+	
+	private final GameObject object;
+	
+	private boolean isSelf() {
+		return self;
+	}
+
+	private void setSelf(boolean self) {
+		this.self = self;
+	}
 	
 	private boolean self;
 
 	@Override
-	public java.lang.Object getValue(Program program) {
-		if(self){
+	public GameObject getValue(Program program) {
+		if(isSelf()){
 			return program.getObject();
 		} else {
-			return object;
+			return getObject();
 		}
 	}
-
 
 }

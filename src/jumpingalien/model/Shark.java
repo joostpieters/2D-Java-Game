@@ -698,7 +698,6 @@ public class Shark extends GameObject {
 		}
 		if(isInWater()){
 			setAccelerationY(0.2);
-			System.out.println("Start Jump ontvangen en wordt uitgevoerd");
 			//TODO velocity voor jump van een shark ??
 		}
 		setUpKeyPressed(true);		

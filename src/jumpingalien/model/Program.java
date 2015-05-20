@@ -27,8 +27,6 @@ public class Program {
 		}
 	}
 	
-	private Object object;
-	
 	private Statement getMainStatement() {
 		return mainStatement;
 	}
@@ -49,13 +47,15 @@ public class Program {
 		}
 	}
 
-	public Object getObject() {
+	public GameObject getObject() {
 		return object;
 	}
 
-	void setObject(Object object) {
+	void setObject(GameObject object) {
 		this.object = object;
 	}
+	
+	private GameObject object;
 
 	public int getLinesToRun() {
 		return linesToRun;

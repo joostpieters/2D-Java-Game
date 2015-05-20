@@ -1180,6 +1180,29 @@ public abstract class GameObject implements CollisionDetect {
 	 */
 	private Motion movement;
 	
+	/**
+	 * Returns if this Game Object is on the right side of another Game Object
+	 * @param 	object
+	 * 			the other game Object
+	 * @return	returns true is the horizontal location of this Game object is smaller 
+	 * 				than the horizontal Location plus the width of the other game Object
+	 * 			| result == this.getLocationX() < (object.getLocationX() + object.getCurrentSprite().getWidth())
+	 */
+	public boolean isLeftOff(GameObject object){
+		return this.getLocationX() < (object.getLocationX() + object.getCurrentSprite().getWidth());
+	}
+	
+	/**
+	 * Returns if this Game Object is on the right side of another Game Object
+	 * @param 	object
+	 * 			the other game Object
+	 * @return	returns whether the other object is on the leftside of this object or not
+	 * 			| result == object.isLeftOff(this)
+	 */
+	public boolean isRightOff(GameObject object){
+		return object.isLeftOff(this);
+	}
+	
 	
 	/**
 	 * This variable holds the program of this Game Object

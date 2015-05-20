@@ -176,8 +176,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Expression createSearchObject(Expression direction,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SearchObject(direction, sourceLocation);
 	}
 
 	@Override

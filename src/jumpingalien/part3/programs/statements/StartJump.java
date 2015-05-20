@@ -24,7 +24,6 @@ public class StartJump extends Statement {
 				((Mazub) program.getObject()).startJump();
 			} else if (program.getObject() instanceof Shark){
 				((Shark) program.getObject()).startJump();
-				System.out.println("Jump gestart");
 			}
 		}
 	}
