@@ -2,6 +2,7 @@ package jumpingalien.part3.programs.statements;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +117,7 @@ public class ForEach extends Statement {
 			if(program.getSourceLocation() == this.getSourceLocation()){
 				program.setSourceLocation(null);
 			}
-			Collection<GameObject> objects = new ArrayList<GameObject>();
+			ArrayList<GameObject> objects = new ArrayList<GameObject>();
 			if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.PLANT){
 				objects.addAll(program.getObject().getWorld().getPlants());
 			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.SLIME){
@@ -144,59 +145,22 @@ public class ForEach extends Statement {
 				}
 			}
 			objects.removeAll(objectToRemove);
+			
 			//Sorteren van de lijst
-			if(getSort() != null && (getSortDirection() == jumpingalien.part3.programs.IProgramFactory.SortDirection.ASCENDING || getSortDirection() == jumpingalien.part3.programs.IProgramFactory.SortDirection.DESCENDING)){
-				Comparator<GameObject> comparator = null;
-				if(getSortDirection() == jumpingalien.part3.programs.IProgramFactory.SortDirection.ASCENDING){
-					comparator = new Comparator<GameObject>(){
-						@Override
-						public int compare(GameObject o1, GameObject o2) {
-							double value1 = getValue(o1);
-							double value2 = getValue(o2);
-							if(Util.fuzzyEquals(value1, value2)){
-								return 0;
-							}
-							return (int) (value1 - value2);
-						}
-						private double getValue(GameObject object){
-							program.getDeclarationVariables().put(getVariableName(), object);
-							return (double) getSort().getValue(program);
-						}
-					};
-				} else if (getSortDirection() == jumpingalien.part3.programs.IProgramFactory.SortDirection.DESCENDING){
-					comparator = new Comparator<GameObject>(){
-						@Override
-						public int compare(GameObject o1, GameObject o2) {
-							double value1 = getValue(o1);
-							double value2 = getValue(o2);
-							if(Util.fuzzyEquals(value1, value2)){
-								return 0;
-							}
-							return (int) (value2 - value1);
-						}
-						private double getValue(GameObject object){
-							program.getDeclarationVariables().put(getVariableName(), object);
-							return (double) getSort().getValue(program);
-						}
-					};
-				}
-				if(comparator != null){
-					PriorityQueue<GameObject> queue = new PriorityQueue<>(11, comparator);
-					for(GameObject object : objects){
-						queue.add( object);
-					}	
-					objects.clear();
-					while(!queue.isEmpty()){
-						objects.add(queue.poll());
-					}
-				}
-			}
+			
+			objects.sort((o1, o2) -> (int)(getValue(o1, program) - getValue(o2, program)));
+			
 			//Uitoeren
 			for(GameObject object : objects){
 				program.getDeclarationVariables().put(getVariableName(), object);
 				getBody().run(program);
 			}
 		}
+	}
+	
+	private double getValue(GameObject o2, Program program){
+		program.getDeclarationVariables().put(getVariableName(), o2);
+		return (double) getSort().getValue(program);
 	}
 
 }
