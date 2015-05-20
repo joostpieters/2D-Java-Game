@@ -12,9 +12,9 @@ public abstract class Statement extends ProgramCode {
 	protected abstract void runStatement(Program program);
 	
 	public void run(Program program){
-		if(program.getLinesToRun() > 0){
+		if(program.getLinesToRun() > 0 && !program.isBreakActivated()){
 			runStatement(program);
-		} else if(program.getSourceLocation() == null) {
+		} else if(program.getSourceLocation() == null && !program.isBreakActivated()) {
 			program.setSourceLocation(getSourceLocation());
 		}
 	}

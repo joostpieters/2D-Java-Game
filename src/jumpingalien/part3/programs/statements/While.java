@@ -23,7 +23,7 @@ public class While extends Statement {
 				program.setSourceLocation(null);
 			}
 			program.lowerLinesToRun();
-			while((boolean) condition.getValue(program) && program.deletebreak()){
+			while((boolean) condition.getValue(program) && !program.isBreakActivated()){
 				body.run(program);
 				if(program.getLinesToRun() > 0){
 					program.lowerLinesToRun();
@@ -33,6 +33,9 @@ public class While extends Statement {
 				} else {
 					break;
 				}
+			}
+			if(program.isBreakActivated()){
+				program.setBreakActivated(false);
 			}
 		} else {
 			body.run(program);

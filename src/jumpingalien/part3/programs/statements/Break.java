@@ -21,7 +21,7 @@ public class Break extends Statement {
 				program.setSourceLocation(null);
 			}
 			program.lowerLinesToRun();
-			program.addBreak();
+			program.setBreakActivated(true);
 			//TODO moeten er hier ook een lijn worden verwijderd
 		}
 	}

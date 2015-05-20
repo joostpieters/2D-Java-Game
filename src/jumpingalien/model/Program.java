@@ -107,27 +107,14 @@ public class Program {
 	
 	private SourceLocation sourceLocation;
 
-	private int getAmountBreaksSet() {
-		return amountBreaksSet;
+	public boolean isBreakActivated() {
+		return breakActivated;
 	}
 
-	private void setAmountBreaksSet(int amountBreaksSet) {
-		this.amountBreaksSet = amountBreaksSet;
+	public void setBreakActivated(boolean breakActivated) {
+		this.breakActivated = breakActivated;
 	}
 	
-	public void addBreak() {
-		setAmountBreaksSet(getAmountBreaksSet() + 1);	
-	}
-	
-	public boolean deletebreak(){
-		// TODO modifier mag niets teruggeven
-		if(getAmountBreaksSet() > 1){
-			setAmountBreaksSet(getAmountBreaksSet()-1);
-			return false;
-		}
-		return true;
-	}
-	
-	private int amountBreaksSet;
+	private boolean breakActivated;
 
 }
