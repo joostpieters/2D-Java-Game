@@ -120,6 +120,7 @@ public class Program {
 	}
 	
 	public boolean deletebreak(){
+		// TODO modifier mag niets teruggeven
 		if(getAmountBreaksSet() > 1){
 			setAmountBreaksSet(getAmountBreaksSet()-1);
 			return false;
