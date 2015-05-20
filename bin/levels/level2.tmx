@@ -919,9 +919,9 @@
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="37"/>
-   <tile gid="37"/>
-   <tile gid="37"/>
-   <tile gid="37"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="37"/>
    <tile gid="21"/>
    <tile gid="0"/>
@@ -1251,6 +1251,5 @@
  </layer>
  <objectgroup name="Objects">
   <object id="2" gid="177" x="899" y="740"/>
-  <object id="7" gid="238" x="271" y="547"/>
  </objectgroup>
 </map>

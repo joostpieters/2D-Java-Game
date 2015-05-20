@@ -1424,7 +1424,6 @@ public class World  {
 	//TODO documentatie voor de onderste drie methodes
 	public GameObject search(GameObject mainObject, Direction direction){
 		GameObject result = null;
-		Integer minDistance = Integer.MAX_VALUE;
 		if(getMazub() != null && getMazub() != mainObject){
 			result = calculateHorizontalDistanceBetween(mainObject, getMazub(), result, direction);
 		}

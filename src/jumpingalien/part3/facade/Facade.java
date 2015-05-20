@@ -389,7 +389,7 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public ParseOutcome<?> parse(String text) {
-		text = "object obj; obj := searchobj left; if (ismazub obj) then print 333; fi";
+		text = "object obj; object objj; obj := searchobj left; objj := searchobj right; if (ismazub obj) then print 333; fi if (ismazub objj) then print 777; fi";
 		IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
 		ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
 		Optional<Program> parseResult = parser.parseString(text);
