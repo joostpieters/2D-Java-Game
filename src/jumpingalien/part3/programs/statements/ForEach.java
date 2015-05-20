@@ -1,5 +1,6 @@
 package jumpingalien.part3.programs.statements;
 
+import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,6 +18,7 @@ import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.Type;
+import jumpingalien.part3.programs.IProgramFactory.SortDirection;
 import jumpingalien.util.Util;
 
 public class ForEach extends Statement {
@@ -148,7 +150,10 @@ public class ForEach extends Statement {
 			
 			//Sorteren van de lijst
 			
-			objects.sort((o1, o2) -> (int)(getValue(o1, program) - getValue(o2, program)));
+			if (getSort() != null && getSortDirection() != null) {
+				objects.sort((o1, o2) -> compare(o1, o2, program));
+			}
+			
 			
 			//Uitoeren
 			for(GameObject object : objects){
@@ -158,9 +163,33 @@ public class ForEach extends Statement {
 		}
 	}
 	
-	private double getValue(GameObject o2, Program program){
-		program.getDeclarationVariables().put(getVariableName(), o2);
+	private double getValue(GameObject obj, Program program){
+		program.getDeclarationVariables().put(getVariableName(), obj);
 		return (double) getSort().getValue(program);
+	}
+	
+	private int compare(GameObject o1, GameObject o2, Program program) { 
+		double value1 = getValue(o1, program);
+		double value2 = getValue(o2, program);
+		
+		if (Util.fuzzyEquals(value1, value2)) {
+			return 0;
+		}
+		
+		if (getSortDirection() == SortDirection.ASCENDING) {
+			if (value1 > value2) {
+				return 1;
+			} else {
+				return -1;
+			}
+		} else if (getSortDirection() == SortDirection.DESCENDING) {
+			if (value1 > value2) {
+				return -1;
+			} else {
+				return 1;
+			}
+		}
+		throw new IllegalStateException();
 	}
 
 }
