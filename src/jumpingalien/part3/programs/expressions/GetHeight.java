@@ -25,12 +25,11 @@ public class GetHeight extends Expression {
 	
 	@Override
 	public java.lang.Double getValue(Program program) {
-		if( expression.getValue(program) instanceof GameObject){
-			GameObject object = (GameObject) expression.getValue(program);
+		if( getExpression().getValue(program) instanceof GameObject){
+			GameObject object = (GameObject) getExpression().getValue(program);
 			return (double) object.getCurrentSprite().getHeight();
 		}
 		return null;
-		//TODO expection gooien miss ?
 	}
 
 }

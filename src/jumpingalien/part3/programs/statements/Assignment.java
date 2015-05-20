@@ -30,6 +30,7 @@ public class Assignment extends Statement {
 			}
 			program.lowerLinesToRun();
 			program.getDeclarationVariables().put(variableName, value.getValue(program));
+			//TODO getters en setters !!
 		}
 	}
 }
