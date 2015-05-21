@@ -2,6 +2,7 @@ package jumpingalien.part3.programs.expressions;
 
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
 public class NotEquals extends Comparison {
@@ -11,11 +12,17 @@ public class NotEquals extends Comparison {
 		super(leftOperand, rightOperand, sourceLocation);
 	}
 
-	// TODO boolean ook?
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		double left = (double) getLeftOperand().getValue(program);
-		double right = (double) getRightOperand().getValue(program);
+		java.lang.Object left = getLeftOperand().getValue(program);
+		java.lang.Object right = getRightOperand().getValue(program);
+		if(left instanceof Double && right instanceof Double){
+			return new java.lang.Boolean((double)left != (double)right);			
+		} if(left instanceof Boolean && right instanceof Boolean){
+			return new java.lang.Boolean((boolean)left != (boolean)right);
+		} if(left instanceof IProgramFactory.Direction && right instanceof IProgramFactory.Direction){
+			return new java.lang.Boolean((IProgramFactory.Direction)left != (IProgramFactory.Direction)right);
+		}
 		return new java.lang.Boolean(left != right);
 	}
 }

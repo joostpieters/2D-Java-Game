@@ -19,7 +19,7 @@ public class IsDead extends Expression {
 	private final Expression expression;
 
 	@Override
-	public java.lang.Object getValue(Program program) {
+	public java.lang.Boolean getValue(Program program) {
 		if(expression.getValue(program) instanceof GameObject){
 			return ((GameObject) getExpression().getValue(program)).isDead();
 		}
