@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -151,9 +152,33 @@ public class ForEach extends Statement {
 			objects.sort((o1, o2) -> (int)(getValue(o1, program) - getValue(o2, program)));
 			
 			//Uitoeren
-			for(GameObject object : objects){
+			if(getIterator() == null){
+				setIterator(objects.iterator());
+				program.lowerLinesToRun();
+			}
+			while(getIterator().hasNext() && !program.isBreakActivated()){
+				GameObject object = getIterator().next();
 				program.getDeclarationVariables().put(getVariableName(), object);
 				getBody().run(program);
+				if(program.getLinesToRun() == 00 && program.getSourceLocation() == null && getIterator().hasNext()){
+					program.setSourceLocation(this.getSourceLocation());
+					break;
+				} else if(program.getLinesToRun() == 0) {
+					break;
+				}
+			}
+			if(program.isBreakActivated()){
+				program.setBreakActivated(false);
+			}
+			if(!getIterator().hasNext()){
+				setIterator(null);
+			}
+		} else {
+			getBody().run(program);
+			if(program.getLinesToRun() > 0 && program.getSourceLocation() == null){
+				this.runStatement(program);
+			} else if(program.getLinesToRun() == 0 && program.getSourceLocation() == null){
+				program.setSourceLocation(this.getSourceLocation());
 			}
 		}
 	}
@@ -162,5 +187,15 @@ public class ForEach extends Statement {
 		program.getDeclarationVariables().put(getVariableName(), o2);
 		return (double) getSort().getValue(program);
 	}
+	
+	private Iterator<GameObject> getIterator() {
+		return iterator;
+	}
+
+	private void setIterator(Iterator<GameObject> iterator) {
+		this.iterator = iterator;
+	}
+
+	private Iterator<GameObject> iterator;
 
 }
