@@ -237,7 +237,8 @@ public class JumpingAlienGamePart3 extends JumpingAlienGame {
 
 	private void addPlant(MapObject obj) {
 		Optional<Program> program = parseProgram(Resources.PLANT_PROGRAM_FILENAME);
-		if (program.isPresent() && random.nextBoolean()) {
+		//TODO true -> random.nextBoolean()
+		if (program.isPresent() && true) {
 			getFacade().addPlant(
 					getWorld(),
 					getFacade().createPlantWithProgram(
