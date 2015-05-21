@@ -23,6 +23,10 @@ public class Break extends Statement {
 			program.lowerLinesToRun();
 			program.setBreakActivated(true);
 			//TODO moeten er hier ook een lijn worden verwijderd
+		} else {
+			if(program.getInWhile() == 0  && program.getInForEach() == 0){
+				program.setWellFormed(false);
+			}
 		}
 	}
 

@@ -33,8 +33,15 @@ public class Program {
 	private final Statement mainStatement;
 	
 	public boolean isWellFormed() {
-		// TODO Auto-generated method stub
-		return true;
+		SourceLocation oldSourceLocation = getSourceLocation();
+		SourceLocation sourceLocation = new SourceLocation(-1, -1);
+		this.setSourceLocation(sourceLocation);
+		setWellFormed(true);
+		setInForEach(0);
+		setInWhile(0);
+		getMainStatement().run(this);
+		setSourceLocation(oldSourceLocation);
+		return getWellFormed();
 	}
 
 	public void run(int i) {
@@ -115,5 +122,35 @@ public class Program {
 	}
 	
 	private boolean breakActivated;
+	
+	public int getInForEach() {
+		return inForEach;
+	}
+
+	public void setInForEach(int inForEach) {
+		this.inForEach = inForEach;
+	}
+
+	private int inForEach;
+	
+	public int getInWhile() {
+		return inWhile;
+	}
+
+	public void setInWhile(int inWhile) {
+		this.inWhile = inWhile;
+	}
+
+	private int inWhile;
+	
+	private boolean getWellFormed(){
+		return wellFormed;
+	}
+		
+	public void setWellFormed(boolean wellFormed) {
+		this.wellFormed = wellFormed;
+	}
+
+	private boolean wellFormed;
 
 }

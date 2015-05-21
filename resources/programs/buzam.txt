@@ -2,7 +2,7 @@ double x;
 object o;
 
 while true do
-  foreach(any, o) sort (getx o) descending do
+  foreach(any, o) where (! isplant o) sort (getx o) descending do
     x := getx o;
     print x;
   done

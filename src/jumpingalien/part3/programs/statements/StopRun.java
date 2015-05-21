@@ -41,6 +41,10 @@ public class StopRun extends Statement {
 			} else {
 				assert(false);
 			}
+		} else {
+			if(program.getInForEach() > 0){
+				program.setWellFormed(false);
+			}
 		}
 	}
 

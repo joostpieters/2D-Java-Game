@@ -22,6 +22,10 @@ public class StopDuck extends Statement {
 			if(program.getObject() instanceof Mazub){
 				((Mazub) program.getObject()).endDucking();
 			}
+		} else {
+			if(program.getInForEach() > 0){
+				program.setWellFormed(false);
+			}
 		}
 	}
 

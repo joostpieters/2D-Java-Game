@@ -167,14 +167,16 @@ public class ForEach extends Statement {
 					break;
 				}
 			}
+			if(!getIterator().hasNext() || program.isBreakActivated()){
+				setIterator(null);
+			}
 			if(program.isBreakActivated()){
 				program.setBreakActivated(false);
 			}
-			if(!getIterator().hasNext()){
-				setIterator(null);
-			}
 		} else {
+			program.setInForEach(program.getInForEach() + 1);
 			getBody().run(program);
+			program.setInForEach(program.getInForEach() - 1);
 			if(program.getLinesToRun() > 0 && program.getSourceLocation() == null){
 				this.runStatement(program);
 			} else if(program.getLinesToRun() == 0 && program.getSourceLocation() == null){

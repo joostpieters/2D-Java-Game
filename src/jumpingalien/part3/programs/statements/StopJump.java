@@ -25,6 +25,10 @@ public class StopJump extends Statement {
 			} else if (program.getObject() instanceof Shark){
 				((Shark) program.getObject()).endJump();
 			}
+		} else {
+			if(program.getInForEach() > 0){
+				program.setWellFormed(false);
+			}
 		}
 	}
 

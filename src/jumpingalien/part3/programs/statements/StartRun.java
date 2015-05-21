@@ -36,6 +36,10 @@ public class StartRun extends Statement {
 					((GameObject) program.getObject()).startMove(Motion.RIGHT);
 				}
 			}
+		} else {
+			if(program.getInForEach() > 0){
+				program.setWellFormed(false);
+			}
 		}
 	}
 

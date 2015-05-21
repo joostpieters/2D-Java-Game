@@ -38,7 +38,9 @@ public class While extends Statement {
 				program.setBreakActivated(false);
 			}
 		} else {
+			program.setInWhile(program.getInWhile()+1);
 			body.run(program);
+			program.setInWhile(program.getInWhile()-1);
 			if(program.getSourceLocation() == null && program.getLinesToRun() > 0){
 				this.runStatement(program);
 			} else if (program.getLinesToRun() == 0 && program.getSourceLocation() == null) {

@@ -25,6 +25,10 @@ public class StartJump extends Statement {
 			} else if (program.getObject() instanceof Shark){
 				((Shark) program.getObject()).startJump();
 			}
+		} else {
+			if(program.getInForEach() > 0){
+				program.setWellFormed(false);
+			}
 		}
 	}
 
