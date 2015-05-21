@@ -1221,4 +1221,12 @@ public abstract class GameObject implements CollisionDetect {
 	 * @return The vertical velocity for this game object
 	 */
 	public abstract double getVelocityY();
+
+	public boolean isAbove(GameObject otherObject) {
+		return (int)this.getLocationY() > (int)otherObject.getLocationY();
+	}
+
+	public boolean isUnder(GameObject otherObject) {
+		return (int)this.getLocationY() < (int)otherObject.getLocationY();
+	}
 }

@@ -3,6 +3,7 @@ package jumpingalien.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.IProgramFactory.Direction;
 import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.Basic;
@@ -1427,29 +1428,38 @@ public class World  {
 	public GameObject search(GameObject mainObject, Direction direction){
 		GameObject result = null;
 		if(getMazub() != null && getMazub() != mainObject){
-			result = calculateHorizontalDistanceBetween(mainObject, getMazub(), result, direction);
+			result = calculateDistanceBetween(mainObject, getMazub(), result, direction);
 		}
 		if(getBuzam() != null && getBuzam() != mainObject){
-			result = calculateHorizontalDistanceBetween(mainObject, getBuzam(), result, direction);
+			result = calculateDistanceBetween(mainObject, getBuzam(), result, direction);
 		}
 		for(Shark shark : getSharks()){
 			if(shark != null && shark != mainObject){
-				result = calculateHorizontalDistanceBetween(mainObject, shark, result, direction);					
+				result = calculateDistanceBetween(mainObject, shark, result, direction);					
 			}
 		}
 		for(Slime slime : getSlimes()){
 			if(slime != null && slime != mainObject){
-				result = calculateHorizontalDistanceBetween(mainObject, slime, result, direction);					
+				result = calculateDistanceBetween(mainObject, slime, result, direction);					
 			}
 		}
 		for(Plant plant : getPlants()){
 			if(plant != null && plant != mainObject){
-				result = calculateHorizontalDistanceBetween(mainObject, plant, result, direction);					
+				result = calculateDistanceBetween(mainObject, plant, result, direction);					
 			}
 		}
 		return result;
 	}
 	
+	private GameObject calculateDistanceBetween(GameObject mainObject,
+			GameObject otherObject, GameObject result, Direction direction) {
+		assert(direction != null);
+		if(direction == IProgramFactory.Direction.LEFT || direction == IProgramFactory.Direction.RIGHT){
+			return calculateHorizontalDistanceBetween(mainObject, otherObject, result, direction);
+		}
+		return calculateVerticalDistanceBetween(mainObject, otherObject, result, direction);
+	}
+
 	private GameObject calculateHorizontalDistanceBetween(GameObject mainObject, GameObject otherObject, GameObject result, Direction direction){
 		assert(mainObject != null && otherObject != null && (direction == direction.LEFT || direction == direction.RIGHT));
 		int minDistance = Integer.MAX_VALUE;
@@ -1479,6 +1489,42 @@ public class World  {
 			if(between(minYRight, minYLeft, maxYLeft) || between(maxYRight, minYLeft, maxYLeft) || between(minYLeft, minYRight, maxYRight) || 
 					between(maxYLeft, minYRight, maxYRight)){
 				if(((int)objectRight.getLocationX() - (int)objectLeft.getLocationX()) < minDistance){
+					return otherObject;
+				}
+			}
+		}
+		return result;
+	}
+	
+	private GameObject calculateVerticalDistanceBetween(GameObject mainObject, GameObject otherObject, GameObject result, Direction direction){
+		assert(mainObject != null && otherObject != null && (direction == direction.UP || direction == direction.DOWN));
+		int minDistance = Integer.MAX_VALUE;
+		GameObject objectUp = null;
+		GameObject objectDown = null;
+		Boolean run = false;
+		if(direction == direction.UP && otherObject.isAbove(mainObject)){
+			objectUp = otherObject;
+			objectDown = mainObject;
+			if(result != null){
+				minDistance = ((int)result.getLocationY() - (int)objectDown.getLocationY());
+			}
+			run = true;			
+		} else if (direction == direction.DOWN && otherObject.isUnder(mainObject)){
+			objectDown = otherObject;
+			objectUp = mainObject;
+			if(result != null){
+				minDistance = ((int)objectUp.getLocationX() - (int)result.getLocationX());
+			}
+			run = true;
+		}
+		if(run){
+			int minXUp = (int) objectUp.getLocationX();
+			int maxXUp = minXUp + objectUp.getCurrentSprite().getHeight();
+			int minXDown = (int) objectDown.getLocationX();
+			int maxXDown = minXDown + objectDown.getCurrentSprite().getHeight();
+			if(between(minXDown, minXUp, maxXUp) || between(maxXDown, minXUp, maxXUp) || between(minXUp, minXDown, maxXDown) || 
+					between(maxXUp, minXDown, maxXDown)){
+				if(((int)objectUp.getLocationY()) - (int)objectDown.getLocationY()  < minDistance){
 					return otherObject;
 				}
 			}
