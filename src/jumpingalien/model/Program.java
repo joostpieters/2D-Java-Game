@@ -21,7 +21,7 @@ public class Program {
 			if(entry.getValue() instanceof jumpingalien.part3.programs.types.Boolean){
 				getDeclarationVariables().put(entry.getKey(), false);	
 			} else if(entry.getValue() instanceof jumpingalien.part3.programs.types.Double){
-				getDeclarationVariables().put(entry.getKey(), 0);	
+				getDeclarationVariables().put(entry.getKey(), 0.00);	
 			}		
 		}
 	}
