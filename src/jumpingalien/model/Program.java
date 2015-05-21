@@ -3,7 +3,6 @@ package jumpingalien.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.Type;
