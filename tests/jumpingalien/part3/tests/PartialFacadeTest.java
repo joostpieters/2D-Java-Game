@@ -40,4 +40,12 @@ public class PartialFacadeTest {
 		assumeTrue(outcome.isSuccess());
 		assertTrue(facade.isWellFormed((Program) outcome.getResult()));
 	}
+	
+	@Test
+	public void testWellFormedActionStatementInForEach() {
+		IFacadePart3 facade = new Facade();
+		ParseOutcome<?> outcome = facade.parse("double x; object o; while true do foreach(any, o) where (! isplant o) sort (getx o) descending do x := getx o; start_run left; print x; done done");
+		assumeTrue(outcome.isSuccess());
+		assertFalse(facade.isWellFormed((Program) outcome.getResult()));
+	}
 }

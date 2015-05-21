@@ -36,11 +36,13 @@ public class Program {
 		SourceLocation oldSourceLocation = getSourceLocation();
 		SourceLocation sourceLocation = new SourceLocation(-1, -1);
 		this.setSourceLocation(sourceLocation);
+		setLinesToRun(getLinesToRun()+1);
 		setWellFormed(true);
 		setInForEach(0);
 		setInWhile(0);
 		getMainStatement().run(this);
 		setSourceLocation(oldSourceLocation);
+		setLinesToRun(getLinesToRun()-1);
 		return getWellFormed();
 	}
 
