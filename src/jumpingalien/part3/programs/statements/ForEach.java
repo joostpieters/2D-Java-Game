@@ -118,25 +118,31 @@ public class ForEach extends Statement {
 				objects.addAll(program.getObject().getWorld().getSharks());
 			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.MAZUB){
 				objects.add(program.getObject().getWorld().getMazub());
-			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.MAZUB){
-				objects.add(program.getObject().getWorld().getBuzam());
-			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.MAZUB){
+			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.BUZAM){
+				if(program.getObject().getWorld().getBuzam() != null){
+					objects.add(program.getObject().getWorld().getBuzam());
+				}
+			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.ANY){
 				objects.addAll(program.getObject().getWorld().getPlants());
 				objects.addAll(program.getObject().getWorld().getSlimes());
 				objects.addAll(program.getObject().getWorld().getSharks());
 				objects.add(program.getObject().getWorld().getMazub());
-				objects.add(program.getObject().getWorld().getBuzam());
-			}
-			//Verwijderen van onnodige elementen
-			ArrayList<GameObject> objectToRemove = new ArrayList<GameObject>();
-			for(GameObject object : objects){
-				program.getDeclarationVariables().put(getVariableName(), object);
-				if(!((getWhere().getValue(program) instanceof Boolean ) 
-						&& ((Boolean)getWhere().getValue(program)))){
-					objectToRemove.add(object);
+				if(program.getObject().getWorld().getBuzam() != null){
+					objects.add(program.getObject().getWorld().getBuzam());
 				}
 			}
-			objects.removeAll(objectToRemove);
+			//Verwijderen van onnodige elementen
+			if(getWhere() != null){
+				ArrayList<GameObject> objectToRemove = new ArrayList<GameObject>();
+				for(GameObject object : objects){
+					program.getDeclarationVariables().put(getVariableName(), object);
+					if(!((getWhere().getValue(program) instanceof Boolean ) 
+							&& ((Boolean)getWhere().getValue(program)))){
+						objectToRemove.add(object);
+					}
+				}
+				objects.removeAll(objectToRemove);
+			}
 			
 			//Sorteren van de lijst
 			

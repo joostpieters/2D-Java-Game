@@ -630,7 +630,9 @@ public class World  {
 			removeMazub();
 		}
 		if(getMazub() != null){
-			getBuzam().advanceTime(dt);
+			if(getBuzam() != null){
+				getBuzam().advanceTime(dt);
+			}
 			ArrayList<Plant> plantsToRemove = new ArrayList<Plant>();
 			for (Plant plant : plants) {
 				plant.advanceTime(dt);

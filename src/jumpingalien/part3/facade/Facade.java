@@ -389,7 +389,7 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public ParseOutcome<?> parse(String text) {
-		//text = "while true do print 1; while true do print 2; break; print 3; done print 4; break; print 5; done print 6;";
+		//text = "double x; object o; while true do foreach(plant, o) do x := getx o; print x; done done";
 		IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
 		ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
 		Optional<Program> parseResult = parser.parseString(text);

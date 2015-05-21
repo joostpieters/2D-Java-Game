@@ -24,16 +24,12 @@ public class Plant extends GameObject {
 	 * @effect	call the constructor of the superclass
 	 * 			| super(x, y, sprites)
 	 * @effect 	... 
-	 * 			| setCurrentSprite(getSprites()[0])
-	 * @effect 	... 
-	 * 			| setHorizontalVelocity(-0.5)
+	 * 			|setHorizontalVelocity(-0.5)
 	 */
 	@Raw
 	public Plant(int x, int y, Sprite[] sprites) throws IllegalArgumentException {
 		super(x, y, sprites);
-		setCurrentSpriteIndex(0);
 		setVelocityX(-0.5);
-		setAccelerationX(0);
 	}
 	
 	/**
@@ -47,16 +43,10 @@ public class Plant extends GameObject {
 	 * 				the program for this plant 
 	 * @effect	call the constructor of the superclass
 	 * 			| super(x, y, sprites)
-	 * @effect 	... 
-	 * 			| setCurrentSprite(getSprites()[0])
-	 * @effect 	... 
-	 * 			| setHorizontalVelocity(-0.5)
 	 */
 	@Raw
 	public Plant(int x, int y, Sprite[] sprites, Program program) throws IllegalArgumentException {
 		super(x, y, sprites, program);
-		setCurrentSpriteIndex(0);
-		setVelocityX(-0.5);
 	}
 
 	/**
@@ -64,28 +54,12 @@ public class Plant extends GameObject {
 	 */
 	@Basic
 	public Sprite getCurrentSprite() {
-		return getSprites()[getCurrentSpriteIndex()];
+		if(this.isMovingLeft()){
+			return getSprites()[0];
+		}
+		return getSprites()[1];
 	}
 
-	private int getCurrentSpriteIndex() {
-		return this.currentSpriteIndex;
-	}
-
-	/**
-	 * Sets the current sprite to the given sprite
-	 * 
-	 * @param index
-	 *            the sprite to be set as current sprite
-	 * @post new.getCurrentSprite() = sprite
-	 */
-	private void setCurrentSpriteIndex(int index) {
-		this.currentSpriteIndex = index;
-	}
-
-	/**
-	 * This variable contains the index of the current sprite
-	 */
-	private int currentSpriteIndex;
 	
 	/**
 	 * @return 	...
@@ -193,10 +167,8 @@ public class Plant extends GameObject {
 		} else if (getTimer() > 0.5) {
 			if (getVelocityX() > 0) {
 				setVelocityX(-0.5);
-				setCurrentSpriteIndex(0);
 			} else {
 				setVelocityX(0.5);
-				setCurrentSpriteIndex(1);
 			}
 			setTimer(0);
 		}
