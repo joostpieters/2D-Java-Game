@@ -4,14 +4,19 @@ import java.util.Map;
 
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.Type;
+import jumpingalien.part3.programs.exceptions.TypeError;
 
 public class IfThenElse extends Statement {
 
 	public IfThenElse(Expression condition, Statement ifBody, Statement elseBody, SourceLocation sourceLocation) {
 		super(sourceLocation);
+		if(!ReturnTypeDetection.returnsBoolean(condition)){
+			throw new TypeError(sourceLocation);
+		}
 		setCondition(condition);
 		setIfBody(ifBody);
 		setElseBody(elseBody);		

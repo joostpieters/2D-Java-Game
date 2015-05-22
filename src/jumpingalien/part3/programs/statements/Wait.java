@@ -2,14 +2,19 @@ package jumpingalien.part3.programs.statements;
 
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
+import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.util.Util;
 
 public class Wait extends Statement {
 
 	public Wait(Expression duration, SourceLocation sourceLocation) {
 		super(sourceLocation);
+		if(!ReturnTypeDetection.returnsDouble(duration)){
+			throw new TypeError(sourceLocation);
+		}
 		this.duration = duration;
 		setTimeWait(0);
 	}

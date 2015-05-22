@@ -2,13 +2,18 @@ package jumpingalien.part3.programs.statements;
 
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
+import jumpingalien.part3.programs.exceptions.TypeError;
 
 public class While extends Statement {
 
 	public While(Expression condition, Statement body, SourceLocation sourceLocation) {
 		super(sourceLocation);
+		if(!ReturnTypeDetection.returnsBoolean(condition)){
+			throw new TypeError(sourceLocation);
+		}
 		this.condition = condition;
 		this.body = body;
 	}

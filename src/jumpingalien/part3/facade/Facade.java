@@ -410,7 +410,7 @@ public class Facade implements IFacadePart3 {
 		try{
 			parseResult = parser.parseString(text);
 		} catch(TypeError e){
-			throw new ModelException("Type Problem in Program at line " + e.getSourceLocation().getLine() + "and column " + e.getSourceLocation().getColumn());
+			throw new ModelException("Type Problem in Program at line " + e.getSourceLocation().getLine() + " and column " + e.getSourceLocation().getColumn());
 		}
 		if(parseResult.isPresent()){
 			return ParseOutcome.success(parseResult.get());

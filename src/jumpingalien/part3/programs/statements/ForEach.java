@@ -3,12 +3,14 @@ package jumpingalien.part3.programs.statements;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.part3.programs.types.GameObject;
 import jumpingalien.model.Program;
 import jumpingalien.part2.internal.tmxfile.data.ImageTile.TileType;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.IProgramFactory.Kind;
 import jumpingalien.part3.programs.IProgramFactory.SortDirection;
+import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.util.Util;
@@ -22,6 +24,9 @@ public class ForEach extends Statement {
 			jumpingalien.part3.programs.IProgramFactory.SortDirection sortDirection,
 			Statement body, SourceLocation sourceLocation) {
 		super(sourceLocation);
+		if((where != null && !ReturnTypeDetection.returnsBoolean(where))||(sort != null && !ReturnTypeDetection.returnsDouble(sort))){
+			throw new TypeError(sourceLocation);
+		}
 		setVariableName(variableName);
 		setVariableKind(variableKind);
 		setWhere(where);
