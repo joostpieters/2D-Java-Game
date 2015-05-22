@@ -3,9 +3,11 @@ package jumpingalien.part3.programs.statements;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import jumpingalien.model.GameObject;
+import jumpingalien.part3.programs.types.GameObject;
 import jumpingalien.model.Program;
+import jumpingalien.part2.internal.tmxfile.data.ImageTile.TileType;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.IProgramFactory.Kind;
 import jumpingalien.part3.programs.IProgramFactory.SortDirection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
@@ -109,20 +111,22 @@ public class ForEach extends Statement {
 			if(program.getSourceLocation() == this.getSourceLocation()){
 				program.setSourceLocation(null);
 			}
-			ArrayList<GameObject> objects = new ArrayList<GameObject>();
-			if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.PLANT){
+			ArrayList<jumpingalien.part3.programs.types.GameObject> objects = new ArrayList<>();
+			if(getVariableKind() == Kind.PLANT){
 				objects.addAll(program.getObject().getWorld().getPlants());
-			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.SLIME){
+			} else if(getVariableKind() == Kind.SLIME){
 				objects.addAll(program.getObject().getWorld().getSlimes());
-			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.SHARK){
+			} else if(getVariableKind() == Kind.SHARK){
 				objects.addAll(program.getObject().getWorld().getSharks());
-			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.MAZUB){
+			} else if(getVariableKind() == Kind.MAZUB){
 				objects.add(program.getObject().getWorld().getMazub());
-			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.BUZAM){
+			} else if(getVariableKind() == Kind.BUZAM){
 				if(program.getObject().getWorld().getBuzam() != null){
 					objects.add(program.getObject().getWorld().getBuzam());
 				}
-			} else if(getVariableKind() == jumpingalien.part3.programs.IProgramFactory.Kind.ANY){
+			} else if (getVariableKind() == Kind.TERRAIN) {
+				objects.addAll(program.getObject().getWorld().getTiles());
+			} else if(getVariableKind() == Kind.ANY){
 				objects.addAll(program.getObject().getWorld().getPlants());
 				objects.addAll(program.getObject().getWorld().getSlimes());
 				objects.addAll(program.getObject().getWorld().getSharks());
@@ -130,6 +134,7 @@ public class ForEach extends Statement {
 				if(program.getObject().getWorld().getBuzam() != null){
 					objects.add(program.getObject().getWorld().getBuzam());
 				}
+				objects.addAll(program.getObject().getWorld().getTiles());
 			}
 			//Verwijderen van onnodige elementen
 			if(getWhere() != null){

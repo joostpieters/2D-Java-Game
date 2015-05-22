@@ -1,7 +1,5 @@
 package jumpingalien.part3.programs.expressions;
 
-import javax.swing.JApplet;
-
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;

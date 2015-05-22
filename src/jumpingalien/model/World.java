@@ -1553,5 +1553,17 @@ public class World  {
 	private boolean between(double value, double minValue, double maxValue){
 		return (Util.fuzzyGreaterThanOrEqualTo(value, minValue) && Util.fuzzyGreaterThanOrEqualTo(maxValue, value));
 	}
+	
+	public Collection<Tile> getTiles() {
+		ArrayList<Tile> list = new ArrayList<>();
+		int[][] geologicalFeature = getGeologicalFeatureOfTiles();
+		int tileSize = getTileSize();
+		for (int i = 0; i < geologicalFeature.length; i++) {
+			for (int j = 0; j < geologicalFeature[0].length; j++) {
+				list.add(new Tile(i*tileSize, j*tileSize, geologicalFeature[i][j]));
+			}
+		}
+		return list;
+	}
 }
 

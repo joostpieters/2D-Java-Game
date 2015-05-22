@@ -154,5 +154,15 @@ public class Program {
 	}
 
 	private boolean wellFormed;
+	
+	public boolean hasAnError() {
+		return hasAnError;
+	}
+	
+	public void setHasAnError(boolean value) {
+		this.hasAnError = value;
+	}
+	
+	private boolean hasAnError;
 
 }

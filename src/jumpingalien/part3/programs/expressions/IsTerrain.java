@@ -1,6 +1,7 @@
 package jumpingalien.part3.programs.expressions;
 
 import jumpingalien.model.Program;
+import jumpingalien.model.Tile;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 
@@ -19,11 +20,11 @@ public class IsTerrain extends Expression {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if((int)(double)getExpression().getValue(program) == 0 || (int)(double)getExpression().getValue(program) == 1 ||
-				(int)(double)getExpression().getValue(program) == 2	|| (int)(double)getExpression().getValue(program) == 3){
+		if (getExpression().getValue(program) instanceof Tile) {
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 }

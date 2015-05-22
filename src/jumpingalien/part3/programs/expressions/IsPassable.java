@@ -1,6 +1,7 @@
 package jumpingalien.part3.programs.expressions;
 
 import jumpingalien.model.Program;
+import jumpingalien.model.Tile;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 
@@ -19,11 +20,14 @@ public class IsPassable extends Expression {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if((int)(double)getExpression().getValue(program) == 0 || (int)(double)getExpression().getValue(program) == 2
-				|| (int)(double)getExpression().getValue(program) == 3){
-			return true;
+		if (getExpression().getValue(program) instanceof Tile) {
+			int geologicalFeature = ((Tile) getExpression().getValue(program)).getGeologicalFeature();
+			return geologicalFeature == 0 || geologicalFeature == 2 || geologicalFeature == 3;
+		} else {
+			program.setLinesToRun(0);
+			program.setHasAnError(true);
+			return false;
 		}
-		return false;
 	}
 
 }

@@ -2,6 +2,7 @@ package jumpingalien.part3.programs.expressions;
 
 import jumpingalien.model.GameObject;
 import jumpingalien.model.Program;
+import jumpingalien.model.Tile;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
 
@@ -28,8 +29,13 @@ public class GetHeight extends Expression {
 		if( getExpression().getValue(program) instanceof GameObject){
 			GameObject object = (GameObject) getExpression().getValue(program);
 			return (double) object.getCurrentSprite().getHeight();
+		} else if (getExpression().getValue(program) instanceof Tile) {
+			return (double) program.getObject().getWorld().getTileSize();
+		} else {
+			program.setLinesToRun(0);
+			program.setHasAnError(true);
+			return null;
 		}
-		return null;
 	}
 
 }
