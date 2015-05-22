@@ -18,7 +18,7 @@ public class Variable extends Literal {
 	
 	private final String name;
 	
-	private Type getType() {
+	public Type getType() {
 		return type;
 	}
 	

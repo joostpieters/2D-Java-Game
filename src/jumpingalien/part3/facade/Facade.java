@@ -402,13 +402,17 @@ public class Facade implements IFacadePart3 {
 	@Override
 	public ParseOutcome<?> parse(String text) {
 		//text = "double x; object o; while true do foreach(plant, o) do x := getx o; print x; done done";
-		IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
-		ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
-		Optional<Program> parseResult = parser.parseString(text);
-		if(parseResult.isPresent()){
-			return ParseOutcome.success(parseResult.get());
-		} else {
-			return ParseOutcome.failure(parser.getErrors());
+		try{
+			IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
+			ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
+			Optional<Program> parseResult = parser.parseString(text);
+			if(parseResult.isPresent()){
+				return ParseOutcome.success(parseResult.get());
+			} else {
+				return ParseOutcome.failure(parser.getErrors());
+			}
+		} catch(IllegalArgumentException e){
+			throw new ModelException("Type Problem in Program");
 		}
 	}
 
