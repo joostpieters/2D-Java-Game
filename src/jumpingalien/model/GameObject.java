@@ -88,11 +88,23 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameO
 	 * 
 	 * @param 	y
 	 *          the new y location for this Game Object
+	 * @throws	IllegalArgumentException
+	 * 			If the given location is less than 0 or greater than the height of the game world
+	 * 			|if(y < 0) then
+	 * 			|	throw new IllegalArgumentException();
+	 * 			|if(hasAWorld() && Util.fuzzyLessThanOrEqualTo(getWorld().getWorldSizeInPixels()[1], y)) then
+	 *			|	throw new IllegalArgumentException()
 	 * @post 	the y location of this Game Object is equal to the given y
 	 *       	|new.getLocationY() = y
 	 */
 	protected void setLocationY(double y) {
-		this.locationY = y;
+		if(y < 0){
+			throw new IllegalArgumentException();
+		} else if(hasAWorld() && Util.fuzzyLessThanOrEqualTo(getWorld().getWorldSizeInPixels()[1], y)){
+			throw new IllegalArgumentException();
+		} else { 
+			this.locationY = y;
+		}
 	}
 
 	/**
