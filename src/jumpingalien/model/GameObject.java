@@ -28,7 +28,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameO
 	 * @return will return terminated
 	 * 			|result == this.terminated
 	 */
-	boolean isTerminated() {
+	public boolean isTerminated() {
 		return this.terminated;
 	}
 	
@@ -208,8 +208,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameO
  		if(hitPoints <= 0){
 			this.hitPoints = 0;
  			setDead(true);
- 		} else if(
- 			hitPoints > getMaxHitPoints()) {
+ 		} else if(hitPoints > getMaxHitPoints()) {
 			this.hitPoints = getMaxHitPoints();
  		} else {
 			this.hitPoints = hitPoints;

@@ -3,6 +3,8 @@ package jumpingalien.model;
 import jumpingalien.util.Sprite;
 
 public class Buzam extends Mazub {
+	
+	//TODO documentatie volledig !!
 	public Buzam (int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws IllegalArgumentException{
 		super(pixelLeftX, pixelBottomY, sprites);
 	}
@@ -30,10 +32,23 @@ public class Buzam extends Mazub {
 	
 	@Override
 	public void advanceTime(double dt){
-		if(hasAProgram()){
+		if(hasAProgram() && !isDead()){
 			getProgram().run((int)Math.ceil(dt/0.001));
 		}
 		super.advanceTime(dt);
+	}
+	
+	/**
+	 * @effect 	removes the world for this mazub
+	 * 			|removeWorld()
+	 * @effect 	sets this mazub terminated
+	 * 			|setTerminated(true)
+	 */
+	@Override
+	void terminate(){
+		getWorld().removeBuzam();
+		this.removeWorld();
+		this.setTerminated(true);
 	}
 	
 }

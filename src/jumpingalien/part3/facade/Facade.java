@@ -438,7 +438,9 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public int[] getLocation(Buzam alien) {
-		return alien.getLocation();
+		if(!alien.isTerminated())
+			return alien.getLocation();
+		return null;
 	}
 
 	@Override

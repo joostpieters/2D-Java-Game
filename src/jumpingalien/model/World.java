@@ -1205,12 +1205,16 @@ public class World  {
 	 * 			|result == hasCollision(startX, startY, endX, endY, (int) getMazub().getLocationX(), (int) getMazub().getLocationY(), (int) getMazub().getLocationX()+getMazub.getCurrentSprite().getWidth(), (int) getMazub().getLocationY()+getMazub.getCurrentSprite().getHeight())
 	 */
 	boolean collisionBuzam(int startX, int startY, int endX, int endY) {
-		Buzam buzam = getBuzam();
-		int mazubStartX = (int) buzam.getLocationX();
-		int mazubStartY = (int) buzam.getLocationY();
-		int mazubEndX =	mazubStartX + buzam.getCurrentSprite().getWidth();
-		int mazubEndY = mazubStartY + buzam.getCurrentSprite().getHeight();
-		return hasCollision(startX, startY, endX, endY, mazubStartX, mazubStartY, mazubEndX, mazubEndY);
+		if(getBuzam() != null){
+			Buzam buzam = getBuzam();
+			int mazubStartX = (int) buzam.getLocationX();
+			int mazubStartY = (int) buzam.getLocationY();
+			int mazubEndX =	mazubStartX + buzam.getCurrentSprite().getWidth();
+			int mazubEndY = mazubStartY + buzam.getCurrentSprite().getHeight();
+			return hasCollision(startX, startY, endX, endY, mazubStartX, mazubStartY, mazubEndX, mazubEndY);
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -1564,6 +1568,15 @@ public class World  {
 			}
 		}
 		return list;
+	}
+
+	/**
+	 * Removes Buzam from this game world
+	 * @post	Buzam of this world will equal null
+	 * 			|new.getBuzam() == null
+	 */
+	void removeBuzam() {
+		this.buzam = null;		
 	}
 }
 
