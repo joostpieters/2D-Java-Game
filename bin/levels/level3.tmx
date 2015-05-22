@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="70" tileheight="70" backgroundcolor="#d1f4f7" nextobjectid="78">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="70" tileheight="70" backgroundcolor="#d1f4f7" nextobjectid="122">
  <properties>
+  <property name="initialBuzamX" value="1050"/>
+  <property name="initialBuzamY" value="1259"/>
   <property name="initialX" value="70"/>
   <property name="initialY" value="69"/>
   <property name="targetTileX" value="48"/>
@@ -5339,7 +5341,7 @@
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="62" gid="244" x="513" y="1705">
+  <object id="62" gid="244" x="511" y="1719">
    <properties>
     <property name="school" value="3"/>
    </properties>
@@ -5349,7 +5351,7 @@
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="64" gid="244" x="653" y="1578">
+  <object id="64" gid="244" x="655" y="1596">
    <properties>
     <property name="school" value="2"/>
    </properties>
@@ -5359,22 +5361,22 @@
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="66" gid="244" x="548" y="1416">
+  <object id="66" gid="244" x="574" y="1416">
    <properties>
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="67" gid="244" x="835" y="1439">
+  <object id="67" gid="244" x="808" y="1444">
    <properties>
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="68" gid="244" x="1081" y="1418">
+  <object id="68" gid="244" x="1081" y="1444">
    <properties>
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="69" gid="244" x="783" y="1610">
+  <object id="69" gid="244" x="876" y="1627">
    <properties>
     <property name="school" value="2"/>
    </properties>
@@ -5389,12 +5391,12 @@
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="72" gid="244" x="419" y="1437">
+  <object id="72" gid="244" x="451" y="1442">
    <properties>
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="73" gid="244" x="355" y="1358">
+  <object id="73" gid="244" x="380" y="1384">
    <properties>
     <property name="school" value="2"/>
    </properties>
@@ -5404,7 +5406,7 @@
     <property name="school" value="2"/>
    </properties>
   </object>
-  <object id="75" gid="244" x="601" y="1671">
+  <object id="75" gid="244" x="598" y="1709">
    <properties>
     <property name="school" value="2"/>
    </properties>
@@ -5419,5 +5421,97 @@
     <property name="school" value="2"/>
    </properties>
   </object>
+  <object id="78" gid="236" x="1290" y="1058"/>
+  <object id="79" gid="236" x="949" y="1874"/>
+  <object id="80" gid="236" x="1650" y="1904"/>
+  <object id="81" gid="236" x="1025" y="1956"/>
+  <object id="82" gid="236" x="2826" y="1310"/>
+  <object id="83" gid="236" x="2905" y="1452"/>
+  <object id="84" gid="236" x="3001" y="1296"/>
+  <object id="85" gid="236" x="2869" y="1376"/>
+  <object id="86" gid="245" x="1161" y="670">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="89" gid="245" x="1004" y="726">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="90" gid="245" x="724" y="662">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="95" gid="245" x="644" y="593">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="96" gid="245" x="617" y="693">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="97" gid="245" x="500" y="656">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="98" gid="245" x="457" y="745">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="103" gid="245" x="1014" y="609">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="104" gid="245" x="985" y="828">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="105" gid="245" x="760" y="765">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="106" gid="245" x="1102" y="753">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="107" gid="245" x="921" y="709">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="108" gid="245" x="829" y="709">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="110" gid="245" x="1192" y="413">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="111" gid="245" x="1164" y="522">
+   <properties>
+    <property name="school" value="4"/>
+   </properties>
+  </object>
+  <object id="113" gid="220" x="29" y="1880"/>
+  <object id="114" gid="220" x="32" y="1937"/>
+  <object id="115" gid="220" x="108" y="1880"/>
+  <object id="116" gid="220" x="120" y="1941"/>
+  <object id="117" gid="220" x="188" y="1950"/>
+  <object id="118" gid="220" x="38" y="1992"/>
+  <object id="119" gid="220" x="113" y="1993"/>
+  <object id="120" gid="220" x="192" y="1993"/>
+  <object id="121" gid="220" x="177" y="1888"/>
  </objectgroup>
 </map>
