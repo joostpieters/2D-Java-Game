@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="70" tileheight="70" backgroundcolor="#505050" nextobjectid="14">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="70" tileheight="70" backgroundcolor="#505050" nextobjectid="30">
  <properties>
   <property name="initialBuzamX" value="1050"/>
   <property name="initialBuzamY" value="349"/>
@@ -1282,5 +1282,21 @@
     <property name="school" value="0"/>
    </properties>
   </object>
+  <object id="14" gid="238" x="211" y="699"/>
+  <object id="15" gid="238" x="188" y="526"/>
+  <object id="16" gid="238" x="485" y="488"/>
+  <object id="17" gid="238" x="403" y="570"/>
+  <object id="18" gid="238" x="420" y="624"/>
+  <object id="19" gid="238" x="335" y="656"/>
+  <object id="20" gid="238" x="251" y="603"/>
+  <object id="21" gid="238" x="367" y="696"/>
+  <object id="22" gid="238" x="333" y="603"/>
+  <object id="23" gid="238" x="386" y="492"/>
+  <object id="24" gid="238" x="650" y="754"/>
+  <object id="25" gid="238" x="648" y="715"/>
+  <object id="26" gid="238" x="647" y="676"/>
+  <object id="27" gid="238" x="649" y="637"/>
+  <object id="28" gid="238" x="650" y="597"/>
+  <object id="29" gid="238" x="650" y="558"/>
  </objectgroup>
 </map>
