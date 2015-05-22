@@ -4,10 +4,16 @@ import java.util.Map;
 
 import jumpingalien.model.Program;
 
-public abstract class Statement extends ProgramCode {
+public abstract class Statement {
 	public Statement(SourceLocation sourceLocation) {
-		super(sourceLocation);
+		this.sourceLocation = sourceLocation;
 	}
+	
+	protected SourceLocation getSourceLocation() {
+		return sourceLocation;
+	}
+
+	private final SourceLocation sourceLocation;
 	
 	protected abstract void runStatement(Program program);
 	
