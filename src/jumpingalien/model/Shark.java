@@ -109,20 +109,6 @@ public class Shark extends GameObject {
 	/**
 	 * 
 	 * @return	...
-	 * 			| result == getInitialHorizontalAcceleration()
-	 */
-	@Override
-	public double getAccelerationX() {
-		if(getMovement() != null)
-			return getInitialHorizontalAcceleration();
-		else
-			return 0;
-	}
-	
-	
-	/**
-	 * 
-	 * @return	...
 	 * 			| result == 1.5
 	 */
 	protected double getInitialHorizontalAcceleration(){
@@ -442,8 +428,10 @@ public class Shark extends GameObject {
 			random = (int)(Math.random()*2);
 			switch (random){
 				case 0: setMovement(Motion.RIGHT);
+						setAccelerationX(getInitialHorizontalAcceleration());
 							break;
 				case 1: setMovement(Motion.LEFT);
+						setAccelerationX(getInitialHorizontalAcceleration()*-1);
 							break;
 			}
 		}
