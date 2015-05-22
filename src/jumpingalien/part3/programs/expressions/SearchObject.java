@@ -3,13 +3,18 @@ package jumpingalien.part3.programs.expressions;
 import jumpingalien.model.GameObject;
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.IProgramFactory.Direction;
+import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.part3.programs.SourceLocation;
 
 public class SearchObject extends Expression {
 
 	public SearchObject(Expression direction, SourceLocation sourceLocation) {
 		super(sourceLocation);
+		if(!ReturnTypeDetection.returnsDirection(direction)){
+			throw new TypeError(sourceLocation);
+		}
 		this.direction = direction;
 	}
 	

@@ -3,7 +3,9 @@ package jumpingalien.part3.programs.expressions;
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.IProgramFactory;
+import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
+import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.part3.programs.expressions.Comparison;
 import jumpingalien.util.Util;
 
@@ -12,6 +14,12 @@ public class Equals extends Comparison {
 	public Equals(Expression leftOperand, Expression rightOperand,
 			SourceLocation sourceLocation) {
 		super(leftOperand, rightOperand, sourceLocation);
+		if(!(ReturnTypeDetection.returnsDouble(leftOperand, rightOperand) 
+				|| ReturnTypeDetection.returnsBoolean(leftOperand, rightOperand)
+				|| ReturnTypeDetection.returnsDirection(leftOperand, rightOperand)
+				|| ReturnTypeDetection.returnsObject(leftOperand, rightOperand))){
+			throw new TypeError(sourceLocation);
+		}
 	}
 
 	@Override

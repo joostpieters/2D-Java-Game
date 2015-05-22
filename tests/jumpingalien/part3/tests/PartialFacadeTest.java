@@ -51,9 +51,9 @@ public class PartialFacadeTest {
 		assertFalse(facade.isWellFormed((Program) outcome.getResult()));
 	}
 	
-	@Test(expected = IllegalMatchingTypeException.class)
+	@Test(expected = ModelException.class)
 	public void testMatchingTypes() {
 		IFacadePart3 facade = new Facade();
-		ParseOutcome<?> outcome = facade.parse("double a := true; bool b; bool c; c := a + b; print c;");
+		ParseOutcome<?> outcome = facade.parse("double a := 10; bool b; a := a + b;");
 	}
 }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import jumpingalien.model.Program;
 
-public abstract class Statement {
+public abstract class Statement implements ReturnTypeDetection {
 	public Statement(SourceLocation sourceLocation) {
 		this.sourceLocation = sourceLocation;
 	}

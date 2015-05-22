@@ -5,13 +5,19 @@ import jumpingalien.model.Program;
 import jumpingalien.model.Tile;
 import jumpingalien.model.World;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
+import jumpingalien.part3.programs.exceptions.TypeError;
+
 import java.lang.Double;
 
 public class GetTile extends Expression {
 
 	public GetTile(Expression x, Expression y, SourceLocation sourceLocation) {
 		super(sourceLocation);
+		if(!ReturnTypeDetection.returnsDouble(x, y)){
+			throw new TypeError(sourceLocation);
+		}
 		setX(x);
 		setY(y);
 	}

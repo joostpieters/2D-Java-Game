@@ -2,7 +2,9 @@ package jumpingalien.part3.programs.expressions;
 
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
+import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.part3.programs.expressions.Comparison;
 
 public class GreaterThan extends Comparison {
@@ -10,6 +12,9 @@ public class GreaterThan extends Comparison {
 	public GreaterThan(Expression leftOperand, Expression rightOperand,
 			SourceLocation sourceLocation) {
 		super(leftOperand, rightOperand, sourceLocation);
+		if(!ReturnTypeDetection.returnsDouble(leftOperand, rightOperand)){
+			throw new TypeError(sourceLocation);
+		}
 	}
 
 	@Override

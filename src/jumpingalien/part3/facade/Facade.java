@@ -22,6 +22,7 @@ import jumpingalien.part3.programs.Type;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.ProgramFactory;
 import jumpingalien.part3.programs.exceptions.IllegalMatchingTypeException;
+import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 
@@ -401,19 +402,20 @@ public class Facade implements IFacadePart3 {
 	}
 
 	@Override
-	public ParseOutcome<?> parse(String text) {
-//		text = "bool a := true; bool b; bool c; c := a + b; print c;";
+	public ParseOutcome<?> parse (String text) throws ModelException {
+		//	text = "bool a := true; bool b; bool c; c := a + b; print c;";
+		IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
+		ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
+		Optional<Program> parseResult;
 		try{
-			IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
-			ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
-			Optional<Program> parseResult = parser.parseString(text);
-			if(parseResult.isPresent()){
-				return ParseOutcome.success(parseResult.get());
-			} else {
-				return ParseOutcome.failure(parser.getErrors());
-			}
-		} catch(IllegalMatchingTypeException e){
+			parseResult = parser.parseString(text);
+		} catch(TypeError e){
 			throw new ModelException("Type Problem in Program at line " + e.getSourceLocation().getLine() + "and column " + e.getSourceLocation().getColumn());
+		}
+		if(parseResult.isPresent()){
+			return ParseOutcome.success(parseResult.get());
+		} else {
+			return ParseOutcome.failure(parser.getErrors());
 		}
 	}
 

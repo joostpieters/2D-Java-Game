@@ -2,12 +2,17 @@ package jumpingalien.part3.programs.expressions;
 
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
+import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
+import jumpingalien.part3.programs.exceptions.TypeError;
 
 public class Negation extends UnaryOperator {
 
 	public Negation(Expression operand, SourceLocation sourceLocation) {
 		super(operand, sourceLocation);
+		if(!ReturnTypeDetection.returnsBoolean(operand)){
+			throw new TypeError(sourceLocation);
+		}
 	}
 	
 	@Override
