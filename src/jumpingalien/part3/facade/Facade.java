@@ -364,27 +364,39 @@ public class Facade implements IFacadePart3 {
 	}
 
 	@Override
-	public Buzam createBuzamWithProgram(int pixelLeftX, int pixelBottomY,
-			Sprite[] sprites, Program program) {
-		return new Buzam(pixelLeftX, pixelBottomY, sprites, program);
+	public Buzam createBuzamWithProgram(int pixelLeftX, int pixelBottomY, Sprite[] sprites, Program program) {
+		try {
+			return new Buzam(pixelLeftX, pixelBottomY, sprites, program);
+		} catch (IllegalArgumentException e){
+			throw new ModelException("Illegal Sprite argment");
+		}
 	}
 
 	@Override
-	public Plant createPlantWithProgram(int x, int y, Sprite[] sprites,
-			Program program) {
-		return new Plant(x, y, sprites, program);
+	public Plant createPlantWithProgram(int x, int y, Sprite[] sprites, Program program) {
+		try {
+			return new Plant(x, y, sprites, program);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("Invalid Argument");
+		}
 	}
 
 	@Override
-	public Shark createSharkWithProgram(int x, int y, Sprite[] sprites,
-			Program program) {
-		return new Shark(x, y, sprites, program);
+	public Shark createSharkWithProgram(int x, int y, Sprite[] sprites, Program program) {
+		try {
+			return new Shark(x, y, sprites, program);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("Illegal Argument for createSharkWithProgram");
+		}
 	}
 
 	@Override
-	public Slime createSlimeWithProgram(int x, int y, Sprite[] sprites,
-			School school, Program program) {
-		return new Slime(x, y, sprites, school, program);
+	public Slime createSlimeWithProgram(int x, int y, Sprite[] sprites, School school, Program program) {
+		try {
+			return new Slime(x, y, sprites, school, program);
+		} catch (IllegalArgumentException e){
+			throw new ModelException("Invalid argument for createSlimeWithProgram");
+		}
 	}
 
 	@Override
