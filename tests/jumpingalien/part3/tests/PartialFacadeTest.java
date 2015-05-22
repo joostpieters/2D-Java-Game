@@ -6,6 +6,8 @@ import jumpingalien.model.Program;
 import jumpingalien.part3.facade.Facade;
 import jumpingalien.part3.facade.IFacadePart3;
 import jumpingalien.part3.programs.ParseOutcome;
+import jumpingalien.part3.programs.exceptions.IllegalMatchingTypeException;
+import jumpingalien.util.ModelException;
 
 import org.junit.Test;
 
@@ -47,5 +49,11 @@ public class PartialFacadeTest {
 		ParseOutcome<?> outcome = facade.parse("double x; object o; while true do foreach(any, o) where (! isplant o) sort (getx o) descending do x := getx o; start_run left; print x; done done");
 		assumeTrue(outcome.isSuccess());
 		assertFalse(facade.isWellFormed((Program) outcome.getResult()));
+	}
+	
+	@Test(expected = IllegalMatchingTypeException.class)
+	public void testMatchingTypes() {
+		IFacadePart3 facade = new Facade();
+		ParseOutcome<?> outcome = facade.parse("double a := true; bool b; bool c; c := a + b; print c;");
 	}
 }

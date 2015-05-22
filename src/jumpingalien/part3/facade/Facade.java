@@ -402,7 +402,7 @@ public class Facade implements IFacadePart3 {
 
 	@Override
 	public ParseOutcome<?> parse(String text) {
-		//text = "double x; object o; while true do foreach(plant, o) do x := getx o; print x; done done";
+//		text = "bool a := true; bool b; bool c; c := a + b; print c;";
 		try{
 			IProgramFactory<Expression, Statement, Type, Program> factory = new ProgramFactory();
 			ProgramParser<Expression, Statement, Type, Program> parser = new ProgramParser<>(factory);
