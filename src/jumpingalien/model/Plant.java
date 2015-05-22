@@ -56,8 +56,9 @@ public class Plant extends GameObject {
 	public Sprite getCurrentSprite() {
 		if(this.isMovingLeft()){
 			return getSprites()[0];
+		} else {
+			return getSprites()[1];
 		}
-		return getSprites()[1];
 	}
 
 	

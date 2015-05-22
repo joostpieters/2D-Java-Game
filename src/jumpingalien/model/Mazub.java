@@ -217,7 +217,7 @@ public class Mazub extends GameObject {
 	 */
 	@Override
 	public Sprite getCurrentSprite() {
-		
+		assert(getSpriteIndex() > 0 && getSpriteIndex() < getSprites().length);
 		// for all moves to the right
 		if (this.isMovingRight()) {
 			if (this.isJumping())
@@ -664,7 +664,7 @@ public class Mazub extends GameObject {
 	 * 			|setDucking(true);
 	 */
 	public void startDucking() throws IllegalStateException {
-		if (isDownKeyPressed())
+		if (isDownKeyPressed() || isDucking())
 			throw new IllegalStateException();
 		setDucking(true);
 		setDownKeyPressed(true);
