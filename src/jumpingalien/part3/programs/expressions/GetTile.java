@@ -6,6 +6,7 @@ import jumpingalien.model.Tile;
 import jumpingalien.model.World;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
+import java.lang.Double;
 
 public class GetTile extends Expression {
 
@@ -38,12 +39,18 @@ public class GetTile extends Expression {
 	@Override
 	public Tile getValue(Program program) {
 		World world = ((GameObject) program.getObject()).getWorld();
-		int x = (int) (double) getX().getValue(program);
-		int y = (int) (double) getY().getValue(program);
-		int geologicalFeature = world.getGeologicalFeatureByPixel(x, y);
-		try {
-			return new Tile(x, y, geologicalFeature);
-		} catch (IllegalArgumentException e){
+		if (getX().getValue(program) instanceof Double && getY().getValue(program) instanceof Double) {
+			int x = doubleToInteger((Double) getX().getValue(program));
+			int y = doubleToInteger((Double) getY().getValue(program));
+			try {
+				int geologicalFeature = world.getGeologicalFeatureByPixel(x, y);
+				return new Tile(x, y, geologicalFeature);
+			} catch (IllegalArgumentException e){
+				program.setLinesToRun(0);
+				program.setHasAnError(true);
+				return null;
+			}
+		} else {
 			program.setLinesToRun(0);
 			program.setHasAnError(true);
 			return null;

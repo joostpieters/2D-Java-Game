@@ -12,12 +12,21 @@ public class Variable extends Literal {
 		this.type = type;
 	}
 	
-	private String name;
-	private Type type;
+	private String getName() {
+		return this.name;
+	}
+	
+	private final String name;
+	
+	private Type getType() {
+		return type;
+	}
+	
+	private final Type type;
 	
 	@Override
 	public java.lang.Object getValue(Program program) {
-		return program.getDeclarationVariables().get(name);
+		return program.getDeclarationVariables().get(getName());
 	}
 	
 

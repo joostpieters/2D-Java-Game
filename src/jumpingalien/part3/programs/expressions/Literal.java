@@ -7,6 +7,5 @@ public abstract class Literal extends Expression {
 
 	public Literal(SourceLocation sourceLocation) {
 		super(sourceLocation);
-		// TODO Auto-generated constructor stub
 	}
 }

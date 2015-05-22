@@ -12,7 +12,7 @@ public class Object extends Literal {
 	
 	public Object(GameObject gameObject, boolean self, SourceLocation sourceLocation) {
 		this(gameObject, sourceLocation);
-		this.self = self;
+		setSelf(self);
 	}
 	
 	private GameObject getObject() {
