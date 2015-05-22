@@ -21,6 +21,7 @@ import jumpingalien.part3.programs.ProgramParser;
 import jumpingalien.part3.programs.Type;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.ProgramFactory;
+import jumpingalien.part3.programs.exceptions.IllegalMatchingTypeException;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 
@@ -411,8 +412,8 @@ public class Facade implements IFacadePart3 {
 			} else {
 				return ParseOutcome.failure(parser.getErrors());
 			}
-		} catch(IllegalArgumentException e){
-			throw new ModelException("Type Problem in Program");
+		} catch(IllegalMatchingTypeException e){
+			throw new ModelException("Type Problem in Program at line " + e.getSourceLocation().getLine() + "and column " + e.getSourceLocation().getColumn());
 		}
 	}
 

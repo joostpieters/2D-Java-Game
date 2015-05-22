@@ -32,7 +32,7 @@ public abstract class Expression {
 		}
 	}
 	
-	static boolean returnsDouble(Expression ... expressions){
+	protected static boolean returnsDouble(Expression ... expressions){
 		boolean isValid = true;
 		for(Expression expression : expressions){
 			if(!(expression instanceof Addition || expression instanceof Division || 

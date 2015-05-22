@@ -3,11 +3,15 @@ package jumpingalien.part3.programs.expressions;
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.SourceLocation;
+import jumpingalien.part3.programs.exceptions.IllegalMatchingTypeException;
 
 public class Addition extends BinaryOperator {
 	
 	public Addition(Expression leftOperand, Expression rightOperand, SourceLocation sourceLocation) {
 		super(leftOperand, rightOperand, sourceLocation);
+		if(!returnsDouble(leftOperand, rightOperand)){
+			throw new IllegalMatchingTypeException(sourceLocation);
+		}
 	}
 	
 	@Override
