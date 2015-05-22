@@ -1184,7 +1184,7 @@ public class World  {
 	 * @param endX
 	 * @param endY
 	 * @return	...
-	 * 			| hasCollision(startX, startY, endX, endY, (int) getMazub().getLocationX(), (int) getMazub().getLocationY(), (int) getMazub().getLocationX()+getMazub.getCurrentSprite().getWidth(), (int) getMazub().getLocationY()+getMazub.getCurrentSprite().getHeight())
+	 * 			|result == hasCollision(startX, startY, endX, endY, (int) getMazub().getLocationX(), (int) getMazub().getLocationY(), (int) getMazub().getLocationX()+getMazub.getCurrentSprite().getWidth(), (int) getMazub().getLocationY()+getMazub.getCurrentSprite().getHeight())
 	 */
 	boolean collisionMazub(int startX, int startY, int endX, int endY) {
 		Mazub mazub = getMazub();
@@ -1192,6 +1192,24 @@ public class World  {
 		int mazubStartY = (int) mazub.getLocationY();
 		int mazubEndX =	mazubStartX + mazub.getCurrentSprite().getWidth();
 		int mazubEndY = mazubStartY + mazub.getCurrentSprite().getHeight();
+		return hasCollision(startX, startY, endX, endY, mazubStartX, mazubStartY, mazubEndX, mazubEndY);
+	}
+	
+	/**
+	 * 
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @return	...
+	 * 			|result == hasCollision(startX, startY, endX, endY, (int) getMazub().getLocationX(), (int) getMazub().getLocationY(), (int) getMazub().getLocationX()+getMazub.getCurrentSprite().getWidth(), (int) getMazub().getLocationY()+getMazub.getCurrentSprite().getHeight())
+	 */
+	boolean collisionBuzam(int startX, int startY, int endX, int endY) {
+		Buzam buzam = getBuzam();
+		int mazubStartX = (int) buzam.getLocationX();
+		int mazubStartY = (int) buzam.getLocationY();
+		int mazubEndX =	mazubStartX + buzam.getCurrentSprite().getWidth();
+		int mazubEndY = mazubStartY + buzam.getCurrentSprite().getHeight();
 		return hasCollision(startX, startY, endX, endY, mazubStartX, mazubStartY, mazubEndX, mazubEndY);
 	}
 

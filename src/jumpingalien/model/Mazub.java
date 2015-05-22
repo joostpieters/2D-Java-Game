@@ -991,7 +991,7 @@ public class Mazub extends GameObject {
 	/**
 	 * Returns whether the up key is pressed or not
 	 */
-	private boolean isUpKeyPressed() {
+	public boolean isUpKeyPressed() {
 		return isUpKeyPressed;
 	}
 
