@@ -479,7 +479,6 @@ public class Slime extends GameObject {
 		double accelerationX = getAccelerationX();
 		double velocityX;
 		if(isMovingLeft()){
-			accelerationX *= -1;
 			velocityX = getVelocityX() + accelerationX*dt;
 			if (velocityX < -getMaximumHorizontalVelocity()) {
 				setVelocityX(-getMaximumHorizontalVelocity());
@@ -525,15 +524,17 @@ public class Slime extends GameObject {
 		switch (random){
 			case 0: setMovement(Motion.LEFT);
 					setCurrentSpriteIndex(0);
+					setAccelerationX(getInitialHorizontalAcceleration()*-1);
 					break;
 			case 1: setMovement(Motion.RIGHT);
 					setCurrentSpriteIndex(1);
+					setAccelerationX(getInitialHorizontalAcceleration());
 					break;
 		}
 		double time = 2 + (int)(Math.random()*5);
 		
 		setVelocityX(0);
-		setAccelerationX(getInitialHorizontalAcceleration());
+		
 		
 		setMovementTime(time);
 	}
@@ -689,22 +690,6 @@ public class Slime extends GameObject {
 	@Override
 	protected boolean isValidWorld(World world) {
 		return (world != null) && (world.hasAsSlime(this));
-	}
-
-	/**
-	 * @return	...
-	 * 			| if (getMovement() == Direction.LEFT) then
-	 * 			|	result == getAccelerationX()*(-1)
-	 * 			| else then
-	 * 			| 	result == getAccelerationX()
-	 */
-	@Override
-	double getActualAccelerationX() {
-		if (getMovement() == Motion.LEFT) {
-			return getAccelerationX()*(-1);
-		} else {
-			return getAccelerationX();
-		}
 	}
 
 	/**

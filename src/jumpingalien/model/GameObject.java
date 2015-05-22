@@ -440,7 +440,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameO
 	 */
 	protected double[] calculateLocation(double dt){
 		double[] location = new double[2];
-		location[0] = getLocationX() + (getVelocityX()*dt + getActualAccelerationX()*dt*dt/2)*100;
+		location[0] = getLocationX() + (getVelocityX()*dt + getAccelerationX()*dt*dt/2)*100;
 		location[1] = getLocationY() + (getVelocityY()*dt + getAccelerationY()*dt*dt/2)*100;
 		return location;
 	}
@@ -465,7 +465,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameO
 		}
 		if(hasCollisionY((int)location[0],(int) location[1])){
 			location[1] = getLocationY();
-			location[0] = getLocationX() + (getVelocityX()*dt + getActualAccelerationX()*dt*dt/2)*100;
+			location[0] = getLocationX() + (getVelocityX()*dt + getAccelerationX()*dt*dt/2)*100;
 			if(hasCollisionX((int)location[0],(int) location[1])){
 				location[0] = getLocationX();
 			}
@@ -493,11 +493,6 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameO
 		setLocationX(location[0]);
 		setLocationY(location[1]);
 	}
-	
-	/**
-	 * Returns the actual acceleration for this Game Object
-	 */
-	abstract double getActualAccelerationX();
 
 	/**
 	 * 
@@ -841,7 +836,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameO
 			assert(!isLeftKeyPressed());
 			setLeftKeyPressed(true);
 			setVelocityX(getInitialHorizontalVelocity()*-1);
-			setAccelerationX(getInitialHorizontalAcceleration());
+			setAccelerationX(getInitialHorizontalAcceleration()*-1);
 		}
 		setMovement(direction);
 	}
@@ -905,7 +900,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameO
 				setMovement(null);
 				if(isLeftKeyPressed()){
 					setVelocityX(getInitialHorizontalVelocity()*-1);
-					setAccelerationX(getInitialHorizontalAcceleration());
+					setAccelerationX(getInitialHorizontalAcceleration()*-1);
 					setMovement(Motion.LEFT);
 				}
 			}
@@ -1089,7 +1084,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameO
 	 * 			|	new.getAcceleration() == 0
 	 */
 	protected void setAccelerationX(double accelerationX) {
-		if (accelerationX < 0 )
+		if (accelerationX == Double.NaN)
 				accelerationX = 0;
 		this.accelerationX = accelerationX;
 	}

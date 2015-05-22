@@ -271,15 +271,6 @@ public class Plant extends GameObject {
 	public double getVelocityY() {
 		return 0;
 	}
-	
-	/**
-	 * @return ...
-	 * 			|result == 0
-	 */
-	@Override
-	double getActualAccelerationX() {
-		return 0;
-	}
 
 
 	@Override

@@ -217,7 +217,7 @@ public class Mazub extends GameObject {
 	 */
 	@Override
 	public Sprite getCurrentSprite() {
-		assert(getSpriteIndex() > 0 && getSpriteIndex() < getSprites().length);
+		assert(getSpriteIndex() >= 0 && getSpriteIndex() < getSprites().length);
 		// for all moves to the right
 		if (this.isMovingRight()) {
 			if (this.isJumping())
@@ -527,7 +527,7 @@ public class Mazub extends GameObject {
 	 */
 	private void updateVelocityX(double seconds) {
 		assert(seconds >= 0);
-		double velocityX = getVelocityX() + getActualAccelerationX()*seconds;
+		double velocityX = getVelocityX() + getAccelerationX()*seconds;
 		if (velocityX < getMaximumHorizontalVelocity()){
 			if (velocityX < -getMaximumHorizontalVelocity()){
 				setVelocityX(-getMaximumHorizontalVelocity());
@@ -968,24 +968,6 @@ public class Mazub extends GameObject {
 	@Override
 	int getMaxHitPoints() {
 		return 500;
-	}
-
-
-
-	/**
-	 * Returns the actual acceleration
-	 * @return 	...
-	 * 			|if (!isMovingLeft()) then
-	 * 			|	result == getAccelerationX() * -1;
-	 * @return 	...
-	 * 			|if (!isMovingLeft()) then
-	 * 			|	result ==  getAccelerationX()
-	 */
-	@Override
-	double getActualAccelerationX() {
-		if (this.isMovingLeft())
-			return getAccelerationX() * -1;
-		return  getAccelerationX();
 	}
 	
 	/**

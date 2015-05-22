@@ -276,23 +276,6 @@ public class Shark extends GameObject {
 	
 	/**
 	 * 
-	 * @return ...
-	 * 			|if(getMovement() == Direction.LEFT) then
-	 * 			| 	result == getAccelerationX() * -1
-	 * @return ...
-	 * 			|if(getMovement() != Direction.LEFT) then
-	 * 			|  result == getAccelerationX()
-	 */
-	@Override
-	double getActualAccelerationX(){
-		if(getMovement() == Motion.LEFT){
-			return getAccelerationX() * -1;
-		}
-		return getAccelerationX();
-	}
-	
-	/**
-	 * 
 	 * @param dt
 	 * @effect 	 ...
 	 * 			|setIsOnGameObject(false)
@@ -377,12 +360,12 @@ public class Shark extends GameObject {
 	 * 
 	 */
 	private void updateVelocity(double dt){
-		if (getVelocityX() + getActualAccelerationX()*dt < -getMaximumHorizontalVelocity()) {
+		if (getVelocityX() + getAccelerationX()*dt < -getMaximumHorizontalVelocity()) {
 			setVelocityX(-getMaximumHorizontalVelocity());
-		} else if (getVelocityX() + getActualAccelerationX()*dt > getMaximumHorizontalVelocity()) {
+		} else if (getVelocityX() + getAccelerationX()*dt > getMaximumHorizontalVelocity()) {
 			setVelocityX(getMaximumHorizontalVelocity());
 		} else {
-			setVelocityX(getVelocityX() + getActualAccelerationX()*dt);
+			setVelocityX(getVelocityX() + getAccelerationX()*dt);
 		}
 		setVelocityY(getVelocityY() + getAccelerationY()*dt);
 		if(isOnGameObject())
@@ -687,10 +670,8 @@ public class Shark extends GameObject {
 	 * 	@throws IllegalStateException
 	 * 			if the up key is already pressed
 	 * 			|isUpKeyPressed()
-	 *  @pre 	the up key can not be pressed already
-	 *  		|!isUpKeyPressed()
 	 *  @effect	the vertical acceleration will be set to 0.2
-	 * 			|setAccelerationX(0.2);
+	 * 			|setAccelerationY(0.2);
 	 */
 	public void startJump() throws IllegalStateException {
 		if (isUpKeyPressed()){
