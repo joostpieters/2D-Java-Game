@@ -7,26 +7,19 @@ import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.exceptions.TypeError;
 
-public class IsDead extends Expression {
+public class IsDead extends UnaryOperator {
 
 	public IsDead(Expression expression, SourceLocation sourceLocation) {
-		super(sourceLocation);
+		super(expression, sourceLocation);
 		if(!ReturnTypeDetection.returnsObject(expression)){
 			throw new TypeError(sourceLocation);
 		}
-		this.expression = expression;
 	}
-	
-	private Expression getExpression() {
-		return expression;
-	}
-	
-	private final Expression expression;
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if(expression.getValue(program) instanceof GameObject){
-			return ((GameObject) getExpression().getValue(program)).isDead();
+		if(getOperand().getValue(program) instanceof GameObject){
+			return ((GameObject) getOperand().getValue(program)).isDead();
 		}
 		program.stopBecauseError();
 		return null;

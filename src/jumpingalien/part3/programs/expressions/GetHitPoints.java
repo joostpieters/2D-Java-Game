@@ -7,31 +7,19 @@ import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.exceptions.TypeError;
 
-public class GetHitPoints extends Expression {
+public class GetHitPoints extends UnaryOperator {
 
 	public GetHitPoints(Expression expression, SourceLocation sourceLocation) {
-		super(sourceLocation);
+		super(expression, sourceLocation);
 		if(!ReturnTypeDetection.returnsObject(expression)){
 			throw new TypeError(sourceLocation);
 		}
-		setExpression(expression);
-
 	}
-
-	private Expression getExpression() {
-		return expression;
-	}
-
-	private void setExpression(Expression expression) {
-		this.expression = expression;
-	}
-	
-	private Expression expression;
 	
 	@Override
 	public java.lang.Double getValue(Program program) {
-		if( getExpression().getValue(program) instanceof GameObject){
-			GameObject object = (GameObject) getExpression().getValue(program);
+		if(getOperand().getValue(program) instanceof GameObject){
+			GameObject object = (GameObject) getOperand().getValue(program);
 			return (double) object.getHitPoints();
 		}
 		program.stopBecauseError();

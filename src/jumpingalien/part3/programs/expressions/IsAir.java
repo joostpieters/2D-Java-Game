@@ -7,26 +7,19 @@ import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.exceptions.TypeError;
 
-public class IsAir extends Expression {
+public class IsAir extends UnaryOperator {
 
 	public IsAir(Expression expression, SourceLocation sourceLocation) {
-		super(sourceLocation);
+		super(expression, sourceLocation);
 		if(!ReturnTypeDetection.returnsObject(expression)){
 			throw new TypeError(sourceLocation);
 		}
-		this.expression = expression;
 	}
-	
-	private final Expression getExpression() {
-		return expression;
-	}
-	
-	private final Expression expression;
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if (getExpression().getValue(program) instanceof Tile) {
-			return ((Tile) getExpression().getValue(program)).getGeologicalFeature() == 0;
+		if (getOperand().getValue(program) instanceof Tile) {
+			return ((Tile) getOperand().getValue(program)).getGeologicalFeature() == 0;
 		} else {
 			program.stopBecauseError();
 			return false;

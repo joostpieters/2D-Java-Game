@@ -9,31 +9,24 @@ import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.exceptions.TypeError;
 
-public class IsJumping extends Expression {
+public class IsJumping extends UnaryOperator {
 
 	public IsJumping(Expression expression, SourceLocation sourceLocation) {
-		super(sourceLocation);
+		super(expression, sourceLocation);
 		if(!ReturnTypeDetection.returnsObject(expression)){
 			throw new TypeError(sourceLocation);
 		}
-		this.expression = expression;
 	}
-	
-	private Expression getExpression() {
-		return this.expression;
-	}
-	
-	private final Expression expression;
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if (getExpression().getValue(program) instanceof Mazub) {
-			return ((Mazub) getExpression().getValue(program)).isUpKeyPressed();
+		if (getOperand().getValue(program) instanceof Mazub) {
+			return ((Mazub) getOperand().getValue(program)).isUpKeyPressed();
 		}
-		if (getExpression().getValue(program) instanceof Shark) {
-			return ((Shark) getExpression().getValue(program)).isUpKeyPressed();
+		if (getOperand().getValue(program) instanceof Shark) {
+			return ((Shark) getOperand().getValue(program)).isUpKeyPressed();
 		}
-		if (getExpression().getValue(program) instanceof GameObject){
+		if (getOperand().getValue(program) instanceof GameObject){
 			return false;
 		}
 		program.stopBecauseError();
