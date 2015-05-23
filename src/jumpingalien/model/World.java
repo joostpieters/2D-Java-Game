@@ -1492,7 +1492,7 @@ public class World  {
 	}
 
 	@Basic
-	private boolean isGameStarted() {
+	boolean isGameStarted() {
 		return gameStarted;
 	}
 

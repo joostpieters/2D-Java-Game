@@ -67,7 +67,9 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 		this.locationX = x;
 	}
 
-	
+	/**
+	 * This function terminates the Game Object
+	 */
 	abstract void terminate();
 
 	/**

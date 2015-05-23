@@ -1252,7 +1252,7 @@
  <objectgroup name="Objects">
   <object id="1" gid="177" x="867" y="646"/>
   <object id="2" gid="177" x="899" y="740"/>
-  <object id="3" gid="186" x="208" y="211">
+  <object id="3" gid="186" x="20800" y="211">
    <properties>
     <property name="school" value="3"/>
    </properties>
