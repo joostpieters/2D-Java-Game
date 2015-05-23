@@ -949,15 +949,22 @@ public class Mazub extends GameObject {
 	}
 	
 	/**
-	 * @effect 	removes the world for this mazub
+	 * @throw 	IllegalStateException
+	 * 			if this mazub's hitpoints do not equal zero and his location is valid
+	 * 			|getHitpoints() > 0 && isValidLocation((int)getLocationX(), (int)getLocationY())
+	 * @effect	this mazub's world will be removed
 	 * 			|removeWorld()
-	 * @effect 	sets this mazub terminated
+	 * @effect 	this mazub will be set terminated
 	 * 			|setTerminated(true)
 	 */
 	@Override
-	void terminate(){
-		removeWorld();
-		setTerminated(true);
+	void terminate() throws IllegalStateException{
+		if(getHitpoints() == 0 || !isValidLocation((int)getLocationX(), (int)getLocationY())){
+			removeWorld();
+			setTerminated(true);
+		} else {
+			throw new IllegalStateException();
+		}
 	}
 
 	/**

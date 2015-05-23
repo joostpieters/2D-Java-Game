@@ -60,10 +60,23 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 * 
 	 * @param 	x
 	 *          the new x location for this Game Object
+	 * @throws	IllegalArgumentException
+	 * 			if the given location is less than zero
+	 * 			| x < 0
+	 * @throws	IllegalArgumentException
+	 * 			if the given location is greater than the width of the world if the world is set
+	 * 			| getWorld() != null && x > this.getWorld().getWorldSizeInPixels()[0]
 	 * @post 	the x location of this Game Object is equal to the given x 
 	 * 			|new.getLocationX() == x
 	 */
 	protected void setLocationX(double x) throws IllegalArgumentException {
+		if(x < 0){
+			throw new IllegalArgumentException();
+		}
+		if(getWorld() != null && x > this.getWorld().getWorldSizeInPixels()[0]){
+			throw new IllegalArgumentException();
+		}
+			
 		this.locationX = x;
 	}
 
@@ -94,7 +107,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 * 			If the given location is less than 0 or greater than the height of the game world
 	 * 			|if(y < 0) then
 	 * 			|	throw new IllegalArgumentException();
-	 * 			|if(hasAWorld() && Util.fuzzyLessThanOrEqualTo(getWorld().getWorldSizeInPixels()[1], y)) then
+	 * 			|if(hasAWorld() && getWorld().getWorldSizeInPixels()[1] > y) then
 	 *			|	throw new IllegalArgumentException()
 	 * @post 	the y location of this Game Object is equal to the given y
 	 *       	|new.getLocationY() = y
@@ -102,7 +115,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	protected void setLocationY(double y) {
 		if(y < 0){
 			throw new IllegalArgumentException();
-		} else if(hasAWorld() && Util.fuzzyLessThanOrEqualTo(getWorld().getWorldSizeInPixels()[1], y)){
+		} else if(hasAWorld() && getWorld().getWorldSizeInPixels()[1] < y){
 			throw new IllegalArgumentException();
 		} else { 
 			this.locationY = y;
@@ -346,17 +359,16 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	protected void setWorld(World world) {
 		if(isValidWorld(world))
 			this.world = world;
-		detectLocationValidInWorld();
+		terminateIfUnValidLocationInWorld();
 	}
 	
 	/**
-	 * Detects if the current position is valid in this world
 	 * @effect Terminates the object if it is out of the bounderies of this world
 	 * 			| if(isValidLocation((int)getLocationX(),(int)getLocationY()) ) then
 	 *			|	setDead(true);
 	 *			|		terminate();
 	 */
-	private void detectLocationValidInWorld() {
+	private void terminateIfUnValidLocationInWorld() {
 		if(!isValidLocation((int)getLocationX(),(int)getLocationY()) ){
 			setDead(true);
 			terminate();
@@ -369,14 +381,20 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 * 			the X coordinate that needs to be checked
 	 * @param locationY
 	 * 			the Y coordinate that needs to be checked
-	 * @return	returns true if the given position in the bounderies of this world, 
+	 * @return	returns true if the given position is in the bounderies of this world, 
 	 * 				else returns false
 	 * 			|result ==  (locationX < 0 || locationX > getWorld().getWorldSizeInPixels()[0]-1 
-				|	|| locationY < 0 || locationY > getWorld().getWorldSizeInPixels()[1]-1)
+	 *			|	|| locationY < 0 || locationY > getWorld().getWorldSizeInPixels()[1]-1)
+	 * @return	if this Game Object has no world than false will always be returned
+	 * 			|result == false
 	 */
 	protected boolean isValidLocation(int locationX, int locationY){
-		return !(locationX < 0 || locationX > getWorld().getWorldSizeInPixels()[0]-1 
-				|| locationY < 0 || locationY > getWorld().getWorldSizeInPixels()[1]-1);
+		if(hasAWorld()){
+			return !(locationX < 0 || locationX > getWorld().getWorldSizeInPixels()[0]-1 
+					|| locationY < 0 || locationY > getWorld().getWorldSizeInPixels()[1]-1);
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -1009,15 +1027,49 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 * Adds the timer with a given value.
 	 * @param 	time
 	 * 		  	the time that needs to be added to the timer
-	 * @post	if the current value of the timer plus time is less or equal to Double.MAX_VALUE
-	 * 				the new timer will equal the current timer plus the given time
-	 * 			| new.getTimer() == this.getTimer() + time
-	 * @post	if the current value of the timer plus time is greater than Double.MAX_VALUE
-	 * 				the new timer will equal zero
-	 * 			| new.getTimer() == 0
+	 * @effect	if the given time equals Double.NEGATIVE_INFINITY or 
+	 * 				Double.POSITIVE_INFINITY or Double.NaN
+	 * 				nothing will happen
+	 * 			| setSpriteTimer(getSpriteTimer())
+	 * @effect	if the current value of the timer plus time is greater than Double.MAX_VALUE
+	 * 				and the given time is greater than zero
+	 * 				and the given time does not equal Double.NEGATIVE_INFINITY or 
+	 * 				Double.POSITIVE_INFINITY or Double.NaN
+	 * 				than the new timer will be set to Double.MAX_VALUE
+	 * 			| setSpriteTimer(Double.MAX_VALUE)
+	 * @effect	if the current value of the timer plus time is less than Double.MAX_VALUE
+	 * 				and the given time is positive 
+	 * 				and the given time does not equal Double.NEGATIVE_INFINITY or 
+	 * 				Double.POSITIVE_INFINITY or Double.NaN
+	 * 				than the new timer will be set to 
+	 * 				the current value of the timer plus the given time
+	 * 			| setSpriteTimer(getSpriteTimer()+time)
+	 * @effect	if the given time is negative and the sum of Double.MAX_VALUE
+	 * 				and the given time is less than the current timer value
+	 * 				and the given time does not equal Double.NEGATIVE_INFINITY or 
+	 * 				Double.POSITIVE_INFINITY or Double.NaN
+	 *				than the new timer will be set to Double.MAX_VALUE
+	 * 			| setSpriteTimer(Double.MAX_VALUE)
+	 * @effect	if the given time is positive and the sum of Double.MAX_VALUE
+	 * 				and the given time is greater than the current timer value
+	 * 				and the given time does not equal Double.NEGATIVE_INFINITY or 
+	 * 				Double.POSITIVE_INFINITY or Double.NaN
+	 *				than the new timer will be set to current timer value
+	 *				minus the given time
+	 * 			| setSpriteTimer(getSpriteTimer()-time)
 	 */
 	protected void addToTimer(double time) {
-		setSpriteTimer(getSpriteTimer()+time);
+		if(time == Double.NEGATIVE_INFINITY || time == Double.POSITIVE_INFINITY || time == Double.NaN){
+			return;
+		}else if(time > 0 && getSpriteTimer() > (Double.MAX_VALUE - time)){
+			setSpriteTimer(Double.MAX_VALUE);
+		} else if(time < 0 && getSpriteTimer() > (Double.MAX_VALUE + time)){
+			setSpriteTimer(Double.MAX_VALUE);
+		} else if (time < 0){
+			setSpriteTimer(getSpriteTimer()-time);
+		} else {
+			setSpriteTimer(getSpriteTimer()+time);
+		}
 	}
 	
 	/**

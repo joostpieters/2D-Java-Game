@@ -595,13 +595,20 @@ public class Shark extends GameObject {
 	}
 	
 	/**
+	 * @throws	IllegalStateException
+	 * 			if this shark's hitpoints are greater than zero 
+	 * 			and his location is still valid
+	 * 			|getHitPoints() != 0 && isValidLocation((int)getLocationX(), (int)getLocationY())
 	 * @effect 	...
 	 * 			|removeWorld()
 	 * @effect	...
 	 * 			|setTerminated(true)
 	 */
 	@Override
-	void terminate() {
+	void terminate() throws IllegalStateException {
+		if(getHitPoints() != 0 && isValidLocation((int)getLocationX(), (int)getLocationY())){
+			throw new IllegalStateException();
+		} 
 		removeWorld();
 		setTerminated(true);
 	}

@@ -179,15 +179,18 @@ public class Plant extends GameObject {
 
 	/**
 	 * 
-	 * @param dt
+	 * @param 	dt
 	 * @effect	...
 	 * 			| if(hasCollisionX((int)locationX, (int)getLocationY())) then
 	 * 			|	setLocationX(getLocationX())
-	 * @effect ... | if(locationX >= getWorld().getWorldSizeInPixels()[0]) then
-	 *         | setLocationX(getWorld().getWorldSizeInPixels()[0] - 1)
-	 * @effect ... | if(locationX < 0) then | setLocationX(0)
-	 * @effect ... | if((locationX < getWorld().getWorldSizeInPixels()[0]) &&
-	 *         (locationX >= 0)) then | setLocationX(locationX)
+	 * @effect 	... 
+	 * 			| if(locationX >= getWorld().getWorldSizeInPixels()[0]) then
+	 *         	| setLocationX(getWorld().getWorldSizeInPixels()[0] - 1)
+	 * @effect 	... 
+	 * 			| if(locationX < 0) then | setLocationX(0)
+	 * @effect ... 
+	 * 			| if((locationX < getWorld().getWorldSizeInPixels()[0]) &&
+	 *         		(locationX >= 0)) then | setLocationX(locationX)
 	 */
 	private void updateLocationX(double dt) {
 		double locationX = getLocationX() + (getVelocityX() * dt) * 100;

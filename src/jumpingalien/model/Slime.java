@@ -645,6 +645,10 @@ public class Slime extends GameObject {
 	}
 	
 	/**
+	 * @throws	IllegalStateException
+	 * 			if this slime's hitpoints are greater than zero 
+	 * 			and his location is still valid
+	 * 			|getHitPoints() != 0 && isValidLocation((int)getLocationX(), (int)getLocationY())
 	 * @effect	...
 	 * 			| getWorld().removeSlime(this)
 	 * @effect	...
@@ -657,7 +661,10 @@ public class Slime extends GameObject {
 	 * 			| setTerminated(true)
 	 */
 	@Override
-	void terminate() {
+	void terminate() throws IllegalStateException {
+		if(getHitPoints() != 0 && isValidLocation((int)getLocationX(), (int)getLocationY())){
+			throw new IllegalStateException();
+		}
 		// remove world
 		getSchool().removeSlime(this);
 		removeSchool();
