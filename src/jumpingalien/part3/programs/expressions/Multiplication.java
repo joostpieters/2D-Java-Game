@@ -5,7 +5,6 @@ import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.exceptions.TypeError;
-import jumpingalien.util.Util;
 
 public class Multiplication extends BinaryOperator {
 
