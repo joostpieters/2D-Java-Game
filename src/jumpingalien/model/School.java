@@ -57,7 +57,7 @@ public class School {
 				break;
 			}
 		}
-		if (getAmountSlimes() == 0) {
+		if (getAmountSlimes() == 0 && slime.getWorld().isGameStarted()) {
 			terminate();
 		}
 	}

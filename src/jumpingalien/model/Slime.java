@@ -659,9 +659,9 @@ public class Slime extends GameObject {
 	@Override
 	void terminate() {
 		// remove world
-		this.removeWorld();
 		getSchool().removeSlime(this);
 		removeSchool();
+		this.removeWorld();
 		// set boolean
 		setTerminated(true);
 	}
