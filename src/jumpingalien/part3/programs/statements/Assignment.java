@@ -1,7 +1,5 @@
 package jumpingalien.part3.programs.statements;
 
-import java.util.Map;
-
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.ReturnTypeDetection;
@@ -10,7 +8,6 @@ import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.Type;
 import jumpingalien.part3.programs.exceptions.TypeError;
 
-//TODO getters en setters !
 public class Assignment extends Statement {
 
 	public Assignment(String variableName, Type variableType, Expression value, SourceLocation sourceLocation) {
@@ -26,9 +23,22 @@ public class Assignment extends Statement {
 		this.value = value;
 	}
 	
-	private String variableName;
-	private Type variableType;
-	private Expression value;
+	private String getVariableName() {
+		return variableName;
+	}
+	
+	private final String variableName;
+
+	private Type getVariableType() {
+		return variableType;
+	}
+	
+	private final Type variableType;
+
+	private Expression getValue() {
+		return value;
+	}
+	private final Expression value;
 
 	@Override
 	public void runStatement(Program program) {
@@ -37,8 +47,11 @@ public class Assignment extends Statement {
 				program.setSourceLocation(null);
 			}
 			program.lowerLinesToRun();
-			program.getDeclarationVariables().put(variableName, value.getValue(program));
-			//TODO getters en setters !!
+			if(program.getGlobalVariables().containsKey(getVariableName()) && program.getGlobalVariables().containsValue(getVariableType())){
+				program.getDeclarationVariables().put(getVariableName(), getValue().getValue(program));
+			} else {
+				program.stopBecauseError();
+			}
 		}
 	}
 }

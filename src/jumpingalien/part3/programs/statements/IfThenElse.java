@@ -35,6 +35,8 @@ public class IfThenElse extends Statement {
 				} else if(getElseBody() != null) {
 					getElseBody().run(program);
 				}
+			} else {
+				program.stopBecauseError();
 			}
 		} else if(program.getLinesToRun() > 0){
 			getIfBody().run(program);

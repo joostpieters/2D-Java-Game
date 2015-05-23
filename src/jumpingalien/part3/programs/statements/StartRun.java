@@ -35,6 +35,8 @@ public class StartRun extends Statement {
 				} else if (getDirection().getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT) {
 					((GameObject) program.getObject()).startMove(Motion.RIGHT);
 				}
+			} else {
+				program.stopBecauseError();
 			}
 		} else {
 			if(program.getInForEach() > 0){

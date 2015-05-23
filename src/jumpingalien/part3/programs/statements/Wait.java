@@ -53,8 +53,7 @@ public class Wait extends Statement {
 					program.setSourceLocation(getSourceLocation());
 				}
 			} else {
-				assert(false);
-				//TODO error ? expection ?
+				program.stopBecauseError();
 			}
 		}
 	}
