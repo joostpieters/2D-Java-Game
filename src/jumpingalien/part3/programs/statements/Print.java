@@ -1,13 +1,10 @@
 package jumpingalien.part3.programs.statements;
 
-import java.util.Map;
-
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
-import jumpingalien.part3.programs.Type;
 import jumpingalien.part3.programs.exceptions.TypeError;
 
 public class Print extends Statement {

@@ -1,8 +1,6 @@
 package jumpingalien.part3.programs.statements;
 
-import jumpingalien.model.Mazub;
 import jumpingalien.model.Program;
-import jumpingalien.model.Shark;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 

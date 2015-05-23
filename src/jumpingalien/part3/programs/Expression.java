@@ -1,9 +1,6 @@
 package jumpingalien.part3.programs;
 
 import jumpingalien.model.Program;
-import jumpingalien.part3.programs.expressions.*;
-import jumpingalien.part3.programs.expressions.Object;
-import jumpingalien.part3.programs.types.Double;
 
 public abstract class Expression implements ReturnTypeDetection {
 	public Expression(SourceLocation sourceLocation) {

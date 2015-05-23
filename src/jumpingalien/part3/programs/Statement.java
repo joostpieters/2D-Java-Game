@@ -1,7 +1,5 @@
 package jumpingalien.part3.programs;
 
-import java.util.Map;
-
 import jumpingalien.model.Program;
 
 public abstract class Statement implements ReturnTypeDetection {

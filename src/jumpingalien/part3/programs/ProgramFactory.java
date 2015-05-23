@@ -2,8 +2,6 @@ package jumpingalien.part3.programs;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.expressions.*;
 import jumpingalien.part3.programs.expressions.Double;

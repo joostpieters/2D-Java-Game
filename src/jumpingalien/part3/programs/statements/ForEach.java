@@ -6,7 +6,6 @@ import java.util.Iterator;
 import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.part3.programs.types.GameItems;
 import jumpingalien.model.Program;
-import jumpingalien.part2.internal.tmxfile.data.ImageTile.TileType;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.IProgramFactory.Kind;
 import jumpingalien.part3.programs.IProgramFactory.SortDirection;

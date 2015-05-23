@@ -10,7 +10,6 @@ public class StartJump extends Statement {
 
 	public StartJump(SourceLocation sourceLocation) {
 		super(sourceLocation);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

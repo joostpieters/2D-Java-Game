@@ -15,9 +15,6 @@ public class IllegalMatchingTypeException extends RuntimeException {
 	
 	private final SourceLocation sourceLocation;
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7707924077908740848L;
 
 }

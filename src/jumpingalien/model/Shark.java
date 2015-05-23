@@ -667,22 +667,23 @@ public class Shark extends GameObject {
 		}
 		if(isInWater()){
 			setAccelerationY(0.2);
-			//TODO velocity voor jump van een shark ??
 		}
 		setUpKeyPressed(true);		
 	}
-	//TODO commentaar niet juist
+	//TODO moet System.out.println blijven staan?
 	/**
 	 * Ends this Shark's jump
 	 * @throws 	IllegalStateException
 	 * 				if the up key was not pressed
 	 * 			| !isUpKeyPressed()
-	 * @post	if velocityY is greater than 0, velocityY will be zero
-	 * 			| if getVelocityY() > 0 then
-	 * 			|	new.getVelocityY == 0
+	 * @effect	if accelerationY is greater than 0, accelerationY will be set to zero
+	 * 			| if getAccelerationY() > 0 then
+	 * 			|	setAccelerationY(0)
+	 * @effect	set that the up key is no longer pressed
+	 * 			| setUpKeyPressed(false)
 	 */
 	public void endJump() throws IllegalStateException {
-		if(!isUpKeyPressed()){
+		if(!isUpKeyPressed()) {
 			throw new IllegalStateException();
 		}
 		if (this.getAccelerationY()> 0) {
@@ -733,7 +734,6 @@ public class Shark extends GameObject {
 
 	@Override
 	protected double getInitialHorizontalVelocity() {
-		// TODO is dit juist ??
 		return 0;
 	}
 

@@ -1569,21 +1569,21 @@ public class World  {
 		}
 	}
 
-	//TODO commentaar
+	//TODO commentaar: ik zou deze methodes enkel informeel becommentariëren ...
 	private GameObject calculateHorizontalDistanceBetween(GameObject mainObject, GameObject otherObject, GameObject result, Direction direction){
-		assert(mainObject != null && otherObject != null && (direction == direction.LEFT || direction == direction.RIGHT));
+		assert(mainObject != null && otherObject != null && (direction == Direction.LEFT || direction == Direction.RIGHT));
 		int minDistance = Integer.MAX_VALUE;
 		GameObject objectLeft = null;
 		GameObject objectRight = null;
 		Boolean run = false;
-		if(direction == direction.LEFT && otherObject.isLeftOff(mainObject)){
+		if(direction == Direction.LEFT && otherObject.isLeftOff(mainObject)){
 			objectLeft = otherObject;
 			objectRight = mainObject;
 			if(result != null){
 				minDistance = ((int)objectRight.getLocationX() - (int)result.getLocationX());
 			}
 			run = true;			
-		} else if (direction == direction.RIGHT && otherObject.isRightOff(mainObject)){
+		} else if (direction == Direction.RIGHT && otherObject.isRightOff(mainObject)){
 			objectRight = otherObject;
 			objectLeft = mainObject;
 			if(result != null){
@@ -1607,19 +1607,19 @@ public class World  {
 	}
 	
 	private GameObject calculateVerticalDistanceBetween(GameObject mainObject, GameObject otherObject, GameObject result, Direction direction){
-		assert(mainObject != null && otherObject != null && (direction == direction.UP || direction == direction.DOWN));
+		assert(mainObject != null && otherObject != null && (direction == Direction.UP || direction == Direction.DOWN));
 		int minDistance = Integer.MAX_VALUE;
 		GameObject objectUp = null;
 		GameObject objectDown = null;
 		Boolean run = false;
-		if(direction == direction.UP && otherObject.isAbove(mainObject)){
+		if(direction == Direction.UP && otherObject.isAbove(mainObject)){
 			objectUp = otherObject;
 			objectDown = mainObject;
 			if(result != null){
 				minDistance = ((int)result.getLocationY() - (int)objectDown.getLocationY());
 			}
 			run = true;			
-		} else if (direction == direction.DOWN && otherObject.isUnder(mainObject)){
+		} else if (direction == Direction.DOWN && otherObject.isUnder(mainObject)){
 			objectDown = otherObject;
 			objectUp = mainObject;
 			if(result != null){

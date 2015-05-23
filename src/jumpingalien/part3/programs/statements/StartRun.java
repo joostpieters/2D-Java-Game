@@ -4,7 +4,6 @@ import jumpingalien.model.GameObject;
 import jumpingalien.model.Motion;
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
-import jumpingalien.part3.programs.IProgramFactory.Direction;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 

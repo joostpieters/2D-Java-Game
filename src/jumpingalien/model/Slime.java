@@ -703,7 +703,6 @@ public class Slime extends GameObject {
 
 	@Override
 	protected double getInitialHorizontalVelocity() {
-		// TODO klopt dit ??
 		return 0;
 	}
 
