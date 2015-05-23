@@ -3,8 +3,6 @@ package jumpingalien.part3.facade;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.antlr.v4.parse.ANTLRParser.throwsSpec_return;
-
 import jumpingalien.model.Buzam;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Motion;
@@ -21,7 +19,6 @@ import jumpingalien.part3.programs.ProgramParser;
 import jumpingalien.part3.programs.Type;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.ProgramFactory;
-import jumpingalien.part3.programs.exceptions.IllegalMatchingTypeException;
 import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;

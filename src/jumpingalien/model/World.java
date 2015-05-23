@@ -156,36 +156,107 @@ public class World  {
 	 * 
 	 * @return 	The pixel coordinates of the visible window, in the order
 	 *         		left, bottom, right, top
-	 *         	|{0, 0, getVisibleWindowWidth(), getVisibleWindowHeight()}
+	 *         	|result == {getWindowLeft(), getWindowBottom(), getWindowRight(), getWindowTop()}
 	 */
 	public int[] getVisibleWindow(){
 		int[] window = new int[4];
-		window[0] = windowLeft;
-		window[1] = windowBottom;
-		window[2] = windowRight;
-		window[3] = windowTop;
+		window[0] = getWindowLeft();
+		window[1] = getWindowBottom();
+		window[2] = getWindowRight();
+		window[3] = getWindowTop();
 		return window;
+	}
+	/**
+	 * Returns the left coordinate of the visible window
+	 */
+	private int getWindowLeft() {
+		return windowLeft;
+	}
+
+	
+	/**
+	 * @param WindowLeft
+	 * @post 	...
+	 * 			|new.getWindowLeft() == WindowLeft
+	 */
+	private void setWindowLeft(int windowLeft) {
+		this.windowLeft = windowLeft;
+	}
+
+	/**
+	 * Returns the bottom coordinate of the visible window
+	 */
+	private int getWindowBottom() {
+		return windowBottom;
+	}
+
+	/**
+	 * @param WindowBottom
+	 * @post 	...
+	 * 			|new.getWindowBottom() == WindowBottom
+	 */
+	private void setWindowBottom(int windowBottom) {
+		this.windowBottom = windowBottom;
+	}
+
+	/**
+	 * Returns the right coordinate of the visible window
+	 */
+	private int getWindowRight() {
+		return windowRight;
+	}
+
+	/**
+	 * @param windowRight
+	 * @post 	...
+	 * 			|new.getWindowRight() == windowRight
+	 */
+	private void setWindowRight(int windowRight) {
+		this.windowRight = windowRight;
+	}
+
+	/**
+	 * Returns the top coordinate of the visible window
+	 */
+	private int getWindowTop() {
+		return windowTop;
+	}
+
+	/**
+	 * @param windowTop
+	 * @post 	...
+	 * 			|new.getWindowTop() == windowTop
+	 */
+	private void setWindowTop(int windowTop) {
+		this.windowTop = windowTop;
 	}
 	
 	/**
 	 * The boundaries for the window.
 	 */
 	private int windowLeft, windowBottom, windowRight, windowTop;
-	
+
 	/**
 	 * 
 	 * @param left
 	 * @param bottom
 	 * @param right
 	 * @param top
+	 * @pre 	...
+	 * 			|left >= 0 && bottom >= 0 && right >= 0 && top >= 0 && bottom < top 
+	 *			|	&& left < right && top <= getWorldSizeInPixels()[1] 
+	 *			|		&& right <= getWorldSizeInPixels()[0]
 	 * @post	...
 	 * 			| new.getVisibleWindow() = {left, bottom, right, top}
 	 */
 	private void setVisibleWindow(int left, int bottom, int right, int top) {
-		this.windowLeft = left;
-		this.windowBottom = bottom;
-		this.windowRight = right;
-		this.windowTop = top;
+		assert(left >= 0 && bottom >= 0 && right >= 0 && top >= 0 && bottom < top 
+				&& left < right && top <= getWorldSizeInPixels()[1] 
+						&& right <= getWorldSizeInPixels()[0]);
+		setWindowLeft(left);
+		setWindowBottom(bottom);
+		setWindowRight(right);
+		setWindowTop(top);
 	}
 	
 	/**
@@ -1473,15 +1544,32 @@ public class World  {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param mainObject
+	 * @param otherObject
+	 * @param result
+	 * @param direction
+	 * @pre 	...
+	 * 			| direction != null
+	 * @result	...
+	 * 			|if(direction == IProgramFactory.Direction.LEFT || direction == IProgramFactory.Direction.RIGHT) then 
+	 *			|		result == calculateHorizontalDistanceBetween(mainObject, otherObject, result, direction)
+	 *@result	...
+	 * 			|if(direction == IProgramFactory.Direction.UP || direction == IProgramFactory.Direction.DOWN) then 
+	 *			|		result == calculateVerticalDistanceBetween(mainObject, otherObject, result, direction)
+	 */
 	private GameObject calculateDistanceBetween(GameObject mainObject,
 			GameObject otherObject, GameObject result, Direction direction) {
 		assert(direction != null);
 		if(direction == IProgramFactory.Direction.LEFT || direction == IProgramFactory.Direction.RIGHT){
 			return calculateHorizontalDistanceBetween(mainObject, otherObject, result, direction);
+		} else {
+			return calculateVerticalDistanceBetween(mainObject, otherObject, result, direction);
 		}
-		return calculateVerticalDistanceBetween(mainObject, otherObject, result, direction);
 	}
 
+	//TODO commentaar
 	private GameObject calculateHorizontalDistanceBetween(GameObject mainObject, GameObject otherObject, GameObject result, Direction direction){
 		assert(mainObject != null && otherObject != null && (direction == direction.LEFT || direction == direction.RIGHT));
 		int minDistance = Integer.MAX_VALUE;
