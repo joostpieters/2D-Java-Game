@@ -805,23 +805,23 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 * @param 	direction
 	 * 			the direction in which this Mazub needs to start moving
 	 * @pre		The given direction needs to be RIGHT or LEFT
-	 * 			|direction == Direction.RIGHT || direction == Direction.LEFT
+	 * 			|direction == Motion.RIGHT || direction == Motion.LEFT
 	 * @pre		If the direction is RIGHT, the rightkey can not be pressed already
-	 * 			|if (direction == Direction.RIGHT) then
+	 * 			|if (direction == Motion.RIGHT) then
 	 * 			|	!isRightKeyPressed()
 	 * @pre		If the direction is LEFT, the leftkey can not be pressed already
-	 * 			|if (direction == Direction.LEFT) then
+	 * 			|if (direction == Motion.LEFT) then
 	 * 			|	!isLeftKeyPressed() 
 	 * @effect 	if the given direction is RIGHT, the horizontal velocity will be set to the 
 	 * 				initial horizontal velocity
 	 * 				and the acceleration will be equal to the initial horizontal acceleration
-	 * 			|if (direction == Direction.RIGHT) then
+	 * 			|if (direction == Motion.RIGHT) then
 	 * 			|	setVelocityX(getInitialHorizontalVelocity())
 				|	setAccelerationX(getInitialHorizontalAcceleration())
 	 * @effect 	if the given direction is LEFT, the horizontal velocity will be set to 
 	 * 				the negative of the initial horizontal velocity
 	 * 				and the acceleration will be set to the initial horizontal acceleration
-	 * 			|if (direction == Direction.LEFT) then
+	 * 			|if (direction == Motion.LEFT) then
 	 * 			|	setVelocityX(getInitialHorizontalVelocity()*(-1))
 	 * 			|	setAccelerationX(getInitialHorizontalAcceleration())				
 	 */
@@ -845,34 +845,34 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 * Stops this Game Object's horizontal movement and stores the direction of its last movement
 	 * @param 	direction
 	 * 			the direction in which mazub needs to be stop moving
-	 * @pre		if the given direction is needs to be Direction.LEFT or Direction.RIGHT
-	 * 			|((direction == Direction.RIGHT) || (direction == Direction.LEFT))
+	 * @pre		if the given direction is needs to be Motion.LEFT or Motion.RIGHT
+	 * 			|((direction == Motion.RIGHT) || (direction == Motion.LEFT))
 	 * @pre		if the stop direction equals RIGHT, the right key needs to be pressed
-	 * 			|if ( direction == Direction.RIGHT ) then
+	 * 			|if ( direction == Motion.RIGHT ) then
 	 * 			|	isRightKeyPressed()
 	 * @pre		if the stop direction equals LEFT, the left key needs to be pressed
-	 * 			|if ( direction == Direction.LEFT ) then
+	 * 			|if ( direction == Motion.LEFT ) then
 	 * 			|	isLeftKeyPressed() 
 	 * @effect	if the last movement was to the right and this Mazub is not ducking, 
-	 * 				then the lastMoveDirection is set to Direction.RIGHT
+	 * 				then the lastMoveDirection is set to Motion.RIGHT
 	 * 			| if isMovingRight() then
 	 * 			|	if not isDucking() then
-	 * 			|		setLastMoveDirection(Direction.RIGHT)
+	 * 			|		setLastMoveDirection(Motion.RIGHT)
 	 * @effect	if the last movement was to the right, and this Mazub is ducking, 
-	 * 				then the lastMoveDirection is set to Direction.RIGHT_AND_DUCKING
+	 * 				then the lastMoveDirection is set to Motion.RIGHT_AND_DUCKING
 	 * 			| if isMovingRight() then
 	 * 			|	if isDucking() then
-	 * 			|		setLastMoveDirection(Direction.RIGHT_AND_DUCKING)
+	 * 			|		setLastMoveDirection(Motion.RIGHT_AND_DUCKING)
 	 * @effect	if the last movement was to the left, and this Mazub is not ducking, 
-	 * 				then the lastMoveDirection equals Direction.LEFT
+	 * 				then the lastMoveDirection equals Motion.LEFT
 	 * 			| if isMovingLeft() then
 	 * 			|	if not isDucking() then
-	 * 			|		setLastMoveDirection(Direction.LEFT)
+	 * 			|		setLastMoveDirection(Motion.LEFT)
 	 * @effect	if the last movement was to the left, and this Mazub is ducking, 
-	 * 				then the lastMoveDirection is set to Direction.LEFT_AND_DUCKING
+	 * 				then the lastMoveDirection is set to Motion.LEFT_AND_DUCKING
 	 * 			| if isMovingLeft() then
 	 * 			|	if isDucking() then
-	 * 			|		setLastMoveDirection(Direction.LEFT_AND_DUCKING)
+	 * 			|		setLastMoveDirection(Motion.LEFT_AND_DUCKING)
 	 * @post 	if Mazub stops moving left and is moving to the left at this moment, 
 	 * 				the velocityX equals zero, accelerationX equals zero 
 	 * 				and the lastMoveTimer equals to the current value of timer
@@ -962,14 +962,13 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 */
 	private double lastMoveTimer;
 
-	//TODO commentaar nakijken
 	/**
 	 * @param 	lastMoveDirection
 	 * 			the new direction in which this Mazub has last moved
-	 * @pre		lastMoveDirection equals Direction.RIGHT or Direction.LEFT or
-	 * 				Direction.RIGHT_AND_DUCKING or Direction.LEFT_AND_DUCKING
-	 * 			| lastMoveDirection == Direction.RIGHT || lastMoveDirection == Direction.LEFT ||
-	 * 			| 	lastMoveDirection == Direction.RIGHT_AND_DUCKING || lastMoveDirection == Direction.LEFT_AND_DUCKING
+	 * @pre		lastMoveDirection equals Motion.RIGHT or Motion.LEFT or
+	 * 				Motion.RIGHT_AND_DUCKING or Motion.LEFT_AND_DUCKING
+	 * 			| lastMoveDirection == Motion.RIGHT || lastMoveDirection == Motion.LEFT ||
+	 * 			| 	lastMoveDirection == Motion.RIGHT_AND_DUCKING || lastMoveDirection == Motion.LEFT_AND_DUCKING
 	 * @post 	the new lastMoveDirection of this Mazub will equal to lastMoveDirection
 	 * 			| new.getLastMoveDirection() = lastMoveDirection
 	 */
