@@ -5,7 +5,7 @@ import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.exceptions.TypeError;
-import jumpingalien.part3.programs.types.GameItems;
+import jumpingalien.part3.programs.types.GameItem;
 
 public class IsMazub extends UnaryOperator {
 
@@ -18,7 +18,7 @@ public class IsMazub extends UnaryOperator {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if(program.getObject() instanceof GameItems){
+		if(program.getObject() instanceof GameItem){
 			return program.getObject().getWorld().getMazub() == getOperand().getValue(program);
 		}
 		program.stopBecauseError();

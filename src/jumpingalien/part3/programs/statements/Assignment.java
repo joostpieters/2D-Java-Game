@@ -14,7 +14,7 @@ public class Assignment extends Statement {
 		super(sourceLocation);
 		this.variableName = variableName;
 		if((variableType instanceof jumpingalien.part3.programs.types.Boolean && !ReturnTypeDetection.returnsBoolean(value)) 
-				||(variableType instanceof jumpingalien.part3.programs.types.GameItems && !ReturnTypeDetection.returnsObject(value)) 
+				||(variableType instanceof jumpingalien.part3.programs.types.GameItem && !ReturnTypeDetection.returnsObject(value)) 
 				||(variableType instanceof jumpingalien.part3.programs.types.Double && !ReturnTypeDetection.returnsDouble(value))
 				||(variableType instanceof jumpingalien.part3.programs.types.Direction && !ReturnTypeDetection.returnsDirection(value))){
 			throw new TypeError(sourceLocation);

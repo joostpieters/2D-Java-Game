@@ -6,7 +6,7 @@ import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.exceptions.TypeError;
-import jumpingalien.part3.programs.types.GameItems;
+import jumpingalien.part3.programs.types.GameItem;
 
 public class IsShark extends UnaryOperator {
 
@@ -19,7 +19,7 @@ public class IsShark extends UnaryOperator {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if(program.getObject() instanceof GameItems){
+		if(program.getObject() instanceof GameItem){
 			return getOperand().getValue(program) instanceof Shark;
 		}
 		program.stopBecauseError();

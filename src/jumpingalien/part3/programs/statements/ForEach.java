@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import jumpingalien.part3.programs.exceptions.TypeError;
-import jumpingalien.part3.programs.types.GameItems;
+import jumpingalien.part3.programs.types.GameItem;
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.IProgramFactory.Kind;
@@ -115,7 +115,7 @@ public class ForEach extends Statement {
 			if(program.getSourceLocation() == this.getSourceLocation()){
 				program.setSourceLocation(null);
 			}
-			ArrayList<jumpingalien.part3.programs.types.GameItems> objects = new ArrayList<>();
+			ArrayList<jumpingalien.part3.programs.types.GameItem> objects = new ArrayList<>();
 			if(getVariableKind() == Kind.PLANT){
 				objects.addAll(program.getObject().getWorld().getPlants());
 			} else if(getVariableKind() == Kind.SLIME){
@@ -142,8 +142,8 @@ public class ForEach extends Statement {
 			}
 			//Verwijderen van onnodige elementen
 			if(getWhere() != null){
-				ArrayList<GameItems> objectToRemove = new ArrayList<GameItems>();
-				for(GameItems object : objects){
+				ArrayList<GameItem> objectToRemove = new ArrayList<GameItem>();
+				for(GameItem object : objects){
 					program.getDeclarationVariables().put(getVariableName(), object);
 					if(getWhere().getValue(program) instanceof Boolean ) {
 						if(!(Boolean)getWhere().getValue(program)){
@@ -170,7 +170,7 @@ public class ForEach extends Statement {
 				program.lowerLinesToRun();
 			}
 			while(getIterator().hasNext() && !program.isBreakActivated()){
-				GameItems object = getIterator().next();
+				GameItem object = getIterator().next();
 				program.getDeclarationVariables().put(getVariableName(), object);
 				getBody().run(program);
 				if(program.getLinesToRun() == 00 && program.getSourceLocation() == null && getIterator().hasNext()){
@@ -198,7 +198,7 @@ public class ForEach extends Statement {
 		}
 	}
 	
-	private double getValue(GameItems obj, Program program){
+	private double getValue(GameItem obj, Program program){
 		program.getDeclarationVariables().put(getVariableName(), obj);
 		if(getSort().getValue(program) instanceof java.lang.Double){
 			return (double) getSort().getValue(program);
@@ -207,17 +207,17 @@ public class ForEach extends Statement {
 		return 0;
 	}
 	
-	private Iterator<GameItems> getIterator() {
+	private Iterator<GameItem> getIterator() {
 		return iterator;
 	}
 
-	private void setIterator(Iterator<GameItems> iterator) {
+	private void setIterator(Iterator<GameItem> iterator) {
 		this.iterator = iterator;
 	}
 
-	private Iterator<GameItems> iterator;
+	private Iterator<GameItem> iterator;
 	
-	private int compare(GameItems o1, GameItems o2, Program program) { 
+	private int compare(GameItem o1, GameItem o2, Program program) { 
 		double value1 = getValue(o1, program);
 		double value2 = getValue(o2, program);
 		

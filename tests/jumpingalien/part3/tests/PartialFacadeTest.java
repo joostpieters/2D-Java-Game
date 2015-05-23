@@ -6,7 +6,6 @@ import jumpingalien.model.Program;
 import jumpingalien.part3.facade.Facade;
 import jumpingalien.part3.facade.IFacadePart3;
 import jumpingalien.part3.programs.ParseOutcome;
-import jumpingalien.part3.programs.exceptions.IllegalMatchingTypeException;
 import jumpingalien.util.ModelException;
 
 import org.junit.Test;

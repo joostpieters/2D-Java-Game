@@ -96,8 +96,7 @@ public class Program {
 	private int linesToSkip;
 
 	public Map<String, Type> getGlobalVariables() {
-		return globalVariables;
-		//TODO kopie returnen ?
+		return new HashMap<String, Type>(globalVariables);
 	}
 	
 
