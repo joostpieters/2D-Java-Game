@@ -146,9 +146,13 @@ public class ForEach extends Statement {
 				ArrayList<GameItems> objectToRemove = new ArrayList<GameItems>();
 				for(GameItems object : objects){
 					program.getDeclarationVariables().put(getVariableName(), object);
-					if(!((getWhere().getValue(program) instanceof Boolean ) 
-							&& ((Boolean)getWhere().getValue(program)))){
-						objectToRemove.add(object);
+					if(getWhere().getValue(program) instanceof Boolean ) {
+						if(!(Boolean)getWhere().getValue(program)){
+							objectToRemove.add(object);
+						}
+					} else {
+						program.stopBecauseError();
+						break;
 					}
 				}
 				objects.removeAll(objectToRemove);
@@ -197,7 +201,11 @@ public class ForEach extends Statement {
 	
 	private double getValue(GameItems obj, Program program){
 		program.getDeclarationVariables().put(getVariableName(), obj);
-		return (double) getSort().getValue(program);
+		if(getSort().getValue(program) instanceof java.lang.Double){
+			return (double) getSort().getValue(program);
+		}
+		program.stopBecauseError();
+		return 0;
 	}
 	
 	private Iterator<GameItems> getIterator() {
@@ -224,14 +232,13 @@ public class ForEach extends Statement {
 			} else {
 				return -1;
 			}
-		} else if (getSortDirection() == SortDirection.DESCENDING) {
+		} else {
 			if (value1 > value2) {
 				return -1;
 			} else {
 				return 1;
 			}
 		}
-		throw new IllegalStateException();
 	}
 
 }

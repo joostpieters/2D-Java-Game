@@ -17,9 +17,18 @@ public class While extends Statement {
 		this.condition = condition;
 		this.body = body;
 	}
+
+	private Expression getCondition() {
+		return condition;
+	}
+
+	private final Expression condition;
 	
-	private Expression condition;
-	private Statement body;
+	private Statement getBody() {
+		return body;
+	}
+
+	private final Statement body;
 	
 	@Override
 	public void runStatement(Program program) {
@@ -28,8 +37,8 @@ public class While extends Statement {
 				program.setSourceLocation(null);
 			}
 			program.lowerLinesToRun();
-			while((boolean) condition.getValue(program) && !program.isBreakActivated()){
-				body.run(program);
+			while(getCondition().getValue(program) instanceof Boolean && (boolean) getCondition().getValue(program) && !program.isBreakActivated()){
+				getBody().run(program);
 				if(program.getLinesToRun() > 0){
 					program.lowerLinesToRun();
 				} else if(program.getSourceLocation() == null){
@@ -39,12 +48,15 @@ public class While extends Statement {
 					break;
 				}
 			}
+			if(!(getCondition().getValue(program) instanceof Boolean)){
+				program.stopBecauseError();
+			}
 			if(program.isBreakActivated()){
 				program.setBreakActivated(false);
 			}
 		} else {
 			program.setInWhile(program.getInWhile()+1);
-			body.run(program);
+			getBody().run(program);
 			program.setInWhile(program.getInWhile()-1);
 			if(program.getSourceLocation() == null && program.getLinesToRun() > 0){
 				this.runStatement(program);

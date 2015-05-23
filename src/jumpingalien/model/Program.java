@@ -95,10 +95,12 @@ public class Program {
 	
 	private int linesToSkip;
 
-	private Map<String, Type> getGlobalVariables() {
+	public Map<String, Type> getGlobalVariables() {
 		return globalVariables;
+		//TODO kopie returnen ?
 	}
 	
+
 	private final Map<String, Type> globalVariables;
 	
 	public Map<String, Object> getDeclarationVariables() {
