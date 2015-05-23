@@ -28,7 +28,8 @@ public class IsDucking extends Expression {
 		if (getExpression().getValue(program) instanceof Mazub) {
 			return ((Mazub) getExpression().getValue(program)).isDucking();
 		}
-		return false;
+		program.stopBecauseError();
+		return null;
 	}
 
 }

@@ -9,7 +9,7 @@ import jumpingalien.part3.programs.expressions.*;
 import jumpingalien.part3.programs.expressions.Double;
 import jumpingalien.part3.programs.expressions.Object;
 import jumpingalien.part3.programs.statements.*;
-import jumpingalien.part3.programs.types.GameObject;
+import jumpingalien.part3.programs.types.GameItems;
 
 public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
 
@@ -353,7 +353,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Type getGameObjectType() {
-		return new GameObject();
+		return new GameItems();
 	}
 
 	@Override

@@ -43,6 +43,7 @@ public class IsMoving extends Expression {
 				return ((GameObject) getExpression().getValue(program)).getVelocityX() > 0;
 			}
 		}
+		program.stopBecauseError();
 		return false;
 	}
 

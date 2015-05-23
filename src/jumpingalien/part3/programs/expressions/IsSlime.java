@@ -1,11 +1,13 @@
 package jumpingalien.part3.programs.expressions;
 
+import jumpingalien.model.Plant;
 import jumpingalien.model.Program;
 import jumpingalien.model.Slime;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.exceptions.TypeError;
+import jumpingalien.part3.programs.types.GameItems;
 
 public class IsSlime extends Expression {
 
@@ -25,7 +27,11 @@ public class IsSlime extends Expression {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		return getExpression().getValue(program) instanceof Slime;
+		if(program.getObject() instanceof GameItems){
+			return getExpression().getValue(program) instanceof Slime;
+		}
+		program.stopBecauseError();
+		return null;
 	}
 
 }

@@ -4,7 +4,6 @@ import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
-import jumpingalien.part3.programs.exceptions.IllegalMatchingTypeException;
 import jumpingalien.part3.programs.exceptions.TypeError;
 
 public class Addition extends BinaryOperator {
@@ -18,8 +17,13 @@ public class Addition extends BinaryOperator {
 	
 	@Override
 	public java.lang.Double getValue(Program program) {
-		double left = (double) getLeftOperand().getValue(program);
-		double right = (double) getRightOperand().getValue(program);
-		return new java.lang.Double(left+right);
+		if(getLeftOperand().getValue(program) instanceof java.lang.Double && (getLeftOperand().getValue(program) instanceof java.lang.Double)){
+			double left = (double) getLeftOperand().getValue(program);
+			double right = (double) getRightOperand().getValue(program);
+			return new java.lang.Double(left+right);
+		} else {
+			program.stopBecauseError();
+			return null;
+		}
 	}
 }

@@ -6,6 +6,7 @@ import jumpingalien.part3.programs.Expression;
 import jumpingalien.part3.programs.ReturnTypeDetection;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.exceptions.TypeError;
+import jumpingalien.part3.programs.types.GameItems;
 
 public class IsMazub extends Expression {
 
@@ -26,10 +27,11 @@ public class IsMazub extends Expression {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if(program.getObject() instanceof GameObject){
+		if(program.getObject() instanceof GameItems){
 			return ((GameObject) program.getObject()).getWorld().getMazub() == getExpression().getValue(program);
 		}
-		return false;
+		program.stopBecauseError();
+		return null;
 	}
 
 }

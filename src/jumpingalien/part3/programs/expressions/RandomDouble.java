@@ -16,13 +16,22 @@ public class RandomDouble extends Literal {
 		}
 		this.expression = expression;		
 	}
+
+	private Expression getExpression() {
+		return expression;
+	}
 	
-	private Expression expression;
+	private final Expression expression;
 
 	@Override
 	public java.lang.Double getValue(Program program) {
-		Random r = new Random();
-		return new java.lang.Double((double)expression.getValue(program) * r.nextDouble());
+		if(getExpression().getValue(program) instanceof Double){
+			Random r = new Random();
+			return new java.lang.Double((double)getExpression().getValue(program) * r.nextDouble());
+		} else {
+			program.stopBecauseError();
+			return null;
+		}
 	}
 
 	

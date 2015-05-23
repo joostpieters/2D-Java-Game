@@ -29,8 +29,8 @@ public class SearchObject extends Expression {
 		if(getDirection().getValue(program) instanceof Direction){
 			return program.getObject().getWorld().search(program.getObject(), (Direction) getDirection().getValue(program));
 		}
+		program.stopBecauseError();
 		return null;
-		//TODO wat gebeurd er indien nu wordt gereturnd, veroorzaakt dit geen null pointers ?
 	}
 
 }

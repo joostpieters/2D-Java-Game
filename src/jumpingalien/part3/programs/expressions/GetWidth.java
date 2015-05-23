@@ -33,8 +33,7 @@ public class GetWidth extends Expression {
 		} else if (getExpression().getValue(program) instanceof Tile) {
 			return (double) program.getObject().getWorld().getTileSize();
 		} else {
-			program.setLinesToRun(0);
-			program.setHasAnError(true);
+			program.stopBecauseError();
 			return null;
 		}
 	}

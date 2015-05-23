@@ -52,13 +52,11 @@ public class GetTile extends Expression {
 				int geologicalFeature = world.getGeologicalFeatureByPixel(x, y);
 				return new Tile(x, y, geologicalFeature);
 			} catch (IllegalArgumentException e){
-				program.setLinesToRun(0);
-				program.setHasAnError(true);
+				program.stopBecauseError();
 				return null;
 			}
 		} else {
-			program.setLinesToRun(0);
-			program.setHasAnError(true);
+			program.stopBecauseError();
 			return null;
 		}
 	}

@@ -1,6 +1,6 @@
 package jumpingalien.model;
 
-public class Tile extends jumpingalien.part3.programs.types.GameObject{
+public class Tile extends jumpingalien.part3.programs.types.GameItems{
 
 	public Tile(int x, int y, int geologicalFeature) {
 		this.x = x;

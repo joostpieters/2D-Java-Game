@@ -28,7 +28,8 @@ public class IsDead extends Expression {
 		if(expression.getValue(program) instanceof GameObject){
 			return ((GameObject) getExpression().getValue(program)).isDead();
 		}
-		return false;
+		program.stopBecauseError();
+		return null;
 	}
 
 }

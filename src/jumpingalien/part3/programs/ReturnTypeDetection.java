@@ -48,7 +48,7 @@ public interface  ReturnTypeDetection {
 		for(Expression expression : expressions){
 			if(!(expression instanceof Object || expression instanceof GetTile || 
 					expression instanceof SearchObject || (expression instanceof Variable 
-							&& ((Variable)expression).getType() instanceof jumpingalien.part3.programs.types.GameObject))){
+							&& ((Variable)expression).getType() instanceof jumpingalien.part3.programs.types.GameItems))){
 				return false;
 			}
 		}

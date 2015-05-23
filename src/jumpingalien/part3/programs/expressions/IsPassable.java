@@ -29,8 +29,7 @@ public class IsPassable extends Expression {
 			int geologicalFeature = ((Tile) getExpression().getValue(program)).getGeologicalFeature();
 			return geologicalFeature == 0 || geologicalFeature == 2 || geologicalFeature == 3;
 		} else {
-			program.setLinesToRun(0);
-			program.setHasAnError(true);
+			program.stopBecauseError();
 			return false;
 		}
 	}

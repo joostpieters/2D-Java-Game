@@ -1,5 +1,6 @@
 package jumpingalien.part3.programs.expressions;
 
+import jumpingalien.model.GameObject;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Program;
 import jumpingalien.model.Shark;
@@ -32,6 +33,10 @@ public class IsJumping extends Expression {
 		if (getExpression().getValue(program) instanceof Shark) {
 			return ((Shark) getExpression().getValue(program)).isUpKeyPressed();
 		}
+		if (getExpression().getValue(program) instanceof GameObject){
+			return false;
+		}
+		program.stopBecauseError();
 		return false;
 	}
 

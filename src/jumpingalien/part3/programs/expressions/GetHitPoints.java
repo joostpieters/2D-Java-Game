@@ -34,8 +34,7 @@ public class GetHitPoints extends Expression {
 			GameObject object = (GameObject) getExpression().getValue(program);
 			return (double) object.getHitPoints();
 		}
-		program.setLinesToRun(0);
-		program.setHasAnError(true);
+		program.stopBecauseError();
 		return null;
 	}
 

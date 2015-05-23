@@ -28,8 +28,7 @@ public class IsAir extends Expression {
 		if (getExpression().getValue(program) instanceof Tile) {
 			return ((Tile) getExpression().getValue(program)).getGeologicalFeature() == 0;
 		} else {
-			program.setLinesToRun(0);
-			program.setHasAnError(true);
+			program.stopBecauseError();
 			return false;
 		}
 	}

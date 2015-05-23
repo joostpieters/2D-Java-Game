@@ -17,9 +17,14 @@ public class Conjunction extends BinaryOperator {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		boolean left = (boolean) getLeftOperand().getValue(program);
-		boolean right = (boolean) getRightOperand().getValue(program);
-		return new java.lang.Boolean(left && right);
+		if(getLeftOperand().getValue(program) instanceof Boolean && getRightOperand().getValue(program) instanceof Boolean){
+			boolean left = (boolean) getLeftOperand().getValue(program);
+			boolean right = (boolean) getRightOperand().getValue(program);
+			return new java.lang.Boolean(left && right);
+		} else {
+			program.stopBecauseError();
+			return null;
+		}
 	}
 
 }

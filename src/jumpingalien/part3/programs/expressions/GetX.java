@@ -32,8 +32,7 @@ public class GetX extends Expression {
 		} else if (getExpression().getValue(program) instanceof Tile) {
 			return (double) ((Tile) getExpression().getValue(program)).getX();
 		}
-		program.setHasAnError(true);
-		program.setLinesToRun(0);
+		program.stopBecauseError();
 		return null;
 	}
 

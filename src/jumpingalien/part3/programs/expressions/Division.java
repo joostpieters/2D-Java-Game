@@ -17,9 +17,14 @@ public class Division extends BinaryOperator {
 
 	@Override
 	public java.lang.Double getValue(Program program) {
-		double left = (double) getLeftOperand().getValue(program);
-		double right = (double) getRightOperand().getValue(program);
-		return new java.lang.Double(left/right);
+		if(getLeftOperand().getValue(program) instanceof Double && getRightOperand().getValue(program) instanceof Double){
+			double left = (double) getLeftOperand().getValue(program);
+			double right = (double) getRightOperand().getValue(program);
+			return new java.lang.Double(left/right);
+		} else {
+			program.stopBecauseError();
+			return null;
+		}
 	}
 
 

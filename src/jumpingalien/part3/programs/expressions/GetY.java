@@ -33,8 +33,7 @@ public class GetY extends Expression {
 		} else if (getExpression().getValue(program) instanceof Tile) {
 			return (double) ((Tile) getExpression().getValue(program)).getY();
 		}
-		program.setHasAnError(true);
-		program.setLinesToRun(0);
+		program.stopBecauseError();
 		return null;
 	}
 

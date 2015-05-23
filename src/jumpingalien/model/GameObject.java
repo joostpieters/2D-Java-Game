@@ -4,7 +4,7 @@ import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 
-public abstract class GameObject extends jumpingalien.part3.programs.types.GameObject implements CollisionDetect  {
+public abstract class GameObject extends jumpingalien.part3.programs.types.GameItems implements CollisionDetect  {
 	
 	protected GameObject(int x, int y, Sprite[] sprites) {
 		setLocationX(x);

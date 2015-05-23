@@ -47,11 +47,13 @@ public class Program {
 	}
 
 	public void run(int i) {
-		setLinesToRun(i);
-		getMainStatement().run(this);
-		if(getLinesToRun() > 0){
-			initialiseVariables();
-			run(getLinesToRun());
+		if(!hasAnError()){
+			setLinesToRun(i);
+			getMainStatement().run(this);
+			if(getLinesToRun() > 0){
+				initialiseVariables();
+				run(getLinesToRun());
+			}
 		}
 	}
 
@@ -155,14 +157,19 @@ public class Program {
 
 	private boolean wellFormed;
 	
-	public boolean hasAnError() {
+	private boolean hasAnError() {
 		return hasAnError;
 	}
 	
-	public void setHasAnError(boolean value) {
+	private void setHasAnError(boolean value) {
 		this.hasAnError = value;
 	}
 	
 	private boolean hasAnError;
+	
+	public void stopBecauseError(){
+		setLinesToRun(0);
+		setHasAnError(true);
+	}
 
 }

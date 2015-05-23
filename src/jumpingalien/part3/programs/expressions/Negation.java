@@ -17,8 +17,13 @@ public class Negation extends UnaryOperator {
 	
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		boolean operand = (boolean) getOperand().getValue(program);
-		return new java.lang.Boolean(!operand);
+		if(getOperand().getValue(program) instanceof Boolean){
+			boolean operand = (boolean) getOperand().getValue(program);
+			return new java.lang.Boolean(!operand);
+		} else{
+			program.stopBecauseError();
+			return null;
+		}
 	}
 
 }

@@ -17,8 +17,13 @@ public class SquareRoot extends UnaryOperator {
 
 	@Override
 	public java.lang.Double getValue(Program program) {
-		double operand = (double) getOperand().getValue(program);
-		return new java.lang.Double(Math.sqrt(operand));
+		if(getOperand().getValue(program) instanceof Double){
+			double operand = (double) getOperand().getValue(program);
+			return new java.lang.Double(Math.sqrt(operand));
+		} else {
+			program.stopBecauseError();
+			return null;
+		}
 	}
 
 }
