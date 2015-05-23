@@ -8,26 +8,20 @@ import jumpingalien.part3.programs.IProgramFactory.Direction;
 import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.part3.programs.SourceLocation;
 
-public class SearchObject extends Expression {
+public class SearchObject extends UnaryOperator {
 
 	public SearchObject(Expression direction, SourceLocation sourceLocation) {
-		super(sourceLocation);
+		super(direction, sourceLocation);
 		if(!ReturnTypeDetection.returnsDirection(direction)){
 			throw new TypeError(sourceLocation);
 		}
-		this.direction = direction;
 	}
-	
-	public Expression getDirection() {
-		return direction;
-	}
-	
-	private final Expression direction;
 
 	@Override
 	public GameObject getValue(Program program) {
-		if(getDirection().getValue(program) instanceof Direction){
-			return program.getObject().getWorld().search(program.getObject(), (Direction) getDirection().getValue(program));
+		Expression direction = getOperand();
+		if(direction.getValue(program) instanceof Direction){
+			return program.getObject().getWorld().search(program.getObject(), (Direction) direction.getValue(program));
 		}
 		program.stopBecauseError();
 		return null;
