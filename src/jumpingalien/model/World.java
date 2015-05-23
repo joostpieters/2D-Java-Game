@@ -692,7 +692,7 @@ public class World  {
 	 * 			|	updateWindow()
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
-		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2)){
+		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2) || dt == Double.NaN){
 			throw new IllegalArgumentException();
 		}
 		if(getMazub() != null){

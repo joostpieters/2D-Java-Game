@@ -1184,7 +1184,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 *			|		&& (velocityX <= -getInitialHorizontalVelocity()))
 	 */
 	protected boolean isValidVelocityX(double velocityX) {
-		return ((velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) 
+		return (velocityX != Double.NaN && (velocityX <= getMaximumHorizontalVelocity()) && (velocityX >= getInitialHorizontalVelocity())) 
 		|| (velocityX == 0) || ((velocityX >= -getMaximumHorizontalVelocity()) 
 				&& (velocityX <= -getInitialHorizontalVelocity()));
 	}
