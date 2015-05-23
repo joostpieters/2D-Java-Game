@@ -19,7 +19,7 @@ public class LessThanOrEqual extends Comparison {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if(getLeftOperand().getValue(program) instanceof Double && getRightOperand().getValue(program) instanceof Double){
+		if(getLeftOperand().getValue(program) instanceof java.lang.Double && getRightOperand().getValue(program) instanceof java.lang.Double){
 			double left = (double) getLeftOperand().getValue(program);
 			double right = (double) getRightOperand().getValue(program);
 			return new java.lang.Boolean(Util.fuzzyLessThanOrEqualTo(left, right));

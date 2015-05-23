@@ -32,14 +32,14 @@ public class IsMoving extends Expression {
 	
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if (getExpression().getValue(program) instanceof GameObject && direction.getValue(program) instanceof jumpingalien.part3.programs.IProgramFactory.Direction) {
-			if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.UP) {
+		if (getExpression().getValue(program) instanceof GameObject && getDirection().getValue(program) instanceof jumpingalien.part3.programs.IProgramFactory.Direction) {
+			if (getDirection().getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.UP) {
 				return ((GameObject) getExpression().getValue(program)).getVelocityY() > 0;
-			} else if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.DOWN) {
+			} else if (getDirection().getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.DOWN) {
 				return ((GameObject) getExpression().getValue(program)).getVelocityY() < 0;
-			} else if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT) {
+			} else if (getDirection().getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.LEFT) {
 				return ((GameObject) getExpression().getValue(program)).getVelocityX() < 0;
-			} else if (direction.getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT) {
+			} else if (getDirection().getValue(program) == jumpingalien.part3.programs.IProgramFactory.Direction.RIGHT) {
 				return ((GameObject) getExpression().getValue(program)).getVelocityX() > 0;
 			}
 		}

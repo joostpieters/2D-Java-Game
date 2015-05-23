@@ -28,7 +28,7 @@ public class IsMazub extends Expression {
 	@Override
 	public java.lang.Boolean getValue(Program program) {
 		if(program.getObject() instanceof GameItems){
-			return ((GameObject) program.getObject()).getWorld().getMazub() == getExpression().getValue(program);
+			return program.getObject().getWorld().getMazub() == getExpression().getValue(program);
 		}
 		program.stopBecauseError();
 		return null;

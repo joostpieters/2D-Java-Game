@@ -1,5 +1,6 @@
 package jumpingalien.part3.programs.expressions;
 
+import jumpingalien.model.GameObject;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.Expression;
@@ -27,6 +28,8 @@ public class IsDucking extends Expression {
 	public java.lang.Boolean getValue(Program program) {
 		if (getExpression().getValue(program) instanceof Mazub) {
 			return ((Mazub) getExpression().getValue(program)).isDucking();
+		} else if (getExpression().getValue(program) instanceof GameObject) {
+			return false;
 		}
 		program.stopBecauseError();
 		return null;

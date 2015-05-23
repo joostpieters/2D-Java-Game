@@ -24,7 +24,7 @@ public class NotEquals extends Comparison {
 	public java.lang.Boolean getValue(Program program) {
 		java.lang.Object left = getLeftOperand().getValue(program);
 		java.lang.Object right = getRightOperand().getValue(program);
-		if(left instanceof Double && right instanceof Double){
+		if(left instanceof java.lang.Double && right instanceof java.lang.Double){
 			return new java.lang.Boolean((double)left != (double)right);			
 		} if(left instanceof Boolean && right instanceof Boolean){
 			return new java.lang.Boolean((boolean)left != (boolean)right);

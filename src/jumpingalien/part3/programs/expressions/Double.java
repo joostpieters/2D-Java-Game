@@ -13,7 +13,7 @@ public class Double extends Literal {
 
 	@Override
 	public java.lang.Double getValue(Program program) {
-		return value;
+		return new java.lang.Double(value);
 	}
 
 

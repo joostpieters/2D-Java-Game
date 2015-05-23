@@ -25,7 +25,7 @@ public class RandomDouble extends Literal {
 
 	@Override
 	public java.lang.Double getValue(Program program) {
-		if(getExpression().getValue(program) instanceof Double){
+		if(getExpression().getValue(program) instanceof java.lang.Double){
 			Random r = new Random();
 			return new java.lang.Double((double)getExpression().getValue(program) * r.nextDouble());
 		} else {

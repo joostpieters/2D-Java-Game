@@ -45,7 +45,7 @@ public class GetTile extends Expression {
 	@Override
 	public Tile getValue(Program program) {
 		World world = ((GameObject) program.getObject()).getWorld();
-		if (getX().getValue(program) instanceof Double && getY().getValue(program) instanceof Double) {
+		if (getX().getValue(program) instanceof java.lang.Double && getY().getValue(program) instanceof java.lang.Double) {
 			int x = doubleToInteger((Double) getX().getValue(program));
 			int y = doubleToInteger((Double) getY().getValue(program));
 			try {

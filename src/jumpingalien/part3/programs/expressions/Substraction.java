@@ -17,7 +17,7 @@ public class Substraction extends BinaryOperator {
 
 	@Override
 	public java.lang.Double getValue(Program program) {
-		if(getLeftOperand().getValue(program) instanceof Double && getRightOperand().getValue(program) instanceof Double){
+		if(getLeftOperand().getValue(program) instanceof java.lang.Double && getRightOperand().getValue(program) instanceof java.lang.Double){
 			double left = (double) getLeftOperand().getValue(program);
 			double right = (double) getRightOperand().getValue(program);
 			return new java.lang.Double(left-right);
