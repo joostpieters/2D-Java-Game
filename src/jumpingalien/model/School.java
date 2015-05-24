@@ -8,8 +8,12 @@ import be.kuleuven.cs.som.annotate.Raw;
 /**
  * 
  * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
+ * 
  * @invar	The amount of Slimes in a School is always greater or equal to zero.
  * 			| this.getAmountSlimes() >= 0
+ * 
+ * @invar	The array that contains the slimes does not contain the null value
+ * 			| !getSlimes().contains(null)
  *
  */
 public class School {
@@ -21,13 +25,13 @@ public class School {
 	 * 			...
 	 * 			| !canHaveAsSlime(slime)
 	 * @post 	...
-	 * 			|new.slimes.contains(slime)
+	 * 			|new.getSlimes()contains(slime)
 	 */
 	void addSlime(@Raw Slime slime) throws IllegalArgumentException{
 		if(!canHaveAsSlime(slime)){
 			throw new IllegalArgumentException();
 		}
-		slimes.add(slime);
+		getSlimes().add(slime);
 	}
 	
 	/**
@@ -36,11 +40,11 @@ public class School {
 	 * @param slime
 	 * 			the Slime to remove from this School
 	 * @effect 	...
-	 * 			| slimes.remove(slime)
+	 * 			| getSlimes().remove(slime)
 	 * @effect	...
 	 * 			| foreach (otherSlime in slimes)
-	 * 			|	if not slime.isDead() then
-	 * 			|		slime.setHitpoints(slime.getHitPoints() - 1)
+	 * 			|	if not getSlime().isDead() then
+	 * 			|		getSlime().setHitpoints(slime.getHitPoints() - 1)
 	 * 			|		otherSlime.setHitPoints(otherSlime.getHitpoints() + 1)
 	 * @effect	...
 	 * 			| if (new.getAmountSlimes() == 0) then
@@ -48,8 +52,8 @@ public class School {
 	 */
 	void removeSlime(@Raw Slime slime) {
 		assert (slime != null);
-		slimes.remove(slime);
-		for (Slime otherSlime : slimes) {
+		getSlimes().remove(slime);
+		for (Slime otherSlime : getSlimes()) {
 			if (!slime.isDead()) {
 				slime.setHitPoints(slime.getHitPoints() - 1);
 				otherSlime.setHitPoints(otherSlime.getHitPoints() + 1);
@@ -67,7 +71,7 @@ public class School {
 	 * 			| canHaveAsSlime(slime)
 	 * @param slime
 	 * @effect	...
-	 * 			| foreach (otherSlime : slimes) 
+	 * 			| for each otherSlime in slimes
 	 * 			| 	if (!otherSlime.isDead()) then
 	 * 			|		otherSlime.setHitPoints(otherSlime.getHitPoints() - 1)
 	 * 			|		slime.setHitPoints(slime.getHitPoints() + 1)
@@ -76,7 +80,7 @@ public class School {
 	 */
 	void addNewSchoolMember(@Raw Slime slime) throws IllegalAccessException {
 		assert (canHaveAsSlime(slime));
-		for (Slime otherSlime : slimes) {
+		for (Slime otherSlime : getSlimes()) {
 			if (!otherSlime.isDead()) {
 				otherSlime.setHitPoints(otherSlime.getHitPoints() - 1);
 				slime.setHitPoints(slime.getHitPoints() + 1);
@@ -93,14 +97,21 @@ public class School {
 	 * 			| return ((slime != null) && (slime.hasAsSchool(this)) && (not slime.isTerminated());
 	 */
 	private boolean canHaveAsSlime(Slime slime){
-		return ((slime != null) && (slime.hasAsSchool(this) && (!slime.isTerminated())));
+		return ((slime != null) && (slime.hasAsSchool(this)) && (!slime.isTerminated()));
 	}
 	
 	/**
 	 * Returns the amount of slimes in this school
 	 */
 	int getAmountSlimes(){
-		return slimes.size(); 
+		return getSlimes().size(); 
+	}
+	
+	/**
+	 * Returns the current slimes of this school
+	 */
+	private ArrayList<Slime> getSlimes(){
+		return slimes;
 	}
 	
 	/**
@@ -113,13 +124,13 @@ public class School {
 	 * @param slime
 	 * 			the Slime who has lost some points
 	 * @effect	...
-	 * 			| for (Slime otherSlime : slimes)
+	 * 			| for each otherSlime in getSlimes())
 	 * 			| 	if (otherSlime != slime) then
 	 * 			|		otherSlime.setHitPoints(otherSlime.getHitPoints() - 1)
 	 * 
 	 */
 	void reducePoint(Slime slime) {
-		for (Slime otherSlime : slimes) {
+		for (Slime otherSlime : getSlimes()) {
 			if (otherSlime != slime) {
 				otherSlime.setHitPoints(otherSlime.getHitPoints() - 1);
 			}
@@ -131,6 +142,7 @@ public class School {
 	 * 			| setTerminated(true)
 	 */
 	private void terminate() {
+		if(getAmountSlimes() == 0)
 		setTerminated(true);
 	}
 	

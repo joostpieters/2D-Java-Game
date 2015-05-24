@@ -2,12 +2,14 @@ package jumpingalien.part3.programs;
 
 import java.util.List;
 import java.util.Map;
+
 import jumpingalien.model.Program;
 import jumpingalien.part3.programs.expressions.*;
 import jumpingalien.part3.programs.expressions.Double;
 import jumpingalien.part3.programs.expressions.Object;
 import jumpingalien.part3.programs.statements.*;
 import jumpingalien.part3.programs.types.GameItem;
+import jumpingalien.util.ModelException;
 
 public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
 
@@ -363,7 +365,11 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	public Program createProgram(Statement mainStatement,
 			Map<String, Type> globalVariables) {
 
-		return new Program(mainStatement, globalVariables);
+		try {
+			return new Program(mainStatement, globalVariables);
+		} catch (IllegalArgumentException e){
+			throw new ModelException("The parameter mainstatement or globalVariables equals null");
+		}
 	}
 
 }

@@ -10,6 +10,9 @@ import jumpingalien.part3.programs.Type;
 public class Program {
 
 	public Program(Statement mainStatement, Map<String, Type> globalVariables) {
+		if(mainStatement == null || globalVariables == null){
+			throw new IllegalArgumentException();
+		}
 		this.mainStatement = mainStatement;
 		this.globalVariables = globalVariables;
 		initialiseVariables();	

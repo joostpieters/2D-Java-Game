@@ -3,7 +3,6 @@ package jumpingalien.model;
 import java.util.Collection;
 
 import be.kuleuven.cs.som.annotate.Basic;
-import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 
