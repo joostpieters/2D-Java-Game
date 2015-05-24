@@ -11,7 +11,7 @@ public class IsDead extends UnaryOperator {
 
 	public IsDead(Expression expression, SourceLocation sourceLocation) {
 		super(expression, sourceLocation);
-		if(!ReturnTypeDetection.returnsObject(expression)){
+		if(!ReturnTypeDetection.returnsObject(expression) || ReturnTypeDetection.returnsTile(expression)){
 			throw new TypeError(sourceLocation);
 		}
 	}

@@ -13,7 +13,7 @@ public class IsJumping extends UnaryOperator {
 
 	public IsJumping(Expression expression, SourceLocation sourceLocation) {
 		super(expression, sourceLocation);
-		if(!ReturnTypeDetection.returnsObject(expression)){
+		if(!ReturnTypeDetection.returnsObject(expression) || ReturnTypeDetection.returnsTile(expression)){
 			throw new TypeError(sourceLocation);
 		}
 	}

@@ -61,6 +61,12 @@ public interface  ReturnTypeDetection {
 		return true;
 	}
 	
+	static boolean returnsGameObject(Expression ... expressions){
+		List<Expression> lijst = new ArrayList<>(Arrays.asList(expressions));
+		Stream<Expression> stream = lijst.parallelStream();
+		return (stream.anyMatch((expression)-> expression instanceof SearchObject));
+	}
+	
 	static boolean returnsDirection(Expression ... expressions){
 		List<Expression> lijst = new ArrayList<>(Arrays.asList(expressions));
 		Stream<Expression> stream = lijst.parallelStream();
@@ -71,5 +77,12 @@ public interface  ReturnTypeDetection {
 		}
 		return true;
 	}
+	
+	static boolean returnsTile(Expression ... expressions){
+		List<Expression> lijst = new ArrayList<>(Arrays.asList(expressions));
+		Stream<Expression> stream = lijst.parallelStream();
+		return stream.anyMatch((expression)-> expression instanceof GetTile);
+	}
+	
 
 }

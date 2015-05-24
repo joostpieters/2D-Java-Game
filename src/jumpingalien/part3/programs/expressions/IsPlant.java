@@ -12,7 +12,7 @@ public class IsPlant extends UnaryOperator {
 
 	public IsPlant(Expression expression, SourceLocation sourceLocation) {
 		super(expression, sourceLocation);
-		if(!ReturnTypeDetection.returnsObject(expression)){
+		if(!ReturnTypeDetection.returnsObject(expression) || ReturnTypeDetection.returnsTile(expression)){
 			throw new TypeError(sourceLocation);
 		}
 	}

@@ -1183,13 +1183,13 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 *			|		accelerationX = 0
 	 */
 	protected void setAccelerationX(double accelerationX) {
-		if (accelerationX == Double.NaN)
+		if (Double.isNaN(accelerationX))
 				accelerationX = 0;
 		this.accelerationX = accelerationX;
 	}
 	
 	/**
-	 * this variable contains the current horizontal acceleration for this Mazub
+	 * this variable contains the current horizontal acceleration for this Game Object
 	 */	
 	private double accelerationX;
 

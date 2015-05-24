@@ -13,7 +13,7 @@ import jumpingalien.util.Util;
  *
  * @invar	the Mazub's location is always in the game window
  * 			|  ((0 <= getLocationX()) && (getLocationX() < getWindowWidth()) 
- * 				&& (0 <= getLocationY()) && (getLocationY < getWindowHeight())
+ * 			|	&& (0 <= getLocationY()) && (getLocationY < getWindowHeight())
  * 
  * @invar	the Mazub's hitpoints are always between 0 and 500
  * 			| (0 <= getHitPoints()) && (getHitPoints() <= 500)
@@ -110,7 +110,7 @@ public class Mazub extends GameObject {
 	 */
 	@Override
 	protected boolean isValidSpriteArray(Sprite[] sprites) {
-		if (sprites.length < getRequiredLengthSpriteArray()) {
+		if (sprites.length < getRequiredLengthSpriteArray() || sprites.length % 2 != 0) {
 			return false;
 		} else {
 			for (Sprite sprite : sprites) {
@@ -406,7 +406,7 @@ public class Mazub extends GameObject {
 	 * 			|	terminate()
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException {
-		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2) || dt == Double.NaN){
+		if (dt < 0 || Util.fuzzyGreaterThanOrEqualTo(dt, 0.2) || Double.isNaN(dt)){
 			throw new IllegalArgumentException();
 		}
 		this.addToTimer(dt);
@@ -489,7 +489,7 @@ public class Mazub extends GameObject {
 	 * 			|	setAccelerationY(0)
 	 */
 	private void updateVelocityYAndAccelerationY(double seconds) {
-		assert(seconds >= 0);
+		assert(Util.fuzzyGreaterThanOrEqualTo(seconds, 0));
 		if (isOnSolidGround()) {
 			setVelocityY(0);
 			setAccelerationY(0);

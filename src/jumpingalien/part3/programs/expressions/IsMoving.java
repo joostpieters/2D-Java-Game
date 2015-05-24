@@ -11,7 +11,7 @@ public class IsMoving extends BinaryOperator {
 
 	public IsMoving(Expression expr, Expression direction, SourceLocation sourceLocation) {
 		super(expr, direction, sourceLocation);
-		if(!(ReturnTypeDetection.returnsObject(expr) && ReturnTypeDetection.returnsDirection(direction))){
+		if(!(ReturnTypeDetection.returnsObject(expr) && ReturnTypeDetection.returnsDirection(direction)) || ReturnTypeDetection.returnsTile(expr)){
 			throw new TypeError(sourceLocation);
 		}
 	}

@@ -11,7 +11,7 @@ public class IsAir extends UnaryOperator {
 
 	public IsAir(Expression expression, SourceLocation sourceLocation) {
 		super(expression, sourceLocation);
-		if(!ReturnTypeDetection.returnsObject(expression)){
+		if(!ReturnTypeDetection.returnsObject(expression) || ReturnTypeDetection.returnsGameObject(expression)){
 			throw new TypeError(sourceLocation);
 		}
 	}
