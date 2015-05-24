@@ -6,14 +6,58 @@ import be.kuleuven.cs.som.annotate.Basic;
 
 public abstract class GameObject extends jumpingalien.part3.programs.types.GameItem implements CollisionDetect  {
 	
-	protected GameObject(int x, int y, Sprite[] sprites) {
+	/**
+	 * 
+	 * @param 	x
+	 * 			the x coordinate for this game object
+	 * @param 	y
+	 * 			the y coordinate for this game object
+	 * @param 	sprites
+	 * 			the sprites for this game object
+	 * @throws 	IllegalArgumentException
+	 * 			if one of the used methodes to initialize this Game object throw an acception
+	 *			| x < 0 || y < 0 || sprites.length < getRequiredLengthSpriteArray() || sprites.contains(null)
+	 * @effect 	The x location of this object will be set to the given x location
+	 * 			| setLocationX(x)
+	 * @effect 	The y location of this object will be set to the given y location
+	 * 			| setLocationY(y) 
+	 * @effect 	The sprite array of this game object will be set to the given sprite array
+	 * 			|setSprites(sprites)
+	 * @post	The program of this gameObject will equal null
+	 * 			| new.getProgram() == null
+	 */
+	protected GameObject(int x, int y, Sprite[] sprites)throws IllegalArgumentException {
 		setLocationX(x);
 		setLocationY(y);
 		setSprites(sprites);
 		program = null;
 	}
 	
-	protected GameObject(int x, int y, Sprite[] sprites, Program program) {
+	/**
+	 * 
+	 * @param 	x
+	 * 			the x coordinate for this game object
+	 * @param 	y
+	 * 			the y coordinate for this game object
+	 * @param 	sprites
+	 * 			the sprites for this game object
+	 * @throws 	IllegalArgumentException
+	 * 			if the given program equals null or 
+	 * 				if one of the methodes used to initialize this Game object throws an acception
+	 *			| program == null || x < 0 || y < 0 || sprites.length < getRequiredLengthSpriteArray() || sprites.contains(null)
+	 * @effect 	The x location of this object will be set to the given x location
+	 * 			| setLocationX(x)
+	 * @effect 	The y location of this object will be set to the given y location
+	 * 			| setLocationY(y) 
+	 * @effect 	The sprite array of this game object will be set to the given sprite array
+	 * 			|setSprites(sprites)
+	 * @post	The program of this gameObject will equal the given program
+	 * 			| new.getProgram() == program
+	 * @effect	The program will be linked to this Game Object
+	 * 			| new.program.getObject() == this
+	 */
+	protected GameObject(int x, int y, Sprite[] sprites, Program program) 
+			throws IllegalArgumentException {
 		if(program == null){
 			throw new IllegalArgumentException();
 		}
@@ -209,6 +253,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	/**
 	 * Returns the hitPoints of this game object
 	 */
+	@Basic
 	public int getHitPoints() {
 		return hitPoints;
 	}
@@ -248,6 +293,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	/**
 	 * This variable returns whether this Game Object is dead or not
 	 */
+	@Basic
 	public boolean isDead() {
 		return isDead;
 	}
@@ -1127,14 +1173,14 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 * 
 	 * @param 	accelerationX
 	 * 			the new accelerationX for this Game Object
-	 * @post 	if the given accelerationX is bigger or equal to zero, 
-	 * 				the accelerationX of this Game Object is equal to the given accelerationX
+	 * @post 	if the given accelerationX does not equal Double.NaN
+	 * 				the accelerationX of this Game Object will equal the given accelerationX
 	 * 			|if (accelerationX >= 0)
 	 * 			|	new.getAcceleration() == accelerationX
-	 * @post 	if the given accelerationX is lower than zero, 
-	 * 				the accelerationX of this Mazub is equal to zero
-	 * 			|if (accelerationX < 0)
-	 * 			|	new.getAcceleration() == 0
+	 * @post 	if the given accelerationX equals Double.NaN than
+	 * 				the accelerationX of this Game Object will equal zero
+	 * 			|if (accelerationX == Double.NaN) then
+	 *			|		accelerationX = 0
 	 */
 	protected void setAccelerationX(double accelerationX) {
 		if (accelerationX == Double.NaN)

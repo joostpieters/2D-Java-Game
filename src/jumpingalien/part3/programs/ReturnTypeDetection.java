@@ -29,45 +29,45 @@ public interface  ReturnTypeDetection {
 	}
 	
 	static boolean returnsBoolean(Expression ... expressions){
-		for(Expression expression : expressions){
-			if(!(expression instanceof Bool || expression instanceof Conjunction || 
-					expression instanceof Disjunction || expression instanceof Equals 
-					|| expression instanceof GreaterThan || 
-					expression instanceof GreaterThanOrEqual|| expression instanceof IsAir || 
-					expression instanceof IsDead || expression instanceof IsDucking || 
-					expression instanceof IsJumping || expression instanceof IsMagma || 
-					expression instanceof IsMoving || expression instanceof IsPassable || 
-					expression instanceof IsPlant || expression instanceof IsShark || 
-					expression instanceof IsSlime || expression instanceof IsTerrain || 
-					expression instanceof IsWater || expression instanceof LessThan || 
-					expression instanceof LessThanOrEqual || expression instanceof Negation ||
-					expression instanceof NotEquals || expression instanceof IsMagma || 
-					expression instanceof IsMazub || (expression instanceof Variable 
-							&& ((Variable)expression).getType() instanceof jumpingalien.part3.programs.types.Boolean))){
-				return false;
-			}
+		List<Expression> lijst = new ArrayList<>(Arrays.asList(expressions));
+		Stream<Expression> stream = lijst.parallelStream();
+		if(stream.anyMatch((expression)->(!(expression instanceof Bool || expression instanceof Conjunction || 
+				expression instanceof Disjunction || expression instanceof Equals 
+				|| expression instanceof GreaterThan || 
+				expression instanceof GreaterThanOrEqual|| expression instanceof IsAir || 
+				expression instanceof IsDead || expression instanceof IsDucking || 
+				expression instanceof IsJumping || expression instanceof IsMagma || 
+				expression instanceof IsMoving || expression instanceof IsPassable || 
+				expression instanceof IsPlant || expression instanceof IsShark || 
+				expression instanceof IsSlime || expression instanceof IsTerrain || 
+				expression instanceof IsWater || expression instanceof LessThan || 
+				expression instanceof LessThanOrEqual || expression instanceof Negation ||
+				expression instanceof NotEquals || expression instanceof IsMagma || 
+				expression instanceof IsMazub || (expression instanceof Variable && 
+				((Variable)expression).getType() instanceof jumpingalien.part3.programs.types.Boolean))))){
+			return false;
 		}
 		return true;
 	}
 	
 	static boolean returnsObject(Expression ... expressions){
-		for(Expression expression : expressions){
-			if(!(expression instanceof Object || expression instanceof GetTile || 
-					expression instanceof SearchObject || (expression instanceof Variable 
-							&& ((Variable)expression).getType() instanceof jumpingalien.part3.programs.types.GameItem))){
-				return false;
-			}
+		List<Expression> lijst = new ArrayList<>(Arrays.asList(expressions));
+		Stream<Expression> stream = lijst.parallelStream();
+		if(stream.anyMatch((expression)->(!(expression instanceof Object || expression instanceof GetTile || 
+				expression instanceof SearchObject || (expression instanceof Variable 
+						&& ((Variable)expression).getType() instanceof jumpingalien.part3.programs.types.GameItem))))){
+			return false;
 		}
 		return true;
 	}
 	
 	static boolean returnsDirection(Expression ... expressions){
-		for(Expression expression : expressions){
-			if(!(expression instanceof Direction || expression instanceof GetTile || 
+		List<Expression> lijst = new ArrayList<>(Arrays.asList(expressions));
+		Stream<Expression> stream = lijst.parallelStream();
+		if(stream.anyMatch((expression)->(!(expression instanceof Direction || expression instanceof GetTile || 
 					expression instanceof SearchObject || (expression instanceof Variable 
-							&& ((Variable)expression).getType() instanceof jumpingalien.part3.programs.types.Direction))){
-				return false;
-			}
+							&& ((Variable)expression).getType() instanceof jumpingalien.part3.programs.types.Direction))))){
+			return false;
 		}
 		return true;
 	}

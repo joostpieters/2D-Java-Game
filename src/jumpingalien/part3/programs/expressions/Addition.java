@@ -17,11 +17,11 @@ public class Addition extends BinaryOperator {
 	
 	@Override
 	public java.lang.Double getValue(Program program) {
-		if(getLeftOperand().getValue(program) instanceof java.lang.Double && (getLeftOperand().getValue(program) instanceof java.lang.Double)){
+		try{
 			double left = (double) getLeftOperand().getValue(program);
 			double right = (double) getRightOperand().getValue(program);
 			return new java.lang.Double(left+right);
-		} else {
+		} catch (ClassCastException e) {
 			program.stopBecauseError();
 			return null;
 		}

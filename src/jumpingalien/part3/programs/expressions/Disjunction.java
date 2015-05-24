@@ -17,11 +17,11 @@ public class Disjunction extends BinaryOperator {
 
 	@Override
 	public java.lang.Boolean getValue(Program program) {
-		if(getLeftOperand().getValue(program) instanceof Boolean && getRightOperand().getValue(program) instanceof Boolean){
+		try{
 			boolean left = (boolean) getLeftOperand().getValue(program);
 			boolean right = (boolean) getRightOperand().getValue(program);
 			return new java.lang.Boolean(left || right);
-		} else {
+		} catch (ClassCastException e) {
 			program.stopBecauseError();
 			return null;
 		}
