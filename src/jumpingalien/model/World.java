@@ -1517,7 +1517,9 @@ public class World  {
 	private boolean gameStarted;	
 	
 	
-	//TODO documentatie voor de onderste drie methodes
+	/**
+	 *	Starting at the main object this function returns the nearestby object in the given direction
+	 */
 	public GameObject search(GameObject mainObject, Direction direction){
 		GameObject result = null;
 		if(getMazub() != null && getMazub() != mainObject){
@@ -1569,7 +1571,9 @@ public class World  {
 		}
 	}
 
-	//TODO commentaar: ik zou deze methodes enkel informeel becommentariëren ...
+	/**
+	 * This function calculates the horizontal distance between the to given objects
+	 */
 	private GameObject calculateHorizontalDistanceBetween(GameObject mainObject, GameObject otherObject, GameObject result, Direction direction){
 		assert(mainObject != null && otherObject != null && (direction == Direction.LEFT || direction == Direction.RIGHT));
 		int minDistance = Integer.MAX_VALUE;
@@ -1606,6 +1610,10 @@ public class World  {
 		return result;
 	}
 	
+	
+	/**
+	 * This function calculates the vertical distance between the to given objects
+	 */
 	private GameObject calculateVerticalDistanceBetween(GameObject mainObject, GameObject otherObject, GameObject result, Direction direction){
 		assert(mainObject != null && otherObject != null && (direction == Direction.UP || direction == Direction.DOWN));
 		int minDistance = Integer.MAX_VALUE;
@@ -1642,10 +1650,28 @@ public class World  {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param 	value
+	 * @param	minValue
+	 * @param 	maxValue
+	 * @return	true if the given value is greater or equal to minValue 
+	 * 				and if maxvalue is greater or equal to the value
+	 * 			in any other case false will be returned
+	 * 			| result == (Util.fuzzyGreaterThanOrEqualTo(value, minValue) && Util.fuzzyGreaterThanOrEqualTo(maxValue, value))
+	 */
 	private boolean between(double value, double minValue, double maxValue){
 		return (Util.fuzzyGreaterThanOrEqualTo(value, minValue) && Util.fuzzyGreaterThanOrEqualTo(maxValue, value));
 	}
 	
+	/**
+	 *
+	 * @return 	Returns a collection of all tiles of this Game World as Tile objects
+	 * 			| for some i in 0 ... getGeologicalFeatureOfTiles().length-1
+	 * 			|		for some j in 0 ... getGeologicalFeatureOfTiles()[0].length-1
+	 * 			|			result[i*getGeologicalFeatureOfTiles()[0].length+j] 
+	 * 			|				== Tile(i*tileSize, j*tileSize, geologicalFeature[i][j])
+	 */
 	public Collection<Tile> getTiles() {
 		ArrayList<Tile> list = new ArrayList<>();
 		int[][] geologicalFeature = getGeologicalFeatureOfTiles();

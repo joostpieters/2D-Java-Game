@@ -677,7 +677,7 @@ public class Shark extends GameObject {
 		}
 		setUpKeyPressed(true);		
 	}
-	//TODO moet System.out.println blijven staan?
+	
 	/**
 	 * Ends this Shark's jump
 	 * @throws 	IllegalStateException
@@ -695,7 +695,6 @@ public class Shark extends GameObject {
 		}
 		if (this.getAccelerationY()> 0) {
 			setAccelerationY(0);
-			System.out.println("End Jump ontvangen en uitgevoerd");
 		}
 		setUpKeyPressed(false);
 	}
