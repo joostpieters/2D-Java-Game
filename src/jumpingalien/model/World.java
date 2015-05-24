@@ -784,9 +784,14 @@ public class World  {
 		return ((xT >= 0) && (xT < getNbTilesX()) && (yT >= 0) && (yT < getNbTilesY()));
 	}
 	
+	/**
+	 * Returns the table containing the geological features of this world
+	 */
 	@Basic
 	private int[][] getGeologicalFeatureOfTiles() {
-		return geologicalFeatureOfTiles.clone();
+		int[][] copy = new int[geologicalFeatureOfTiles.length][geologicalFeatureOfTiles[0].length];
+		System.arraycopy(geologicalFeatureOfTiles, 0, copy, 0, geologicalFeatureOfTiles.length );
+		return copy;
 	}
 	
 	/**

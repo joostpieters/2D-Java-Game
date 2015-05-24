@@ -9,7 +9,7 @@ import jumpingalien.util.ModelException;
 
 import org.junit.Test;
 
-public class Tests {
+public class ProgramTest {
 
 	@Test
 	public void testBreakNotWellformed() {
@@ -69,6 +69,24 @@ public class Tests {
 	public void testMatchingTypes6() {
 		IFacadePart3 facade = new Facade();
 		facade.parse("bool b; object c; b := isslime(gettile(1,1));");
+	}
+	
+	@Test
+	public void testMatchingTypes7() {
+		IFacadePart3 facade = new Facade();
+		facade.parse("bool b; object c; b := isslime(searchobj(left));");
+	}
+	
+	@Test
+	public void testMatchingTypes8() {
+		IFacadePart3 facade = new Facade();
+		facade.parse("bool b; object c; b := isair(gettile(1,1));");
+	}
+	
+	@Test(expected = ModelException.class)
+	public void testMatchingTypes9() {
+		IFacadePart3 facade = new Facade();
+		facade.parse("bool b; object c; b := isair(searchobj(left));");
 	}
 
 }
