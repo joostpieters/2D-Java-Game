@@ -13,6 +13,7 @@ import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.Type;
 import jumpingalien.part3.programs.exceptions.TypeError;
 import jumpingalien.part3.programs.statements.Skip;
+import jumpingalien.util.Util;
 
 import org.junit.Test;
 
@@ -120,6 +121,81 @@ public class ExpressionTest {
 		assertEquals(false, expr.getValue(createRandomProgram()));
 	}
 	
+	@Test
+	public void testEqualObjectSimple() {
+		Expression expr1 = new Object(null,true, randomSourceLocation());
+		Expression expr = new Equals(expr1, expr1, randomSourceLocation());
+		assertEquals(true, expr.getValue(createRandomProgram()));
+	}
 	
+	@Test
+	public void testSquareRoot() {
+		Expression expr1 = new Double(25, randomSourceLocation());
+		Expression expr = new SquareRoot(expr1,randomSourceLocation());
+		assertEquals(true, (double)expr.getValue(createRandomProgram()) == 5);
+	}
+	
+	@Test(expected = TypeError.class)
+	public void testSquareRootIllegalArgument() {
+		Expression expr1 = new Bool(true, randomSourceLocation());
+		new SquareRoot(expr1,randomSourceLocation());
+	}
+	
+	@Test
+	public void testConjunction() {
+		Expression expr1 = new Bool(true, randomSourceLocation());
+		Expression expr2 = new Bool(false, randomSourceLocation());
+		Expression expr = new Conjunction(expr1, expr2, randomSourceLocation());
+		assertEquals(false, expr.getValue(createRandomProgram()));
+	}
+	
+	@Test(expected = TypeError.class) 
+	public void testConjunctionIllegalArgument() {
+		Expression expr1 = new Bool(true, randomSourceLocation());
+		Expression expr2 = new Double(5, randomSourceLocation());
+		new Conjunction(expr1, expr2, randomSourceLocation());
+	}	
+	
+	@Test
+	public void testDisjunction() {
+		Expression expr1 = new Bool(true, randomSourceLocation());
+		Expression expr2 = new Bool(false, randomSourceLocation());
+		Expression expr = new Disjunction(expr1, expr2, randomSourceLocation());
+		assertEquals(true, expr.getValue(createRandomProgram()));
+	}
+	
+	@Test(expected = TypeError.class) 
+	public void testDisjunctionIllegalArgument() {
+		Expression expr1 = new Bool(true, randomSourceLocation());
+		Expression expr2 = new Double(5, randomSourceLocation());
+		new Disjunction(expr1, expr2, randomSourceLocation());
+	}
+	
+	@Test
+	public void testRandomDouble() {
+		Expression expr1 = new Double(25, randomSourceLocation());
+		Expression expr = new RandomDouble(expr1,randomSourceLocation());
+		double result = (double) expr.getValue(createRandomProgram());
+		assertEquals(true, Util.fuzzyGreaterThanOrEqualTo(result, 0) && Util.fuzzyLessThanOrEqualTo(result, 25));
+	}
+	
+	@Test(expected = TypeError.class)
+	public void testRandomDoubleIllegalArgument() {
+		Expression expr1 = new Bool(true, randomSourceLocation());
+		new RandomDouble(expr1,randomSourceLocation());
+	}
 
+	@Test
+	public void testNegation() {
+		Expression expr1 = new Bool(true, randomSourceLocation());
+		Expression expr = new Negation(expr1,randomSourceLocation());
+		assertEquals(false, expr.getValue(createRandomProgram()));
+	}
+	
+	@Test(expected = TypeError.class)
+	public void testNegationIllegalArgument() {
+		Expression expr1 = new Double(5, randomSourceLocation());
+		new Negation(expr1,randomSourceLocation());
+	}
+	
 }

@@ -3,9 +3,31 @@ package jumpingalien.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
 import jumpingalien.part3.programs.SourceLocation;
 import jumpingalien.part3.programs.Statement;
 import jumpingalien.part3.programs.Type;
+
+/**
+ * 
+ * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
+ * 
+ * @invar	A program always contains a (non null) mainstatement
+ * 			| getMainStatemen() != nul
+ * @invar	A program always has a (non null) globalVariables map
+ * 			| getGlobalVariables() != null
+ * @invar	A program always has a (non null) declarationVariables map
+ * 			| getDeclarationVariables() != null 
+ * @invar	The length of the globalVariables map equals the length of the variableDeclaration map
+ * 			| getDeclarationVariables().size() == getGlobalVariables().size()
+ * @invar	The globalVariables map contains the same keys as the variableDeclaration map
+ * 			| For each key in getDeclarationVariables()
+ * 			|		getGlobalVariables().containsKey(key) == true
+ * @invar	The amount of lines that the program can run is always greater or equal to zero
+ * 			| getAmountLinesToRun() > 0
+ *
+ */
 
 public class Program {
 
@@ -15,7 +37,7 @@ public class Program {
 		}
 		this.mainStatement = mainStatement;
 		this.globalVariables = globalVariables;
-		initialiseVariables();	
+		initialiseVariables();
 	}
 
 	private void initialiseVariables() {
@@ -50,7 +72,7 @@ public class Program {
 	}
 
 	public void run(int i) {
-		if(!hasAnError()){
+		if(!hasAnError() && isWellFormed()){
 			setLinesToRun(i);
 			getMainStatement().run(this);
 			if(getLinesToRun() > 0){
@@ -60,22 +82,29 @@ public class Program {
 		}
 	}
 
+	@Basic
 	public GameObject getObject() {
 		return object;
 	}
 
+	@Raw
 	void setObject(GameObject object) {
 		this.object = object;
 	}
 	
 	private GameObject object;
 
+	@Basic
 	public int getLinesToRun() {
 		return linesToRun;
 	}
 
 	public void setLinesToRun(int linesToRun) {
-		this.linesToRun = linesToRun;
+		if(linesToRun < 0){
+			this.linesToRun = 0;
+		} else {
+			this.linesToRun = linesToRun;
+		}
 	}
 	
 	public void lowerLinesToRun(){
@@ -84,6 +113,7 @@ public class Program {
 	
 	private int linesToRun;	
 
+	@Basic
 	public int getLinesToSkip() {
 		return linesToSkip;
 	}
@@ -98,6 +128,7 @@ public class Program {
 	
 	private int linesToSkip;
 
+	@Basic
 	public Map<String, Type> getGlobalVariables() {
 		return new HashMap<String, Type>(globalVariables);
 	}
@@ -105,12 +136,14 @@ public class Program {
 
 	private final Map<String, Type> globalVariables;
 	
+	@Basic
 	public Map<String, Object> getDeclarationVariables() {
 		return declarationVariables;
 	}
 	
 	private final Map<String, Object> declarationVariables = new HashMap<>();
 	
+	@Basic
 	public SourceLocation getSourceLocation() {
 		return sourceLocation;
 	}
@@ -121,6 +154,7 @@ public class Program {
 	
 	private SourceLocation sourceLocation;
 
+	@Basic
 	public boolean isBreakActivated() {
 		return breakActivated;
 	}
@@ -131,6 +165,7 @@ public class Program {
 	
 	private boolean breakActivated;
 	
+	@Basic
 	public int getInForEach() {
 		return inForEach;
 	}
@@ -141,6 +176,7 @@ public class Program {
 
 	private int inForEach;
 	
+	@Basic
 	public int getInWhile() {
 		return inWhile;
 	}
@@ -151,6 +187,7 @@ public class Program {
 
 	private int inWhile;
 	
+	@Basic
 	private boolean getWellFormed(){
 		return wellFormed;
 	}
@@ -161,6 +198,7 @@ public class Program {
 
 	private boolean wellFormed;
 	
+	@Basic
 	private boolean hasAnError() {
 		return hasAnError;
 	}
