@@ -8,8 +8,18 @@ import jumpingalien.util.Util;
 
 /**
  * 
+ * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
+ * @invar 	...
+ * 			| 0 <= getHitPoints() && getHitPoints() <= getMaxHitpoints()
  * @invar	...
  * 			| getWorld() != null
+ * @invar	...
+ * 			| getVelocityX() <= getMaxHorizontalVelocity()
+ * @invar	...
+ * 			| isValidSpriteArray(getSprites())
+ * @invar	...
+ * 			| isValidLocationInWorld(getLocationX(), getLocationY())
+ *
  */
 public class Shark extends GameObject {
 	/**
@@ -606,7 +616,7 @@ public class Shark extends GameObject {
 	 */
 	@Override
 	void terminate() throws IllegalStateException {
-		if(getHitPoints() != 0 && isValidLocation((int)getLocationX(), (int)getLocationY())){
+		if(getHitPoints() != 0 && isValidLocationInWorld((int)getLocationX(), (int)getLocationY())){
 			throw new IllegalStateException();
 		} 
 		removeWorld();

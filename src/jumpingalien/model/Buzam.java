@@ -2,6 +2,26 @@ package jumpingalien.model;
 
 import jumpingalien.util.Sprite;
 
+/**
+ * 
+ * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
+ *
+ * @invar	the Buzam's location is always in the game window
+ * 			|  isValidLocationInWorld(getLocationX(), getLocationY())
+ * 
+ * @invar	the Buzam's hitpoints are always between 0 and 500
+ * 			| (0 <= getHitPoints()) && (getHitPoints() <= 500)
+ * 
+ * @invar	the Buzam's has always a world
+ * 			| getWorld() != null
+ * 
+ * @invar	the Buzam has always a sprite array containing minimum 10 sprites
+ * 				and no null pointers
+ * 			| isValidSpriteArray(getSprites())
+ * 
+ * @invar	the Buzam's velocity is always equal to or lower than the maximum velocity of this Buzam
+ * 			| getVelocityX() <= getMaxHorizontalVelocity()
+ */
 public class Buzam extends Mazub {
 	
 	/**

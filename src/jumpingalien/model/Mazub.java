@@ -11,8 +11,7 @@ import jumpingalien.util.Util;
  * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
  *
  * @invar	the Mazub's location is always in the game window
- * 			|  ((0 <= getLocationX()) && (getLocationX() < getWindowWidth()) 
- * 			|	&& (0 <= getLocationY()) && (getLocationY < getWindowHeight())
+ * 			|  isValidLocationInWorld(getLocationX(), getLocationY())
  * 
  * @invar	the Mazub's hitpoints are always between 0 and 500
  * 			| (0 <= getHitPoints()) && (getHitPoints() <= 500)
@@ -23,6 +22,9 @@ import jumpingalien.util.Util;
  * @invar	the Mazub has always a sprite array containing minimum 10 sprites
  * 				and no null pointers
  * 			| isValidSpriteArray(getSprites())
+ * 
+ * @invar	the Mazub's velocity is always equal to or lower than the maximum velocity of this Mazub
+ * 			| getVelocityX() <= getMaxHorizontalVelocity()
  */
 public class Mazub extends GameObject {
 
@@ -965,7 +967,7 @@ public class Mazub extends GameObject {
 	 */
 	@Override
 	void terminate() throws IllegalStateException{
-		if(getHitpoints() == 0 || !isValidLocation((int)getLocationX(), (int)getLocationY())){
+		if(getHitpoints() == 0 || !isValidLocationInWorld((int)getLocationX(), (int)getLocationY())){
 			removeWorld();
 			setTerminated(true);
 		} else {

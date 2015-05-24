@@ -10,11 +10,17 @@ import be.kuleuven.cs.som.annotate.*;
  * 
  * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
  * @invar 	...
- * 			|getHitPoints() >= 0
+ * 			| 0 <= getHitPoints() && getHitPoints() <= getMaxHitpoints()
  * @invar	...
  * 			| getSchool() != null
  * @invar	...
  * 			| getWorld() != null
+ * @invar	...
+ * 			| getVelocityX() <= getMaxHorizontalVelocity()
+ * @invar	...
+ * 			| isValidSpriteArray(getSprites())
+ * @invar	...
+ * 			| isValidLocationInWorld(getLocationX(), getLocationY())
  *
  */
 public class Slime extends GameObject {
@@ -662,7 +668,7 @@ public class Slime extends GameObject {
 	 */
 	@Override
 	void terminate() throws IllegalStateException {
-		if(getHitPoints() != 0 && isValidLocation((int)getLocationX(), (int)getLocationY())){
+		if(getHitPoints() != 0 && isValidLocationInWorld((int)getLocationX(), (int)getLocationY())){
 			throw new IllegalStateException();
 		}
 		// remove world

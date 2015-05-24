@@ -4,6 +4,27 @@ import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 
+/**
+ * 
+ * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
+ *
+ * @invar	the GameObjects's location is always in the game world
+ * 			|  isValidLocationInWorld(getLocationX(), getLocationY())
+ * 
+ * @invar	the GameObject's hitpoints are always higher than or equal to zero 0
+ * 				and lower than or equal to the maxmimum amount of hitpoints
+ * 			| (0 <= getHitPoints()) && (getHitPoints() <= getMaxHitpoints())
+ * 
+ * @invar	the GameObject has always a world
+ * 			| getWorld() != null
+ * 
+ * @invar	the GameObject has always a sprite array containing the needed amount of sprites
+ * 				and no null pointers
+ * 			| isValidSpriteArray(getSprites())
+ * 
+ * @invar	the GameObject's velocity is always equal to or lower than the maximum velocity of the object
+ * 			| getVelocityX() <= getMaxHorizontalVelocity()
+ */
 public abstract class GameObject extends jumpingalien.part3.programs.types.GameItem implements CollisionDetect  {
 	
 	/**
@@ -361,6 +382,9 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 */
 	private double inWaterTimer;
 
+	/**
+	 * The maximum amount of hitpoints for this Game Object
+	 */
 	abstract int getMaxHitPoints();
 	
 	/**
@@ -417,7 +441,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 *			|		terminate();
 	 */
 	private void terminateIfUnValidLocationInWorld() {
-		if(!isValidLocation((int)getLocationX(),(int)getLocationY()) ){
+		if(!isValidLocationInWorld((int)getLocationX(),(int)getLocationY()) ){
 			setDead(true);
 			terminate();
 		}
@@ -429,14 +453,12 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 * 			the X coordinate that needs to be checked
 	 * @param locationY
 	 * 			the Y coordinate that needs to be checked
-	 * @return	returns true if the given position is in the bounderies of this world, 
-	 * 				else returns false
-	 * 			|result ==  (locationX < 0 || locationX > getWorld().getWorldSizeInPixels()[0]-1 
-	 *			|	|| locationY < 0 || locationY > getWorld().getWorldSizeInPixels()[1]-1)
-	 * @return	if this Game Object has no world than false will always be returned
-	 * 			|result == false
+	 * @return	returns true if this object has a world and the given position is in the bounderies 
+	 * 				of this world in all other cases false will be returned
+	 * 			|result == hasAWorld() && !(locationX < 0 || locationX > getWorld().getWorldSizeInPixels()[0]-1 
+	 *			|			|| locationY < 0 || locationY > getWorld().getWorldSizeInPixels()[1]-1)
 	 */
-	protected boolean isValidLocation(int locationX, int locationY){
+	protected boolean isValidLocationInWorld(int locationX, int locationY){
 		if(hasAWorld()){
 			return !(locationX < 0 || locationX > getWorld().getWorldSizeInPixels()[0]-1 
 					|| locationY < 0 || locationY > getWorld().getWorldSizeInPixels()[1]-1);
@@ -548,7 +570,7 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 * 			| result == (isValidLocation((int)locationX, (int)locationY)) && (isValidLocation((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY)))
 	 */
 	protected boolean locationIsValidInWorld(int locationX, int locationY){
-		return ((isValidLocation((int)locationX, (int)locationY)) && (isValidLocation((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY))));
+		return ((isValidLocationInWorld((int)locationX, (int)locationY)) && (isValidLocationInWorld((int)(getCurrentSprite().getWidth()-1+locationX), (int)(getCurrentSprite().getHeight()-1+locationY))));
 	}
 	
 	/**

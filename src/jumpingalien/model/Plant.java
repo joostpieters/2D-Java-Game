@@ -7,9 +7,22 @@ import be.kuleuven.cs.som.annotate.Raw;
 /**
  * 
  * @author Stijn Caerts en Pieter-Jan Coenen
- * @invar de lengte van de spirtes is gelijk aan 2
+ /**
+ * 
+ * @author Pieter-Jan Coenen (1ste Bacherlor Informatica) en Stijn Caerts (1ste Bacherlor Informatica)
+ * 
+ * @invar 	...
+ * 			| 0 <= getHitPoints() && getHitPoints() <= getMaxHitpoints()
+ * @invar	...
+ * 			| getSchool() != null
  * @invar	...
  * 			| getWorld() != null
+ * @invar	...
+ * 			| getVelocityX() <= getMaxHorizontalVelocity()
+ * @invar	...
+ * 			| isValidSpriteArray(getSprites())
+ * @invar	...
+ * 			| isValidLocationInWorld(getLocationX(), getLocationY())
  *
  */
 public class Plant extends GameObject {
