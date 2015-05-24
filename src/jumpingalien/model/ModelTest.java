@@ -304,5 +304,29 @@ public class ModelTest {
 		assertEquals(true, mazub.isRightOff(shark));
 	}
 	
+	@Test(expected = IllegalArgumentException.class) 
+	public void testslimeInvalidSchool1() {
+		new Slime(0, 0, creatSpriteArrayOfLength(2), null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class) 
+	public void testslimeInvalidSchool2() {
+		IFacadePart2 facade = new Facade();
+		World world = facade.createWorld(500, 1, 2, 1, 1, 1, 1);
+		facade.setGeologicalFeature(world, 0, 0, FEATURE_SOLID);
+		Mazub mazub =  facade.createMazub(300, 0, spriteArrayForSize(3, 3));
+		world.setMazub(mazub);
+		School school = new School();
+		Slime slime1 = new Slime(0, 0, creatSpriteArrayOfLength(2), school);
+		world.addSlime(slime1);
+		facade.startGame(world);
+		slime1.setHitPoints(0);
+		world.advanceTime(0.19);
+		world.advanceTime(0.19);
+		world.advanceTime(0.19);
+		world.advanceTime(0.05);
+		new Slime(0, 0, creatSpriteArrayOfLength(2), school);
+	}
+	
 
 }

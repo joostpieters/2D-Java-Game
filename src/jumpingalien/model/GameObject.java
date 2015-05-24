@@ -224,7 +224,9 @@ public abstract class GameObject extends jumpingalien.part3.programs.types.GameI
 	 */
 	@Basic
 	protected Sprite[] getSprites() {
-		return this.sprites;
+		Sprite[] sprite = new Sprite[sprites.length];
+		System.arraycopy(sprites, 0, sprite, 0, sprites.length );
+		return sprite;
 	}
 
 	/**

@@ -19,7 +19,7 @@ public class IsDead extends UnaryOperator {
 	@Override
 	public java.lang.Boolean getValue(Program program) {
 		if(getOperand().getValue(program) instanceof GameObject){
-			return ((GameObject) getOperand().getValue(program)).isDead();
+			return ((GameObject) getOperand().getValue(program)).isDead() || ((GameObject) getOperand().getValue(program)).isTerminated();
 		}
 		program.stopBecauseError();
 		return null;

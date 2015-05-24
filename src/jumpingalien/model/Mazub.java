@@ -17,6 +17,13 @@ import jumpingalien.util.Util;
  * 
  * @invar	the Mazub's hitpoints are always between 0 and 500
  * 			| (0 <= getHitPoints()) && (getHitPoints() <= 500)
+ * 
+ * @invar	the Mazub's has always a world
+ * 			| getWorld() != null
+ * 
+ * @invar	the Mazub has always a sprite array containing minimum 10 sprites
+ * 				and no null pointers
+ * 			| isValidSpriteArray(getSprites())
  */
 public class Mazub extends GameObject {
 
@@ -576,15 +583,15 @@ public class Mazub extends GameObject {
 	 * Return the size of the current sprite
 	 * @return	the width and height of the current sprite
 	 * 			| return size[this.getCurrentSprite().getHeight(), this.getCurrentSprite().getWidth()]
-	 * @throws 	ModelException
+	 * @throws 	IllegalArgumentException
 	 * 			if the current sprite is a null pointer
 	 * 			| this.getCurrentSprite() == null
 	 */
-	public int[] getSize() throws ModelException {
+	public int[] getSize() throws IllegalArgumentException {
 		int[] size = new int[2];
 		Sprite sprite = this.getCurrentSprite();
 		if (sprite == null)
-			throw new ModelException("No valid Sprite given");
+			throw new IllegalArgumentException("No valid Sprite given");
 		size[0] = sprite.getWidth();
 		size[1] = sprite.getHeight();
 		return size;
