@@ -12,7 +12,7 @@ import jumpingalien.util.Sprite;
  * @invar	the Buzam's hitpoints are always between 0 and 500
  * 			| (0 <= getHitPoints()) && (getHitPoints() <= 500)
  * 
- * @invar	the Buzam's has always a world
+ * @invar	the Buzam has always a world
  * 			| getWorld() != null
  * 
  * @invar	the Buzam has always a sprite array containing minimum 10 sprites
